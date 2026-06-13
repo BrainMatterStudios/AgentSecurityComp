@@ -1,0 +1,12 @@
+# The attack algorithm, mock environment, search loop and tests use only the
+# Python standard library, so they run anywhere (Python 3.9+).
+#
+# For an ACTUAL submission you additionally need the competition SDK, which is
+# distributed via the Kaggle competition page (it is not on PyPI). After
+# attaching it in the Kaggle notebook, wire it up in agentsec/adapter.py.
+#
+#   # e.g. (name TBD from the competition page):
+#   # agent-security-sdk
+#
+# Optional, only if you extend the search with an LLM-in-the-loop mutator:
+#   anthropic>=0.40    # if using Claude to author/mutate payloads offline
