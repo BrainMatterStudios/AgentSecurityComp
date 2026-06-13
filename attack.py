@@ -322,13 +322,22 @@ class AttackAlgorithm(AttackAlgorithmBase):
                 break
             keep((fr,))
 
-        # === Phase E: never return empty ====================================
-        if not out:
-            for k in range(min(self.MAX_CANDIDATES, 150)):
-                urls = [host() for _ in range(n_ep)]
-                out.append(
-                    AttackCandidate.from_messages((_f_multi(TOKENS[k % len(TOKENS)], urls),))
-                )
+        # === Phase E: public safety net =====================================
+        # If live verification yielded few single-message public candidates (very
+        # defensive model, or time pressure left little search budget), top up
+        # with UNVERIFIED single-post framings so we still make a real public
+        # attempt. Bounded, so a dud tranche can't blow the replay budget.
+        public_floor = min(160, public_cap)
+        n_public = sum(1 for c in out if len(c.user_messages) == 1)
+        gc2 = itertools.cycle(range(len(EXFIL_FRAMINGS)))
+        while n_public < public_floor and len(out) < self.MAX_CANDIDATES:
+            i = next(gc2)
+            before = len(out)
+            keep([EXFIL_FRAMINGS[i](TOKENS[next(hid) % len(TOKENS)], host())])
+            if len(out) > before:
+                n_public += 1
+            else:
+                break
 
         return out[: self.MAX_CANDIDATES]
 
