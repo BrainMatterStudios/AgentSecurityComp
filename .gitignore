@@ -8,3 +8,10 @@ venv/
 *.log
 candidates*.json
 /kaggle_working/
+
+# Competition SDK data (downloaded; not ours to commit) and scratch
+comp/
+refkernels/
+/tmp/
+poll_and_download.sh
+*.zip
