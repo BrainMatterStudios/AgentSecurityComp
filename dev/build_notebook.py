@@ -35,8 +35,23 @@ cell_writeattack = (
 )
 
 cell_serve = (
-    "import kaggle_evaluation.jed_attack_134815.jed_attack_inference_server as srv\n"
-    "srv.JEDAttackInferenceServer().serve()\n"
+    "import os\n"
+    "from pathlib import Path\n"
+    "sub = Path('/kaggle/working/submission.csv')\n"
+    "try:\n"
+    "    import kaggle_evaluation.jed_attack_134815.jed_attack_inference_server as srv\n"
+    "    srv.JEDAttackInferenceServer().serve()\n"
+    "except Exception as exc:\n"
+    "    if os.getenv('KAGGLE_IS_COMPETITION_RERUN') is not None:\n"
+    "        raise\n"
+    "    print('skipped (non-rerun):', repr(exc))\n"
+    "# Ensure submission.csv exists for the submit handshake; the gateway overwrites\n"
+    "# it with real per-model/per-guardrail scores during the competition rerun.\n"
+    "if not sub.exists():\n"
+    "    sub.write_text('Id,Score\\n'\n"
+    "                   'gpt_oss_public,0.0\\ngpt_oss_private,0.0\\n'\n"
+    "                   'gemma_public,0.0\\ngemma_private,0.0\\n')\n"
+    "    print('wrote fallback submission.csv')\n"
 )
 
 def code(src):
