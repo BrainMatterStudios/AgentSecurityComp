@@ -179,13 +179,29 @@ def _fires(trace: Mapping[str, Any]) -> int:
         return 0
 
 
-class AttackAlgorithm(AttackAlgorithmBase):
-    """Dual-board, budget-aware red-team search."""
+def _envi(name: str, default: int) -> int:
+    """Read an int tuning knob from the environment (lets a notebook run a lean
+    profile without editing code). Falls back to the default on any problem."""
+    try:
+        import os
 
-    MAX_CANDIDATES = 560     # total returned; bounded so replay never times out
-    MULTI_ENDPOINTS = 8      # posts per multi-endpoint turn (<= max_tool_hops)
-    # Cap on the (unverified) private-board chains — replay-cost control.
-    MAX_PRIVATE_CHAINS = 140
+        return int(os.environ.get(name, default))
+    except Exception:
+        return default
+
+
+class AttackAlgorithm(AttackAlgorithmBase):
+    """Dual-board, budget-aware red-team search.
+
+    Tunable via env vars so a notebook can pick a lighter profile when the rerun
+    wall-clock is tight (replay cost scales with candidate count x tool-hops):
+      JED_MAX_CANDIDATES, JED_MULTI_ENDPOINTS, JED_MAX_PRIVATE_CHAINS,
+      JED_SEARCH_FRACTION (percent of budget spent searching, 1-95).
+    """
+
+    MAX_CANDIDATES = _envi("JED_MAX_CANDIDATES", 560)   # total returned
+    MULTI_ENDPOINTS = _envi("JED_MULTI_ENDPOINTS", 8)   # posts per sweep turn
+    MAX_PRIVATE_CHAINS = _envi("JED_MAX_PRIVATE_CHAINS", 140)
 
     def run(
         self, env: AttackEnvProtocol, config: AttackRunConfig
@@ -201,7 +217,10 @@ class AttackAlgorithm(AttackAlgorithmBase):
             max_hops = 8
         n_ep = max(1, min(self.MULTI_ENDPOINTS, max_hops))
         # Reserve a chunk of the budget for the harness's replay+score phase.
-        reserve = budget * 0.28
+        # JED_SEARCH_FRACTION (percent, clamped 1..95) sets how much is spent
+        # searching; the rest is left as replay headroom.
+        search_frac = max(0.01, min(0.95, _envi("JED_SEARCH_FRACTION", 72) / 100.0))
+        reserve = budget * (1.0 - search_frac)
         # Reserve candidate slots so the private-board hedge isn't starved by a
         # compliant model that fills the public phases.
         public_cap = max(50, self.MAX_CANDIDATES - self.MAX_PRIVATE_CHAINS - 20)
