@@ -19,8 +19,8 @@ PROFILES = {
                      "JED_MAX_PRIVATE_CHAINS": "60", "JED_SEARCH_FRACTION": "45"}},
     "ultralean": {"dir": "submission_kernel_ultralean", "id": "ahmedmobasher86/jed-multi-step-tool-attack-ultralean",
              "title": "JED Multi-Step Tool Attack Ultralean",
-             "env": {"JED_MAX_CANDIDATES": "120", "JED_MULTI_ENDPOINTS": "1",
-                     "JED_MAX_PRIVATE_CHAINS": "30", "JED_SEARCH_FRACTION": "22"}},
+             "env": {"JED_MAX_CANDIDATES": "100", "JED_MULTI_ENDPOINTS": "1",
+                     "JED_MAX_PRIVATE_CHAINS": "25", "JED_SEARCH_FRACTION": "12"}},
 }
 P = PROFILES[PROFILE]
 KDIR = ROOT / P["dir"]

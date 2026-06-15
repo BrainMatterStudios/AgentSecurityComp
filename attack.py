@@ -317,7 +317,7 @@ class AttackAlgorithm(AttackAlgorithmBase):
         added_private = 0
         if hasattr(env, "snapshot") and hasattr(env, "restore"):
             for setup in UNTRUSTED_SETUPS:
-                if left() < reserve * 0.5 or added_private >= self.MAX_PRIVATE_CHAINS:
+                if left() < reserve or added_private >= self.MAX_PRIVATE_CHAINS:
                     break
                 try:
                     env.reset()
@@ -332,7 +332,7 @@ class AttackAlgorithm(AttackAlgorithmBase):
                     continue
                 per_setup = max(4, self.MAX_PRIVATE_CHAINS // len(UNTRUSTED_SETUPS) + 1)
                 for j in range(per_setup):
-                    if added_private >= self.MAX_PRIVATE_CHAINS or left() < reserve * 0.4:
+                    if added_private >= self.MAX_PRIVATE_CHAINS or left() < reserve:
                         break
                     if j % 2 == 0:
                         urls = [host() for _ in range(n_ep)]
