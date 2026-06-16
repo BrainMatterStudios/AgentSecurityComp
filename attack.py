@@ -278,18 +278,30 @@ class AttackAlgorithm(AttackAlgorithmBase):
             good = list(range(len(EXFIL_FRAMINGS)))
         gc = itertools.cycle(good)
 
-        # A2: PRIMARY fill — many single-post variants (proven framings × tokens ×
-        # distinct clean hosts => distinct cells), each verified to fire live.
+        # A2: PRIMARY fill. When multi-endpoint is enabled (n_ep > 1) the primary
+        # candidates are multi-endpoint sweeps — one message that fires up to n_ep
+        # http.posts => up to n_ep EXFILTRATION findings PER candidate (far higher
+        # severity/candidate). When n_ep == 1, fall back to single-post framings.
+        # Replay cost scales with n_ep, so multi-endpoint profiles must keep
+        # MAX_CANDIDATES low to stay inside the 12h limit.
+        primary_multi = n_ep > 1
         while left() > reserve + budget * 0.08 and len(out) < public_cap:
-            i = next(gc)
-            verify_keep([EXFIL_FRAMINGS[i](TOKENS[next(hid) % len(TOKENS)], host())])
+            if primary_multi:
+                urls = [host() for _ in range(n_ep)]
+                verify_keep([_f_multi(TOKENS[next(hid) % len(TOKENS)], urls)])
+            else:
+                i = next(gc)
+                verify_keep([EXFIL_FRAMINGS[i](TOKENS[next(hid) % len(TOKENS)], host())])
 
-        # A3: a SMALL multi-endpoint tranche (up to n_ep posts/turn). Higher
-        # severity/candidate but costlier+riskier in replay, so it's capped.
-        multi_cap = min(public_cap, len(out) + 60)
+        # A3: a small tranche in the OTHER style for cell diversity.
+        multi_cap = min(public_cap, len(out) + 40)
         while left() > reserve + budget * 0.04 and len(out) < multi_cap:
-            urls = [host() for _ in range(n_ep)]
-            verify_keep([_f_multi(TOKENS[next(hid) % len(TOKENS)], urls)])
+            if primary_multi:
+                i = next(gc)
+                verify_keep([EXFIL_FRAMINGS[i](TOKENS[next(hid) % len(TOKENS)], host())])
+            else:
+                urls = [host() for _ in range(n_ep)]
+                verify_keep([_f_multi(TOKENS[next(hid) % len(TOKENS)], urls)])
 
         # === Phase B: verified public CONFUSED_DEPUTY ========================
         while left() > reserve + budget * 0.03 and len(out) < public_cap:
