@@ -77,10 +77,41 @@ python3 -m kaggle competitions submit ai-agent-security-multi-step-tool-attacks 
 Credentials: `~/.kaggle/kaggle.json` (chmod 600; never commit). Rebuild the
 notebook from `attack.py` with `python3 dev/build_notebook.py`.
 
-## 6. Ideas to push higher (offline-doable)
+## 6. Submission results (real leaderboard data)
 
-- More/varied EXFIL + deputy framings (raise per-model compliance).
-- Tune the public/private slot split and MULTI_ENDPOINTS vs single-post mix
-  against real LB feedback (the binding constraint is replay time).
-- Deepen the private hedge: more untrusted-source setups and diverse
-  high-severity followups (write/exec/share) per snapshot.
+Public score, per profile (env knobs via `dev/build_notebook.py <profile>`):
+
+| Profile     | candidates / search / endpoints | Public | Note |
+| ----------- | ------------------------------- | ------ | ---- |
+| heavy       | 560 / 72% / 8                   | —      | TIMED OUT (12h) |
+| lean        | 240 / 45% / 1                   | —      | TIMED OUT (12h) |
+| ultralean   | 100 / 12% / 1                   | 4.775  | first score |
+| scaled      | 250 / 15% / 1                   | **18.57** | best |
+| big         | 400 / 16% / 1                   | 14.47  | regressed |
+| deep        | 300 / 32% / 1                   | 15.82  | |
+| multi       | 80  / 10% / 8                   | 5.03   | real models REFUSE bulk posts |
+| refined     | 280 / 20% / 1, 2 tokens, 22 framings | 16.14 | |
+
+**Findings:**
+- The notebook runtime limit is **12h (GPU)**. Replay cost = candidates × tool-hops
+  × 2 models × 2 guardrails on slow 20B models. Keep it modest: single-hop,
+  ≤~300 candidates. Multi-endpoint (8 posts/turn) both times out at scale AND
+  the real models refuse the bulk-post framing — avoid it.
+- Public score is **variance-limited ~16 ± 2** for single-post across every
+  config tried (count, search depth, framing diversity, token set). 18.57 was a
+  favorable draw. The real models sample, so single submissions are noisy.
+- Best config: **scaled** (250 single-hop, 15% search). Already the auto-selected
+  public LB entry (~rank 254/607, top 41%, as of 2026-06-16).
+
+## 7. Where the real headroom is
+
+- **Per-model visibility:** the public score looks like an average of
+  gpt_oss_public + gemma_public. If one model refuses everything it halves the
+  score. The gateway prints per-model scores during the (hidden) rerun — not
+  visible to us. Getting that breakdown (or inferring it) would let us target the
+  refusing model's framings specifically — the most likely way past ~18.
+- **Private board (decides winners):** hidden during the competition. The
+  untrusted→action chains (Phase C) are validated against the `guardrail_rules`
+  proxy and are the genuine play there; their value only reveals at final scoring.
+- Untried: one candidate firing EXFIL **and** CONFUSED_DEPUTY (combo, +4) without
+  tripping refusal — marginal, noisy.
