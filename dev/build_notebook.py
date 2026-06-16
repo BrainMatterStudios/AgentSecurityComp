@@ -37,6 +37,10 @@ PROFILES = {
              "title": "JED Multi-Step Tool Attack Multi",
              "env": {"JED_MAX_CANDIDATES": "80", "JED_MULTI_ENDPOINTS": "8",
                      "JED_MAX_PRIVATE_CHAINS": "20", "JED_SEARCH_FRACTION": "10"}},
+    "refined": {"dir": "submission_kernel_refined", "id": "ahmedmobasher86/jed-multi-step-tool-attack-refined",
+             "title": "JED Multi-Step Tool Attack Refined",
+             "env": {"JED_MAX_CANDIDATES": "280", "JED_MULTI_ENDPOINTS": "1",
+                     "JED_MAX_PRIVATE_CHAINS": "70", "JED_SEARCH_FRACTION": "20", "JED_NUM_TOKENS": "2"}},
 }
 P = PROFILES[PROFILE]
 KDIR = ROOT / P["dir"]
