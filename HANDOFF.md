@@ -205,3 +205,26 @@ should be below 620 (for example 500-580) or should copy the full public
 notebook's execution structure, not just the message. If 620 or 745 scores but
 1000+ times out, binary-search the boundary rather than spending more quota on
 1500-class attempts.
+
+---
+
+## SESSION UPDATE (2026-06-21) — path-to-winning analysis
+
+**Best: 55.8 public (k1_620), rank ~49/874, top 5%. Locked floor.**
+
+### Score model (confirmed via public notebooks pilkwang/200v, severity-stacker/110v, yaroslavkholmirzayev, boristown/104v)
+- `public ≈ 0.09 × N_eff` for single-post EXFIL; **single-post ceiling ≈ 57** (replay-timeout boundary N~636–745; ours: 620 fits, 745 times out).
+- **Multi-post compliance is the crux.** Soft batch prompts → models make ~1 post (our multi8 → 9.4/11.5; pilkwang same). The public top (95) needs ~150 candidates × ~8 posts → requires a prompt that makes the model PERSIST across 8 hops.
+
+### Private board (decides winners; hidden; proxy = baselines/guardrail_rules)
+- Direct post (k1_620 style): fires EXFIL on proxy → ~55.8 private (≈ same as public). **k1_620 is a strong BOTH-boards submission if private is dataflow.**
+- search→post chain: fires UNTRUSTED_TO_ACTION+EXFIL (34/candidate) but 2× replay → ~52.7 private. **Does NOT beat direct.** web.open is unreliable (page-not-found → no taint); use web.SEARCH (always ok).
+- **Only multi-post multiplies both boards**: 8 posts → 8 EXFIL public / 8×(UNTRUSTED+EXFIL)=16 preds private per candidate.
+
+### The decisive experiment (pending 2026-06-21)
+`mforce1-4` (forceful persistence prompts seq/must/queue/count @N130) + `k1_660`.
+- **Any mforce ≥ ~40** → multi-post persistence cracked → tune N to 12h edge for public 90s; then build search→multi-post chains for the private top → WINNING path.
+- **All ~10** → models resist multi-posting → public capped ~57; final = select k1_620 (+ a dataflow-hedge chain) for the private LB.
+
+### Final-selection plan (near 2026-09-01 deadline)
+Select 2 submissions for private scoring: (1) best both-boards (k1_620 or a cracked multi-post), (2) a private-dataflow hedge. Kaggle takes the best private among selected.
