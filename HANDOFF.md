@@ -228,3 +228,27 @@ notebook's execution structure, not just the message. If 620 or 745 scores but
 
 ### Final-selection plan (near 2026-09-01 deadline)
 Select 2 submissions for private scoring: (1) best both-boards (k1_620 or a cracked multi-post), (2) a private-dataflow hedge. Kaggle takes the best private among selected.
+
+---
+
+## SESSION UPDATE (2026-06-22) — multi-post is a dead end; public near-maxed
+
+Forceful persistence prompts DID raise multi-post compliance (soft 9-11 -> mforce1
+24.5 @2.1posts, mforce6 27.66 @2.4posts), but **scaling timed out**: mforce1_360/400
+TIMEOUT, mforce5/7_130 TIMEOUT (stronger prompts -> more posts -> more accumulated
+tool-result context -> ~1.6x costlier gens). Confirmed: mforce1_360 (1116 gens)
+timed out while k1_620 (1240 gens) fit.
+
+**Conclusion:** replay budget caps TOTAL posts ~620; single-post spends it
+efficiently (no context growth), multi-post wastes it -> multi-post tops out ~35,
+strictly worse. **Our public ceiling = single-post ~55.8-57.** The LB 90s require a
+technique we cannot reproduce (faster replay/models or an unpublished trick).
+
+### Realistic winning strategy
+- Public: bank the single-post boundary (k1_630/640/650, 660 timed out, 620 fit) -> ~57.
+- WINNING hinges on the hidden PRIVATE LB. k1_620 direct posts fire EXFIL on the
+  guardrail_rules proxy -> ~55.8 private if private is dataflow. This is our bet.
+- Near deadline (2026-09-01): select k1_620 (best both-boards) + one private-dataflow
+  hedge for final private scoring.
+- Top-5% (rank ~49/874) is a strong, honest result for this $50k/874-team comp;
+  #1 appears infeasible with reproducible techniques.
