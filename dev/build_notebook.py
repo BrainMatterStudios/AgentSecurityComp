@@ -13,6 +13,12 @@ PROFILE = sys.argv[1] if len(sys.argv) > 1 else "default"
 PROFILES = {
     "default": {"dir": "submission_kernel", "id": "ahmedmobasher86/jed-multi-step-tool-attack",
                 "title": "JED Multi-Step Tool Attack", "env": {}},
+    "k1_630": {"dir": "submission_kernel_k1_630", "id": "ahmedmobasher86/jed-public-k1-630",
+             "title": "JED Public K1_630", "env": {"JED_K1_SHORT": "1", "JED_MAX_CANDIDATES": "630", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "k1_640": {"dir": "submission_kernel_k1_640", "id": "ahmedmobasher86/jed-public-k1-640",
+             "title": "JED Public K1_640", "env": {"JED_K1_SHORT": "1", "JED_MAX_CANDIDATES": "640", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "k1_650": {"dir": "submission_kernel_k1_650", "id": "ahmedmobasher86/jed-public-k1-650",
+             "title": "JED Public K1_650", "env": {"JED_K1_SHORT": "1", "JED_MAX_CANDIDATES": "650", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "mforce1_400": {"dir": "submission_kernel_mforce1_400", "id": "ahmedmobasher86/jed-public-mforce1-400",
              "title": "JED Public MFORCE1_400", "env": {"JED_PUBLIC_MULTI": "1", "JED_MULTI_POSTS": "8", "JED_MULTI_PROMPT": "1", "JED_MAX_CANDIDATES": "400", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "mforce1_360": {"dir": "submission_kernel_mforce1_360", "id": "ahmedmobasher86/jed-public-mforce1-360",
