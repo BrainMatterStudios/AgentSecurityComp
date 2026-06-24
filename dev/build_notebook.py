@@ -13,6 +13,10 @@ PROFILE = sys.argv[1] if len(sys.argv) > 1 else "default"
 PROFILES = {
     "default": {"dir": "submission_kernel", "id": "ahmedmobasher86/jed-multi-step-tool-attack",
                 "title": "JED Multi-Step Tool Attack", "env": {}},
+    "k1_adaptive": {"dir": "submission_kernel_k1_adaptive", "id": "ahmedmobasher86/jed-public-k1-adaptive",
+             "title": "JED K1_ADAPTIVE", "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "820", "JED_REPLAY_BUDGET_S": "28000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "private_chain_400": {"dir": "submission_kernel_private_chain_400", "id": "ahmedmobasher86/jed-public-private-chain-400",
+             "title": "JED PRIVATE_CHAIN_400", "env": {"JED_PRIVATE_CHAIN": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "400", "JED_REPLAY_BUDGET_S": "28000"}},
     "k1_700": {"dir": "submission_kernel_k1_700", "id": "ahmedmobasher86/jed-public-k1-700",
              "title": "JED Public K1_700", "env": {"JED_K1_SHORT": "1", "JED_MAX_CANDIDATES": "700", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "k1_780": {"dir": "submission_kernel_k1_780", "id": "ahmedmobasher86/jed-public-k1-780",
