@@ -252,3 +252,31 @@ technique we cannot reproduce (faster replay/models or an unpublished trick).
   hedge for final private scoring.
 - Top-5% (rank ~49/874) is a strong, honest result for this $50k/874-team comp;
   #1 appears infeasible with reproducible techniques.
+
+---
+
+## SESSION UPDATE (2026-06-24) — public ceiling is GPU-draw-gated; automated lottery running
+
+CONFIRMED: our 55.8 is banked (rank ~188/1051, top 17%). Code is sound (k1_630
+runs clean -> 56.7 local; 15 of our submissions have scored). But the runtime
+boundary is a VARIABLE GPU draw: today even plain k1_630/640 timed out
+("incorrect format" = killed mid-write). pilkwang (top expert, 200 votes) sits
+at ~57 too: "N>640 open on a faster draw." The LB 90s (top 100.5) are fast-draw
+luck at high N, not a reproducible method.
+
+**Automated public lottery (running, /tmp/daily_lottery.sh, task bqsqid5cr):**
+submits k1 N-ladder (660/700/780/860/940) each UTC day for 12 days; whichever
+rung fits that day's draw scores; a fast draw lands ~63-85, beating 55.8. Failed
+submissions do NOT consume the daily cap.
+
+**Private board (decides winners) — deferred deadline work:**
+- k1_620 direct posts fire EXFIL on the guardrail_rules proxy -> ~55.8 private if
+  private is dataflow. If private is STRICTER (inspects http.post data body),
+  direct posts score 0 -> need a private-specific submission. Building a clean
+  chains+deputy emit-only hedge needs a dedicated _run_private_dense mode (TODO).
+- Near 2026-09-01 deadline: select 2 final submissions (stable k1_620 + private
+  hedge). Final is a SINGLE rerun, so fast-draw public-tops may not replicate ->
+  stable submissions can rank up on the final private LB.
+
+**Honest bar:** top-17% in a $50k/1051-team OpenAI/Google/IEEE comp is strong;
+winning the public LB is GPU-luck-gated and not reproducible by method.
