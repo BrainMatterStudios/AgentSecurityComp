@@ -280,3 +280,23 @@ submissions do NOT consume the daily cap.
 
 **Honest bar:** top-17% in a $50k/1051-team OpenAI/Google/IEEE comp is strong;
 winning the public LB is GPU-luck-gated and not reproducible by method.
+
+---
+
+## SESSION UPDATE (2026-06-24b) — adopted external assessment: portfolio + adaptive + private hedge
+
+Executed the reviewed recommendations:
+- (1) Multi-post abandoned (proven dead). (2) K1 single-post kept as public engine.
+- (5) **Adaptive budget governor** (`JED_K1_ADAPTIVE=1`): `_run_k1_short` calibrates
+  live model sec/candidate and sizes N to fit THIS draw's replay budget
+  (JED_REPLAY_BUDGET_S, default 28000; passes=4; safety 1.18; N_min 560). Never
+  times out; beats 55.8 on fast draws; degrades gracefully on slow draws.
+- (3) **Private hedge** (`JED_PRIVATE_CHAIN=1`): emits untrusted web.search ->
+  fabricated http.post chains (fire UNTRUSTED_TO_ACTION+EXFILTRATION on the
+  guardrail_rules proxy, robust to body inspection) + periodic email.send. Profile
+  `private_chain_400`. THIS is a final-selection submission for the private LB.
+- (4) **Daily portfolio** (task, /tmp/daily_portfolio.sh) replaces blind lottery:
+  k1_adaptive + k1_640/680/720 probes + private_chain_400, every UTC day x14.
+
+Final-selection plan (≈2026-09-01): select 2 submissions = best public (k1_620 /
+best adaptive draw) + private_chain (private-LB hedge).
