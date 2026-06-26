@@ -18,11 +18,11 @@ LOG = os.path.join(ROOT, "logs", "v312_oneshot_submit.log")
 MARKER = os.path.join(ROOT, "logs", "v312_oneshot_DONE")
 os.makedirs(os.path.dirname(LOG), exist_ok=True)
 
-# (kernel slug, version, message)
+# (kernel slug, version, message) — all carry the SECRET_MARKER EXFIL fix + governor
 BATCH = [
-    ("ahmedmobasher86/jed-v312-k1-300",     "1", "v312 recovery: static N=300 guaranteed-valid floor"),
-    ("ahmedmobasher86/jed-v312-gov-safe",   "1", "v312 recovery: adaptive governor safety=1.8 (per-phase 9000s)"),
-    ("ahmedmobasher86/jed-public-k1nx-680", "2", "v312 recovery: adaptive governor safety=1.5 (per-phase 9000s)"),
+    ("ahmedmobasher86/jed-v312-k1-300",     "2", "v312: SECRET_MARKER EXFIL, static N=300 guaranteed-valid floor"),
+    ("ahmedmobasher86/jed-v312-gov-safe",   "2", "v312: SECRET_MARKER EXFIL, adaptive governor safety=1.8 (9000s/phase)"),
+    ("ahmedmobasher86/jed-public-k1nx-680", "3", "v312: SECRET_MARKER EXFIL, adaptive governor safety=1.5 (9000s/phase)"),
 ]
 
 
