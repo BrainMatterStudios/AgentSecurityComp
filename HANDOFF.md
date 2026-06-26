@@ -3,6 +3,39 @@
 Single source of truth for the current state of this Kaggle entry
 (<https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks>).
 
+## ⚠️ 2026-06-26 BREAKTHROUGH — root cause of all "incorrect format" failures
+
+The competition silently bumped **aicomp_sdk 3.1.0 → 3.1.2 on 2026-06-22
+21:45 UTC** (competition zip timestamp). This is why EVERY submission since
+2026-06-23 failed with "Your notebook generated a submission file with incorrect
+format", regardless of N (even low-N k1_630), and why the prior diagnoses
+(candidate-count timeout; codex's candidate-validation bug) were both wrong.
+
+- **Only the gateway changed** (attack contract, env api, inference server are
+  byte-identical 3.1.0→3.1.2; our candidates validate clean locally).
+- 3.1.2 enforces a **per-phase 9000s deadline** (`DEFAULT_BUDGET_S`): generation
+  and EACH `model×guardrail` replay pass each get a fresh 9000s.
+- A phase timeout is now **re-raised as `GatewayRuntimeError(INVALID_SUBMISSION)`**
+  → `write_submission` never runs → the WHOLE submission is voided. In 3.1.0 it
+  was caught and that model's rows zeroed, so the CSV stayed valid. **One slow
+  replay phase = total loss now.**
+- Binding constraint: `N · cal_t < 9000s` per phase on the variable GPU draw,
+  total-loss on overrun. Public LB top ≈ **100.5** (≈1116 effective candidates),
+  so winning needs high N AND low per-candidate cost (cal_t).
+
+**Fix (committed 41b4f89):** `_adaptive_n` reframed around the per-phase budget
+with worst-case (max) calibration sample + fat safety (passes=1, safety 1.8,
+fallback 300, cap at PHASE_BUDGET_S=9000). New recovery-bracket profiles in
+`dev/build_notebook.py`: `v312_k1_300` (guaranteed-valid floor),
+`v312_gov_safe/mid/aggr` (governor at safety 1.8/1.5/1.3). Local SDK synced to
+3.1.2 (`comp/`; 3.1.0 at `comp_310_backup/`). Re-check the zip's SDK version
+before each batch — the organizers change it without notice.
+
+**Next:** at the 00:00 UTC reset submit k1_300 + gov_safe (+mid/aggr once the
+new-kernel creation throttle clears) → first confirmed valid 3.1.2 score →
+read N_eff = score/0.09 → dial N/cal_t toward 100+. The OLD k1_620=55.8 (3.1.0)
+remains the banked floor.
+
 ## 1. Where things stand
 
 The entry is built against the **real competition SDK** (`aicomp_sdk` 3.1.0),
