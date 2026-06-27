@@ -39,6 +39,23 @@ PROFILES = {
                 "JED_MAX_CANDIDATES": "1300", "JED_N_SAFETY_PCT": "130", "JED_REPLAY_PASSES": "1",
                 "JED_N_MIN": "200", "JED_N_FALLBACK": "300", "JED_CAL_SAMPLES": "5",
                 "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    # === Day-2: cut cal_t (per-candidate replay cost ~25s on the first valid draw,
+    # capping N~360/score~32). Reasoning-suppressed prompts (no-explain / forced
+    # single tool call) should slash cal_t; the governor then auto-sizes N up at a
+    # fixed ~63% phase utilization. n_min=300 so worst case still beats today's 18.
+    # Reuse dead 3.1.0 slugs (new-kernel creation is account-capped). ===
+    "v312_terse1": {"dir": "submission_kernel_v312_terse1", "id": "ahmedmobasher86/jed-public-k1nx-720",
+        "title": "JED Public K1NX_720",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_K1_PROMPT": "1",
+                "JED_MAX_CANDIDATES": "1400", "JED_N_SAFETY_PCT": "135", "JED_REPLAY_PASSES": "1",
+                "JED_N_MIN": "300", "JED_N_FALLBACK": "300", "JED_CAL_SAMPLES": "5",
+                "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "v312_terse2": {"dir": "submission_kernel_v312_terse2", "id": "ahmedmobasher86/jed-public-k1nx-760",
+        "title": "JED Public K1NX_760",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_K1_PROMPT": "2",
+                "JED_MAX_CANDIDATES": "1400", "JED_N_SAFETY_PCT": "135", "JED_REPLAY_PASSES": "1",
+                "JED_N_MIN": "300", "JED_N_FALLBACK": "300", "JED_CAL_SAMPLES": "5",
+                "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "k1_adaptive": {"dir": "submission_kernel_k1_adaptive", "id": "ahmedmobasher86/jed-public-k1-adaptive",
              "title": "JED Public K1 Adaptive", "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "820", "JED_REPLAY_BUDGET_S": "28000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1", "JED_N_MIN": "50", "JED_N_FALLBACK": "620"}},
     "private_chain_400": {"dir": "submission_kernel_private_chain_400", "id": "ahmedmobasher86/jed-public-private-chain-400",

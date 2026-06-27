@@ -14,9 +14,8 @@ LOG = os.path.join(ROOT, "logs", "v312_results.log")
 POLL_S = 300
 MAX_WAIT_S = 6 * 3600
 WATCH = {  # description-substring -> label
-    "static N=300": "k1_300 (floor)",
-    "safety=1.8": "gov_safe",
-    "safety=1.5": "gov_mid",
+    "terse1": "terse1 (no-explain)",
+    "terse2": "terse2 (forced-call)",
 }
 
 
