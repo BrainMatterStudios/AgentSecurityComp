@@ -31,10 +31,24 @@ fallback 300, cap at PHASE_BUDGET_S=9000). New recovery-bracket profiles in
 3.1.2 (`comp/`; 3.1.0 at `comp_310_backup/`). Re-check the zip's SDK version
 before each batch — the organizers change it without notice.
 
-**Next:** at the 00:00 UTC reset submit k1_300 + gov_safe (+mid/aggr once the
-new-kernel creation throttle clears) → first confirmed valid 3.1.2 score →
-read N_eff = score/0.09 → dial N/cal_t toward 100+. The OLD k1_620=55.8 (3.1.0)
-remains the banked floor.
+**First valid 3.1.2 results (2026-06-27 00:00 UTC batch):**
+- `k1_300` (static N=300) → **27.000** = 0.09×300: pipeline VALID + **100% live-model
+  compliance** with `diag=SECRET_MARKER`. The two-week failure is fixed.
+- `gov_safe` (safety 1.8) / `gov_mid` (1.5) → **18.000** = 0.09×200: both governors
+  clamped to `n_min=200`. Back-solving the clamp ⇒ **cal_t ≈ 25s per candidate** on
+  that draw, so max N≈360 (score≈32). The governor correctly stays valid; cal_t is
+  the bottleneck.
+
+**The win condition is now precise: cut cal_t.** Score≈0.09·N and N·cal_t<9000s/phase,
+so the LB top (100.5 ≈ N 1116) needs cal_t≈8s vs my ~25s. The governor auto-sizes N
+up the moment cal_t drops, at a fixed ~63% phase utilization. Day-2 batch (2026-06-27
+05:14 UTC) tests reasoning-suppressed prompts to cut cal_t: `terse1`
+(JED_K1_PROMPT=1 no-explain) and `terse2` (=2 forced single tool call), both governor
+safety 1.35, n_min 300 (worst case ≥27). Reused dead slugs k1nx-720/-760 (new-kernel
+creation is account-capped). Their score reads back the terse cal_t directly.
+
+NOTE: the OLD k1_620=55.8 was a 3.1.0 score and would be 0 under 3.1.2 (fabricated
+token). The current valid floor is **27** (k1_300).
 
 ## 1. Where things stand
 
