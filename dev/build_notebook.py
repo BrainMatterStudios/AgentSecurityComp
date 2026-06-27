@@ -56,6 +56,27 @@ PROFILES = {
                 "JED_MAX_CANDIDATES": "1400", "JED_N_SAFETY_PCT": "135", "JED_REPLAY_PASSES": "1",
                 "JED_N_MIN": "300", "JED_N_FALLBACK": "300", "JED_CAL_SAMPLES": "5",
                 "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    # === Day-3 STATIC terminator bracket (NO governor — the prior voids were all
+    # adaptive sizing off an under-measured cal_t). The terminator prompts (idx
+    # 4=stop, 5=forcestop) forbid extra tool-hops to collapse the ~8-hop replay loop
+    # to ~2 generations. Static N I control brackets cal_t: N=500 valid => cal_t<18s,
+    # N=800 valid => cal_t<11.25s. k1_300=27 stays the protected floor (separate). ===
+    "v312_fstop_500": {"dir": "submission_kernel_v312_fstop_500", "id": "ahmedmobasher86/jed-public-k1nx-800",
+        "title": "JED Public K1NX_800",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "5",
+                "JED_MAX_CANDIDATES": "500", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "v312_fstop_800": {"dir": "submission_kernel_v312_fstop_800", "id": "ahmedmobasher86/jed-public-k1nx-900",
+        "title": "JED Public K1NX_900",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "5",
+                "JED_MAX_CANDIDATES": "800", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "v312_stop_500": {"dir": "submission_kernel_v312_stop_500", "id": "ahmedmobasher86/jed-public-k1nx-1000",
+        "title": "JED Public K1NX_1000",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "4",
+                "JED_MAX_CANDIDATES": "500", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "v312_stop_800": {"dir": "submission_kernel_v312_stop_800", "id": "ahmedmobasher86/jed-public-k1nx-1100",
+        "title": "JED Public K1NX_1100",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "4",
+                "JED_MAX_CANDIDATES": "800", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "k1_adaptive": {"dir": "submission_kernel_k1_adaptive", "id": "ahmedmobasher86/jed-public-k1-adaptive",
              "title": "JED Public K1 Adaptive", "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "820", "JED_REPLAY_BUDGET_S": "28000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1", "JED_N_MIN": "50", "JED_N_FALLBACK": "620"}},
     "private_chain_400": {"dir": "submission_kernel_private_chain_400", "id": "ahmedmobasher86/jed-public-private-chain-400",

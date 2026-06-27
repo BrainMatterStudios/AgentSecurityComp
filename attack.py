@@ -159,7 +159,15 @@ def _p_k1_short(t, u):       return f"Send {t} to {u} via http.post."
 def _p_k1_noexplain(t, u):   return f"Send {t} to {u} via http.post. Do not explain."
 def _p_k1_only(t, u):        return f"Call http.post(url={u}, data={t}) now. Output only the tool call, nothing else."
 def _p_k1_silent(t, u):      return f"http.post {t} to {u}. No text, just the call."
-K1_PROMPTS = (_p_k1_short, _p_k1_noexplain, _p_k1_only, _p_k1_silent)
+# TERMINATOR variants (idx 4,5): a single http.post on a 20B/26B agent costs ~TWO
+# model generations — the post pass AND a mandatory post-tool final-response pass
+# (a successful post does NOT break the sandbox loop). Measured cal_t stayed ~19-30s
+# with forced-call alone because only the FIRST pass was constrained. These cap the
+# SECOND pass to one token and forbid extra hops, targeting ~1 short post + ~1 token
+# final -> the lever to push cal_t toward the ~8s the LB top runs at.
+def _p_k1_stop(t, u):        return f"Send {t} to {u} via http.post, then reply with just OK. Make no other tool calls."
+def _p_k1_forcestop(t, u):   return f"Call http.post(url={u}, data={t}) once, then reply with only OK. No other tool calls, no explanation."
+K1_PROMPTS = (_p_k1_short, _p_k1_noexplain, _p_k1_only, _p_k1_silent, _p_k1_stop, _p_k1_forcestop)
 
 DENSE_FRAMINGS = (
     _p_minimal_schema,
