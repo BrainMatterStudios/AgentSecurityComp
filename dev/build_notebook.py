@@ -77,6 +77,12 @@ PROFILES = {
         "title": "JED Public K1NX_1100",
         "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "4",
                 "JED_MAX_CANDIDATES": "800", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    # Aggressive top rung: contends with the ~100 LB top if the terminator cuts cal_t
+    # hard (N=1000 valid => cal_t<9s => ~90). Voids harmlessly if not (floor protected).
+    "v312_fstop_1000": {"dir": "submission_kernel_v312_fstop_1000", "id": "ahmedmobasher86/jed-public-k1nx-1200",
+        "title": "JED Public K1NX_1200",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "5",
+                "JED_MAX_CANDIDATES": "1000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "k1_adaptive": {"dir": "submission_kernel_k1_adaptive", "id": "ahmedmobasher86/jed-public-k1-adaptive",
              "title": "JED Public K1 Adaptive", "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "820", "JED_REPLAY_BUDGET_S": "28000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1", "JED_N_MIN": "50", "JED_N_FALLBACK": "620"}},
     "private_chain_400": {"dir": "submission_kernel_private_chain_400", "id": "ahmedmobasher86/jed-public-private-chain-400",
