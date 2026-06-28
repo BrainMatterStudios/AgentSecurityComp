@@ -104,6 +104,32 @@ PROFILES = {
         "title": "JED Public K1_660",
         "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
                 "JED_MAX_CANDIDATES": "620", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    # === Day-4 ACCELERATOR A/B test. Offline proved prompt+effort are maxed; the
+    # field's 2-3x lower cal_t must be THROUGHPUT. We run single T4; P100 has ~2x mem
+    # bandwidth (LLM decode is memory-bound). All use the token-optimal plain prompt
+    # (idx0), static N. Decisive A/B: T4 vs P100 at the SAME N=520. P100 ladder
+    # (780/1040) finds its ceiling (~70/~94 if ~2x). t4_380 is a safe-ish bank (~34).
+    # k1_300=27 stays the protected floor. ===
+    "accel_t4_380": {"dir": "submission_kernel_accel_t4_380", "id": "ahmedmobasher86/jed-public-k1-630",
+        "title": "JED Public K1_630", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "380", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "accel_t4_520": {"dir": "submission_kernel_accel_t4_520", "id": "ahmedmobasher86/jed-public-k1-640",
+        "title": "JED Public K1_640", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "520", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "accel_p100_520": {"dir": "submission_kernel_accel_p100_520", "id": "ahmedmobasher86/jed-public-k1-650",
+        "title": "JED Public K1_650", "accel": "NvidiaTeslaP100",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "520", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "accel_p100_780": {"dir": "submission_kernel_accel_p100_780", "id": "ahmedmobasher86/jed-public-k1-660",
+        "title": "JED Public K1_660", "accel": "NvidiaTeslaP100",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "780", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "accel_p100_1040": {"dir": "submission_kernel_accel_p100_1040", "id": "ahmedmobasher86/jed-public-k1-700",
+        "title": "JED Public K1_700", "accel": "NvidiaTeslaP100",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "1040", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "k1_adaptive": {"dir": "submission_kernel_k1_adaptive", "id": "ahmedmobasher86/jed-public-k1-adaptive",
              "title": "JED Public K1 Adaptive", "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "820", "JED_REPLAY_BUDGET_S": "28000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1", "JED_N_MIN": "50", "JED_N_FALLBACK": "620"}},
     "private_chain_400": {"dir": "submission_kernel_private_chain_400", "id": "ahmedmobasher86/jed-public-private-chain-400",
@@ -464,7 +490,7 @@ meta = {
     "kernel_sources": [],
     "competition_sources": ["ai-agent-security-multi-step-tool-attacks"],
     "model_sources": [],
-    "machine_shape": "NvidiaTeslaT4",
+    "machine_shape": P.get("accel", "NvidiaTeslaT4"),
 }
 (KDIR / "kernel-metadata.json").write_text(json.dumps(meta, indent=2))
 print("Built notebook + metadata in", KDIR)
