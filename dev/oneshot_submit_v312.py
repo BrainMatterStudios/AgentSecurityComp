@@ -18,11 +18,13 @@ LOG = os.path.join(ROOT, "logs", "v312_oneshot_submit.log")
 MARKER = os.path.join(ROOT, "logs", "v312_oneshot_DONE")
 os.makedirs(os.path.dirname(LOG), exist_ok=True)
 
-# (kernel slug, version, message) — all carry the SECRET_MARKER EXFIL fix + governor
+# (kernel slug, version, message) — ACCELERATOR A/B test: T4 vs P100, optimal plain prompt, static N
 BATCH = [
-    ("ahmedmobasher86/jed-v312-k1-300",     "2", "v312: SECRET_MARKER EXFIL, static N=300 guaranteed-valid floor"),
-    ("ahmedmobasher86/jed-v312-gov-safe",   "2", "v312: SECRET_MARKER EXFIL, adaptive governor safety=1.8 (9000s/phase)"),
-    ("ahmedmobasher86/jed-public-k1nx-680", "3", "v312: SECRET_MARKER EXFIL, adaptive governor safety=1.5 (9000s/phase)"),
+    ("ahmedmobasher86/jed-public-k1-630", "3", "accel T4 N=380 (control, optimal plain prompt)"),
+    ("ahmedmobasher86/jed-public-k1-640", "6", "accel T4 N=520 (T4 boundary)"),
+    ("ahmedmobasher86/jed-public-k1-650", "3", "accel P100 N=520 (A/B vs T4 same N)"),
+    ("ahmedmobasher86/jed-public-k1-660", "4", "accel P100 N=780 (P100 ceiling ~70)"),
+    ("ahmedmobasher86/jed-public-k1-700", "2", "accel P100 N=1040 (P100 aggressive ~94)"),
 ]
 
 
