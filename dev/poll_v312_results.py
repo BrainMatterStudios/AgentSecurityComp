@@ -14,11 +14,9 @@ LOG = os.path.join(ROOT, "logs", "v312_results.log")
 POLL_S = 300
 MAX_WAIT_S = 6 * 3600
 WATCH = {  # description-substring -> label
-    "fstop N=500": "fstop_500",
-    "fstop N=800": "fstop_800",
-    "fstop N=1000": "fstop_1000",
-    "v312 stop N=500": "stop_500",
-    "v312 stop N=800": "stop_800",
+    "T4 N=380": "T4_380",
+    "T4 N=520": "T4_520",
+    "probe v1": "probe_v1(k1-650 v1)",
 }
 
 
