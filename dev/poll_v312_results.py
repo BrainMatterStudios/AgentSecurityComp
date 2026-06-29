@@ -14,9 +14,8 @@ LOG = os.path.join(ROOT, "logs", "v312_results.log")
 POLL_S = 300
 MAX_WAIT_S = 6 * 3600
 WATCH = {  # description-substring -> label
-    "T4 N=380": "T4_380",
-    "T4 N=520": "T4_520",
-    "probe v1": "probe_v1(k1-650 v1)",
+    "m6 N=600": "m6_600 (optimal prompt)",
+    "m6 N=700": "m6_700 (optimal prompt)",
 }
 
 
