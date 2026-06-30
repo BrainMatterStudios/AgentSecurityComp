@@ -167,6 +167,26 @@ PROFILES = {
         "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
         "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
                 "JED_MAX_CANDIDATES": "380", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    # === Day-6 natural-prompt (idx0) + .com ladder, locally verified on BOTH exact
+    # models (gpt-oss 146/147 tok, gemma 85/86, all fire, no backfire). N=380 is the
+    # confirmed-valid floor (=34.2 today); 440/490/540 probe the .com boundary
+    # (projected ~460-630). Highest valid banks ~40/44/49. T4 only. ===
+    "nc_380": {"dir": "submission_kernel_nc_380", "id": "ahmedmobasher86/jed-public-k1nx-720",
+        "title": "JED Public K1NX_720", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "380", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "nc_440": {"dir": "submission_kernel_nc_440", "id": "ahmedmobasher86/jed-public-k1nx-760",
+        "title": "JED Public K1NX_760", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "440", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "nc_490": {"dir": "submission_kernel_nc_490", "id": "ahmedmobasher86/jed-public-k1nx-800",
+        "title": "JED Public K1NX_800", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "490", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "nc_540": {"dir": "submission_kernel_nc_540", "id": "ahmedmobasher86/jed-public-k1nx-900",
+        "title": "JED Public K1NX_900", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "540", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "k1_adaptive": {"dir": "submission_kernel_k1_adaptive", "id": "ahmedmobasher86/jed-public-k1-adaptive",
              "title": "JED Public K1 Adaptive", "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "820", "JED_REPLAY_BUDGET_S": "28000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1", "JED_N_MIN": "50", "JED_N_FALLBACK": "620"}},
     "private_chain_400": {"dir": "submission_kernel_private_chain_400", "id": "ahmedmobasher86/jed-public-private-chain-400",
