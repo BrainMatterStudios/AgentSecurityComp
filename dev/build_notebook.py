@@ -160,6 +160,13 @@ PROFILES = {
         "title": "JED Public K1NX_900", "accel": "NvidiaTeslaT4",
         "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "6",
                 "JED_MAX_CANDIDATES": "580", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    # Isolation: NATURAL prompt (idx0, the proven 34.2 shape) + .com hosts at the
+    # proven-valid N=380. Valid => .com is safe and the MINIMAL prompt is the m6
+    # culprit. Void => .com itself broke it.
+    "iso_nat_com_380": {"dir": "submission_kernel_iso_nat_com_380", "id": "ahmedmobasher86/jed-public-k1nx-1000",
+        "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
+                "JED_MAX_CANDIDATES": "380", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "k1_adaptive": {"dir": "submission_kernel_k1_adaptive", "id": "ahmedmobasher86/jed-public-k1-adaptive",
              "title": "JED Public K1 Adaptive", "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_MAX_CANDIDATES": "820", "JED_REPLAY_BUDGET_S": "28000", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1", "JED_N_MIN": "50", "JED_N_FALLBACK": "620"}},
     "private_chain_400": {"dir": "submission_kernel_private_chain_400", "id": "ahmedmobasher86/jed-public-private-chain-400",

@@ -13,9 +13,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOG = os.path.join(ROOT, "logs", "v312_results.log")
 POLL_S = 300
 MAX_WAIT_S = 6 * 3600
-WATCH = {  # description-substring -> label
-    "m6 N=600": "m6_600 (optimal prompt)",
-    "m6 N=700": "m6_700 (optimal prompt)",
+WATCH = {
+    "ISO: natural prompt + .com": "iso_nat_com_380",
 }
 
 
