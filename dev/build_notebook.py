@@ -183,6 +183,27 @@ PROFILES = {
         "title": "JED Public K1NX_800", "accel": "NvidiaTeslaT4",
         "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
                 "JED_MAX_CANDIDATES": "490", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    # === Day-6 EFFORT-INJECTION probes at N=700 (above our ~465 boundary). Each
+    # embeds a harmony/reasoning-effort injection (idx7-10); if Kaggle's llama-cpp
+    # parses the special tokens as a system/dev "Reasoning: low", gpt-oss goes low
+    # effort -> cal_t halves -> N=700 VALIDATES (~63). Void => injection dead.
+    # nc_440 (k1nx-760) is the protected floor (=39.6). ===
+    "inj_sys_700": {"dir": "submission_kernel_inj_sys_700", "id": "ahmedmobasher86/jed-public-k1nx-720",
+        "title": "JED Public K1NX_720", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "7",
+                "JED_MAX_CANDIDATES": "700", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "inj_dev_700": {"dir": "submission_kernel_inj_dev_700", "id": "ahmedmobasher86/jed-public-k1nx-800",
+        "title": "JED Public K1NX_800", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "8",
+                "JED_MAX_CANDIDATES": "700", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "inj_effort_700": {"dir": "submission_kernel_inj_effort_700", "id": "ahmedmobasher86/jed-public-k1nx-900",
+        "title": "JED Public K1NX_900", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "9",
+                "JED_MAX_CANDIDATES": "700", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "inj_plain_700": {"dir": "submission_kernel_inj_plain_700", "id": "ahmedmobasher86/jed-public-k1nx-1000",
+        "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "10",
+                "JED_MAX_CANDIDATES": "700", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "nc_460": {"dir": "submission_kernel_nc_460", "id": "ahmedmobasher86/jed-public-k1nx-800",
         "title": "JED Public K1NX_800", "accel": "NvidiaTeslaT4",
         "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "0",
