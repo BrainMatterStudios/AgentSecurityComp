@@ -188,6 +188,27 @@ PROFILES = {
     # parses the special tokens as a system/dev "Reasoning: low", gpt-oss goes low
     # effort -> cal_t halves -> N=700 VALIDATES (~63). Void => injection dead.
     # nc_440 (k1nx-760) is the protected floor (=39.6). ===
+    # === Day-7 MULTI-POST ladder (idx11): each candidate drives 8 http.post of
+    # SECRET_MARKER in one interact -> 8 EXFIL=130 raw/candidate (0.65*N), verified on
+    # the SDK (8 fired, 0 denials) + both exact models (~74-93 tok/post, flat tail).
+    # gpt-oss ~659 tok/candidate bounds N~90. Ladder brackets it: 40 safe(~26) /
+    # 65(~42 beats floor) / 90(~58 pack) / 115(~75 aggressive). nc_440=39.6 = floor. ===
+    "mp_40": {"dir": "submission_kernel_mp_40", "id": "ahmedmobasher86/jed-public-k1nx-720",
+        "title": "JED Public K1NX_720", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "11",
+                "JED_MAX_CANDIDATES": "40", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "mp_65": {"dir": "submission_kernel_mp_65", "id": "ahmedmobasher86/jed-public-k1nx-800",
+        "title": "JED Public K1NX_800", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "11",
+                "JED_MAX_CANDIDATES": "65", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "mp_90": {"dir": "submission_kernel_mp_90", "id": "ahmedmobasher86/jed-public-k1nx-900",
+        "title": "JED Public K1NX_900", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "11",
+                "JED_MAX_CANDIDATES": "90", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "mp_115": {"dir": "submission_kernel_mp_115", "id": "ahmedmobasher86/jed-public-k1nx-1000",
+        "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "11",
+                "JED_MAX_CANDIDATES": "115", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "inj_sys_700": {"dir": "submission_kernel_inj_sys_700", "id": "ahmedmobasher86/jed-public-k1nx-720",
         "title": "JED Public K1NX_720", "accel": "NvidiaTeslaT4",
         "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "7",
