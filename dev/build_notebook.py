@@ -198,6 +198,30 @@ PROFILES = {
     # model: gpt-oss N=100 (row 9.0), gemma N=200 (row 18.0). Public LB reveals Kaggle's
     # hidden 2-row aggregation: ~9 gpt-only/min | ~13.5 mean | ~18 max/gemma | ~27 sum.
     # Both single-post => guaranteed valid + exact rows; gemma N=200 safe even offloaded. ===
+    # === Day-8 CLIMB ladder. Multipost was UNDERSIZED not dead: Kaggle holds ~3.2
+    # posts/cand (N=40->3.32, 65->3.12); sized to fill 9000s it amortizes to row
+    # ~48-55 (vs single ~42). Governor (JED_K1_ADAPTIVE=1) sizes N per-model to the
+    # multipost boundary safely (handles gemma offload uncertainty). Floor=single
+    # N=440=39.6 protected in the batch. ===
+    "single_gov": {"dir": "submission_kernel_single_gov", "id": "ahmedmobasher86/jed-public-k1nx-720",
+        "title": "JED Public K1NX_720", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_K1_PROMPT": "0",
+                "JED_N_SAFETY_PCT": "130", "JED_MAX_CANDIDATES": "760", "JED_CAL_SAMPLES": "6",
+                "JED_N_MIN": "300", "JED_N_FALLBACK": "440", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "mpgov_safe": {"dir": "submission_kernel_mpgov_safe", "id": "ahmedmobasher86/jed-public-k1nx-800",
+        "title": "JED Public K1NX_800", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_K1_PROMPT": "11",
+                "JED_N_SAFETY_PCT": "160", "JED_MAX_CANDIDATES": "400", "JED_CAL_SAMPLES": "6",
+                "JED_N_MIN": "100", "JED_N_FALLBACK": "110", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "mpgov_aggr": {"dir": "submission_kernel_mpgov_aggr", "id": "ahmedmobasher86/jed-public-k1nx-900",
+        "title": "JED Public K1NX_900", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "1", "JED_K1_PROMPT": "11",
+                "JED_N_SAFETY_PCT": "128", "JED_MAX_CANDIDATES": "400", "JED_CAL_SAMPLES": "6",
+                "JED_N_MIN": "100", "JED_N_FALLBACK": "110", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "mp_fixed170": {"dir": "submission_kernel_mp_fixed170", "id": "ahmedmobasher86/jed-public-k1nx-1000",
+        "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
+        "env": {"JED_K1_SHORT": "1", "JED_K1_ADAPTIVE": "0", "JED_K1_PROMPT": "11",
+                "JED_MAX_CANDIDATES": "170", "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "agg_probe": {"dir": "submission_kernel_agg_probe", "id": "ahmedmobasher86/jed-public-k1nx-1000",
         "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
         "env": {"JED_AGG_PROBE": "1", "JED_GPTOSS_N": "100", "JED_GEMMA_N": "200",
