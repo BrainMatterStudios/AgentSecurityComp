@@ -293,6 +293,23 @@ PROFILES = {
         "env": {"JED_GK_PROBE": "1", "JED_SHORT_URL": "1", "JED_GPT_PROMPT": "0", "JED_GPT_N": "490",
                 "JED_GEMMA_PROMPT": "12", "JED_GEMMA_K": "1", "JED_GEMMA_N": "1240",
                 "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "gk_780": {"dir": "submission_kernel_gk_780", "id": "ahmedmobasher86/jed-public-k1nx-1000",
+        "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
+        "env": {"JED_GK_PROBE": "1", "JED_SHORT_URL": "1", "JED_GPT_PROMPT": "0", "JED_GPT_N": "490",
+                "JED_GEMMA_PROMPT": "12", "JED_GEMMA_K": "1", "JED_GEMMA_N": "780",
+                "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "gk_820": {"dir": "submission_kernel_gk_820", "id": "ahmedmobasher86/jed-public-k1nx-720",
+        "title": "JED", "env": {"JED_GK_PROBE": "1", "JED_SHORT_URL": "1", "JED_GPT_PROMPT": "0", "JED_GPT_N": "490",
+                "JED_GEMMA_PROMPT": "12", "JED_GEMMA_K": "1", "JED_GEMMA_N": "820",
+                "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "gk_860": {"dir": "submission_kernel_gk_860", "id": "ahmedmobasher86/jed-public-k1nx-800",
+        "title": "JED", "env": {"JED_GK_PROBE": "1", "JED_SHORT_URL": "1", "JED_GPT_PROMPT": "0", "JED_GPT_N": "490",
+                "JED_GEMMA_PROMPT": "12", "JED_GEMMA_K": "1", "JED_GEMMA_N": "860",
+                "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
+    "gk_870": {"dir": "submission_kernel_gk_870", "id": "ahmedmobasher86/jed-public-k1nx-900",
+        "title": "JED", "env": {"JED_GK_PROBE": "1", "JED_SHORT_URL": "1", "JED_GPT_PROMPT": "0", "JED_GPT_N": "520",
+                "JED_GEMMA_PROMPT": "12", "JED_GEMMA_K": "1", "JED_GEMMA_N": "870",
+                "JED_MAX_PRIVATE_CHAINS": "0", "JED_SEARCH_FRACTION": "1"}},
     "agg_probe": {"dir": "submission_kernel_agg_probe", "id": "ahmedmobasher86/jed-public-k1nx-1000",
         "title": "JED Public K1NX_1000", "accel": "NvidiaTeslaT4",
         "env": {"JED_AGG_PROBE": "1", "JED_GPTOSS_N": "100", "JED_GEMMA_N": "200",
@@ -689,7 +706,10 @@ meta = {
     "language": "python",
     "kernel_type": "notebook",
     "is_private": True,
-    "enable_gpu": True,
+    # CPU kernel: the gateway runs the target models on its OWN separate host
+    # (gRPC), so our inference-server kernel needs NO GPU. enable_gpu=False =>
+    # zero personal GPU-quota consumption (bypasses the 30h/week limit entirely).
+    "enable_gpu": False,
     "enable_tpu": False,
     "enable_internet": False,
     "keywords": [],
@@ -697,7 +717,6 @@ meta = {
     "kernel_sources": [],
     "competition_sources": ["ai-agent-security-multi-step-tool-attacks"],
     "model_sources": [],
-    "machine_shape": P.get("accel", "NvidiaTeslaT4"),
 }
 (KDIR / "kernel-metadata.json").write_text(json.dumps(meta, indent=2))
 print("Built notebook + metadata in", KDIR)
