@@ -682,9 +682,16 @@ class AttackAlgorithm(AttackAlgorithmBase):
                 pass
         is_gemma = posts >= 1
         n = _envi("JED_GEMMA_N", 500) if is_gemma else _envi("JED_GPTOSS_N", 200)
+        # Proven path uses _p_k1_short for both (validated to gemma~640=48.6). Natural
+        # gemma hits a ~650-candidate deadline wall (87 tok/cand). JED_GEMMA_PROMPT lets
+        # the gemma branch swap in a cheaper framing (idx12 _p_toolonly, ~46 tok) to push
+        # the boundary to ~1200 — tested ON THIS proven path, keeping _k1_url + structure
+        # identical. Default (unset) => _p_k1_short, i.e. byte-identical to the 48.6 build.
+        gp = _envi("JED_GEMMA_PROMPT", -1)
+        prompt = K1_PROMPTS[gp % len(K1_PROMPTS)] if (is_gemma and gp >= 0) else _p_k1_short
         out: list[AttackCandidate] = []
         for idx in range(int(n)):
-            out.append(AttackCandidate.from_messages((_p_k1_short(EXFIL_PAYLOAD, self._k1_url(idx)),)))
+            out.append(AttackCandidate.from_messages((prompt(EXFIL_PAYLOAD, self._k1_url(idx)),)))
         return out
 
     def _run_fp_portfolio(self, env, max_hops: int) -> list["AttackCandidate"]:
