@@ -3,7 +3,7 @@ _Last updated: 2026-07-25. Read this first, then `memory/jed-winning-model.md` (
 
 ## 0. TL;DR
 - **Competition:** Kaggle "AI Agent Security: Multi-Step Tool Attacks" ($50k, deadline 2026-09-01).
-- **Proven best (public): 64.8** = `gpt idx13-preclose N=840` + `gemma natural N=600` (static single-post).
+- **Proven best (public): 80.145** (2026-07-26, VALIDATED) = **adaptive replay-safe FRAC=0.97** (`JED_REPLAY_SAFE=1`). Prior static best 64.8. L6 ladder all valid + monotonic: 0.82→68.4, 0.90→76.7, 0.97→80.1; 0.97 did NOT void ⇒ headroom to push FRAC→0.99. Gap to tetsutani ~88.5 is likely gemma candidate count (next: FRAC→0.99, force gemma 'bare' template, CONFUSED_DEPUTY private hedge).
 - **Public top ≈ 110–112** (~2300 teams). We are ~65. The gap is a **throughput** problem, not payload cleverness.
 - **🔑 THE VERIFIED LEVER (2026-07-25): per-model ADAPTIVE REPLAY-SAFE SIZING, single-post.** Confirmed by reading the ACTUAL SOURCE of the top public notebooks (`tetsutani` ~88.5, `pilkwang`; pulled via authenticated kaggle CLI, decoded copies in scratchpad `nb/FULL_*.py`). `run()` executes ON Kaggle, times live single-post trials at the **same `max_tool_hops=8`** the gateway replays with (so measured latency == replay cost — self-calibrating, no local≠Kaggle transfer problem), races a few templates per model, then **fills the returned set until cumulative measured latency hits `REPLAY_SAFE×9000s`** and hard-clamps. gemma is the CHEAP board (~6–8.5s/cand → ~1200 cand, row ~114); gpt (~10–20s → ~770, row ~69) → **mean ~88.** We were leaving ~half the budget unused with static N.
 - **Implemented:** `attack.py` `_run_replay_safe` (`JED_REPLAY_SAFE=1`). Smoke-tested on gpt Metal (fires, sizes, clamps). Ported faithfully from the leaders' code.
