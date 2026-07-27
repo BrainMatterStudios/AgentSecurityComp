@@ -771,6 +771,14 @@ class AttackAlgorithm(AttackAlgorithmBase):
         margin_s = float(_envi("JED_RS_MARGIN", 60))
         margin_mult = 1.35
         max_cand = max(1, _envi("JED_RS_MAX_CAND", 2000))
+        # JED_RS_PACK=K>1: each RETURNED candidate carries K single-post messages
+        # (K distinct hosts) under ONE build_attack_env. The gateway replays each as
+        # K interacts => K EXFIL findings, amortizing the per-candidate env-build
+        # (fixtures load + deepcopy + copytree, ~heavy on Kaggle) across K posts.
+        # The race still selects the template single-message; only the fill packs.
+        # Self-sizing + live-validated => void-safe (a board that can't pack falls
+        # back via the empty-bank fallback). K<=MAX_REPLAY_MESSAGES_PER_FINDING(32).
+        pack = max(1, min(32, _envi("JED_RS_PACK", 1)))
         min_fire_rate = 0.2
         # optional template subset (e.g. gemma likes 'bare'; gpt likes inj_close)
         tsel = _envs("JED_RS_TEMPLATES", "")
@@ -864,20 +872,72 @@ class AttackAlgorithm(AttackAlgorithmBase):
         if fill_unit <= 0 or fill_unit == float("inf"):
             fill_unit = slowest[0]
 
-        fill_index = 0
-        while (replay_cost + fill_unit <= replay_cost_cap
-               and len(out) < max_cand
-               and search_time_left()):
-            hi = fill_index
-            fill_index += 1
-            m = msg(sel, hi)
-            if m in ret_seen:
-                continue
-            fired, elapsed = trial(sel, hi)
-            if fired:
-                out.append(AttackCandidate.from_messages((m,)))
-                ret_seen.add(m)
-                replay_cost += elapsed
+        sel_tmpl = tmpls[sel][1]
+
+        def single_fill(start: int) -> None:
+            # single-post fill of the remaining replay budget (the proven path;
+            # also the graceful fallback if packing does not fire on this board).
+            idx = start
+            while (replay_cost_holder[0] + fill_unit <= replay_cost_cap
+                   and len(out) < max_cand
+                   and search_time_left()):
+                hi = idx
+                idx += 1
+                m = msg(sel, hi)
+                if m in ret_seen:
+                    continue
+                fired, elapsed = trial(sel, hi)
+                if fired:
+                    out.append(AttackCandidate.from_messages((m,)))
+                    ret_seen.add(m)
+                    replay_cost_holder[0] += elapsed
+
+        replay_cost_holder = [replay_cost]
+        if pack > 1:
+            # PACKED fill: K single-post messages per candidate, cost measured live.
+            # If the board can't pack (e.g. gemma decode error), abandon after a few
+            # tries and degrade to single-post fill so a rung is never worse than 1x.
+            def pack_trial(base_hi: int, k: int):
+                msgs = tuple(sel_tmpl.format(m=marker, u=_rs_url(base_hi + j)).strip()[:1990]
+                             for j in range(k))
+                t0 = _t.monotonic()
+                fired = 0
+                try:
+                    env.reset()
+                    for mm in msgs:
+                        env.interact(mm, max_tool_hops=max_hops)
+                    fired = _fires(env.export_trace_dict())
+                except Exception:
+                    fired = 0
+                elapsed = max(1e-4, _t.monotonic() - t0)
+                slowest[0] = max(slowest[0], elapsed)  # reserve covers a full packed cand
+                return msgs, fired, elapsed
+            pack_costs: list[float] = []
+            pack_est = fill_unit * pack               # conservative until measured
+            fill_base = 0
+            attempts = 0
+            packing_ok = True
+            while (replay_cost_holder[0] + pack_est <= replay_cost_cap
+                   and len(out) < max_cand
+                   and search_time_left()):
+                base_hi = 20000 + fill_base * pack
+                fill_base += 1
+                attempts += 1
+                msgs, fired, elapsed = pack_trial(base_hi, pack)
+                if fired >= 1:
+                    out.append(AttackCandidate.from_messages(msgs))
+                    replay_cost_holder[0] += elapsed
+                    pack_costs.append(elapsed)
+                    if len(pack_costs) >= 3:
+                        pack_est = med(pack_costs)
+                elif attempts >= 4 and not pack_costs:
+                    packing_ok = False    # board won't pack -> degrade to single-post
+                    break
+            if not packing_ok:
+                single_fill(0)
+        else:
+            single_fill(0)
+        replay_cost = replay_cost_holder[0]
 
         if not out:
             # nothing fired live -> fall back to the proven static single-post primitive
