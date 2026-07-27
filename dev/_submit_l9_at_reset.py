@@ -17,7 +17,7 @@ BATCH = [
  ("ahmedmobasher86/jed-public-pt-probe", "9","L9 PACK K=2 FRAC=97 (overhead amortization)", 92.0),
  ("ahmedmobasher86/jed-public-k1nx-1000","10","L9 PACK K=4 FRAC=97 (overhead amortization)", 100.0),
  ("ahmedmobasher86/jed-public-k1nx-1200","11","L9 PACK K=8 FRAC=97 (overhead amortization)", 105.0),
- ("ahmedmobasher86/jed-public-k1nx-800", "VK16","L9 PACK K=16 FRAC=95 (max amortization)", 108.0),
+ ("ahmedmobasher86/jed-public-k1nx-800", "28","L9 PACK K=16 FRAC=95 (max amortization)", 108.0),
 ]
 def log(m):
     line = f"{dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}Z  {m}"
