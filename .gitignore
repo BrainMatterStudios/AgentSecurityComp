@@ -15,3 +15,6 @@ refkernels/
 /tmp/
 poll_and_download.sh
 *.zip
+
+# Downloaded model weights (multi-GB GGUFs) — never commit
+models/
