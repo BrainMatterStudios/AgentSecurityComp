@@ -4,7 +4,7 @@ All rungs JED_REPLAY_SAFE=1, pool {close_ok,terse_ok} (JED_RS_TEMPLATES=5,6), SE
 - Rung 2 GPT-ONLY FRAC=97: JED_RS_ONLY=gpt -> publicScore = gpt_row/2 (direct gpt read)
 - Rung 3 GEMMA-ONLY FRAC=97: JED_RS_ONLY=gemma -> publicScore = gemma_row/2 (confirms gemma maxed; completes split)
 - Rung 4 GPT-ONLY FRAC=99: gpt headroom, isolated from gemma void-drag
-- Rung 5 GPT-ONLY FRAC=99.5: gpt ceiling / void-boundary probe
+- Rung 5 BLENDED FRAC=96 both boards: conservative climb bet (anchor is the FRAC97 peak)
 Consistency check: rung1 ~= rung2 + rung3 (each isolated board = row/2).
 """
 import base64, json

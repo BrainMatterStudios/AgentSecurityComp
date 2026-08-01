@@ -64,13 +64,15 @@ for i in range(1, 6):
     firsts.append(one(i, "cand%d" % i))
 
 print("\n=== VERDICT ===", flush=True)
-c1, tail = firsts[0], firsts[1:]
-mtail = sum(tail) / len(tail) if tail else 0
-print("  candidate1 first-prefill=%d tok ; mean(cand2..5 first-prefill)=%.0f tok" % (c1, mtail), flush=True)
-if c1 and mtail < 0.5 * c1:
-    print("  => schema prefix REUSED across candidates (cand2+ prefill collapses). No thrash lever;", flush=True)
-    print("     gemma per-candidate cost is fixed-overhead+decode bound => genuinely near maxed.", flush=True)
+# CORRECT baseline = the COLD first-ever prefill (warm1 ~1110 tok), NOT candidate1
+# (which is already warm). The buggy earlier version compared cand1 to cand2..5 (both
+# already warm, ~equal) and wrongly cried "thrash". Compare candidates to the cold schema.
+cand_prefill = sum(firsts) / len(firsts) if firsts else 0
+SCHEMA_COLD_TOK = 1000  # ~full system+tool schema; warm1 logged ~1110 above
+print("  mean candidate first-prefill = %.0f tok  (cold schema ~%d tok)" % (cand_prefill, SCHEMA_COLD_TOK), flush=True)
+if cand_prefill < 0.5 * SCHEMA_COLD_TOK:
+    print("  => schema prefix REUSED across candidates (prefill collapses to the user msg). No thrash lever;", flush=True)
+    print("     per-candidate cost is decode+overhead bound => gemma genuinely near maxed. (This IS the case.)", flush=True)
 else:
     print("  => every candidate RE-PREFILLS ~full schema (no reuse in-path) = genuine cache thrash.", flush=True)
-    print("     Removing the evictor keeps the schema warm => 2-5x more candidates. REAL LEVER.", flush=True)
 print("done", flush=True)
