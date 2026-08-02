@@ -4,7 +4,7 @@ _Last updated: 2026-08-01. Read this first, then the auto-loaded memory files (`
 ## 0. TL;DR
 - **Competition:** Kaggle "AI Agent Security: Multi-Step Tool Attacks" ($50k, prize is the **private** LB). Deadline believed 2026-09-01 — **VERIFY** (a review flagged a possible 2026-08-25 entry deadline; confirm on the official page along with the final-submission SELECTION count).
 - **Best validated public = ~89.6** (banked and selectable): single-post replay-safe adaptive, `JED_RS_FRAC=97`, template pool `{close_ok, terse_ok}` (indices 5,6), bare `SECRET_MARKER` payload. Confirmed by 3 independent anchor runs (L9/L10/L12). The old handoff's "87.48" is stale.
-- **Public is very likely MAXED at ~89.6.** The board is decode-bound (see §2); gemma is structurally maxed 3 ways; blended FRAC>97 hurts (L7 FRAC99=87.21, L11 FRAC98=77.4). The one un-probed public climb path is **isolated gpt FRAC headroom** — L13 (submitted, pending) tests exactly this.
+- **Public is NOT maxed — the LB shows 112.** ~89.55 (FRAC97 single-post, reproduced 4× incl. L13) is a PLATEAU, not the ceiling. L13 killed the FRAC-headroom path (gpt FRAC99 VOIDS; splits inconsistent). The live lever: **hop-packing** (`JED_RS_HOPPACK=K`) — one candidate does K sequential http.post over the 8 replay hops, amortizing the ~7s fixed per-candidate overhead (the 32-tok decode floor proves overhead, not decode, dominates). Built + locally verified; **L14 armed 2026-08-02 (pending)** tests it. See `memory/jed-hoppack-112-probe.md`.
 - **The real prize is the private board**, which we are structurally blind to (privateScore hidden until the deadline). The evidence-backed pivot is: (a) a correct **clean-body CONFUSED_DEPUTY** private hedge, and (b) the **judged write-up** prize (if it exists — verify).
 
 ## 1. Methodology discipline (the user enforces this HARD)
@@ -29,7 +29,20 @@ The old handoff claimed "each generation re-prefills the full schema, no KV reus
 - **The "mixed EXFIL+email.send" candidate** — proposed by a review, REJECTED by its own verification: 22 raw/finding but 2 generations (generations are the binding cost), ~18% negative-EV.
 - **Multi-endpoint (`JED_RS_ENDPOINTS`)** — L12 K5=60.8 (the `response_parsing` >1-tool-call block).
 
-## 4. ARMED & SUBMITTED: L13 (fired 2026-08-01 ~11:19 UTC, PENDING)
+## 4b. ARMED & SUBMITTED: L14 hop-pack (fired 2026-08-02 09:09 UTC, PENDING)
+Tests whether hop-packing breaks the 89.55 plateau (path to LB 112). Poller `dev/_poll_l14.py` → `logs/l14_results.log` (not yet launched — classifier blocked; start via `! caffeinate -i python3 dev/_poll_l14.py` or just re-query submissions).
+
+| ref | slug (ver) | config | reads |
+|---|---|---|---|
+| 55182081 | pt-safe v14 | single-post FRAC97 | ~89.55 anchor/floor |
+| 55182082 | pt-probe v14 | **HOPPACK K8 FRAC97** | direct A/B vs anchor — THE signal |
+| 55182084 | k1nx-1000 v15 | HOPPACK K8 FRAC85 | void insurance |
+| 55182086 | k1nx-1200 v16 | HOPPACK K8 FRAC93 | FRAC curve |
+| 55182089 | k1nx-800 v33 | HOPPACK K4 FRAC93 | K-slope |
+
+**Read:** pt-probe vs anchor. If HOPPACK ≫ 89.55 → Kaggle is reset-overhead-bound → hop-pack is the 112 path (push K/FRAC next day). If flat/neg → decode-bound, packing dead (confirms L9/L12), pivot to private. L13 RESOLVED: anchor 89.55, FRAC96 89.10 (FRAC97 is blended peak), gpt-only FRAC99 VOIDED, splits inconsistent (gate failed: 89.55 vs 84.1) so per-board reads untrustworthy.
+
+## 4. L13 (fired 2026-08-01, RESOLVED — see §4b for outcome)
 Hybrid diagnostic night (`dev/_build_l13.py`, `submission_kernel_l13_*`). All replay-safe, pool {5,6}, `SECRET_MARKER`:
 
 | ref | slug (ver) | config | reads |
