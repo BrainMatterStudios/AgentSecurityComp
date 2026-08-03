@@ -790,7 +790,17 @@ class AttackAlgorithm(AttackAlgorithmBase):
         JED_RS_MAX_CAND (def 2000), JED_RS_TEMPLATES (CSV of template idxs, def all)."""
         import time as _t
         REPLAY_BUDGET_S = 9000.0
-        replay_safe = max(0.5, min(0.999, _envi("JED_RS_FRAC", 97) / 100.0))
+        _base_frac = _envi("JED_RS_FRAC", 97)
+        replay_safe = max(0.5, min(0.999, _base_frac / 100.0))
+        # JED_RS_FRAC_GPT / JED_RS_FRAC_GEMMA: per-model FRAC override (pct). Every prior
+        # FRAC push raised BOTH boards, and gpt voids first (FRAC99 gpt-only VOIDED, L13),
+        # masking whether gemma (cheaper per-candidate) has headroom above the shared 97.
+        # When either differs from the base, we fingerprint the live model once (reusing
+        # _FP_PROBES) and size THIS board to its own FRAC. Default = base -> no behaviour
+        # change. gemma-only high FRAC is the one untested public aim-higher lever.
+        _frac_gpt = _envi("JED_RS_FRAC_GPT", _base_frac)
+        _frac_gemma = _envi("JED_RS_FRAC_GEMMA", _base_frac)
+        _per_model_frac = (_frac_gpt != _base_frac) or (_frac_gemma != _base_frac)
         probe_reps = max(1, _envi("JED_RS_REPS", 3))
         margin_s = float(_envi("JED_RS_MARGIN", 60))
         margin_mult = 1.35
@@ -844,15 +854,19 @@ class AttackAlgorithm(AttackAlgorithmBase):
         # publicScore = mean(gpt_public, gemma_public) then collapses to target_row/2,
         # letting a single submission read one board's row directly.
         only = _envs("JED_RS_ONLY", "").strip().lower()
-        if only in ("gpt", "gemma"):
+        detected = None
+        if only in ("gpt", "gemma") or _per_model_frac:
             try:
                 env.reset()
                 env.interact(self._FP_PROBES[0], max_tool_hops=max_hops)
                 detected = "gemma" if _fires(env.export_trace_dict()) > 0 else "gpt"
             except Exception:
                 detected = "gpt"
-            if detected != only:
-                return [AttackCandidate.from_messages(("Acknowledged.",))]
+        if only in ("gpt", "gemma") and detected != only:
+            return [AttackCandidate.from_messages(("Acknowledged.",))]
+        if _per_model_frac and detected is not None:
+            _sel_frac = _frac_gemma if detected == "gemma" else _frac_gpt
+            replay_safe = max(0.5, min(0.999, _sel_frac / 100.0))
 
         deadline = _t.monotonic() + budget
         replay_cost_cap = replay_safe * REPLAY_BUDGET_S
