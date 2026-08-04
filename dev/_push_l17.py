@@ -5,6 +5,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,6 +20,7 @@ PENDING = [
     ("submission_kernel_l17_splitmp", "ahmedmobasher86/jed-public-k1nx-800"),
 ]
 VERSIONS = {}
+MAX_PUSH_ATTEMPTS = int(os.getenv("L17_PUSH_ATTEMPTS", "240"))
 
 
 def log(m):
@@ -40,7 +42,7 @@ def status(slug):
 
 
 def push(d, slug):
-    for attempt in range(40):
+    for attempt in range(MAX_PUSH_ATTEMPTS):
         out = subprocess.run(
             ["python3", "-m", "kaggle", "kernels", "push", "-p", os.path.join(ROOT, d)],
             capture_output=True,
@@ -82,6 +84,10 @@ def main():
     with open(VJSON, "w") as f:
         json.dump(VERSIONS, f)
     log("VERSIONS: " + ", ".join(f"{k.split('/')[-1]}=v{v}" for k, v in VERSIONS.items()))
+    missing = [slug for _, slug in PENDING if slug not in VERSIONS]
+    if missing:
+        log("ERROR: missing versions for " + ", ".join(missing))
+        sys.exit(1)
     log("L17 push complete.")
 
 
