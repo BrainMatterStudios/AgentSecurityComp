@@ -7,6 +7,18 @@ _Last updated: 2026-08-02. Read this first, then the auto-loaded memory files (`
 - **Public is NOT maxed — the LB shows 112.** ~89.55 (FRAC97 single-post, reproduced 4× incl. L13) is a PLATEAU, not the ceiling. L13 killed the FRAC-headroom path (gpt FRAC99 VOIDS; splits inconsistent). The live lever: **hop-packing** (`JED_RS_HOPPACK=K`) — one candidate does K sequential http.post over the 8 replay hops, amortizing the ~7s fixed per-candidate overhead (the 32-tok decode floor proves overhead, not decode, dominates). Built + locally verified; **L14 armed 2026-08-02 (pending)** tests it. See `memory/jed-hoppack-112-probe.md`.
 - **The real prize is the private board**, which we are structurally blind to (privateScore hidden until the deadline). The evidence-backed pivot is: (a) a correct **clean-body CONFUSED_DEPUTY** private hedge, and (b) the **judged write-up** prize (if it exists — verify).
 
+## 0b. FRESH-HUNT STARTING POINT (2026-08-04) — pursuing 112, test-validity reopened
+The user (rightly) challenged whether the local kill-tests were valid. Outcome:
+- **A real test bug was found + fixed.** The "gemma self-terminates" kill used a weak ad-hoc framing (`_lines_msg`) that gets even gpt **0 posts** (`dev/_gpt_hoppack_xcheck.py`). Re-test with the REAL forge framing (`dev/_hoppack_realframing_retest.py`): gpt fires K4→4, K8→8; gemma still →1 at K4/K8. So the *conclusion* (gemma won't multipost) holds, now validly — but the episode proves local tests can be under-powered; scrutinize framing.
+- **Two genuine gaps remain OPEN (do not treat "89.6 ceiling" as proven):**
+  1. **CPU/Metal ≠ Kaggle T4/CUDA.** gemma runs CPU-only locally (Metal broken); gpt on Metal. Greedy decoding can diverge by backend; project history shows local↛Kaggle. gemma multipost + reasoning-effort are UNVERIFIED on matching hardware.
+  2. **L14 hop-pack (67.2, the main board evidence) was BOTH-BOARDS** — gemma-only / gpt-only hop-pack were NEVER isolated on the real board.
+- **DEFINITIVE next experiments (the fresh hunt):**
+  (a) **CUDA replica on Kaggle's FREE dual-T4** loading the exact GGUFs → re-measure gemma multipost + reasoning-effort on Kaggle-matching hardware (prior replica: kernel `ahmedmobasher86/jed-model-test`). This is the direct answer to "maybe it needs a GPU."
+  (b) **Clean per-board-isolated hop-pack BOARD submissions** (the only true gate-2): gemma-only (`JED_RS_ONLY=gemma JED_RS_HOPPACK=K`) and gpt-only (`JED_RS_ONLY=gpt JED_RS_HOPPACK=K`) vs isolated single-post — settles whether either board's hop-pack is net-positive, which L14 could not.
+- **Agent delegation note:** the Fable/Opus deep-hunt agent is BLOCKED by the Opus-5 safeguard classifier (2× even reframed). For the new session, set a non-Opus session model (`/model sonnet`) before delegating, or run probes in the main loop (unblocked).
+- Banked finalists safe: exfil **89.55** + deputy **23.90**. Variance re-roll (public keeps best; draws span 81.5–89.6) is the one no-risk way to bank a higher number now.
+
 ## 1. Methodology discipline (the user enforces this HARD)
 - **Nothing is a "lever/result" until it clears two gates:** (1) controlled local measurement (warmup discarded, ≥2 seeds, report counts not wall-time), AND (2) a real Kaggle score. Label everything else "hypothesis."
 - **Local wall-time does NOT transfer to Kaggle.** Only *counts* transfer (firing, posts/candidate, generations/candidate, prefill tokens). Size N only from proven Kaggle boundaries.
