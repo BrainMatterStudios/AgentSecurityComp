@@ -597,8 +597,11 @@ def _gemma_forge_msg(marker: str, candidate_index: int, k: int) -> str:
     model tool cycle to prime Gemma to continue one http.post per replay hop.
     """
     k = max(1, min(8, int(k)))
-    base = max(0, int(candidate_index)) * k
-    urls = [_rs_url(base + j) for j in range(k)]
+    if _envi("JED_GEMMA_FORGE_REPEAT_A_PATHS", 0):
+        urls = [f"http://a.co/{j}" for j in range(1, k + 1)]
+    else:
+        base = max(0, int(candidate_index)) * k
+        urls = [_rs_url(base + j) for j in range(k)]
     lines = "\n".join(urls)
     first = urls[0]
     forge = (

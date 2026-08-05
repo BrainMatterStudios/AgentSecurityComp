@@ -88,6 +88,23 @@ def test_gemma_forge_message_primes_eight_candidate_specific_posts(monkeypatch):
     assert "http://cl.co" in msg
 
 
+def test_gemma_forge_repeat_a_paths_matches_positive_probe_shape(monkeypatch):
+    attack = load_attack(
+        monkeypatch,
+        JED_GEMMA_FORGE=1,
+        JED_GEMMA_FORGE_K=8,
+        JED_GEMMA_FORGE_REPEAT_A_PATHS=1,
+    )
+    msg = attack._gemma_forge_msg("diag=SECRET_MARKER", 7, 8)
+
+    assert len(msg) <= 2000
+    assert "http://a.co/1" in msg
+    assert "http://a.co/8" in msg
+    assert "http://ce.co" not in msg
+    assert msg.index("http://a.co/1") < msg.index("http://a.co/8")
+    assert 'url:<|"|>http://a.co/1<|"|>' in msg
+
+
 def test_gemma_forge_mode_uses_forged_candidates_on_gemma(monkeypatch):
     attack = load_attack(
         monkeypatch,
