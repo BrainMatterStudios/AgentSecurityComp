@@ -14,10 +14,10 @@ VJSON = os.path.join(ROOT, "logs", "l23_versions.json")
 
 PENDING = [
     ("submission_kernel_l23_gpt_single", "ahmedmobasher86/jed-public-pt-safe"),
-    ("submission_kernel_l23_gpt_hop2", "ahmedmobasher86/jed-public-pt-probe"),
-    ("submission_kernel_l23_split95", "ahmedmobasher86/jed-public-k1nx-1000"),
-    ("submission_kernel_l23_split94", "ahmedmobasher86/jed-public-k1nx-1200"),
-    ("submission_kernel_l23_gem_single", "ahmedmobasher86/jed-public-k1nx-800"),
+    ("submission_kernel_l23_k8_150", "ahmedmobasher86/jed-public-pt-probe"),
+    ("submission_kernel_l23_k8_350", "ahmedmobasher86/jed-public-k1nx-1000"),
+    ("submission_kernel_l23_k8_550", "ahmedmobasher86/jed-public-k1nx-1200"),
+    ("submission_kernel_l23_k8_800", "ahmedmobasher86/jed-public-k1nx-800"),
 ]
 VERSIONS = {}
 MAX_PUSH_ATTEMPTS = int(os.getenv("L22_PUSH_ATTEMPTS", "30"))

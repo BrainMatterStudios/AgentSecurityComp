@@ -62,22 +62,31 @@ def cc(src):
             "outputs": [], "source": src}
 
 
+# GATE-2 amortization ladder: gpt-only, FORCED K8 hoppack at staggered fixed N to bracket
+# the real-replay void boundary N* = 9000/(K8 per-candidate replay cost). The generation-
+# phase ledger under-sizes K8 ~8x (can't see amortizable gateway overhead), so K8's true N*
+# was never probed on the board. publicScore(gpt-only,K8,N) = gpt_row/2 = N*130/400 = 0.325N
+# if it FITS (voids if N>N*). Read: highest non-voiding N => N* => whether K8 amortizes.
+# N>=348 fitting => publicScore>113 (beats the target) AND proves amortization.
+def hop(n):
+    return {**BASE, "JED_RS_ONLY": "gpt", "JED_RS_HOPPACK": 8, "JED_RS_FIXED_N": n}
+
 RUNGS = [
     ("submission_kernel_l23_gpt_single", "ahmedmobasher86/jed-public-pt-safe",
      "jed public pt safe", {**BASE, "JED_RS_ONLY": "gpt", "JED_RS_FRAC": 97},
-     "L23 gpt-only SINGLE-post FRAC97 (gpt baseline row via router)"),
-    ("submission_kernel_l23_gpt_hop2", "ahmedmobasher86/jed-public-pt-probe",
-     "jed public pt probe", {**BASE, "JED_RS_ONLY": "gpt", "JED_RS_HOPPACK": 2, "JED_RS_FRAC": 95},
-     "L23 gpt-only HOPPACK2 amort-guard FRAC95 (clean gpt amortization AB)"),
-    ("submission_kernel_l23_split95", "ahmedmobasher86/jed-public-k1nx-1000",
-     "jed public k1nx 1000", {**BASE, "JED_RS_SPLIT": 1, "JED_RS_FRAC": 95},
-     "L23 SPLIT gpt-hoppack2 gemma-single FRAC95 (blended 100+ shot)"),
-    ("submission_kernel_l23_split94", "ahmedmobasher86/jed-public-k1nx-1200",
-     "jed public k1nx 1200", {**BASE, "JED_RS_SPLIT": 1, "JED_RS_FRAC": 94},
-     "L23 SPLIT gpt-hoppack2 gemma-single FRAC94 (void-margin duplicate)"),
-    ("submission_kernel_l23_gem_single", "ahmedmobasher86/jed-public-k1nx-800",
-     "jed public k1nx 800", {**BASE, "JED_RS_ONLY": "gemma", "JED_RS_FRAC": 97},
-     "L23 gemma-only SINGLE-post FRAC97 (gemma baseline row via router)"),
+     "L23 gpt-only SINGLE-post FRAC97 (gpt baseline row)"),
+    ("submission_kernel_l23_k8_150", "ahmedmobasher86/jed-public-pt-probe",
+     "jed public pt probe", hop(150),
+     "L23 gpt-only FORCED K8 fixed N=150 (amortization gate-2 low)"),
+    ("submission_kernel_l23_k8_350", "ahmedmobasher86/jed-public-k1nx-1000",
+     "jed public k1nx 1000", hop(350),
+     "L23 gpt-only FORCED K8 fixed N=350 (amortization gate-2; >113 if fits)"),
+    ("submission_kernel_l23_k8_550", "ahmedmobasher86/jed-public-k1nx-1200",
+     "jed public k1nx 1200", hop(550),
+     "L23 gpt-only FORCED K8 fixed N=550 (amortization gate-2 high)"),
+    ("submission_kernel_l23_k8_800", "ahmedmobasher86/jed-public-k1nx-800",
+     "jed public k1nx 800", hop(800),
+     "L23 gpt-only FORCED K8 fixed N=800 (amortization gate-2 boundary/void probe)"),
 ]
 
 
