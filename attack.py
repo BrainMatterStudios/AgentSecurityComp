@@ -1032,10 +1032,18 @@ class AttackAlgorithm(AttackAlgorithmBase):
         # Pair with JED_RS_ONLY=gpt to read the isolated row. Voids if N too high for the
         # real replay budget (informative: brackets the K-post per-candidate cost on T4).
         fixed_n = _envi("JED_RS_FIXED_N", 0)
-        if fixed_n > 0 and hoppack > 0:
+        if fixed_n > 0:
             n = min(fixed_n, max_cand)
+            if hoppack > 0:
+                return [AttackCandidate.from_messages(
+                    (_rs_hoppack_msg(20000 + i * hoppack, hoppack, marker),)) for i in range(n)]
+            # single-post forced N: bypass the conservative ledger (which sized ~985) to
+            # probe the rerun's TRUE single-post capacity (fixed-N K8 implied ~1176 posts
+            # fit -> the ledger may be under-sizing single-post by ~20%). Uses close_ok.
+            _tname, _tpl = _RS_TEMPLATES[5]
             return [AttackCandidate.from_messages(
-                (_rs_hoppack_msg(20000 + i * hoppack, hoppack, marker),)) for i in range(n)]
+                (_tpl.format(m=marker, u=_rs_url(i), h=_rs_host(i)).strip()[:1990],))
+                for i in range(n)]
 
         deadline = _t.monotonic() + budget
         replay_cost_cap = replay_safe * REPLAY_BUDGET_S
