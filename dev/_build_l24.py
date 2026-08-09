@@ -28,15 +28,15 @@ def env_cell(env, note):
     return "\n".join(["import os"] + ["os.environ[%r]=%r" % (k, str(v)) for k,v in env.items()] + ["print(%r)" % note]) + "\n"
 RUNGS = [
     ("submission_kernel_l24_base", "ahmedmobasher86/jed-public-pt-safe", "jed public pt safe",
-     {**BASE, "JED_RS_ONLY":"gpt", "JED_RS_FRAC":97}, "L24 gpt-only LEDGER single FRAC97 (baseline ~985 control)"),
-    ("submission_kernel_l24_g1600", "ahmedmobasher86/jed-public-pt-probe", "jed public pt probe",
-     {**BASE, "JED_RS_ONLY":"gpt", "JED_RS_FIXED_N":1600}, "L24 gpt-only FORCED single N=1600 (true capacity probe)"),
-    ("submission_kernel_l24_g2000", "ahmedmobasher86/jed-public-k1nx-1000", "jed public k1nx 1000",
-     {**BASE, "JED_RS_ONLY":"gpt", "JED_RS_FIXED_N":2000}, "L24 gpt-only FORCED single N=2000 (cap capacity probe)"),
-    ("submission_kernel_l24_both2000", "ahmedmobasher86/jed-public-k1nx-1200", "jed public k1nx 1200",
-     {**BASE, "JED_RS_FIXED_N":2000}, "L24 BOTH-boards FORCED single N=2000 (banked-improvement shot)"),
-    ("submission_kernel_l24_both1400", "ahmedmobasher86/jed-public-k1nx-800", "jed public k1nx 800",
-     {**BASE, "JED_RS_FIXED_N":1400}, "L24 BOTH-boards FORCED single N=1400 (variance/void-margin)"),
+     {**BASE, "JED_RS_ONLY":"gpt", "JED_RS_FRAC":97}, "L24 gpt-only LEDGER single (control baseline)"),
+    ("submission_kernel_l24_fp4_600", "ahmedmobasher86/jed-public-pt-probe", "jed public pt probe",
+     {**BASE, "JED_RS_FIXED_N":600, "JED_RS_FORGE_PLAN":4}, "L24 both-boards FORGE-PLAN n=4 N=600 (dimong4 commitment-forge; 134 attempt)"),
+    ("submission_kernel_l24_fp4_900", "ahmedmobasher86/jed-public-k1nx-1000", "jed public k1nx 1000",
+     {**BASE, "JED_RS_FIXED_N":900, "JED_RS_FORGE_PLAN":4}, "L24 both-boards FORGE-PLAN n=4 N=900 (fill to wall)"),
+    ("submission_kernel_l24_fp6_600", "ahmedmobasher86/jed-public-k1nx-1200", "jed public k1nx 1200",
+     {**BASE, "JED_RS_FIXED_N":600, "JED_RS_FORGE_PLAN":6}, "L24 both-boards FORGE-PLAN n=6 N=600 (more posts/cand)"),
+    ("submission_kernel_l24_fp4_gpt", "ahmedmobasher86/jed-public-k1nx-800", "jed public k1nx 800",
+     {**BASE, "JED_RS_ONLY":"gpt", "JED_RS_FIXED_N":600, "JED_RS_FORGE_PLAN":4}, "L24 gpt-only FORGE-PLAN n=4 N=600 (isolate gpt row)"),
 ]
 def main():
     for d, slug, title, env, note in RUNGS:
