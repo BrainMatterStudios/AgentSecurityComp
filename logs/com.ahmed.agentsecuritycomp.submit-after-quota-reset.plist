@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.ahmed.agentsecuritycomp.submit-after-quota-reset</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Library/Frameworks/Python.framework/Versions/3.14/bin/python3</string>
+    <string>-u</string>
+    <string>/private/tmp/agentsecurity_submit_after_quota_reset.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/private/tmp</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/ahmed</string>
+    <key>PATH</key>
+    <string>/Library/Frameworks/Python.framework/Versions/3.14/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/private/tmp/agentsecurity_submit_after_quota_reset.log</string>
+  <key>StandardErrorPath</key>
+  <string>/private/tmp/agentsecurity_submit_after_quota_reset.err.log</string>
+</dict>
+</plist>

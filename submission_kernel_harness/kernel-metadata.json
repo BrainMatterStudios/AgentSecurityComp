@@ -1,0 +1,14 @@
+{
+  "id": "ahmedmobasher86/jed-harness",
+  "title": "JED Harness",
+  "code_file": "harness.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "enable_internet": true,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ]
+}

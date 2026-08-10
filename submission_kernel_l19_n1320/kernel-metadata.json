@@ -1,0 +1,13 @@
+{
+  "id": "ahmedmobasher86/jed-public-k1nx-800",
+  "title": "jed public k1nx 800",
+  "code_file": "k.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ]
+}

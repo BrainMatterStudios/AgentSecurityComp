@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.ahmed.agentsecuritycomp.l17-push-submit-tmp</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd /private/tmp/AgentSecurityCompL17_58d4df4 &amp;&amp; python3 dev/_push_l17.py &amp;&amp; python3 dev/_submit_l17_at_reset.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/private/tmp/AgentSecurityCompL17_58d4df4</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key>
+    <string>/Users/ahmed</string>
+    <key>PATH</key>
+    <string>/Library/Frameworks/Python.framework/Versions/3.14/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>L17_ARM_DATE</key>
+    <string>2026-08-05</string>
+    <key>L17_PUSH_ATTEMPTS</key>
+    <string>240</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/private/tmp/AgentSecurityCompL17_58d4df4/logs/l17_launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/private/tmp/AgentSecurityCompL17_58d4df4/logs/l17_launchd.err.log</string>
+</dict>
+</plist>

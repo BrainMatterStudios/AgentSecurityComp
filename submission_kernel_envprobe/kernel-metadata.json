@@ -1,0 +1,13 @@
+{
+  "id": "ahmedmobasher86/jed-env-probe",
+  "title": "JED Env Probe",
+  "code_file": "envprobe.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ]
+}

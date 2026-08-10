@@ -1,0 +1,14 @@
+{
+  "id": "ahmedmobasher86/jed-public-k1-780",
+  "title": "JED Public K1 780",
+  "code_file": "envenc.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "enable_internet": false,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ]
+}

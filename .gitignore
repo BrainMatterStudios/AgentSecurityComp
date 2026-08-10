@@ -18,3 +18,11 @@ poll_and_download.sh
 
 # Downloaded model weights (multi-GB GGUFs) — never commit
 models/
+
+# OS / tool-state junk
+.DS_Store
+.serena/
+.playwright-mcp/
+
+# Competitor kernels (downloaded; not ours to commit — same as refkernels/)
+refkernels_new/

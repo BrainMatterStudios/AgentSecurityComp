@@ -1,0 +1,14 @@
+{
+  "id": "ahmedmobasher86/jed-public-k1nx-720",
+  "title": "JED Public K1NX 720",
+  "code_file": "se.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "enable_internet": false,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ]
+}
