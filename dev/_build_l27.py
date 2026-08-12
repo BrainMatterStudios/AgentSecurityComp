@@ -38,23 +38,27 @@ CELL3 = ("import os\nfrom pathlib import Path\nsub=Path('/kaggle/working/submiss
          "if not sub.exists(): sub.write_text('Id,Score\\ngpt_oss_public,0.0\\ngpt_oss_private,0.0\\ngemma_public,0.0\\ngemma_private,0.0\\n')\n")
 def cc(s): return {"cell_type":"code","metadata":{},"execution_count":None,"outputs":[],"source":s}
 
-# baseline uses proven RSF=0.98 (jed-v25/foysal-v15 ship it); PROBE_HOPS sweep on top.
+# PROBE_HOPS=1 is the ENABLER (unbinds the gen phase); MULT/COEF is the single aggression
+# dial (N proportional to MULT/COEF). Sweep the dial WIDE to bracket the void boundary
+# where max candidates (~130) live, given R (true 8hop/1hop ratio, ~1.1 gpt .. ~2.0 gemma)
+# is unmeasurable now (models gone). Rung 5 expresses the SAME aggression via MULT instead
+# of COEF -> a board test that the two knobs collapse to one axis. Rung 1 can't void.
 RUNGS = [
     ("submission_kernel_l27_base", "ahmedmobasher86/jed-public-pt-safe", "jed public pt safe",
      patch(SRC, REPLAY_SAFE_FRAC=0.98),
      "L27 baseline RSF=0.98 PROBE_HOPS=0 (safe control, aim ~83)"),
-    ("submission_kernel_l27_ph1_c25", "ahmedmobasher86/jed-public-pt-probe", "jed public pt probe",
-     patch(SRC, REPLAY_SAFE_FRAC=0.98, PROBE_HOPS=1, REPLAY_COST_COEF=2.5),
-     "L27 PROBE_HOPS=1 COEF=2.5 (safe throughput probe)"),
-    ("submission_kernel_l27_ph1_c22", "ahmedmobasher86/jed-public-k1nx-1000", "jed public k1nx 1000",
+    ("submission_kernel_l27_ph1_c22", "ahmedmobasher86/jed-public-pt-probe", "jed public pt probe",
      patch(SRC, REPLAY_SAFE_FRAC=0.98, PROBE_HOPS=1, REPLAY_COST_COEF=2.2),
-     "L27 PROBE_HOPS=1 COEF=2.2"),
-    ("submission_kernel_l27_ph1_c20", "ahmedmobasher86/jed-public-k1nx-1200", "jed public k1nx 1200",
-     patch(SRC, REPLAY_SAFE_FRAC=0.98, PROBE_HOPS=1, REPLAY_COST_COEF=2.0),
-     "L27 PROBE_HOPS=1 COEF=2.0 (theoretical optimum, max safe candidates)"),
-    ("submission_kernel_l27_ph1_c18", "ahmedmobasher86/jed-public-k1nx-800", "jed public k1nx 800",
-     patch(SRC, REPLAY_SAFE_FRAC=0.98, PROBE_HOPS=1, REPLAY_COST_COEF=1.8),
-     "L27 PROBE_HOPS=1 COEF=1.8 (aggressive / void-boundary probe)"),
+     "L27 PROBE_HOPS=1 COEF=2.2 (safe density lever; aggression 0.45)"),
+    ("submission_kernel_l27_ph1_c19", "ahmedmobasher86/jed-public-k1nx-1000", "jed public k1nx 1000",
+     patch(SRC, REPLAY_SAFE_FRAC=0.98, PROBE_HOPS=1, REPLAY_COST_COEF=1.9),
+     "L27 PROBE_HOPS=1 COEF=1.9 (aggression 0.53)"),
+    ("submission_kernel_l27_ph1_c16", "ahmedmobasher86/jed-public-k1nx-1200", "jed public k1nx 1200",
+     patch(SRC, REPLAY_SAFE_FRAC=0.98, PROBE_HOPS=1, REPLAY_COST_COEF=1.6),
+     "L27 PROBE_HOPS=1 COEF=1.6 (aggressive; aggression 0.63; near/at boundary)"),
+    ("submission_kernel_l27_ph1_mult", "ahmedmobasher86/jed-public-k1nx-800", "jed public k1nx 800",
+     patch(SRC, REPLAY_SAFE_FRAC=0.98, PROBE_HOPS=1, REPLAY_COST_COEF=2.2, REPLAY_BUDGET_MULT=1.4),
+     "L27 PROBE_HOPS=1 COEF=2.2 MULT=1.4 (2nd knob; effective aggression 0.64 ~= COEF=1.6 twin -> collapse test)"),
 ]
 def main():
     for d, slug, title, src, note in RUNGS:
