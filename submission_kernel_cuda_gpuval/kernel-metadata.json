@@ -1,0 +1,13 @@
+{
+  "id": "ahmedmobasher86/jed-cuda-gpuval",
+  "title": "jed cuda gpuval",
+  "code_file": "k.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ]
+}

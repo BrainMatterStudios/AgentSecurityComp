@@ -1,0 +1,11 @@
+{
+  "id": "ahmedmobasher86/jed-public-k1-650",
+  "title": "jed public k1 650",
+  "code_file": "k.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "competition_sources": ["ai-agent-security-multi-step-tool-attacks"]
+}
