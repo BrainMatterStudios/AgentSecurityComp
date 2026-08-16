@@ -518,10 +518,11 @@ interactive games whose state, goals, and evaluator lifecycle were only partly
 visible. The process allowed broad agent-led exploration, but apparent
 agent-originated hypotheses still passed through human challenge, local harness
 tests, and scarce external evaluations. On 2026-06-29 the agent proposed a double
-reset between plays. One handoff recorded a 7–109-fold local range; a later
-eval-faithful validation reported 2.6–152-fold on 15 of 25 games after repairing
-the no-op. The artifacts use different ranges and contexts, so neither is
-treated as the single definitive local estimate. In competition mode the second
+reset between plays. An eval-faithful validation that day reported
+2.6–152-fold on 15 of 25 games after repairing the no-op; a later July 1 handoff
+recorded a 7–109-fold local range. Because the artifacts use different ranges
+and contexts, neither is treated as the single definitive local estimate. In
+competition mode the second
 play returned HTTP 400, making the test
 invalid for the claimed deployment setting. Exploration produced an executable
 idea; it did not supply the missing evaluator permission on which the idea
