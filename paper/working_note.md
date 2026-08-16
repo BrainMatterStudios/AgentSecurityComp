@@ -4,7 +4,7 @@
 
 - **Author:** Ahmed Mobasher (sole author)
 - **Evidence baseline:** `aicomp-sdk 3.1.2`; evidence cutoff 2026-08-16; live Kaggle records
-  retrieved 2026-08-16T07:32:27Z. Source hashes and the audited repository revision are recorded
+  retrieved 2026-08-16T09:22:22Z. Source hashes and the audited repository revision are recorded
   in `paper/evidence/working-note-claim-ledger.md`.
 - **Document status:** Living draft. Completed, `ERROR`, and `PENDING` submissions are kept
   distinct. Four L31 chainpack rows were still `PENDING` at the cutoff and remain **Open
@@ -325,48 +325,30 @@ the public SDK, not evidence about private behavior.
 ## 5. Throughput levers: bounded comparisons
 
 The scoring code permits multiple predicates per finding (§3.2), which invites "stacking" and
-"packing" strategies. In our tested configurations, the naïve forms reduced score (§5.1). A
-different **commitment-forge** pattern observed in public competitor artifacts did elicit multiple
-posts in local replay and produced a modest positive comparison once on the scored board (§5.2).
-That artifact observation does not identify the live frontier's implementation: our named
-reproduction attempts scored 77.670 and 83.115 against their stated 134 aim, so reproduction
-failed. The non-reasoning-row and cross-model observations in §5.3–5.4 are likewise results of our
-own configurations, not a decomposition of competitor scores.
+"packing" strategies. Section 7 gives the one canonical live-results catalogue; this section
+interprets those rows without treating a local count, a visible score on an `ERROR` submission, or
+an unmatched historical comparator as a completed matched result. In the tested configurations,
+naïve packing was negative, a commitment-forge transferred weakly once, a model-specific Gemma
+forge did not retain clear headroom at larger N, and the public-artifact reproduction attempts did
+not reach their stated target.
 
 ### 5.1 Naïve packing and empty-forge hop-packing (score-negative)
 
-**Message-packing (K single-post messages per candidate).** Monotonic decay (L9, 2026-07-28):
+**Message-packing (K single-post messages per candidate).** L9's visible values declined as K rose
+from 1 to 16 (§7). Every row in that series was marked `ERROR`, including the 89.640 K=1
+high-water, so the series is historical diagnostic evidence rather than a completed experiment or
+control. Multiple tool calls in a *single* decode are independently rejected by response parsing
+(`comp/aicomp_sdk/agents/hf_chat_template/response_parsing.py:101-107`), requiring any multipost
+behavior to unfold across hops.
 
-| K (posts/candidate) | public score |
-|---|---|
-| 1 | 89.6 |
-| 2 | 80.0 |
-| 4 | 75.9 |
-| 8 | 73.7 |
-| 16 | 70.6 |
-
-_Status note: these L9/L12/L14 numbers, and the ≈89.6 single-post anchors, are from submissions
-the platform marked `ERROR` while still returning a public score (an unrelated
-submission-format issue in that SDK window); the L22–L24 numbers below are `COMPLETE`. The scores
-are the real public-board values in both cases, but we flag the status difference for full
-disclosure._
-
-**Multi-endpoint (K posts named in one message).** Runs labelled multi-endpoint scored 74.8 / 71.5
-/ 72.5 at K=4/5/6 (L12, 2026-07-31) — all below the single-post anchor; multiple tool calls in a
-*single* decode are rejected outright
-(`comp/aicomp_sdk/agents/hf_chat_template/response_parsing.py:101-107`), so the model must spread
-them across hops anyway, and reliability drops.
-
-**Empty-forge hop-packing (one message, K posts across K replay hops).** Engineered to avoid the
-single-decode multi-call block: the message names K endpoints and appends a fabricated
-closed-analysis turn — but leaves that turn *empty* (no plan, no commitment). It loses on the
-scored board: forced-K=8 gpt-only isolated runs scored a 42.7–47.9 band (2026-08-09), and an
-earlier both-boards hop-pack sweep scored K=8 = 64.6 / 58.1 (FRAC 93 / 85) and K=4 = 52.5
-(2026-08-02), all below the single-post anchor. Our P100 replica emitted all eight posts, whereas
-the scored traces averaged about 1.4 successful posts in this configuration. That is a
-local-to-scored count divergence, but it does not establish that evaluator hardware caused it.
-The two-gate discipline (§2) retained the negative scored result rather than substituting the
-local count.
+**Empty-forge hop-packing (one message, K posts across K replay hops).** This route names multiple
+endpoints and appends a fabricated closed-analysis turn, but leaves that turn empty. The L22 and
+L23 rows did not establish positive transfer (§7). Across the tested L23 candidate counts, the
+scores were non-monotonic and every run completed. This is consistent with a throughput or
+behavior ceiling in that configuration, but does not prove one or identify evaluator hardware as
+the cause. Our replica emitted all eight posts while the live outcome remained much lower than the
+local count suggested; the two-gate discipline (§2) retains that local/live divergence instead of
+substituting the local count for scored evidence.
 
 **Decode-token minimisation.** Suppressing the reasoning model's chain-of-thought via a forged
 closed-analysis turn cut generated tokens substantially but moved the score only about +1.4 in
@@ -392,12 +374,12 @@ replay path (§2.2), the pattern elicited one `http.post` per named endpoint acr
 at four endpoints and 6/6 at six on the gpt replica, versus about one for our earlier empty-close
 forge. That establishes local behavior for our port.
 
-On the board, a gpt-only isolated single-post row scored 43.600 and our four-endpoint port scored
-47.850 (2026-08-10), a one-off +4.250 comparison within the broader 42.665–47.865 forced-hop band.
-It does not establish a reasoning-row or hardware ceiling. More decisively, the two completed L26
-submissions labelled `dimong4 EXACT` scored 77.670 and 83.115, below their stated 134 aim. We
-therefore treat byte-level parity, the cause of the transfer gap, and any connection to live
-frontier methods as unresolved.
+On the board, the L24 gpt-only forge produced a modest one-off increase over its same-batch
+gpt-only control (§7). It does not establish a reasoning-row or hardware ceiling. More decisively,
+the two completed L26 submissions labelled `dimong4 EXACT` scored 77.670 and 83.115, below their
+stated 134 aim. We therefore treat byte-level parity, the cause of the transfer gap, and any
+connection to live frontier methods as unresolved; these rows are failed reproduction attempts,
+not evidence of frontier reproduction.
 
 ### 5.3 Non-reasoning-row transfer: positive once; durability not established
 
@@ -409,32 +391,25 @@ nonetheless multiposts under a *different*, model-specific device — a control-
 forge that fabricates one completed tool cycle in gemma's own turn format. On the replica this
 produced **3 posts/candidate at k=4** and 2 at k=3 (**Local measurement**, 2026-08-10).
 
-All five L25 rows later returned `COMPLETE`. The Gemma-only N=600 forge scored 34.000 versus
-27.000 for the listed single-post isolate (**Live observations** 55418165 and 55418171), a
-positive one-off comparison without a variance estimate. The N=900 follow-up was near-null:
-35.000 versus 34.605 (55444087 and 55444093). The N=600 dual-forge configurations scored 81.985
-and 82.660 versus the listed both-board single control at 54.000 (55418180, 55418184, and
-55418160). These rows establish only that the identified configurations produced those scores;
-they do not establish a durable Gemma-forge effect, a row-level aggregate decomposition, or a
-frontier mechanism.
+All five L25 rows returned `COMPLETE`. The Gemma-only N=600 forge scored 34.000 versus 27.000 for
+its same-batch single-post isolate (**Live observations** 55418165 and 55418171), an initial
+matched positive without a variance estimate. The N=900 matched follow-up was near-null at 35.000
+versus 34.605 (55444087 and 55444093), and the N=1200 forge scored 35.375. Thus the initial
+positive did not become scalable, replicated headroom. The N=600 dual-forge configurations scored
+81.985 and 82.660. They exceeded their same-batch 54.000 both-board control but remained below the
+stronger, later 88.730 `COMPLETE` historical control (§7). These observations establish neither a
+durable Gemma-forge effect nor a row-level aggregate decomposition or frontier mechanism.
 
-### 5.4 Cross-model forge interference (inference)
+### 5.4 Model-format interference remains an inference
 
-A tempting shortcut is to send the (validated) reasoning commitment-forge to *both* boards. It
-did not exceed the listed reference. Board evidence: a both-boards *commitment-forge* scored
-**72.8** (n=4) and 81.2 (n=6)
-(2026-08-10), at or below a single-post-both-boards reference of ≈82.4. Two honesty caveats we do
-not hide: (i) that ≈82.4 reference is itself imperfect — it comes from a 2026-08-08 run whose
-isolation router was broken (§7), so whether it is a clean both-boards single is uncertain; the
-later L25 clean N=600 control scored 54.000 but is not matched to these rows. (ii) The n=6 result
-(81.2) is within
-run-to-run variance (~±6) of the reference, so the effect rests mainly on n=4. The pattern is
-consistent with the reasoning forge degrading the non-reasoning row, but it does not identify
-that cause. The comparison does not directly isolate the reasoning forge on Gemma, and the
-aggregation rule is unknown. L25's completed native-Gemma isolate and dual-forge rows use a
-different mechanism and therefore do not close this causal question. Cross-model interference
-remains an **Inference**; per-model routing remains a design hypothesis rather than a validated
-remedy.
+A tempting shortcut is to send a reasoning-model commitment format to *both* targets. The L24
+both-board rows did not have a same-batch clean both-board control, so the results cannot isolate
+format interference. They are consistent with a model-specific format degrading transfer, but do
+not identify that cause. L25's native-Gemma isolate and dual-forge rows use a different mechanism
+and therefore do not close this causal question. Per-model routing also remains unvalidated: L29
+scored 85.675, below the stronger 88.730 `COMPLETE` historical control, and the four L31 chainpack
+routes are still `PENDING`. Cross-model interference is therefore an **Inference**, not a measured
+mechanism or a claim about platform aggregation.
 
 ### 5.5 Structurally blocked on the inspected public-SDK path
 
@@ -476,55 +451,61 @@ Each asymmetry in §4 is a concrete, cheap fix for a benchmark or guardrail desi
 
 ## 7. Results and the open problem
 
-_(This section updates as submissions score. All figures are public-leaderboard scores; a
-gpt-only / gemma-only "isolated" row is a submission whose candidates fire on one board and are
-benign on the other. That isolates the nonzero row signal but does not reveal the platform's
-aggregation or scaling.)_
+The catalogue below is the canonical manuscript record of the analyzed live run family through
+the API retrieval at 2026-08-16T09:22:22Z. All figures are public-leaderboard scores. A gpt-only or
+Gemma-only "isolated" row is a submission whose candidates are intended to fire on one target and
+remain benign on the other; it isolates an observed nonzero signal only when routing succeeds and
+does not reveal platform aggregation or scaling. L30 is omitted because there were no Kaggle
+submission rows for it; it is not treated as a live experiment.
 
-**Banked baseline.** Single-post sentinel-exfiltration with per-model adaptive sizing at
-FRAC ≈ 0.97, banked as our safe finalist. Its **peak is ≈89.6**, but nominally identical
-single-post both-boards anchors vary run-to-run across **≈82–90** (e.g. 89.6, 87.3, 84.4, 83.9,
-81.5 on different dates). We flag this explicitly because that ≈7-point variance is *larger* than
-the commitment-forge lift (+4.25) and comparable to the §5.4 both-boards delta — so several
-effects in this note are near the run-to-run noise floor, and we treat them as directional, not
-precise. FRAC ≈ 0.97 was strongest among the tested settings; higher FRAC leaves less deadline
-margin.
+**Baseline discipline.** The visible 89.640 L9 score is the historical high-water, but its API
+status is `ERROR`; it is not a completed control. The strongest recent completed control in the
+analyzed run family is the L27 88.730 baseline, which is a same-batch control for L27 only and a
+historical comparator for later ladders. These roles are kept distinct below.
 
-**Progression that localised the gap.**
+| Ladder | Ref(s) | Status | Test and control | Score(s) | Evidence-supported interpretation |
+|---|---|---|---|---|---|
+| L9 | 55040336, 55040351, 55040363, 55040369, 55040377 | `ERROR` | Single-post K=1 control; packing K=2/4/8/16 | 89.640; 80.015 / 75.945 / 73.665 / 70.645 | Visible packing scores declined with K, but every row is `ERROR`; 89.640 is a historical high-water, not a completed control. |
+| L22 | 55336143, 55336228, 55336286, 55336337, 55336379 | `COMPLETE` | gpt single vs hop-pack; Gemma single vs hop-pack; both-board hop-pack | 0.000 vs 0.000; 82.350 vs 64.575; 63.330 | The gpt isolation route produced no usable control; the matched Gemma hop-pack lost to its same-batch single. No positive hop-pack transfer was established. |
+| L23 | 55362610, 55362686, 55362749, 55362800, 55362843 | `COMPLETE` | gpt single 44.320; forced K8 at N=150/350/550/800 | 44.320; 47.865 / 42.665 / 47.540 / 47.865 | No monotonic improvement appeared across tested candidate counts and all runs completed. This is consistent with, but does not prove, a throughput or behavior ceiling. |
+| L24 | 55391763, 55391870, 55391945, 55391997, 55392055 | `COMPLETE` | gpt single vs gpt n=4 forge; unmatched both-board n=4/N=600, n=4/N=900, n=6/N=600 variants | 43.600 vs 47.850; 72.785 / 71.850 / 81.175 | The matched gpt comparison was a modest one-off positive. The both-board variants lack a same-batch clean both-board control and do not establish model-format interference or a general lever. |
+| L25 | 55418160, 55418165, 55418171, 55418180, 55418184 | `COMPLETE` | Gemma forge vs same-batch single at N=600; dual-forge k=4/k=3 vs same-batch both-single 54.000 | 34.000 vs 27.000; 81.985 / 82.660 vs 54.000 | The isolate was initially positive once. Dual-forge beat its weak same-batch control, but both scores remained below the later 88.730 completed historical control; no durable or decomposed advantage follows. |
+| L26 | 55444083, 55444087, 55444093, 55444097, 55444101 | `COMPLETE` | Gemma forge vs same-batch single at N=900; forge N=1200; two named exact-reproduction attempts | 35.000 vs 34.605; 35.375; 77.670 / 83.115 | The matched follow-up was near-null and larger N added no demonstrated scalable headroom. The named reproductions stayed below their stated 134 aim, so frontier reproduction failed. |
+| L27 | 55469249, 55469255, 55469264, 55469273, 55469280 | `COMPLETE` | Probe-hop variants vs same-batch no-hop control | 50.295 / 52.195 / 54.920 / 57.620 vs 88.730 | Every probe-hop variant lost decisively to the strongest recent completed same-batch control. |
+| L28 | 55493289, 55493299, 55493307, 55493315 | `COMPLETE` | Reasoning-format variants vs same-batch CPU reference | 83.415 / 77.400 / 85.410 vs 83.325 | The best variant exceeded its same-batch reference once, but stayed below the stronger 88.730 historical completed control; no general reasoning-format lever was established. |
+| GPU diagnostics | 55500552, 55525506, 55525507, 55525533, 55525536 | `COMPLETE` | GPU block/probe/decode routes; historical CPU reproduction comparator 83.115 | 0.000 / 0.000 / 34.200 / 50.175 / 32.895 | The tested GPU routes spanned 0.000–50.175 and did not show a matched GPU advantage. Comparisons to 83.115 are historical, not same-batch hardware controls. |
+| L29 | 55530790 | `COMPLETE` | Per-model split: gpt K8 hop-pack, Gemma single-post; no same-batch control | 85.675 | Below the 88.730 completed historical control. The row does not validate routing as a general improvement. |
+| L31 chainpack | 55538814, 55538829, 55538848, 55538855 | `PENDING` | 2x8, 3x8, 4x8, and 4x4 chainpack variants; no scored control yet | — | Open hypotheses. The API returned no score or outcome by the cutoff. |
+| L31 fast-emit | 55538875 | `COMPLETE` | Fast-emit K8; listed historical L29 comparator | 25.145 | A completed negative relative to 85.675; it did not establish a high-ceiling backup. |
 
-| Date | Test | Result | What it established |
-|---|---|---|---|
-| 08-08 | Deterministic board-isolation probe | gpt-only rungs = 0.000 (misrouted) | A refusal-fingerprint router coin-flips on the scored hardware; replaced with a post-count router. |
-| 08-09 | gpt-only forced-8-hop, N ∈ {150…800} | 42.7–47.9, all `COMPLETE` | No monotonic gain and no timeout in these four runs; no hardware ceiling inferred (§3.3). |
-| 08-10 | gpt single vs gpt commitment-forge (isolated) | 43.6 → 47.85 | Our port produced a +4.25 one-off comparison, smaller than run-to-run variation elsewhere (§5.2). |
-| 08-10 | commitment-forge on *both* boards | 72.8 (n=4) / 81.2 (n=6) vs ≈82.4 single* | At/below single-post — consistent with the reasoning forge interfering with the non-reasoning row (§5.4). |
-| 08-11 | **dual-forge** (per-board native forge) + Gemma-forge/Gemma-single isolates + clean both-single control | All five L25 rows `COMPLETE`: Gemma forge 34.000 vs single 27.000; dual-forge 81.985/82.660 vs both-single 54.000 | A positive N=600 comparison, not a durable effect or row-level decomposition. |
+### 7.1 What the negative results localise
 
-\* The ≈82.4 reference is a 2026-08-08 run whose isolation router was broken; whether it is a clean
-both-boards single is uncertain (§5.4). The clean L25 N=600 both-board control scored 54.000
-(55418160).
+The catalogue supports six bounded failure categories rather than a single universal bottleneck:
 
-**The reframed open problem — stated as arithmetic, not mechanism.** The 08-03 draft attributed the
-gap to unexplained decode cost on the reasoning target. Our observations do not support that tidy
-story. Under a hypothetical sum-like aggregation, subtracting our isolated 43.600 reasoning row
-from the visible 137.1 top leaves 93.5; that remainder is arithmetic, not a row attribution or an
-implementation inference. Different aggregation, variance, and stronger behavior on either or
-both model rows remain possible. Byte-level parity with the inspected artifact is an **Open
-hypothesis**, and the named L26 reproduction attempts failed to reach their stated 134 aim. The
-completed L25 comparisons also remain bounded: the N=600 Gemma forge was positive once (34.000
-versus 27.000), while the N=900 comparison was near-null (35.000 versus 34.605). The completed
-dual-forge rows exceeded their listed N=600 both-single control, but unknown aggregation prevents a
-row-level decomposition. These observations do not establish a durable Gemma lever or explain
-competitor scores.
+1. **Local/live divergence.** Multipost behavior observed in a replica did not yield comparable
+   live score, so local tool-call counts were not sufficient evidence of transfer.
+2. **Matched-control erosion.** The L25 Gemma positive narrowed to near-null in the matched L26
+   follow-up and did not show scalable headroom; L27's variants lost to their same-batch control.
+3. **Hardware assumptions.** L23 completed at every tested N without monotonic improvement, while
+   the GPU routes were negative or weak. Together these results reject the tested levers, not prove
+   a universal evaluator-hardware ceiling.
+4. **Model-format interference.** A reasoning-specific continuation format used across targets is
+   a plausible explanation for weaker both-board transfer, but the available controls do not
+   isolate that cause or platform aggregation.
+5. **Routing invalidity.** L22's gpt-only single and hop-pack rows both returned zero, invalidating
+   that isolation comparison rather than measuring the intended gpt effect.
+6. **Failed public-artifact reproduction.** The two named L26 attempts remained well below their
+   stated aim. Visible competitor artifacts therefore do not establish byte parity, evaluator
+   parity, or reproduction of a live frontier method.
 
-**One unresolved measurement caveat, and its cost.** Public scores cannot by themselves
-distinguish whether the two rows are aggregated by *sum* or *mean*: board isolation zeroes the
-other row, and the isolation-halving a mean would impose is algebraically indistinguishable from a
-sum over the observable submissions. This is not cosmetic — the *expected payoff* of the dual-forge
-differs ~2× between the two (roughly +22 aggregate under sum vs +11 under mean), and the §5.4
-interference inference itself assumes rows compose additively across submissions. We flag all of
-this rather than assert an aggregation. The direction of trying to improve both row scores does
-not require choosing an aggregation rule, and none is inferred here from the visible total.
+### 7.2 The remaining open problem
+
+The live results do not identify a single cause for the transfer gap. Run variance, behavior on
+either target, routing, model-specific message formats, and unobserved evaluator conditions remain
+possible contributors. Public scores also do not identify whether target rows are combined by sum,
+mean, or another rule, so this note does not decompose dual-target totals or infer platform
+aggregation. The four L31 chainpack rows remain `PENDING`; they are unresolved measurements, not
+evidence for hidden guardrail behavior, a hardware ceiling, or a frontier mechanism.
 
 ---
 

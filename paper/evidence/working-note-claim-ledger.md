@@ -1,6 +1,6 @@
 # Working Note Claim Ledger
 
-**Evidence cutoff:** 2026-08-16; live Kaggle records retrieved at 2026-08-16T07:32:27Z.
+**Evidence cutoff:** 2026-08-16; live Kaggle records retrieved at 2026-08-16T09:22:22Z.
 
 **Repository revision:** `2ed68e80705906dcbdf4f707edf8c37089ce0906` on `codex/paper-manuscripts`.
 
