@@ -8,14 +8,28 @@ causal contribution.
 
 ## Evidence cutoff and repository revisions
 
-The evidence cutoff for this inventory is 2026-08-16T10:29:29+03:00. Later
-revisions must state a new cutoff and preserve earlier unresolved or negative
-outcomes rather than silently replacing them.
+The repository evidence cutoff for this inventory is
+2026-08-16T10:29:29+03:00. The mutable agent stores were extracted separately
+at the exact snapshot times below. Later revisions must state new cutoffs and
+preserve earlier unresolved or negative outcomes rather than silently replacing
+them.
 
 | Repository | Role | Revision at cutoff | Commit date | Subject |
 | --- | --- | --- | --- | --- |
 | AgentSecurityComp | Primary case | `2ed68e80705906dcbdf4f707edf8c37089ce0906` | 2026-08-16T10:29:29+03:00 | `chore: ignore local worktrees` |
 | ArcAGI3 | Comparative case, read-only | `ebe5b3eca70260910144ae54e057c3d06ea0e14d` | 2026-08-15T18:41:01+03:00 | `feat(duck-38): one-shot armed runner for 2026-08-16 00:01Z slot - SLOT SWAP from duck-p3` |
+
+| Mutable source snapshot | Private source locator | Extraction time | Snapshot cutoff or filter |
+| --- | --- | --- | --- |
+| Claude AgentSecurityComp store | `claude:AgentSecurityComp/` under `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-AgentSecurityComp/` | 2026-08-16T08:06:05Z | Substantive record window through 2026-08-15T14:51:09.743Z |
+| Claude ARC-AGI-3 store | `claude:ARC-AGI-3/` under `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-ArcAGI3/` | 2026-08-16T08:06:05Z | Substantive record window through 2026-08-15T21:28:03.657Z |
+| Codex rollout store | `codex:` under `/Users/ahmed/.codex/sessions/` | 2026-08-16T08:06:05Z | Files matching `AgentSecurityComp|/Users/ahmed/Documents/ArcAGI3` at extraction time |
+| OpenCode session store | `opencode:session/` in `/Users/ahmed/.local/share/opencode/opencode.db` | 2026-08-16T08:06:05Z | Matching session rows created through 2026-08-10 19:31:37 UTC |
+
+These are frozen inventory observations, not immutable content-addressed
+artifacts. Claude, Codex, and OpenCode stores can change after extraction, so a
+later live query may produce different counts or classifications and must be
+reported as a new snapshot rather than a byte-reproducible rebuild.
 
 These hashes bound the repository evidence. They do not establish that every
 historical transcript refers to the same revision. Episode-level claims must
@@ -41,9 +55,15 @@ paper expresses it in prose.
 - Quote only material relevant to hypothesis formation, confidence, correction,
   intervention, or research governance. Keep it short and preserve enough
   surrounding context to avoid misleading attribution.
-- The author has authorized short quotations from the local agent transcripts
-  for this paper. Admission still requires an `authorized` status in the private
-  quote trace; withheld or revoked material must not appear in the manuscript.
+- The approved paper design at
+  `docs/superpowers/specs/2026-08-16-paper-revision-and-agent-research-design.md:82-93`
+  records Ahmed's authorization for short quotations from the local agent
+  transcripts. That authority is limited to excerpts relevant to hypothesis
+  formation, confidence, correction, intervention, or research governance;
+  excerpts must be short, contextualized, privacy-preserving, and stripped of
+  secrets, credentials, and unrelated personal information. Admission still
+  requires an `authorized` status in the private quote trace; withheld or
+  revoked material must not appear in the manuscript.
 - Every admitted quote must retain a private trace to provider, case, session
   identifier, timestamp, speaker, source location, and authorization status.
   Public text may use a pseudonymous source label where the raw identifier adds
@@ -97,42 +117,37 @@ an `sdk-cli` record or a bridge/initialization record without an explicit prompt
 is a tool-result derivative. This corrects the earlier, invalid assumption that
 every top-level UUID file was an independent conversation.
 
-| Case store | All JSONL files | Substantive top-level chunks | Top-level tool derivatives | Direct subagents | Workflow subagents | Workflow journals | Canonical conversation groups |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| AgentSecurityComp | 327 | 10 | 1 | 52 | 249 | 15 | 5 |
-| ARC-AGI-3 | 942 | 13 | 103 | 185 | 627 | 14 | 5 |
-| Total | 1,269 | 23 | 104 | 237 | 876 | 29 | 10 |
+| Case store | Substantive top-level chunks | Included canonical groups | Excluded continuations |
+| --- | ---: | ---: | ---: |
+| AgentSecurityComp | 10 | 5 | 5 |
+| ARC-AGI-3 | 13 | 5 | 8 |
+| Total | 23 | 10 | 13 |
 
-The 103 ARC-AGI-3 top-level derivatives comprise 99 `sdk-cli` records and four
-bridge or initialization stubs. The AgentSecurityComp derivative is a bridge
-stub. No scratchpad-copy path was found. All 104 derivatives are excluded from
-conversation counts.
+SDK-created records, bridge/initialization stubs without explicit prompts,
+subagents, workflow journals, scratchpad copies, and tool-result derivatives
+are trace-only provenance and are not counted as conversations. This Markdown
+inventory does not claim an exhaustive row-level manifest of those mutable raw
+records.
 
-The canonical mapping below lists every substantive chunk and any linked
-top-level stub. The complete map also assigns all 1,142 child and journal files
-to their top-level parent and canonical group.
+The 13 excluded substantive continuations resolve to the canonical groups below
+through legacy-session or bridge identifiers:
 
-| Case | Canonical conversation ID | Linked top-level record IDs |
+| Case | Excluded continuation IDs | Canonical conversation ID |
 | --- | --- | --- |
-| AgentSecurityComp | `d02227a2-1ed0-471c-abb2-994217974264` | `d02227a2-1ed0-471c-abb2-994217974264`, `d368bb45-0b14-4073-9740-774ade58e769`, bridge stub `ce940de4-1381-4ae1-a0bf-1d6a0005f13f` |
-| AgentSecurityComp | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569` | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569`, `25c84940-5ede-4850-a639-5579fdef6ebe` |
-| AgentSecurityComp | `a809e3ce-6bd5-4997-914a-1100fe705967` | `a809e3ce-6bd5-4997-914a-1100fe705967`, `84f715ee-9b96-4ee0-9950-48acf7a82447`, `9f138e71-bfaa-49fa-93aa-e6cf5f592493` |
-| AgentSecurityComp | `42258c4d-4471-458b-a3c0-757cf6791024` | `42258c4d-4471-458b-a3c0-757cf6791024` |
-| AgentSecurityComp | `0385f350-248c-431f-a9f2-1604c96b5ce2` | `0385f350-248c-431f-a9f2-1604c96b5ce2`, `9d0f25c3-7d3c-4eaf-a219-001b44ea5ec4` |
-| ARC-AGI-3 | `573f46bd-f297-4c15-8028-9676d148ba1b` | `573f46bd-f297-4c15-8028-9676d148ba1b`, `c9ecf8fc-b749-4067-9622-38b0060db14f`, `5174edda-9963-4cdd-9306-18d2695d0fd0`, `38ec9bae-690c-4713-aa14-c3245497ca9e`, `0ba5f0b9-392e-404c-824f-ade3803cc524`, `0e3cf55e-6aa2-408c-bf63-8dfa02fe7d9a`, bridge stubs `28a15468-c114-4b85-9aac-74810ea52076` and `92fbe257-daaf-4f72-a7c7-de4a2c44ea2e` |
-| ARC-AGI-3 | `626c7722-330b-4125-b1de-439d21bef0a0` | `626c7722-330b-4125-b1de-439d21bef0a0`, `066c8134-787a-41a1-8dcb-dd4815d4a1d1`, `d093e020-dbb1-4965-958c-471bfea0138e` |
-| ARC-AGI-3 | `32add479-d332-44f0-ae03-8ed849c86377` | `32add479-d332-44f0-ae03-8ed849c86377`, `ff31ed86-9a67-4b4a-9261-458a5f2e9819` |
-| ARC-AGI-3 | `2c317a12-f48d-4a3f-8ddc-8b48615ad490` | `2c317a12-f48d-4a3f-8ddc-8b48615ad490`, initialization stub `852362d3-8371-4164-a10a-be12b9571208` |
-| ARC-AGI-3 | `de216582-726c-415f-9dd5-71c05fb4d2c3` | `de216582-726c-415f-9dd5-71c05fb4d2c3` |
+| AgentSecurityComp | `d368bb45-0b14-4073-9740-774ade58e769` | `d02227a2-1ed0-471c-abb2-994217974264` |
+| AgentSecurityComp | `25c84940-5ede-4850-a639-5579fdef6ebe` | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569` |
+| AgentSecurityComp | `84f715ee-9b96-4ee0-9950-48acf7a82447`, `9f138e71-bfaa-49fa-93aa-e6cf5f592493` | `a809e3ce-6bd5-4997-914a-1100fe705967` |
+| AgentSecurityComp | `9d0f25c3-7d3c-4eaf-a219-001b44ea5ec4` | `0385f350-248c-431f-a9f2-1604c96b5ce2` |
+| ARC-AGI-3 | `c9ecf8fc-b749-4067-9622-38b0060db14f`, `5174edda-9963-4cdd-9306-18d2695d0fd0`, `38ec9bae-690c-4713-aa14-c3245497ca9e`, `0ba5f0b9-392e-404c-824f-ade3803cc524`, `0e3cf55e-6aa2-408c-bf63-8dfa02fe7d9a` | `573f46bd-f297-4c15-8028-9676d148ba1b` |
+| ARC-AGI-3 | `066c8134-787a-41a1-8dcb-dd4815d4a1d1`, `d093e020-dbb1-4965-958c-471bfea0138e` | `626c7722-330b-4125-b1de-439d21bef0a0` |
+| ARC-AGI-3 | `ff31ed86-9a67-4b4a-9261-458a5f2e9819` | `32add479-d332-44f0-ae03-8ed849c86377` |
 
-ARC-AGI-3 record `0f234577-1d7a-4a1a-841e-1398fbf6b99c` is an unlinked
-bridge/initialization stub and is excluded. A privacy-preserving overlap audit
-of the 23 substantive chunks found zero shared message-UUID pairs, zero repeated
-prompt-and-timestamp pairs, zero identical three-prompt prefixes, and zero
-identical contiguous three-prompt runs. Prompt text was normalized and hashed in
-memory; neither text nor hashes are written to the map. These checks address
-regenerated identifiers and copied prefixes without publishing transcript
-content.
+A privacy-preserving overlap audit of the 23 substantive chunks found zero
+shared message-UUID pairs, zero repeated prompt-and-timestamp pairs, zero
+identical three-prompt prefixes, and zero identical contiguous three-prompt
+runs. Prompt text was normalized and hashed in memory; neither text nor hashes
+were retained. These checks address regenerated identifiers and copied prefixes
+without publishing transcript content.
 
 The substantive Claude record windows are 2026-06-13T09:28:39.036Z through
 2026-08-15T14:51:09.743Z for AgentSecurityComp and
@@ -142,16 +157,16 @@ conversation groups, not 127 top-level files.
 
 ### Codex inventory
 
-The refreshed content search found 69 rollout files at fix-round audit time.
-First metadata records classify them as follows:
+The frozen 2026-08-16T08:06:05Z content search found 70 rollout files. First
+metadata records classify them as follows:
 
 | Classification | Root rollouts | Child rollouts | Count treatment |
 | --- | ---: | ---: | --- |
-| AgentSecurityComp working directory | 11 | 21 | Case candidates |
+| AgentSecurityComp working directory | 11 | 22 | Case candidates |
 | ARC-AGI-3 working directory | 5 | 23 | Case candidates |
 | Other working directory with a text match | 5 | 4 | Excluded as incidental |
 
-One AgentSecurityComp root and ten of its children belong to the current
+One AgentSecurityComp root and eleven of its children belong to the current
 paper-design and provenance-audit lineage. After excluding that lineage, the
 historical Codex case corpus contains 15 root sessions and 34 linked child
 sessions: 10 roots and 11 children for AgentSecurityComp, and 5 roots and 23
@@ -164,10 +179,11 @@ factory, CortexControl, and a generated Codex conversation directory. They may
 contain imported, continued, or cross-project references, but no direct case
 attribution was established in this inventory, so all nine are excluded.
 Legacy history mode is treated as storage metadata, not as evidence of a new
-conversation. Every one of the 69 rows, including all inclusions and exclusions,
-is mapped in the companion source map. Its `canonical_conversation_id` applies
-the explicit `session_id` / ultimate-parent / own-ID rule above; the 15 retained
-roots have 15 distinct canonical identifiers.
+conversation. The compact canonical map below applies the explicit `session_id`
+/ ultimate-parent / own-ID rule; the 15 retained roots have 15 distinct
+canonical identifiers. The 34 historical children are trace-only, the 12
+current paper-audit records are excluded, and the nine incidental working-
+directory matches are excluded.
 
 ### OpenCode/DeepSeek inventory
 
@@ -188,39 +204,59 @@ parent totals as a measure of independent work. The sessions used OpenCode
 models labelled `big-pickle` and `deepseek-v4-flash-free`. Unequal timing,
 models, tasks, and budgets rule out a balanced provider comparison.
 
-### Reproducible source map
+### Canonical evidence-source map
 
-The auditable row-level map is
-`paper/evidence/ai-agents-research-source-map.tsv`; its derivation utility is
-`paper/evidence/build_ai_agents_source_map.py`. The map contains 1,356 data rows
-and these columns: provider, case, record ID, record class, privacy-preserving
-source locator, canonical parent ID, canonical conversation ID, disposition,
-and reason. It includes all 1,269 Claude JSONL files, all 69 Codex search hits,
-all 15 matching OpenCode sessions, both repository revisions, and the approved
-testimony source.
+This compact, privacy-safe map lists only the included canonical conversation
+or parent-session groups observed in the frozen mutable-store snapshot. Locators
+resolve against the private read-only bases in the snapshot table above.
 
-Source locators resolve against these private read-only bases:
+| Provider | Case | Canonical ID | Source locator | Disposition |
+| --- | --- | --- | --- | --- |
+| Claude Code | ARC-AGI-3 | `2c317a12-f48d-4a3f-8ddc-8b48615ad490` | `claude:ARC-AGI-3/2c317a12-f48d-4a3f-8ddc-8b48615ad490.jsonl` | included-canonical |
+| Claude Code | ARC-AGI-3 | `32add479-d332-44f0-ae03-8ed849c86377` | `claude:ARC-AGI-3/32add479-d332-44f0-ae03-8ed849c86377.jsonl` | included-canonical |
+| Claude Code | ARC-AGI-3 | `573f46bd-f297-4c15-8028-9676d148ba1b` | `claude:ARC-AGI-3/573f46bd-f297-4c15-8028-9676d148ba1b.jsonl` | included-canonical |
+| Claude Code | ARC-AGI-3 | `626c7722-330b-4125-b1de-439d21bef0a0` | `claude:ARC-AGI-3/626c7722-330b-4125-b1de-439d21bef0a0.jsonl` | included-canonical |
+| Claude Code | ARC-AGI-3 | `de216582-726c-415f-9dd5-71c05fb4d2c3` | `claude:ARC-AGI-3/de216582-726c-415f-9dd5-71c05fb4d2c3.jsonl` | included-canonical |
+| Claude Code | AgentSecurityComp | `0385f350-248c-431f-a9f2-1604c96b5ce2` | `claude:AgentSecurityComp/0385f350-248c-431f-a9f2-1604c96b5ce2.jsonl` | included-canonical |
+| Claude Code | AgentSecurityComp | `42258c4d-4471-458b-a3c0-757cf6791024` | `claude:AgentSecurityComp/42258c4d-4471-458b-a3c0-757cf6791024.jsonl` | included-canonical |
+| Claude Code | AgentSecurityComp | `a809e3ce-6bd5-4997-914a-1100fe705967` | `claude:AgentSecurityComp/a809e3ce-6bd5-4997-914a-1100fe705967.jsonl` | included-canonical |
+| Claude Code | AgentSecurityComp | `d02227a2-1ed0-471c-abb2-994217974264` | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl` | included-canonical |
+| Claude Code | AgentSecurityComp | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569` | `claude:AgentSecurityComp/f1ef3669-1d5f-4caf-ab9b-c4eedf643569.jsonl` | included-canonical |
+| Codex | ARC-AGI-3 | `019ed1da-2605-7a63-b99e-69db1f12161b` | `codex:2026/06/16/rollout-2026-06-16T21-13-15-019ed1da-2605-7a63-b99e-69db1f12161b.jsonl` | included-canonical |
+| Codex | ARC-AGI-3 | `019ed98f-89e6-7530-bcf1-c453709e4434` | `codex:2026/06/18/rollout-2026-06-18T09-08-43-019ed98f-89e6-7530-bcf1-c453709e4434.jsonl` | included-canonical |
+| Codex | ARC-AGI-3 | `019ed98f-8a24-7bb2-8aa4-1f14fd24088b` | `codex:2026/06/18/rollout-2026-06-18T09-08-43-019ed98f-8a24-7bb2-8aa4-1f14fd24088b.jsonl` | included-canonical |
+| Codex | ARC-AGI-3 | `019fce51-2e83-73b1-92d9-2a24d75c102a` | `codex:2026/08/04/rollout-2026-08-04T22-47-34-019fce51-2e83-73b1-92d9-2a24d75c102a.jsonl` | included-canonical |
+| Codex | ARC-AGI-3 | `01a005ec-999c-7573-9626-e89e51ad4f6b` | `codex:2026/08/15/rollout-2026-08-15T17-56-27-01a005ec-999c-7573-9626-e89e51ad4f6b.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019ed259-af2a-7020-9160-0b55c823dac1` | `codex:2026/06/16/rollout-2026-06-16T23-32-33-019ed259-af2a-7020-9160-0b55c823dac1.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019ed25a-827c-7202-81f7-f635cc301017` | `codex:2026/06/16/rollout-2026-06-16T23-33-27-019ed25a-827c-7202-81f7-f635cc301017.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019ed98f-8976-7c43-a9c1-5ca274e2de36` | `codex:2026/06/18/rollout-2026-06-18T09-08-43-019ed98f-8976-7c43-a9c1-5ca274e2de36.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019fad04-b6b5-7370-b5ac-bfbf870e1c16` | `codex:2026/07/29/rollout-2026-07-29T11-36-35-019fad04-b6b5-7370-b5ac-bfbf870e1c16.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019fad19-326f-7503-90a8-0df3753259d3` | `codex:2026/07/29/rollout-2026-07-29T11-58-57-019fad19-326f-7503-90a8-0df3753259d3.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019fad7d-427a-7d00-9818-33698703ce2c` | `codex:2026/07/29/rollout-2026-07-29T13-48-15-019fad7d-427a-7d00-9818-33698703ce2c.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019fad85-1933-7f80-804a-e3395635559b` | `codex:2026/07/29/rollout-2026-07-29T13-56-48-019fad85-1933-7f80-804a-e3395635559b.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019fce03-3854-79b1-a5ed-c0cd803a0575` | `codex:2026/08/04/rollout-2026-08-04T21-22-25-019fce03-3854-79b1-a5ed-c0cd803a0575.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `019fce29-2147-70b1-a1f1-054e020cd692` | `codex:2026/08/04/rollout-2026-08-04T22-03-49-019fce29-2147-70b1-a1f1-054e020cd692.jsonl` | included-canonical |
+| Codex | AgentSecurityComp | `01a005ed-b434-76a0-95e0-5fe82f4dc768` | `codex:2026/08/15/rollout-2026-08-15T17-57-39-01a005ed-b434-76a0-95e0-5fe82f4dc768.jsonl` | included-canonical |
+| OpenCode/DeepSeek | ARC-AGI-3 | `ses_012d743fcffeBoq8D4McmfGQTH` | `opencode:session/ses_012d743fcffeBoq8D4McmfGQTH` | included-canonical |
+| OpenCode/DeepSeek | ARC-AGI-3 | `ses_019d88ca1ffe3iOYWxPRUUcfAA` | `opencode:session/ses_019d88ca1ffe3iOYWxPRUUcfAA` | included-canonical |
+| OpenCode/DeepSeek | ARC-AGI-3 | `ses_0272a2568ffeSoBW8bBagLOznD` | `opencode:session/ses_0272a2568ffeSoBW8bBagLOznD` | included-canonical |
+| OpenCode/DeepSeek | AgentSecurityComp | `ses_019da7b0effeSVV74ieACHE15I` | `opencode:session/ses_019da7b0effeSVV74ieACHE15I` | included-canonical |
+| OpenCode/DeepSeek | AgentSecurityComp | `ses_0231a2013ffeeQefgINsuGs4Is` | `opencode:session/ses_0231a2013ffeeQefgINsuGs4Is` | included-canonical |
 
-- `claude:AgentSecurityComp/` resolves under
-  `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-AgentSecurityComp/`;
-- `claude:ARC-AGI-3/` resolves under
-  `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-ArcAGI3/`;
-- `codex:` resolves under `/Users/ahmed/.codex/sessions/`;
-- `opencode:session/` resolves to the `session.id` row in
-  `/Users/ahmed/.local/share/opencode/opencode.db`; and
-- `git:`, `brief:` locators resolve to the pinned repositories and approved
-  task brief already identified in this ledger.
-
-Rebuild the map with `python3 paper/evidence/build_ai_agents_source_map.py`.
-The utility reads only Claude/Codex metadata plus normalized prompt hashes and
-non-sensitive OpenCode session columns. It never writes transcript content or
-prompt hashes to the manifest.
+| Exclusion or deduplication disposition | Snapshot treatment |
+| --- | --- |
+| Claude substantive continuations | 13 excluded and mapped to the 10 Claude canonical groups above |
+| Claude SDK/bridge records, subagents, journals, scratchpads, and tool-result derivatives | Trace-only; excluded from conversation counts |
+| Codex historical children | 34 trace-only children linked through the canonical-ID rule |
+| Codex current paper-audit lineage | 12 records excluded, including root `01a0091e-6c06-72e0-ba1c-e5499447d566` |
+| Codex incidental working-directory matches | 9 records excluded from both cases |
+| OpenCode specialists | 10 trace-only sessions linked by `session.parent_id` |
 
 ### Deduplicated source summary
 
 | Source | Independent conversation unit retained | Derivative records retained for traceability | Primary use |
 | --- | ---: | ---: | --- |
-| Claude Code | 10 canonical conversation groups | 13 continuation chunks and 1,246 trace-only records | Primary transcript evidence across both cases |
+| Claude Code | 10 canonical conversation groups | 13 mapped substantive continuations; other derivatives remain trace-only without an exhaustive row manifest | Primary transcript evidence across both cases |
 | Codex | 15 historical case roots | 34 linked historical children | Supplementary challenge, reset, and implementation evidence |
 | OpenCode/DeepSeek | 5 parents | 10 linked specialists | Limited supplementary evidence |
 | Git repositories | 2 pinned revisions | Commit history and artifacts | Chronology, implementation, and revision checks |
@@ -296,22 +332,22 @@ superseded episodes remain in the ledger.
 
 ## Quote ledger
 
-No transcript quotation is selected in this provenance-only pass. A quote may
-be admitted only after a source-level context check, privacy review, and an
-`authorized` status under the author's project-level permission for short local
-transcript quotations. Its private trace must record case, provider, parent
-session, child session when applicable, timestamp, speaker, exact source
-location, topic, surrounding context, redaction note, evidence class,
-authorization status, and manuscript use. Withheld or revoked authorization
-blocks admission. Quotes may not be used as substitutes for code, live
-evaluation, or literature evidence.
+No transcript quotation is selected in this provenance-only pass. Under the
+approved design authority cited in the privacy rules, a quote may be admitted
+only if it satisfies every stated relevance, brevity, context, privacy, and
+secret-removal constraint, passes a source-level context check and privacy
+review, and has an `authorized` status. Its private trace must record case,
+provider, parent session, child session when applicable, timestamp, speaker,
+exact source location, topic, surrounding context, redaction note, evidence
+class, authorization status, and manuscript use. Withheld or revoked
+authorization blocks admission. Quotes may not be used as substitutes for
+code, live evaluation, or literature evidence.
 
 ## Descriptive measures and derivations
 
 | Measure | Derivation at this cutoff | Interpretation limit |
 | --- | --- | --- |
 | Claude canonical conversation groups | 5 AgentSecurityComp + 5 ARC-AGI-3 = 10 | Metadata- and overlap-deduplicated groups, not hypotheses or achievements |
-| Claude raw record map | 23 substantive chunks + 104 top-level tool derivatives + 1,113 subagents + 29 journals = 1,269 | Every record has a source locator and disposition in the TSV map |
 | Claude excluded continuations | 13 of 23 substantive chunks | Linked to the 10 canonical groups by legacy or bridge identifiers |
 | Historical Codex roots | 10 AgentSecurityComp + 5 ARC-AGI-3 = 15 | Current paper-audit lineage and incidental matches excluded |
 | Historical Codex children | 11 AgentSecurityComp + 23 ARC-AGI-3 = 34 | Linked to parents; not independent conversations |
@@ -350,11 +386,13 @@ after the competitions conclude and the supporting records are checked.
 
 - Live Kaggle submission histories, exact statuses, scores, and leaderboard
   records were not queried in this provenance task.
-- Claude classification and canonical groups are reproducible from entrypoint,
-  prompt-source, legacy-session, bridge, and path metadata. The hashed overlap
-  audit detects exact copied prompt runs of three or more, but paraphrased or
-  shorter overlap remains possible; the value 10 therefore describes canonical
-  conversation groups under this stated rule, not independent intellectual work.
+- Claude classification and canonical groups were derived at the stated store
+  snapshot from entrypoint, prompt-source, legacy-session, bridge, and path
+  metadata. The hashed overlap audit detects exact copied prompt runs of three
+  or more, but paraphrased or shorter overlap remains possible; the value 10
+  therefore describes canonical conversation groups under this stated rule,
+  not independent intellectual work or a promise that a later mutable-store
+  extraction will match.
 - The nine Codex matches from other working directories were conservatively
   excluded; their exact imported, continued, or incidental provenance was not
   adjudicated message by message.
