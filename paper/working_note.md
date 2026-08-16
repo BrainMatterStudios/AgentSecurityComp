@@ -3,12 +3,16 @@
 **Working Note — AI Agent Security: Multi-Step Tool Attacks (Kaggle competition 134815)**
 
 - **Author:** Ahmed Mobasher (sole author)
-- **Evidence baseline:** `aicomp-sdk 3.1.2`; evidence cutoff 2026-08-16; live Kaggle records
-  retrieved 2026-08-16T10:56:15Z. Source hashes and the audited repository revision are recorded
-  in `paper/evidence/working-note-claim-ledger.md`.
+- **Evidence baseline:** `aicomp-sdk 3.1.2`; current distributed gateway listed
+  2026-08-16T12:09:57Z; frozen live Kaggle records retrieved
+  2026-08-16T10:56:15Z. Source hashes and acquisition limits are recorded in
+  `paper/evidence/working-note-claim-ledger.md`.
 - **Document status:** Author-review draft. Completed, `ERROR`, and `PENDING` submissions are kept
-  distinct. Four L31 chainpack rows were still `PENDING` at the cutoff and remain **Open
-  hypotheses**; this note assigns them no outcome.
+  distinct. Four L31 chainpack rows were `PENDING` at the frozen cutoff. A separately
+  dated 2026-08-16T11:59:48Z recheck found one complete at 73.605 and three still
+  pending. At 2026-08-16T12:44:16Z, all four were complete at 79.985, 79.365,
+  73.605, and 54.375; none of these later states is silently substituted for the
+  frozen table.
 - **AI-use disclosure:** §2.5. Ahmed Mobasher retains responsibility for every claim.
 
 ---
@@ -19,8 +23,9 @@ Multi-step agent-security benchmarks must connect three things that do not autom
 what evaluator source code permits, what an attack does in a local replica, and what the live
 evaluator scores. This note studies that connection in the JED tool-attack benchmark, where
 candidate message chains are replayed against guarded agents and scored for four predicate
-families. The method combines a pinned-source audit of `aicomp-sdk 3.1.2`, controlled local
-measurements, and a status-preserving catalogue of live Kaggle submissions through 2026-08-16.
+families. The method combines a pinned-source audit of `aicomp-sdk 3.1.2`, retained local
+experiment records at their actual provenance tier, and a status-preserving catalogue of live
+Kaggle submissions through 2026-08-16.
 Claims are classified as **Source facts**, **Local measurements**, **Live observations**,
 **Triangulated findings**, **Inferences**, **Testimony**, or **Open hypotheses**.
 
@@ -99,13 +104,17 @@ its behavior. Section 2.4 states how these threats constrain the later findings.
 ### 2.1 Evidence sources and audit boundary
 
 The analysis joins three evidence streams. First, a **source audit** reads the pinned SDK and
-gateway paths whose hashes appear in the claim ledger. Second, **local experiments** exercise
+the current Kaggle-distributed gateway whose hashes appear in the claim ledger. In inline
+citations, **distributed gateway** means the 43,768-byte file listed by Kaggle with timestamp
+2026-08-05T17:49:56.517Z and SHA-256 `4fec028b...`; the different 35,088-byte `comp/...`
+gateway is cited only as a historical repository snapshot. Distribution identity does not prove
+deployment identity for a particular live run. Second, **local experiments** exercise
 competition models and SDK components outside the live evaluator and record behavior, predicate
 firings, tool-call counts, token counts, and configuration. Third, the **live catalogue** preserves
 Kaggle submission ID, timestamp, status, score, configuration, and available control. This note
 uses the 2026-08-16 cutoff; later scores require a new dated revision.
 
-The streams have different authority. Source establishes visible mechanics, not unobserved
+The streams have different authority. Source establishes distributed mechanics, not unobserved
 runtime behavior. Local execution measures its own environment, not hidden hardware. Live rows
 establish only the returned outcome for that submission. A visible score on an `ERROR` row is not
 a completed result, and a `PENDING` row has no outcome. Competitor artifacts establish what was
@@ -136,7 +145,8 @@ For new transfer claims, the desired protocol is:
 
 1. derive the proposed mechanism and falsification condition from pinned source;
 2. pass **Gate 1**, a controlled local behavior/count test with model, software revision,
-   configuration, seeds or repetitions, and measured outputs recorded;
+   configuration, model hash or otherwise bounded model provenance, seeds or repetitions, raw
+   outputs, and measured outputs recorded;
 3. pass **Gate 2**, a completed live submission compared with a pre-identified, sufficiently
    matched control; and
 4. reconcile the gates, promoting only the proposition jointly supported by them to a
@@ -150,6 +160,12 @@ their wording is limited to **Source fact**, **Local measurement**, **Live obser
 **Inference**, **Testimony**, or **Open hypothesis** as warranted. Local wall time is never
 assumed to transfer to the hidden evaluator.
 
+The retained hop-pack and continuation-forge counts do not satisfy that prospective Gate 1.
+Their scripts, named configurations, seeds, and contemporaneous commit or handoff assertions
+survive, but raw stdout and GGUF hashes do not. This note therefore attributes those counts to
+the **contemporaneous project record** rather than presenting them as newly reproducible local
+measurements; the ledger gives the exact retained provenance.
+
 ### 2.4 Threats to validity
 
 | Threat | Constraint on interpretation |
@@ -161,7 +177,7 @@ assumed to transfer to the hidden evaluator.
 | Imperfect controls | Routing, candidate count, model mix, timing, or configuration sometimes differ. These differences are disclosed, and unmatched rows support only narrower observations. |
 | Unknown platform aggregation | Public totals do not expose how model/guardrail rows are combined. The note does not infer a sum, mean, weighting, or private-row contribution. |
 | Competitor-version uncertainty | Four preserved public artifacts are pinned to exact repository blobs in §5.2, but their Kaggle script-version numbers were not preserved, and the snapshots do not establish dependencies, unpublished submissions, or linkage to a leaderboard score. Other inspected-but-unfrozen artifacts support no corpus-level claim. Named ports are reproduction attempts, not proof of frontier parity. |
-| Local-model provenance | The evidence snapshot does not hash the local GGUF model files or establish byte-for-byte parity between the local replica and live target models. Local behavior and counts therefore remain local measurements. |
+| Local-output and model provenance | The retained probes name configurations and seeds, but raw stdout and GGUF hashes were not preserved. Their tool-call counts are contemporaneous project-record assertions, not reproducible Gate-1 measurements, and do not establish byte parity with live targets. |
 | Absent private source and scores | The private-guardrail implementation and component-level private scores are unavailable. A registry identifier and aggregate public score expose no private allow/deny rule, state, provenance policy, or efficacy. |
 
 ### 2.5 AI-use disclosure
@@ -207,17 +223,17 @@ mapping, then deduplicates the returned hashes across findings
 discarded before either signature is attached. A validated finding normally receives a valid
 `score_cell_signature` constructed from tool events only, while its richer diagnostic signature
 also receives egress and user messages
-(`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:652-679`). The narrower fallback
+(`distributed gateway:825-835`). The narrower fallback
 therefore describes compatibility behavior, not a score change for ordinary gateway-generated
 findings. A predicate-less trace contributes neither severity weight nor novelty, and one finding
 contributes no more than one unique-cell bonus.
 
 The gateway's default model list is `{gpt_oss, gemma}`. It always configures the public guardrail
 and adds a private guardrail only when its identifier is configured
-(`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:121-136,223-234`). It emits one
+(`distributed gateway:129-144,231-242`). It emits one
 attack-score row per configured `(model, guardrail)` pair; with both guardrails configured, these
 are the familiar four rows
-(`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:687-698,757-778,802-831`).
+(`distributed gateway:886-998`).
 This source establishes the row scores, not how the competition platform later aggregates them.
 
 ### 3.2 The predicates
@@ -239,22 +255,30 @@ severity contributions, while still carrying at most one novelty hash (§3.1).
 
 ### 3.3 The runtime budget is the real scorer
 
-For each model, the pinned gateway creates one 9,000-second generation deadline and then creates a
-fresh 9,000-second deadline **for each configured guardrail replay**
-(`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:58-64,734-768`). With public and
-private guardrails configured, that is one generation deadline plus two separately timed replays
-per model, not one shared 18,000-second generation-and-replay pool. The official
-[Evaluation page](https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/overview/evaluation),
-however, describes an independent 18,000-second budget for each model. We preserve that prose and
-the pinned source behavior as an unresolved documentation/source inconsistency rather than infer
-which wording governs every run.
+The current distributed gateway sets an **8,750-second internal budget** separately for attack
+generation and for each configured guardrail replay. Each phase is also enclosed by an outer
+watchdog of 8,930 seconds: 8,750 seconds plus 5 seconds of environment-operation grace and a
+175-second response buffer (`distributed gateway:59-68,904-950`). With public and private
+guardrails configured, the source describes one generation phase plus two separately timed
+replays per model.
 
-The deadline wrapper returns a result only if the whole wrapped operation finishes in time; an
-expiry raises `ModelEvaluationTimedOut`, which the gateway converts to `INVALID_SUBMISSION`
-(`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:271-300,785-789`). Replay itself
-iterates up to the finding cap without an internal time break
-(`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:587-608`). The earlier draft's
-universal "hard-void ceiling" language went beyond this source. Empirically, one completed
+Timeout is not a single all-or-nothing state. During generation, the gateway repeatedly checks
+the internal deadline and, on expiry, cancels the attack session but returns already completed,
+gateway-observed candidates (`distributed gateway:537-546,559-676`). During replay, it checks the
+internal deadline around candidate work and can return the findings already validated, their
+partial score, `timed_out=true`, and `candidates_replayed` (`distributed gateway:741-868`). Only
+failure of the whole phase operation to return before the outer watchdog raises
+`ModelEvaluationTimedOut`, which this caller converts to `INVALID_SUBMISSION`
+(`distributed gateway:271-304,904-974`). Thus `COMPLETE` does not imply that no internal deadline
+was reached, and a timeout does not universally imply a void.
+
+Official prose supplies two more descriptions. The
+[Data page](https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/data)
+says the two models run sequentially with an independent 9,000-second budget each, while the
+[Evaluation page](https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/overview/evaluation)
+says 18,000 seconds per model. The note preserves those statements alongside the current
+distributed 8,750-second internal/8,930-second outer mechanics. It does not infer which source
+version governed any particular live submission. Empirically, one completed
 gpt-only forced-8-hop sweep returned 42.7–47.9 for N ∈ {150, 350, 550, 800}; that bounded
 observation shows neither monotonic gain nor a timeout in those four runs, but it does not identify
 a hardware ceiling or predict other evaluator configurations.
@@ -262,7 +286,9 @@ a hardware ceiling or predict other evaluator configurations.
 ### 3.4 Per-model adaptive sizing
 
 Our implementation sizes the returned candidate set from timed trials on the evaluation path,
-then clamps cumulative measured latency to a fraction (FRAC) of the 9,000-second replay deadline.
+then clamps cumulative measured latency to a configured fraction (FRAC) of the phase budget it was
+written against. Historical builders used 9,000 seconds; the current distributed gateway's
+internal phase budget is 8,750 seconds.
 This avoids treating local wall time as portable. FRAC ≈ 0.97 was the strongest tested setting,
 not a universal optimum or a claim about evaluator hardware; a larger fraction simply leaves less
 deadline margin (§5, §7).
@@ -394,10 +420,12 @@ unpublished submission or leaderboard score.
 
 Two of these four frozen artifacts contain the **commitment-forge** pattern: a candidate fabricates
 a completed model turn whose reasoning channel contains a full plan and an explicit commitment to
-continue. In our separate port on the fresh-environment replay path (§2.2), the pattern elicited one
-`http.post` per named endpoint across hops: 4/4 posts at four endpoints and 6/6 at six on the gpt
-replica, versus about one for our earlier empty-close forge. That establishes local behavior for
-our port, not behavior or prevalence across the field.
+continue. The contemporaneous project record says that our separate port on the
+fresh-environment replay path elicited one `http.post` per named endpoint across hops: 4/4 posts
+at four endpoints in three repetitions and 6/6 at six on the gpt replica, versus about one for
+our earlier empty-close forge. The probe code and commit record survive, but its raw stdout and
+GGUF hash do not. The counts therefore document what the project recorded, not a reproducible
+Gate-1 measurement, field prevalence, or live behavior.
 
 On the board, the L24 gpt-only forge produced a modest one-off increase over its same-batch
 gpt-only control (§7). It does not establish a reasoning-row or hardware ceiling. More decisively,
@@ -414,8 +442,10 @@ branch. Neither frozen artifact contains our later Gemma-specific continuation f
 observation about two exact snapshots, not a claim about field prevalence or frontier submissions.
 In our separate local work, `gemma` multiposted under a different, model-specific device — a
 control-token continuation forge that fabricates one completed tool cycle in Gemma's own turn
-format. On the replica this produced **3 posts/candidate at k=4** and 2 at k=3
-(**Local measurement**, 2026-08-10).
+format. The contemporaneous project record reports **3/3 posts at k=4** and **2/2 at k=3**
+on the named replica configuration (2026-08-10). The retained gate names seeds 123 and 1, but
+raw stdout and the GGUF hash are absent; these denominators are posts per candidate, not numbers
+of repetitions, and the claim is not promoted to a reproducible local measurement.
 
 All five L25 rows returned `COMPLETE`. The Gemma-only N=600 forge scored 34.000 versus 27.000 for
 its same-batch single-post isolate (**Live observations** 55418165 and 55418171), an initial
@@ -433,8 +463,8 @@ both-board rows did not have a same-batch clean both-board control, so the resul
 format interference. They are consistent with a model-specific format degrading transfer, but do
 not identify that cause. L25's native-Gemma isolate and dual-forge rows use a different mechanism
 and therefore do not close this causal question. Per-model routing also remains unvalidated: L29
-scored 85.675, below the stronger 88.730 `COMPLETE` historical control, and the four L31 chainpack
-routes are still `PENDING`. Cross-model interference is therefore an **Inference**, not a measured
+scored 85.675, below the stronger 88.730 `COMPLETE` historical threshold, and the four L31
+chainpack routes were `PENDING` at the frozen cutoff. Cross-model interference is therefore an **Inference**, not a measured
 mechanism or a claim about platform aggregation.
 
 ### 5.5 Structurally blocked on the inspected public-SDK path
@@ -448,7 +478,7 @@ mechanism or a claim about platform aggregation.
 - Multiple tool calls per decode — rejected by response parsing.
 - Raising the replay hop cap via reset options — ignored by the gateway, which does not forward
   reset arguments and caps interaction and replay hops at its configured default
-  (`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:386-407,621-632`).
+  (`distributed gateway:405-435,749-775`).
 
 ---
 
@@ -481,7 +511,7 @@ relations below; those relations come from the pinned code citations in §4.
    timing rules, aggregation semantics, status handling, and which components remain hidden. The
    gateway exposes only the private identifier `persistent_provenance_private` and the module/class
    names `aicomp_private_guardrails.persistent_provenance.Guardrail`
-   (`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:172-175,207-234`); these disclose
+   (`distributed gateway:143-242`); these disclose
    no implementation behavior. A contract can define interfaces and reporting without revealing a
    hidden defense.
 6. **Require evidence-gated comparisons.** Pre-register the mechanism, falsification condition,
@@ -522,9 +552,9 @@ historical comparator for later ladders. These roles are kept distinct below.
 | L26 | 55444083, 55444087, 55444093, 55444097, 55444101 | `COMPLETE` | Gemma forge vs same-batch single at N=900; forge N=1200; two named exact-reproduction attempts | 35.000 vs 34.605; 35.375; 77.670 / 83.115 | The matched follow-up was near-null and larger N added no demonstrated scalable headroom. The named reproductions stayed below their stated 134 aim, so frontier reproduction failed. |
 | L27 | 55469249, 55469255, 55469264, 55469273, 55469280 | `COMPLETE` | Probe-hop variants vs same-batch no-hop control | 50.295 / 52.195 / 54.920 / 57.620 vs 88.730 | Every probe-hop variant lost decisively to the strongest recent completed same-batch control. |
 | L28 | 55493289, 55493299, 55493307, 55493315 | `COMPLETE` | Reasoning-format variants vs same-batch CPU reference | 83.415 / 77.400 / 85.410 vs 83.325 | The best variant exceeded its same-batch reference once, but stayed below the stronger 88.730 historical completed control; no general reasoning-format lever was established. |
-| GPU diagnostics | 55500552, 55525506, 55525507, 55525533, 55525536 | `COMPLETE` | GPU block/probe/decode routes; historical CPU reproduction comparator 83.115 | 0.000 / 0.000 / 34.200 / 50.175 / 32.895 | The tested GPU routes spanned 0.000–50.175 and did not show a matched GPU advantage. Comparisons to 83.115 are historical, not same-batch hardware controls. |
-| L29 | 55530790 | `COMPLETE` | Per-model split: gpt K8 hop-pack, Gemma single-post; no same-batch control | 85.675 | Below the 88.730 completed historical control. The row does not validate routing as a general improvement. |
-| L31 chainpack | 55538814, 55538829, 55538848, 55538855 | `PENDING` | 2x8, 3x8, 4x8, and 4x4 chainpack variants; no scored control yet | — | Open hypotheses. The API returned no score or outcome by the cutoff. |
+| GPU diagnostics | 55500552, 55525506, 55525507, 55525533, 55525536 | `COMPLETE` | GPU block/probe/decode routes; historical CPU reproduction threshold 83.115 | 0.000 / 0.000 / 34.200 / 50.175 / 32.895 | The named GPU decode arms missed the stated 83.115 historical threshold. Because no same-batch hardware control exists, these rows do not identify a causal CPU-versus-GPU effect. |
+| L29 | 55530790 | `COMPLETE` | Per-model split: gpt K8 hop-pack, Gemma single-post; historical L27 threshold 88.730; no same-batch control | 85.675 | The arm missed its historical threshold. This unmatched comparison does not causally reject routing or estimate a routing effect. |
+| L31 chainpack | 55538814, 55538829, 55538848, 55538855 | `PENDING` | 2x8, 3x8, 4x8, and 4x4 chainpack variants; no scored control yet | — | Open at the frozen cutoff. A later status-only recheck is reported below rather than substituted into this table. |
 | L31 fast-emit | 55538875 | `COMPLETE` | Fast-emit K8; listed historical L29 comparator | 25.145 | A completed negative relative to 85.675; it did not establish a high-ceiling backup. |
 
 ### 7.1 What the negative results localise
@@ -535,9 +565,10 @@ The catalogue supports six bounded failure categories rather than a single unive
    live score, so local tool-call counts were not sufficient evidence of transfer.
 2. **Matched-control erosion.** The L25 Gemma positive narrowed to near-null in the matched L26
    follow-up and did not show scalable headroom; L27's variants lost to their same-batch control.
-3. **Hardware assumptions.** L23 completed at every tested N without monotonic improvement, while
-   the GPU routes were negative or weak. Together these results reject the tested levers, not prove
-   a universal evaluator-hardware ceiling.
+3. **Hardware assumptions.** L23 completed at every tested N without monotonic improvement. The
+   GPU arms missed a historical threshold but lacked a same-batch hardware control. Together these
+   results fail to establish the proposed levers; they do not identify a causal hardware effect or
+   prove a universal evaluator-hardware ceiling.
 4. **Model-format interference.** A reasoning-specific continuation format used across targets is
    a plausible explanation for weaker both-board transfer, but the available controls do not
    isolate that cause or platform aggregation.
@@ -553,8 +584,18 @@ The live results do not identify a single cause for the transfer gap. Run varian
 either target, routing, model-specific message formats, and unobserved evaluator conditions remain
 possible contributors. Public scores also do not identify whether target rows are combined by sum,
 mean, or another rule, so this note does not decompose dual-target totals or infer platform
-aggregation. The four L31 chainpack rows remain `PENDING`; they are unresolved measurements, not
-evidence for hidden guardrail behavior, a hardware ceiling, or a frontier mechanism.
+aggregation. At the frozen cutoff the four L31 chainpack rows were `PENDING`; they were unresolved
+measurements, not evidence for hidden guardrail behavior, a hardware ceiling, or a frontier
+mechanism.
+
+**Appended status-only observation.** At 2026-08-16T11:59:48Z, ref 55538848 had become
+`COMPLETE` at 73.605. Refs 55538814, 55538829, and 55538855 remained `PENDING`, while fast-emit ref
+55538875 remained `COMPLETE` at 25.145. The completed chainpack row has no matched control, so this
+update records an outcome without establishing a general chainpack effect. At a second status-only
+recheck, 2026-08-16T12:44:16Z, all four chainpack rows were `COMPLETE`: refs 55538814, 55538829,
+55538848, and 55538855 scored 79.985, 79.365, 73.605, and 54.375 respectively. All remain below
+the completed 88.730 L27 control used as a historical threshold, but the comparison is unmatched
+and therefore neither estimates a causal chainpack effect nor establishes a final competition outcome.
 
 ---
 
@@ -562,34 +603,39 @@ evidence for hidden guardrail behavior, a hardware ceiling, or a frontier mechan
 
 ### 8.1 Frozen evidence snapshot
 
-Reproduction has two revision anchors. The mechanical/live evidence was audited at repository
-revision `2ed68e80705906dcbdf4f707edf8c37089ce0906` on `codex/paper-manuscripts`; the dated ledger is
-`paper/evidence/working-note-claim-ledger.md`, SHA-256
-`24d6ea8664bd2c5634a031b0a7a2a452a93ae23262152ddae6d1cd911445635a`. The manuscript itself
-continues to advance, so a distributed copy should be cited by the immutable commit that contains
-that copy, not by the moving branch name. Later manuscript commits do not move the evidence cutoff
-unless they explicitly update the ledger hash, source hashes, retrieval timestamp, and affected
-claim dispositions.
+Reproduction has two revision anchors. This audit began at manuscript base
+`588978e9d5ea8bd0365bbb60e812ba77cff9f84c` on `codex/paper-manuscripts`; the dated ledger is
+`paper/evidence/working-note-claim-ledger.md`. A distributed copy should be cited by the immutable
+commit that contains both manuscript and ledger, not by the moving branch name or by a self-hash
+embedded inside the ledger. Later commits do not move the frozen evidence cutoff unless they
+explicitly append a dated state and update affected claim dispositions.
 
 The snapshot uses `aicomp-sdk 3.1.2`, evidence cutoff 2026-08-16, and live records retrieved at
 2026-08-16T10:56:15Z. At that instant, L31 chainpack refs 55538814, 55538829, 55538848, and 55538855
-were `PENDING` with no score; this revision does not assign them a later outcome. The four primary
-source hashes are:
+were `PENDING` with no score. The 2026-08-16T11:59:48Z recheck is appended separately in §7.2.
+The later 2026-08-16T12:44:16Z all-complete state is appended there as a second observation.
+The audited source hashes are:
 
 | Source | SHA-256 |
 |---|---|
 | `comp/aicomp_sdk/scoring.py` | `13a0969ea6c64b257c46d47490b4259ade3a4965f19d2d6c6fe0ed151f618d4f` |
 | `comp/aicomp_sdk/core/predicates.py` | `9d9de5118d8883a0074a5405ed85cf2dec3f68e8516908cbc48f409e3ba56f37` |
 | `comp/aicomp_sdk/guardrails/optimal.py` | `6724fedf7bbf3e67dfcdd564ba8a73463e0f783d5c84e0a70dceff40c1bc61ed` |
-| `comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py` | `00ccb933420960f6919b6001f985a7fe916fb757e2710e598cfab4ba3a7afd11` |
+| Current Kaggle distribution `kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py` | `4fec028b35894bd1576e08af2c3e355db04d76c67fa25c8f7e949bc69ad18c3f` |
+| Historical repository snapshot `comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py` | `00ccb933420960f6919b6001f985a7fe916fb757e2710e598cfab4ba3a7afd11` |
 
 The SDK files are reproducible from the public
 [`aicomp-sdk 3.1.2`](https://pypi.org/project/aicomp-sdk/3.1.2/) wheel via
-`python -m pip install aicomp-sdk==3.1.2`; the three SDK hashes above match that wheel. The gateway
-is not in the PyPI package. Kaggle lists its path only in the authenticated, rule-gated competition
-data distribution, which is mutable and does not expose an immutable archive URL for this exact
-hashed snapshot. Accordingly, the note does not present the current competition download as a
-byte-exact public acquisition path for the pinned gateway.
+`python3 -m pip download --no-deps aicomp-sdk==3.1.2`; the audited wheel hash is
+`fa106658f18d7954ba0a2da468379e6dc7b25b1a3543ce30d3cc9109ae0b8e68`, and the three SDK hashes
+above match its extracted files. The gateway is not in the wheel. At 2026-08-16T12:09:57Z,
+Kaggle's authenticated distribution listed the current gateway at 43,768 bytes with timestamp
+2026-08-05T17:49:56.517Z. The authenticated Data Explorer yielded the exact 43,768 bytes and
+1,031 newline-terminated lines whose hash is shown above. The standard CLI download command is
+recorded in the ledger, but it returned HTTP 429 during this audit. Competition access and rule
+acceptance are required; the distribution is mutable and is not an immutable public archive.
+The smaller 35,088-byte, 846-line `comp/...` file is retained only as a historical 2026-06-27
+snapshot. Neither distributed-file identity nor hash proves live deployment identity.
 
 ### 8.2 Code, builders, and run records
 
@@ -599,7 +645,7 @@ byte-exact public acquisition path for the pinned gateway.
   is supplied (`comp/aicomp_sdk/agents/hf_chat_template/types.py:15-23`;
   `comp/aicomp_sdk/agents/hf_chat_template/backends/llama_cpp.py:74-83`). These settings reduce
   sampling variation but do not establish run determinism or local/live model parity.
-- **Builders:** the tracked ladder builders are `dev/_build_l9.py`, `dev/_build_l22.py` through
+- **Builders:** builders for the emphasized later ladders include `dev/_build_l9.py`, `dev/_build_l22.py` through
   `dev/_build_l29.py`, and `dev/_build_l31.py`; GPU variants are built by
   `dev/_build_cuda_decode.py`, `dev/_build_cuda_gemma.py`, `dev/_build_cuda_gpuval.py`, and
   `dev/_build_cuda_probe.py`. Generated `submission_kernel_*` directories preserve the submitted
@@ -612,8 +658,10 @@ byte-exact public acquisition path for the pinned gateway.
 - **Local records:** retained version maps include `logs/l22_versions.json` through
   `logs/l28_versions.json`; GPU source/output snapshots are under `logs/cuda_decode_out/`,
   `logs/cuda_gemma_out/`, and `logs/cuda_probe_out/`. The record is not homogeneous: some ladders
-  have builders and live refs but no equivalent raw local log. Missing logs limit exact replay and
-  are not reconstructed from memory.
+  have builders and live refs but no equivalent raw local log. In particular, raw stdout and GGUF
+  hashes are absent for the hop-pack and forge counts quoted in §5. Missing evidence limits exact
+  replay and is not reconstructed from memory; those counts remain contemporaneous project-record
+  assertions as itemized in the ledger.
 - **Local replica and sizing:** local firing/count measurements use the SDK agent, environment, and
   public-guardrail classes. Candidate-set size is calibrated on the scored machine (§3.4). Local
   wall time, model bytes, and tool-call counts are not substituted for live scores.
@@ -683,13 +731,15 @@ kept separate from inline SDK `file:line` citations and official competition-pag
 
 ## Appendix A. Notation
 
-- **FRAC** — fraction of a 9,000-second replay deadline the adaptive sizer fills before clamping.
+- **FRAC** — configured fraction of a phase budget used by the adaptive sizer. Historical builders
+  used 9,000 seconds; the current distributed gateway uses an 8,750-second internal phase budget.
 - **finding** — one replayed candidate that fired ≥1 predicate.
 - **cell / novelty** — the per-finding score-cell hash; distinct cells add +2 each.
-- **void** — `INVALID_SUBMISSION`; the gateway raises it if a generation or configured-guardrail
-  replay operation does not return before its separate 9,000-second deadline
-  (`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:734-789`). The completed N sweep
-  in §3.3 did not time out, but it does not establish a general saturation boundary.
+- **void** — `INVALID_SUBMISSION`. In the current distributed gateway, an outer phase-watchdog
+  expiry is converted to this status, while an internal generation timeout can preserve completed
+  candidates and an internal replay timeout can return already validated findings and a partial
+  score (`distributed gateway:537-676,741-868,904-974`). The completed N sweep in §3.3 does not
+  establish whether an internal deadline was reached or a general saturation boundary.
 - **commitment-forge** — a candidate that fabricates a completed model-reasoning turn carrying a
   plan plus an explicit commitment to continue; our reported local port elicited one `http.post`
   per named endpoint across replay hops (§5.2).

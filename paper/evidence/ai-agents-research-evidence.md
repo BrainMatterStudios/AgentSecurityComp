@@ -22,10 +22,10 @@ them.
 
 | Mutable source snapshot | Private source locator | Extraction time | Snapshot cutoff or filter |
 | --- | --- | --- | --- |
-| Claude AgentSecurityComp store | `claude:AgentSecurityComp/` under `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-AgentSecurityComp/` | 2026-08-16T08:06:05Z | Substantive record window through 2026-08-15T14:51:09.743Z |
-| Claude ARC-AGI-3 store | `claude:ARC-AGI-3/` under `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-ArcAGI3/` | 2026-08-16T08:06:05Z | Substantive record window through 2026-08-15T21:28:03.657Z |
-| Codex rollout store | `codex:` under `/Users/ahmed/.codex/sessions/` | 2026-08-16T08:06:05Z | Files matching `AgentSecurityComp|/Users/ahmed/Documents/ArcAGI3` at extraction time |
-| OpenCode session store | `opencode:session/` in `/Users/ahmed/.local/share/opencode/opencode.db` | 2026-08-16T08:06:05Z | Matching session rows created through 2026-08-10 19:31:37 UTC |
+| Claude AgentSecurityComp store | `claude:AgentSecurityComp/` (controlled private mapping) | 2026-08-16T08:06:05Z | Substantive record window through 2026-08-15T14:51:09.743Z |
+| Claude ARC-AGI-3 store | `claude:ARC-AGI-3/` (controlled private mapping) | 2026-08-16T08:06:05Z | Substantive record window through 2026-08-15T21:28:03.657Z |
+| Codex rollout store | `codex:` (controlled private mapping) | 2026-08-16T08:06:05Z | Case-path filter recorded in the controlled extraction audit |
+| OpenCode session store | `opencode:session/` (controlled private mapping) | 2026-08-16T08:06:05Z | Matching session rows created through 2026-08-10 19:31:37 UTC |
 
 These are frozen inventory observations, not immutable content-addressed
 artifacts. Claude, Codex, and OpenCode stores can change after extraction, so a
@@ -273,7 +273,9 @@ All statements in this section are **retrospective testimony** supplied by the
 author. They are not direct measurements unless later corroborated by an
 independent record.
 
-- 16+ consulting years in decisioning, omnichannel AI, architecture, and early Java.
+- 16+ consulting years in real-time decisioning and omnichannel AI, including
+  Naive Bayes and gradient boosting; enterprise and solution architecture across
+  cloud and on-premises environments; agentic AI; and early Java development.
 - Rusty independent coding; Python mainly with AI assistance.
 - Goal: test agent-led research with little domain guidance.
 - Role: approve, challenge, and encourage depth/breadth rather than supply hypotheses.
@@ -303,9 +305,12 @@ The current competition outcome is retrospective testimony: the winning
 objective has not been achieved. The independently retrieved live-results
 artifact in `paper/evidence/working-note-claim-ledger.md` is frozen at
 2026-08-16T10:56:15Z. Selected rows were separately rechecked at
-2026-08-16T11:10:21Z and 2026-08-16T11:26:07Z; those rechecks did not replace
-the frozen table. None of these observations establishes a final rank or
-outcome.
+2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, and
+2026-08-16T11:59:48Z; a further recheck at 2026-08-16T12:44:16Z did not replace
+the frozen table. The last found all four L31 chainpack refs `COMPLETE`: 55538814
+at 79.985, 55538829 at 79.365, 55538848 at 73.605, and 55538855 at 54.375.
+None of these observations establishes a final rank,
+matched treatment effect, or competition outcome.
 
 ## ARC-AGI-3 chronology
 
@@ -382,12 +387,12 @@ planned L8 campaign; the later returned packing descriptions are labeled L9.
 | ASC | 2026-07-27 | Pack more messages per call to amortize overhead. | mixed | Human throughput objective plus local timing model. | High enough to arm L8. | Requested live discrimination. | Local packing mechanics ran. | No returned description matched L8; all identified L9 packing and control rows were `ERROR`, so external efficacy remained unadjudicated. | open | Failed execution status must remain distinct from a refuted treatment effect. | AS-S06 |
 | ASC | 2026-08-04 | Explain Gemma's failure as model weakness. | agent | An under-powered hop-pack comparison. | Initially high, then retracted. | Required a faithful framing comparison. | GPT also scored zero under the weak frame; the real forge separated models. | No clean live test of the original claim. | invalid experiment | A comparison is invalid when the control is broken. | AS-S07 |
 | ASC | 2026-08-08 | Route candidates deterministically by board and split the workload. | agent | An apparent isolation/throughput gap after L22. | High. | Authorized a controlled router ladder. | Router and self-measurement worked locally. | 42.665-47.865 versus 44.320 baseline; no stable gain. | invalid experiment | A multi-arm ladder can still be non-identifying when arms overlap. | AS-S08 |
-| ASC | 2026-08-09 | Reproduce the public commitment-forge mechanism. | external | Public dimong4/nctuan strategy. | Moderate to high. | Required faithful implementation and live test. | Four posts per candidate fired as designed. | 47.850 versus 43.600 single-forge control. | partially supported | Faithful reproduction can validate mechanism without matching public performance. | AS-S09 |
-| ASC | 2026-08-09 | Use dual-board/Gemma forge to beat the reproduced baseline. | agent | Commitment-forge result and model-specific local behavior. | High. | Approved direct single-versus-dual comparisons. | Both-board logic ran. | Dual arms 81.985 and 82.660; Gemma forge 34 versus Gemma single 27. | partially supported | Component gains can coexist with a still-unexplained ceiling. | AS-S10 |
+| ASC | 2026-08-09 | Reproduce the public commitment-forge mechanism. | external | Public dimong4/nctuan strategy. | Moderate to high. | Required faithful implementation and live test. | Contemporaneous project record says four posts per candidate fired; raw stdout and model hash are absent. | 47.850 versus 43.600 single-post control. | partially supported | Faithful reproduction can validate a bounded mechanism without reaching its stated performance target. | AS-S09 |
+| ASC | 2026-08-09 | Use dual-board/Gemma forge to beat the reproduced baseline. | mixed | External commitment-forge mechanism, agent recombination, and human selection/control design. | High. | Approved direct single-versus-dual comparisons. | Both-board logic ran; local count claims remain at project-record provenance. | Dual arms 81.985 and 82.660; Gemma isolate 34.000 versus 27.000 at N=600, narrowing to 35.000 versus 34.605 at N=900; N=1200 forge 35.375. | partially supported | The initial isolate gain was not durable or scalable in these observations, and mixed provenance must remain visible. | AS-S10 |
 | ASC | 2026-08-12 | Test both proposed throughput knobs in one L27 ladder. | mixed | Agent hypotheses and human instruction to test both. | Confidence fell when both reduced to one axis. | Insisted on both tests and a control. | Probe-hop variants were executable. | 50.295-57.620 versus 88.730 control. | refuted | Before launch, verify that nominally distinct arms identify distinct mechanisms. | AS-S11 |
-| ASC | 2026-08-13 | Move generation to GPU to remove a suspected CPU cap. | agent | Timing observations and a CPU-cap hypothesis. | Described as likely the lever. | Approved a CPU/GPU A/B ladder. | GPU path became functional after zero-score failures. | Best GPU arm 50.175 versus CPU reference 83.115. | refuted | GPU-path functionality was established, but the stated CPU-cap efficacy claim was rejected. | AS-S12 |
-| ASC | 2026-08-15 | Split hop-pack work in L29. | agent | Residual throughput hypothesis after L27. | Moderate. | Allowed a bounded live test. | Split runner executed. | 85.675, below the 88.730 L27 control. | refuted | A near-baseline score is not evidence of improvement. | AS-S13 |
-| ASC | 2026-08-16 | Chain packed generations in L31. | agent | Packing and forge follow-up hypotheses. | Moderate. | Kept the ladder pending rather than declaring success. | Chainpack arms were prepared; fast-emit arm ran. | Chainpack arms pending; fast emit scored 25.145. | open | Pending arms and failed companion arms must remain distinct. | AS-S14 |
+| ASC | 2026-08-13 | Test whether the GPU route would meet or exceed the 83.115 historical CPU reproduction threshold. | agent | Timing observations and a CPU-cap hypothesis. | Described as likely the lever. | Approved a GPU ladder; no same-batch hardware control survived. | GPU path became functional after zero-score failures. | Best GPU arm 50.175 versus the 83.115 historical threshold. | refuted | The threshold proposition was refuted; the unmatched comparison does not identify a causal CPU-versus-GPU effect. | AS-S12 |
+| ASC | 2026-08-15 | Test whether the L29 split would exceed the 88.730 historical L27 threshold. | agent | Residual throughput hypothesis after L27. | Moderate. | Allowed a bounded live test without a same-batch routing control. | Split runner executed. | 85.675, below the 88.730 historical threshold. | refuted | The threshold proposition was refuted; the unmatched comparison does not causally reject routing. | AS-S13 |
+| ASC | 2026-08-16 | Test whether L31 chainpack arms would exceed the 88.730 historical L27 threshold. | agent | Packing and forge follow-up hypotheses. | Moderate. | Preserved the cutoff-pending state and later updates separately. | Chainpack arms were prepared; fast-emit arm ran. | All chainpack arms were pending at cutoff; by 12:44:16Z all four were complete at 79.985, 79.365, 73.605, and 54.375, while fast emit was 25.145. | refuted | The historical-threshold proposition was refuted; the unmatched comparisons do not identify a causal chainpack effect. | AS-S14 |
 
 ### ARC-AGI-3 episodes
 
@@ -435,7 +440,7 @@ cutoff.
 | AS-S07 | AgentSecurityComp commit `a322c7b`; `claude:AgentSecurityComp/9f138e71-bfaa-49fa-93aa-e6cf5f592493.jsonl#L1084`, continuation linked to canonical `a809e3ce-6bd5-4997-914a-1100fe705967` |
 | AS-S08 | AgentSecurityComp commit `2298119`; `claude:AgentSecurityComp/0385f350-248c-431f-a9f2-1604c96b5ce2.jsonl#L761-L772`; `paper/evidence/working-note-claim-ledger.md`, rows L22-L23 |
 | AS-S09 | AgentSecurityComp commit `f2eeee4`; `paper/evidence/working-note-claim-ledger.md`, row L24 submissions `55391763`, `55392055` |
-| AS-S10 | AgentSecurityComp commit `6fbe6e5`; `paper/evidence/working-note-claim-ledger.md`, row L25 submissions `55418160`, `55418165`, `55418171`, `55418180`, `55418184` |
+| AS-S10 | AgentSecurityComp commits `6fbe6e5`, `22cebb7`; `paper/evidence/working-note-claim-ledger.md`, L25 submissions `55418160`, `55418165`, `55418171`, `55418180`, `55418184` and L26 Gemma follow-ups `55444087`, `55444093`, `55444097` |
 | AS-S11 | AgentSecurityComp commit `0504391`; `claude:AgentSecurityComp/9d0f25c3-7d3c-4eaf-a219-001b44ea5ec4.jsonl#L1291-L1313`, continuation linked to canonical `0385f350-248c-431f-a9f2-1604c96b5ce2`; `paper/evidence/working-note-claim-ledger.md`, row L27 |
 | AS-S12 | AgentSecurityComp commit `52d7f0f`; `claude:AgentSecurityComp/9d0f25c3-7d3c-4eaf-a219-001b44ea5ec4.jsonl#L1488-L1573`; `paper/evidence/working-note-claim-ledger.md`, GPU submissions `55500552`, `55525506`, `55525507`, `55525533`, `55525536` |
 | AS-S13 | AgentSecurityComp commit `6018877`; `paper/evidence/working-note-claim-ledger.md`, row L29 submission `55530790` |
@@ -450,7 +455,7 @@ cutoff.
 | ARC-S08 | ArcAGI3 cutoff `docs/submission-ledger.json#L664-L684`, submission `54603982` (dev 1.96 versus 0.89; hidden 0.73); `docs/DESIGN-2026-08-14-engineered-agent.md#L168-L173` |
 | ARC-S09 | ArcAGI3 commit `b5ad790`; cutoff `docs/DESIGN-2026-08-14-engineered-agent.md#L30-L33` |
 | ARC-S10 | ArcAGI3 commits `4bb431d`, `cfeb92a`; cutoff `docs/submission-ledger.json#L27-L33,#L45-L50,#L62-L69`, structural submissions `55493742` (1.09), `55450891` (0.78), and `55418633` (1.03 as recorded in the later entries) |
-| ARC-S11 | ArcAGI3 cutoff-ancestor commit `da37afd`; audit-time mutable artifact `/Users/ahmed/Documents/ArcAGI3/scratchpad/engineered_stage2/stage2b_verdict.md#L100-L125`, SHA-256 `aa341694465ce6e8854bdc74e589de7c2d241cabbfb798a32aeb32970364b2fa`, file mtime `2026-08-14T23:22:57Z`, audit extraction `2026-08-16T08:45:51Z`; the artifact is outside Git and not cutoff-reproducible |
+| ARC-S11 | ArcAGI3 cutoff-ancestor commit `da37afd`; audit-time mutable artifact `ArcAGI3 working tree:scratchpad/engineered_stage2/stage2b_verdict.md#L100-L125`, SHA-256 `aa341694465ce6e8854bdc74e589de7c2d241cabbfb798a32aeb32970364b2fa`, file mtime `2026-08-14T23:22:57Z`, audit extraction `2026-08-16T08:45:51Z`; the artifact is outside Git and not cutoff-reproducible |
 | ARC-S12 | ArcAGI3 commits `4f3d330`, `ebe5b3e`; cutoff `docs/superpowers/specs/2026-08-15-qwen38-emergency-promotion-design.md#L14-L19,#L127-L140` (row means, official aggregation, and one-wave limitation), `docs/RESEARCH-2026-08-15-field-sweep-and-qwen38.md`, and `scratchpad/qwen38/wave1_shipped_result.json` |
 | OC-S01 | OpenCode parent `ses_0231a2013ffeeQefgINsuGs4Is`: scope part `prt_fdce5e043002Hlei3UVuTirUXs` (2026-08-07 15:44:40Z), local smoke `prt_fdd57568a001GD54y5cbvQ0dRU` (17:48:36Z), approval-gate statement `prt_fdd578c24001QSavNUh0Eo6xVN` (17:48:50Z), assessment `prt_fdd99103a001Kl13c0eW6b4uA7` (19:00:23Z); no child sessions |
 | OC-S02 | OpenCode parent `ses_019da7b0effeSVV74ieACHE15I`: scope message `msg_fe6258538001IR3J7Nyc6r9Ul5`, part `prt_fe6258539001I0glvysE6QnNH1` (2026-08-09 10:50:46Z); evidence synthesis `prt_fe6735d130015A4EbSnvC3Zp01` (12:15:47Z); local mechanics result `prt_fe800cd8e001YHesMMKyNQMCLE` (19:29:54Z); no child sessions |
@@ -490,22 +495,22 @@ process or retrospective evidence only; they do not replace code or live results
 | OpenCode specialists | 0 AgentSecurityComp + 10 ARC-AGI-3 = 10 | Linked to parents; not independent conversations |
 | OpenCode recorded usage | 7,770,138 input tokens and 820,067 output tokens | Descriptive database totals; no quality inference |
 | Coded episodes | 14 AgentSecurityComp + 12 ARC-AGI-3 + 5 OpenCode primary investigations = 31 | Episode boundaries, not provider turns or independent discoveries |
-| Episode origins | `human`: 0; `agent`: 14; `external`: 3; `mixed`: 14 | Origin is apparent provenance under the conservative coding rule, not a measure of autonomy |
-| Episode final statuses | `confirmed`: 4; `partially supported`: 10; `refuted`: 6; `invalid experiment`: 5; `superseded`: 1; `open`: 5 | Status applies only to the bounded claim in its row |
+| Episode origins | `human`: 0; `agent`: 13; `external`: 3; `mixed`: 15 | Origin is apparent provenance under the conservative coding rule, not a measure of autonomy |
+| Episode final statuses | `confirmed`: 4; `partially supported`: 10; `refuted`: 7; `invalid experiment`: 5; `superseded`: 1; `open`: 4 | Status applies only to the bounded claim in its row |
 | Human oversight | 2-5 hours/day | Retrospective testimony, approximate |
 | Direct spend | About USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions | Retrospective testimony, approximate and not a complete cost accounting |
 
 The origin count uses exact row IDs: `human` none; `agent` AS-S02, AS-S05,
-AS-S07, AS-S08, AS-S10, AS-S12, AS-S13, AS-S14, ARC-S02, ARC-S03, ARC-S04,
+AS-S07, AS-S08, AS-S12, AS-S13, AS-S14, ARC-S02, ARC-S03, ARC-S04,
 ARC-S07, ARC-S08, ARC-S09; `external` AS-S03, AS-S04, AS-S09; `mixed` AS-S01,
-AS-S06, AS-S11, ARC-S01, ARC-S05, ARC-S06, ARC-S10, ARC-S11, ARC-S12, OC-S01,
-OC-S02, OC-S03, OC-S04, OC-S05.
+AS-S06, AS-S10, AS-S11, ARC-S01, ARC-S05, ARC-S06, ARC-S10, ARC-S11, ARC-S12,
+OC-S01, OC-S02, OC-S03, OC-S04, OC-S05.
 
 The status count uses exact row IDs: `confirmed` AS-S01, AS-S03, ARC-S06,
 ARC-S07; `partially supported` AS-S02, AS-S04, AS-S05, AS-S09, AS-S10,
-ARC-S01, ARC-S02, ARC-S10, OC-S01, OC-S05; `refuted` AS-S11, AS-S12, AS-S13,
+ARC-S01, ARC-S02, ARC-S10, OC-S01, OC-S05; `refuted` AS-S11, AS-S12, AS-S13, AS-S14,
 ARC-S08, ARC-S09, ARC-S11; `invalid experiment` AS-S07, AS-S08, ARC-S03,
-ARC-S05, OC-S04; `superseded` ARC-S04; `open` AS-S06, AS-S14, ARC-S12,
+ARC-S05, OC-S04; `superseded` ARC-S04; `open` AS-S06, ARC-S12,
 OC-S02, OC-S03. These lists contain all 31 source IDs exactly once in each
 derivation.
 
@@ -563,7 +568,7 @@ linked record was checked for the full list.
 | L11, Siegel et al. | Preprint | Reproduce published computational results from provided code and data | CORE-Bench evaluates 270 tasks derived from 90 papers; the best reported agent reached 21% accuracy on the hardest task level. | This is reproduction with an existing repository and data across three disciplines, not novel question formation or experimental discovery. | Reproducing existing computational work remains difficult for agents and is a narrower capability than conducting new research. |
 | L12, Skarlinski et al. | Preprint | Retrieve, synthesize and check contradictions in scientific literature | PaperQA2 matched or exceeded the study's human comparators on its defined retrieval and summarization evaluations and surfaced candidate contradictions for expert validation. | The tests cover three literature tasks; contradiction labels can be context-dependent, the detector was overconfident relative to human annotators, and the result does not cover experimentation. | Agents may exceed experts on carefully specified literature-synthesis tasks without possessing general scientific autonomy. |
 | L13, Si et al. | Preprint | Generate NLP research ideas for blinded expert review | In the study, reviewers rated agent ideas as more novel on average than human ideas but slightly less feasible. | Participants produced ideas under study constraints; ideas were not executed, novelty judgments were subjective, generation lacked diversity and LLM self-ranking was unreliable. | Idea-generation results support a bounded ideation role, not claims of completed discovery or dependable self-evaluation. |
-| L14, D'Arcy et al. | Preprint | Generate peer-review comments through interacting LLM instances | MARG produced more specific and helpful comments than the tested single-agent baselines in the authors' user study and evaluation. | The experiment used GPT-4, parsed paper text without full visual information, produced many low-precision comments and relied partly on approximate automated alignment with human reviews. | Multi-agent structure can improve review assistance, but generated critiques remain advisory and require accountable human judgment. |
+| L14, D'Arcy et al. | Preprint | Generate peer-review comments through interacting LLM instances | MARG-S had the highest automated recall (15.84) but lower precision (4.41) and Jaccard (3.53) than the human-review alignment baseline (12.00 and 5.45). In a separate nine-participant user study, it averaged 3.7 good comments per review, with 71% rated specific or very specific. | The automated metric is approximate alignment to human-review comments, whereas the user study measures author-rated usefulness; the paper notes that useful comments can differ from human-review suggestions. It used GPT-4 and parsed text without full visual information. | Multi-agent structure improved bounded recall and user-rated usefulness in this study, but metric-specific results should not be collapsed into general review accuracy and generated critiques remain advisory. |
 | L15, PaperBench | Official benchmark release plus preprint | Replicate empirical contributions of 20 ICML 2024 papers from the paper text | The best tested agent averaged 21% of the rubric-weighted replication requirements across 20 papers; in a direct three-paper-subset comparison, the compared agent did not exceed the recruited ML-PhD baseline. | The sample is 20 ML papers; the direct human comparison covers only a three-paper subset, scoring uses a non-deterministic LLM judge that is less accurate than expert grading, and public code creates a future contamination risk. | Long-horizon research replication remains far from complete and benchmark scores should not be read as general research competence. |
 | P01, ICMJE | Editorial recommendation | Govern AI use in submitted scholarly work | Authors should disclose how AI-assisted technology was used; AI tools are not authors; humans retain responsibility for accuracy, integrity, originality, attribution and review. | The recommendation is mutable and aimed at medical-journal publishing; a target journal's own instructions may add requirements. | The manuscript must name the tools and uses, verify their output and keep Ahmed Mobasher as the accountable sole author. |
 | P02, Springer Nature | Publisher policy | Govern AI authorship and disclosure | LLMs do not meet authorship criteria; generative use should be declared, humans remain accountable, and narrowly defined copy editing is exempt from declaration. | The policy is mutable and portfolio-specific placement instructions can differ by publication type; the target journal's live guidance controls at submission. | Disclose substantive Claude Code, Codex and OpenCode/DeepSeek assistance while assigning authorship and final responsibility only to the human author. |
@@ -599,9 +604,9 @@ placeholders.
 
 | Register item | AgentSecurityComp | ARC-AGI-3 | Evidence class and update rule |
 | --- | --- | --- | --- |
-| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z and 2026-08-16T11:26:07Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b mutable artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff. Later evidence appends a dated observation. |
+| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, 2026-08-16T11:59:48Z, and 2026-08-16T12:44:16Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b mutable artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff. Later evidence appends a dated observation. |
 | Winning objective | Ongoing and unachieved at cutoff. | Ongoing and unachieved at cutoff. | Retrospective testimony; verify against final official records. |
-| Current recorded score/status state | Independently retrieved live rows: L27 control `COMPLETE` at 88.730; L29 `COMPLETE` at 85.675; L31 fast-emit `COMPLETE` at 25.145; L31 chain-pack refs 55538814, 55538829, 55538848, and 55538855 all `PENDING` with no scores. No current-rank or final-best claim follows. | No current external score or rank was independently queried. Repository/project artifacts report Stage 2b at 0.2463 versus duck at 1.6333 over the full-25 development set and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is a current external fact. | AgentSecurity values are selected live observations rechecked at 2026-08-16T11:26:07Z; the separate frozen artifact remains dated 2026-08-16T10:56:15Z. ARC values remain bounded project-record or audit-time-artifact claims. |
+| Current recorded score/status state | Independently retrieved live rows: L27 control `COMPLETE` at 88.730; L29 `COMPLETE` at 85.675; L31 fast-emit `COMPLETE` at 25.145. All four chain-pack refs were `PENDING` at the frozen cutoff; by 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. No current-rank, matched-effect, or final-best claim follows. | No current external score or rank was independently queried. Repository/project artifacts report Stage 2b at 0.2463 versus duck at 1.6333 over the full-25 development set and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is a current external fact. | AgentSecurity values are selected live observations through 2026-08-16T12:44:16Z; the separate frozen artifact remains dated 2026-08-16T10:56:15Z. ARC values remain bounded project-record or audit-time-artifact claims. |
 | Reviewed deadlines | Official final submission deadline: 2026-09-01 at 23:59 UTC; optional Working Note deadline: 2026-09-08 at 23:59 UTC. | No official ARC deadline was admitted to this reviewed ledger; none is asserted. | AgentSecurity dates are source facts from the official timeline recorded in the working-note claim ledger. ARC requires a primary official source in a later revision. |
 | Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony: about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions with unrecorded amounts. No independently confirmed total exists at cutoff. |
 | Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate of 2-5 hours/day; not a contemporaneous time record. |
@@ -618,7 +623,9 @@ never inherits the result of a companion submission.
 
 - AgentSecurity exact statuses and scores were independently queried for the
   live-results artifact frozen at 2026-08-16T10:56:15Z and for selected rows
-  separately rechecked at 2026-08-16T11:10:21Z and 2026-08-16T11:26:07Z;
+  separately rechecked at 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, and
+  2026-08-16T11:59:48Z, with the four chainpack rows rechecked again at
+  2026-08-16T12:44:16Z;
   none establishes final ranking, later results, or competition outcome. ARC external
   state was not queried, so project-ledger outcomes are not current external
   facts.

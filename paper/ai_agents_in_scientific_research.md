@@ -21,8 +21,8 @@ implemented public and agent-proposed mechanisms, built harnesses and controls,
 repaired parsers and model-serving paths, and preserved negative results. The
 record was weaker for dependable hypothesis selection, causal identification,
 calibrated interpretation, and independent originality. Four bounded claims
-were confirmed, ten partially supported, six refuted, five were invalid
-experiments, one was superseded, and five remained open; these heterogeneous
+were confirmed, ten partially supported, seven refuted, five were invalid
+experiments, one was superseded, and four remained open; these heterogeneous
 labels are not an agent accuracy rate. Recurrent failures included broken or
 overlapping controls, unproved deployment identity, stale memory, wrong-source
 research, and promotion of local gains beyond their evidentiary boundary.
@@ -43,7 +43,10 @@ cutoff.
 ## 1. From Enterprise Architecture to Computational Research
 
 I came to these projects with more than 16 years of consulting experience in
-decisioning, omnichannel AI, architecture, and early-career Java development.
+real-time decisioning and omnichannel AI, including Naive Bayes and gradient-
+boosting systems; enterprise and solution architecture across cloud and
+on-premises environments; more recent agentic-AI work; and early-career Java
+development.
 That background gave me transferable skills in systems design, integration,
 and structured problem solving. It did not make me an expert in agent security,
 ARC-AGI-3, scientific research practice, or Kaggle competition mechanics. My
@@ -166,8 +169,11 @@ subjective, and the system's self-ranking was unreliable [12]. Another preprint
 reported strong performance for a literature agent on defined retrieval and
 synthesis tasks while noting context-dependent contradiction labels and
 overconfidence [13]. A multi-agent review preprint found gains over tested
-single-agent baselines, but also many low-precision comments and a continuing
-need for accountable judgment [14].
+single-agent baselines. Its automated alignment produced the highest recall but
+lower precision and Jaccard than the human-review alignment baseline, while its
+separate nine-participant user study still found more good and specific comments;
+the two metrics answer different questions and both require accountable judgment
+[14].
 
 Even apparently routine research mechanics require verification. A
 peer-reviewed *Scientific Reports* study of 84 generated literature reviews
@@ -217,7 +223,12 @@ author interview responses. The literature background uses only primary papers,
 official publication records, and official editorial-policy pages already
 checked in the evidence ledger. Repository and transcript evidence establishes
 project events. General literature and policy contextualize those events but do
-not prove what happened in either project.
+not prove what happened in either project. The portable
+[companion evidence ledger](evidence/ai-agents-research-evidence.md) is the
+source-ID register for every coded episode and admitted quotation. Raw private
+histories remain controlled source material and are not required to resolve the
+public repository, commit, live-row, and symbolic transcript locators recorded
+there.
 
 According to retrospective author testimony, Claude Code was the primary
 research system, while Codex and OpenCode/DeepSeek were introduced mainly as
@@ -348,8 +359,11 @@ and the supporting records are checked.
 **Outcome-evidence note.** The independently retrieved AgentSecurity
 live-results artifact is frozen at 2026-08-16T10:56:15Z. Selected rows were
 separately rechecked at 2026-08-16T11:10:21Z and again at
-2026-08-16T11:26:07Z; those checks did not replace the frozen table. The latter
-recheck also resolved the early `ERROR` rows discussed below. All three live
+2026-08-16T11:26:07Z; a further status-only recheck was made at
+2026-08-16T11:59:48Z and another at 2026-08-16T12:44:16Z. None replaces the frozen table. The 11:26 recheck also
+resolved the early `ERROR` rows discussed below; the 11:59 recheck found L31 ref
+55538848 `COMPLETE` at 73.605 while three chain-pack refs remained pending; the
+12:44 recheck found all four complete at 79.985, 79.365, 73.605, and 54.375. All live
 observations are later than both the AI-case repository cutoff of
 2026-08-16T10:29:29+03:00 (07:29:29Z) and the mutable-history snapshot at
 2026-08-16T08:06:05Z. (AgentSecurity live-results ledger:
@@ -445,13 +459,17 @@ and 55362843)
 
 On 2026-08-09 the agent reproduced the public dimong4/nctuan commitment-forge
 method, which causes a reasoning model to commit to several tool posts within
-one candidate. Four posts per candidate fired as designed, and the live result
-was 47.850 versus 43.600 for the single-forge control. Agent-originated
-recombination then paired that mechanism with dual-board routing and a Gemma
-variant: dual arms reached 81.985 and 82.660, while Gemma forge scored 34 versus
-27 for Gemma single. These component gains were partially supported, but they
-did not reproduce the public systems' overall performance or explain the
-remaining ceiling. Public method dependence and agent implementation must both
+one candidate. The project record says four posts per candidate fired as designed,
+and the live result was 47.850 versus 43.600 for the single-post control.
+Mixed-origin recombination then paired that externally derived mechanism with
+dual-board routing and a Gemma variant: dual arms reached 81.985 and 82.660, while
+the N=600 Gemma isolate was 34.000 versus 27.000 for Gemma single. The N=900
+follow-up narrowed to 35.000 versus 34.605 (refs 55444087 and 55444093), and the
+N=1200 forge was 35.375 (ref 55444097), so the initial isolate gain was not durable
+or scalable in these observations. The episode partially supported bounded
+component behavior but did not reach its stated reproduction target or explain
+the remaining ceiling. Public method dependence, agent execution, and human
+selection therefore all
 remain visible in the attribution. (Episode AS-S09; Episode AS-S10;
 AgentSecurity live-results ledger, rows 55391763, 55392055, 55418165, 55418171,
 55418180, and 55418184)
@@ -472,14 +490,20 @@ for that controlled submission ladder. Its *probe-hop* arms enabled a one-hop
 calibration probe before sizing the candidate set. The human insisted on both
 tests and a control, and the live variants scored 50.295-57.620 against an
 88.730 control. On 2026-08-13 the GPU path was made functional, but its best arm
-scored 50.175 against an 83.115 CPU reference, rejecting the claimed CPU cap as
-the decisive lever. L29 executed on 2026-08-15 and scored 85.675, below the
-88.730 control. At the frozen cutoff, L31—the later named submission ladder—had
+scored 50.175 against an 83.115 historical CPU reproduction threshold. That
+refuted the narrow threshold proposition, not a causal CPU-versus-GPU effect,
+because no same-batch hardware control existed. L29 executed on 2026-08-15 and
+scored 85.675, below the historical 88.730 L27 threshold. That likewise refuted
+the stated threshold target without causally rejecting routing. At the frozen
+cutoff, L31—the later named submission ladder—had
 four pending *chain-pack* arms, which placed several multi-hop messages inside
 one candidate. Only the companion *fast-emit* arm, a separately calibrated path
 that generated fixed eight-hop candidates directly in memory, had run; it
-scored 25.145. Pending arms
-cannot inherit failure or success from a companion arm, and AgentSecurityComp's
+scored 25.145. A later 11:59:48Z status-only recheck found one chain-pack arm,
+ref 55538848, complete at 73.605 and three still pending; it had no matched
+control. By 12:44:16Z, all four were complete at 79.985, 79.365, 73.605, and
+54.375. They all remained below the historical 88.730 L27 threshold, but these
+unmatched comparisons do not identify a causal chainpack effect. AgentSecurityComp's
 winning objective remained unachieved as retrospective testimony. (Episode
 AS-S11; Episode AS-S12; Episode AS-S13; Episode AS-S14; Testimony: living
 outcomes register; AgentSecurity live-results ledger, rows 55444101, 55469249,
@@ -499,8 +523,8 @@ OC-S01-OC-S02)
 | Adaptive sizing, 2026-07-25 | Implemented replay-safe sizing and local checks. | Approved a bounded ladder. | Mechanism was attributed to higher-scoring public solutions. | Local mechanics passed; all five identified L6 rows were `ERROR`, so the visible score difference does not establish a completed live effect. (Episode AS-S04; Source AS-S04) | Reproduction can be useful without completed external efficacy or originality. |
 | Latency and packing, 2026-07-26 to 2026-07-27 | Measured early close and packed-call throughput. | Required controlled live ladders. | Hidden evaluator timing and replay behavior governed transfer. | Local mechanics ran, but every identified L7 and L9 row was `ERROR`; early-close and packing efficacy therefore remained unadjudicated. No live description matched L8. (Episodes AS-S05-AS-S06; Sources AS-S05-AS-S06) | A visible score on an `ERROR` row is not a completed effect estimate. |
 | Model and router diagnosis, 2026-08-04 to 2026-08-08 | Built comparisons, routing, splitting, and instrumentation. | Required faithful framing and controlled arms. | Model framing and hidden evaluator behavior confounded attribution. | Both experiments invalid because their controls or arms were non-identifying. (Episodes AS-S07-AS-S08) | Working code is not automatically a valid experiment. |
-| Forge reproduction and recombination, 2026-08-09 | Reproduced commitment forge and combined it with board/model variants. | Approved direct controls and live comparisons. | Public dimong4/nctuan method supplied the central mechanism. | Forge and dual-board components partially supported, without matching the public ceiling. (Episodes AS-S09-AS-S10) | Preserve public provenance when evaluating recombination. |
-| Late ladders, 2026-08-12 to 2026-08-16 | Implemented probe-hop, GPU, split, chain-pack, and fast-emit arms. | Insisted on controls and kept unrun arms pending. | Live platform constraints determined efficacy. | L27, GPU, and L29 claims refuted; L31 chain-pack pending; objective unachieved. (Episodes AS-S11-AS-S14; Testimony: living outcomes register; AgentSecurity live-results ledger, rows 55469249, 55469255, 55469264, 55469273, 55469280, 55525533, 55530790, 55538814, 55538829, 55538848, 55538855, and 55538875) | Distinguish functional, failed, pending, and achieved states. |
+| Forge reproduction and recombination, 2026-08-09 | Reproduced commitment forge and combined it with board/model variants. | Approved direct controls and live comparisons. | Public dimong4/nctuan method supplied the central mechanism. | Bounded forge and dual-board components were partially supported; the N=600 Gemma isolate gain narrowed at N=900 and did not reach the stated reproduction target. (Episodes AS-S09-AS-S10) | Preserve public provenance when evaluating recombination. |
+| Late ladders, 2026-08-12 to 2026-08-16 | Implemented probe-hop, GPU, split, chain-pack, and fast-emit arms. | Insisted on controls and kept unrun arms pending. | Live platform constraints determined efficacy. | L27 refuted its same-batch proposition; GPU and L29 missed historical thresholds without causal controls; L31 was pending at cutoff and all four chainpack arms later completed below the historical L27 threshold, without matched controls; objective unachieved. (Episodes AS-S11-AS-S14; Testimony: living outcomes register; AgentSecurity live-results ledger, rows 55469249, 55469255, 55469264, 55469273, 55469280, 55525533, 55530790, 55538814, 55538829, 55538848, 55538855, and 55538875) | Distinguish functional, failed, pending, and achieved states. |
 
 ## 5. Case II: ARC-AGI-3
 
@@ -723,10 +747,10 @@ and weaker evidence for dependable originality, reliability, or autonomy.
 Testimony Q08-Q09)
 
 The origin codes reinforce this separation but must not be misread. Of the 31
-reviewed episodes, 14 propositions were coded `agent`, 14 `mixed`, three
+reviewed episodes, 13 propositions were coded `agent`, 15 `mixed`, three
 `external`, and zero `human`. Zero human-origin rows is a coding result about
 the apparent source of the bounded proposition, not evidence that no human
-intellectual contribution occurred. The 14 mixed rows and the intervention
+intellectual contribution occurred. The 15 mixed rows and the intervention
 column record human framing, challenge, approval, demand for controls, and
 claim closure. Likewise, an agent-origin proposition is not automatically an
 original discovery: it may recombine inherited methods, target an already
@@ -765,8 +789,8 @@ them, and in the forge case combined the reproduced mechanism with board and
 model variants. Transparent reuse and recombination are not plagiarism when
 their provenance is preserved. They are also not independent discovery. The
 scientific contribution claimed here is bounded implementation, adaptation,
-and component testing, not invention of the public mechanism or reproduction of
-the public systems' full performance. (Episodes AS-S04, AS-S09-AS-S10;
+and component testing, not invention of the public mechanism or attainment of
+the stated reproduction target. (Episodes AS-S04, AS-S09-AS-S10;
 Testimony Q09)
 
 ### 6.3 Review, confidence, and evidence authority
@@ -854,8 +878,8 @@ would erase the causal and provenance work that turns execution into knowledge.
 ## 8. Where Agents Struggle
 
 The status distribution describes a mixed record rather than a single success
-rate: four of 31 bounded claims were confirmed, ten partially supported, six
-refuted, five invalid experiments, one superseded, and five open. Those labels
+rate: four of 31 bounded claims were confirmed, ten partially supported, seven
+refuted, five invalid experiments, one superseded, and four open. Those labels
 apply to different propositions and evidence types, so they cannot be collapsed
 into a provider accuracy score. They do show why an executable result, an
 external effect, a valid experiment, and a durable scientific conclusion must
@@ -919,14 +943,14 @@ specifies an operational action that a researcher or IT professional can audit.
 | Control | Operational rule | Coded reason |
 | --- | --- | --- |
 | Direct-source verification | Resolve each decisive interface, dataset, citation, public method, and result to the primary source. Pin the version, source locator, and access date; verify the quoted or extracted claim before it enters a hypothesis. | SDK semantics repaired a non-scoring attack, while a nine-specialist synthesis over the wrong-model corpus remained invalid despite its breadth. Citation fabrication in the reviewed literature supplies an external reason for the same gate. (Episode AS-S03; Episode OC-S04; [15]) |
-| Falsifiable hypothesis card | Before implementation, record one mechanism, predicted observable change, alternative explanation, disconfirming result, evidence boundary, and decision rule. Name the proposition narrowly enough that one outcome can close it. | The router arms overlapped, L27's nominal knobs collapsed to one effective axis, and the GPU and L29 arms missed their coded controls; those directly recorded mechanisms required narrower propositions and explicit disconfirming rules. (Episodes AS-S08, AS-S11-AS-S13) |
+| Falsifiable hypothesis card | Before implementation, record one mechanism, predicted observable change, alternative explanation, disconfirming result, evidence boundary, and decision rule. Name the proposition narrowly enough that one outcome can close it. | The router arms overlapped, L27's nominal knobs collapsed to one effective axis, and the GPU and L29 arms missed pre-stated historical thresholds without matched causal controls; those records required narrower propositions and explicit disconfirming rules. (Episodes AS-S08, AS-S11-AS-S13) |
 | Matched controls | Hold commit, prompt/frame, served model, evaluator mode, budget, and measurement window constant; vary one proposed cause. Prove treatment identity and confirm that nominal arms are mechanically distinct before launch. | The weak Gemma frame, overlapping router arms, collapsed L27 axes, and unserved LoRA made their original comparisons non-identifying. (Episodes AS-S07-AS-S08, AS-S11; Episode ARC-S05) |
 | Local-to-live gates | Use local unit, replay, regression, and smoke tests to establish functionality. Promote efficacy only through a preregistered held-out or live gate, with external execution separately recorded. Never copy a local status into the live field. | Packing, search/replay, prompt reduction, best-of-N, and Qwen 3.8 each showed why local success does not determine external transfer. (Episode AS-S06; Episodes ARC-S02, ARC-S08-ARC-S09, ARC-S12) |
 | Memory as untrusted input | Store prior claims with source, cutoff, status, executed path, and unresolved alternatives. At session start, inject them as assertions to check, not facts to obey; stale or source-free summaries cannot authorize an experiment. | A namespace no-op and inherited assumptions survived across continuations, while the memory-blind prompt explicitly required revalidation. (Episode OC-S02; Episode OC-S05; Quote Q05) |
 | Memory-blind review | For high-impact or stalled claims, commission a fresh review from primary code, data, and evaluator records before revealing the inherited conclusion. Compare the review's premises with the original; do not call it an outcome until the relevant external test runs. | The AgentSecurity audit improved epistemic discipline but produced no completed live adjudication, demonstrating both the value and the limit of a fresh review. (Episode OC-S02) |
 | Provider diversity | Use a second provider to generate counter-hypotheses, inspect plumbing, or challenge a settled interpretation. Record shared context and prior exposure. Treat switching as diversity and reset, not corroboration; corroboration requires independently acquired evidence rather than provider agreement. Never infer provider ranking from unequal assignments. | Provider changes exposed assumptions and broadened search, but the providers shared repositories, methods, or conclusions and were used under unequal conditions. (Episodes OC-S01-OC-S05; Testimony: author baseline and interview) |
 | Human approval | Require named human approval before scarce live evaluation, external submission, cost escalation, or any write to shared or production systems. The approver checks the hypothesis card, control identity, evidence class, and rollback or stop rule. | Human gates requested faithful comparisons, hidden tests, full-25 verdicts, and controlled ladders, and prevented an unserved arm from consuming a slot. (Episodes AS-S04, AS-S07-AS-S08, AS-S11; Episodes ARC-S08, ARC-S11-ARC-S12; Episode OC-S03) |
-| Preserved negatives and states | Append results to an immutable ledger with separate fields for local and live outcomes and the statuses `confirmed`, `partially supported`, `refuted`, `invalid experiment`, `superseded`, and `open`. Preserve failed controls, killed arms, pending arms, and provenance limits rather than rewriting the project around the latest result. | L27, GPU, L29, Stage 2b, the killed sparse arm, and pending L31 arms have different evidentiary meanings that would disappear in a success-only narrative. (Episodes AS-S11-AS-S14; Episode ARC-S11; Episode OC-S03) |
+| Preserved negatives and states | Append results to an immutable ledger with separate fields for local and live outcomes and the statuses `confirmed`, `partially supported`, `refuted`, `invalid experiment`, `superseded`, and `open`. Preserve failed controls, killed arms, pending arms, and provenance limits rather than rewriting the project around the latest result. | L27, GPU, L29, Stage 2b, the killed sparse arm, and L31's cutoff-pending/later-partial-completion states have different evidentiary meanings that would disappear in a success-only narrative. (Episodes AS-S11-AS-S14; Episode ARC-S11; Episode OC-S03) |
 | Pre-outcome confidence | Record confidence and its evidentiary basis before revealing the result. Afterward, score calibration separately from implementation quality and retain both corrections and later distinct claims. | Q04 corrected the earlier 570-boundary claim before Q02 introduced a different 465-boundary claim; Q04 therefore cannot be a retraction of Q02. Other high-confidence propositions failed serving or evaluation checks. (Quotes Q04 and Q02; Episodes ARC-S03, ARC-S05, ARC-S08-ARC-S09) |
 | Stopping and escalation | Stop an arm when its treatment cannot be proven, its control is broken, its required evaluator action is unavailable, or a registered gate is under-powered. Escalate to human redesign when repeated results stay in-band, arms overlap, provenance is unresolved, or a live claim would exceed the evidence. | ARC's noise study amended two under-powered gates; the sparse arm was killed before reset; overlapping routing and adverse late ladders required redesign rather than confident continuation. (Episode ARC-S06; Episode OC-S03; Episodes AS-S08, AS-S11-AS-S14) |
 
@@ -1040,7 +1064,10 @@ modification time, and extraction time are recorded, but the exact bytes cannot
 be reconstructed from the cutoff repository alone.
 
 Finally, the outcomes were ongoing. Four AgentSecurity L31 chain-pack rows were
-pending, no ARC external state was freshly queried, and Qwen 3.8 external
+pending at the frozen cutoff; a later status-only recheck found one complete at
+73.605 and three still pending, and a second recheck found all four complete at
+79.985, 79.365, 73.605, and 54.375. No ARC external state was freshly queried, and
+Qwen 3.8 external
 transfer remained open. Final competition results, rankings, costs, and
 retrospective conclusions could change the outer case narrative, but cannot
 retroactively convert an invalid experiment into a valid one or erase a
@@ -1054,9 +1081,9 @@ is a completed evidence status, not a blank field.
 
 | Register item | AgentSecurityComp | ARC-AGI-3 | Authority and update constraint |
 | --- | --- | --- | --- |
-| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z and 2026-08-16T11:26:07Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
+| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, 2026-08-16T11:59:48Z, and 2026-08-16T12:44:16Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
 | Winning objective | Ongoing and unachieved at cutoff. | Ongoing and unachieved at cutoff. | Retrospective author testimony; verify against final official records. |
-| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145; four L31 chain-pack rows were `PENDING` without scores. These are identified live submission rows, not a current rank or final best-system claim. | No current external score or rank was independently queried. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. | AgentSecurity values are selected live observations rechecked at 2026-08-16T11:26:07Z; the separate frozen artifact remains dated 2026-08-16T10:56:15Z. ARC values are bounded repository or mutable-artifact records and retain those provenance labels. |
+| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145. At the frozen cutoff all four L31 chain-pack rows were `PENDING`; at 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were all `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. These are identified live submission rows, not a current rank, matched-effect estimate, or final best-system claim. | No current external score or rank was independently queried. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. | AgentSecurity values are selected live observations through the status-only recheck at 2026-08-16T12:44:16Z; the separate frozen artifact remains dated 2026-08-16T10:56:15Z. ARC values are bounded repository or mutable-artifact records and retain those provenance labels. |
 | Recorded deadlines | Final submission: 2026-09-01 at 23:59 UTC; optional Working Note: 2026-09-08 at 23:59 UTC. | No official ARC deadline was admitted to the reviewed AI evidence ledger, so this manuscript asserts none. | AgentSecurity dates come from the reviewed official timeline. An ARC deadline requires a primary official source in a later evidence revision. |
 | Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony reports about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions whose amounts were not recorded. No independently confirmed total existed at cutoff. |
 | Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate: 2–5 hours per day; not a time-tracking result. |
