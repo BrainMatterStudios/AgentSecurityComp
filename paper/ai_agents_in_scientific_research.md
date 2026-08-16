@@ -198,12 +198,13 @@ checked in the evidence ledger. Repository and transcript evidence establishes
 project events. General literature and policy contextualize those events but do
 not prove what happened in either project.
 
-Claude Code was the primary research system. I introduced Codex and
-OpenCode/DeepSeek mainly as perspective resets when the primary line of work
-appeared stuck, repetitive, or prematurely settled. Tasks, dates, models,
-budgets, and exposure differed. Session or token totals therefore describe use,
-not independent intellectual contribution, research quality, or provider
-superiority.
+According to retrospective author testimony, Claude Code was the primary
+research system, while Codex and OpenCode/DeepSeek were introduced mainly as
+perspective resets when the primary line of work appeared stuck, repetitive, or
+prematurely settled. Tasks, dates, models, budgets, and exposure differed.
+Session or token totals therefore describe use, not independent intellectual
+contribution, research quality, or provider superiority. (Testimony: author
+baseline and interview)
 
 ### 3.3 Research episode and coding scheme
 
@@ -323,6 +324,15 @@ and the supporting records are checked.
 
 ## 4. Case I: AI Agent Security
 
+**Outcome-evidence note.** Exact AgentSecurity scores and API statuses retained
+below come from the independently retrieved Kaggle rows frozen in the
+AgentSecurity live-results table at 2026-08-16T09:25:34Z. That retrieval is
+later than both the AI-case repository cutoff of 2026-08-16T10:29:29+03:00
+(07:29:29Z) and the mutable-history snapshot at 2026-08-16T08:06:05Z. Earlier
+figures not present in that retrieved table are described without an exact live
+number. (AgentSecurity live-results ledger:
+`paper/evidence/working-note-claim-ledger.md`; AI evidence cutoff table)
+
 ### 4.1 Entering the executable problem
 
 The AgentSecurityComp case began on 2026-06-13 with an intentionally broad
@@ -354,9 +364,8 @@ human withheld a decision and asked it to “test the approach locally as much a
 possible to verify it thoroughly”. On 2026-07-01 the agent made a different,
 new ceiling claim: “Both models are stuck at gpt-oss's ~465 boundary → ~44
 ceiling.” The June 30 correction therefore precedes and does not retract the
-July 1 claim.
-Later experiments weakened the certainty of that second claim as well. (Quote
-Q04; Quote Q03; Quote Q02; Episode AS-S10)
+July 1 claim. Later experiments weakened the certainty of that second claim as
+well. (Quote Q04; Quote Q03; Quote Q02; Episode AS-S10)
 
 ### 4.2 Practical value through adaptive sizing
 
@@ -366,20 +375,22 @@ from the time observed in the live environment. The agent reproduced that
 mechanism in bounded form: it measured how long accepted candidates took,
 estimated how many could be replayed within the evaluator's time budget, and
 stopped before the entire submission risked timing out. Local replay-safety
-checks passed and ladder L6 reached 80.145. The contribution was faithful
-translation of a public method into this repository and evaluator, followed by
-an interpretable test; it was valuable engineering and experimental execution,
-not evidence of independent originality. (Episode AS-S04; Source AS-S04)
+checks passed, and the reviewed episode ledger records the L6 outcome as an
+improvement. The contribution was faithful translation of a public method into
+this repository and evaluator, followed by an interpretable test; it was
+valuable engineering and experimental execution, not evidence of independent
+originality. (Episode AS-S04; Source AS-S04)
 
 Subsequent throughput work showed why a local mechanism and a live benefit must
 remain separate claims. On 2026-07-26, stopping decoding after the tool call
 closed reduced a local timing from 1.23 seconds to 1.03 seconds, but the live
-increase was only about 1.44 points, far smaller than the agent's description of
-a decisive roughly 20% lever. On 2026-07-27, packing several messages into one
-model call again looked favorable in a local timing model, yet the live ladder
-did not improve the leader. Local measurements established that the code ran and
-reduced measured overhead; only the external evaluator could test whether that
-overhead governed the competition score. (Episode AS-S05; Episode AS-S06)
+increase recorded in the episode ledger was materially smaller than the agent's
+description of a decisive roughly 20% lever. On 2026-07-27, packing several
+messages into one model call again looked favorable in a local timing model, yet
+the live ladder did not improve the leader. Local measurements established that
+the code ran and reduced measured overhead; only the external evaluator could
+test whether that overhead governed the competition score. (Episode AS-S05;
+Episode AS-S06)
 
 ### 4.3 Failure through non-identifying experiments
 
@@ -400,7 +411,9 @@ the arms overlapped in what they changed, so their different scores could not
 cleanly identify routing as the cause. A multi-arm experiment is not controlled
 merely because it has several named variants; its arms must isolate different
 mechanisms. The final status is therefore `invalid experiment`, not a successful
-breakthrough or a clean negative result. (Episode AS-S08; Source AS-S08)
+breakthrough or a clean negative result. (Episode AS-S08; Source AS-S08;
+AgentSecurity live-results ledger, rows 55362610, 55362686, 55362749, 55362800,
+and 55362843)
 
 ### 4.4 Public dependence, human gates, and the late ladders
 
@@ -413,7 +426,9 @@ variant: dual arms reached 81.985 and 82.660, while Gemma forge scored 34 versus
 27 for Gemma single. These component gains were partially supported, but they
 did not reproduce the public systems' overall performance or explain the
 remaining ceiling. Public method dependence and agent implementation must both
-remain visible in the attribution. (Episode AS-S09; Episode AS-S10)
+remain visible in the attribution. (Episode AS-S09; Episode AS-S10;
+AgentSecurity live-results ledger, rows 55391763, 55392055, 55418165, 55418171,
+55418180, and 55418184)
 
 Governance became increasingly explicit as confident explanations accumulated.
 The human approved bounded ladders, demanded controls, and on 2026-08-09 asked a
@@ -436,7 +451,9 @@ pending; only the companion fast-emit arm had run, scoring 25.145. Pending arms
 cannot inherit failure or success from a companion arm, and AgentSecurityComp's
 winning objective remained unachieved as retrospective testimony. (Episode
 AS-S11; Episode AS-S12; Episode AS-S13; Episode AS-S14; Testimony: living
-outcomes register)
+outcomes register; AgentSecurity live-results ledger, rows 55444101, 55469249,
+55469255, 55469264, 55469273, 55469280, 55525533, 55530790, 55538814,
+55538829, 55538848, 55538855, and 55538875)
 
 ### 4.5 Case evidence summary
 
@@ -448,13 +465,20 @@ OC-S01-OC-S02)
 | Phase | Agent contribution | Human contribution | External dependence | Outcome | Lesson |
 | --- | --- | --- | --- | --- | --- |
 | Entry and protocol repair, 2026-06-13 to 2026-06-27 | Inspected the SDK, ported the real candidate path, scaled output, and repaired marker handling. | Required real-path checks and retained submission approval. | SDK interfaces and 3.1.2 marker semantics defined validity. | Real-path execution and marker scoring confirmed; volume only partially supported. (Episodes AS-S01-AS-S03) | Verify the executable contract before optimizing it. |
-| Adaptive sizing, 2026-07-25 | Implemented replay-safe sizing and local checks. | Approved a bounded ladder. | Mechanism was attributed to higher-scoring public solutions. | L6 reached 80.145. (Episode AS-S04) | Reproduction can be valuable without being original. |
-| Latency and packing, 2026-07-26 to 2026-07-27 | Measured early close and packed-call throughput. | Required controlled live ladders. | Hidden evaluator timing and replay behavior governed transfer. | Small live gain for early close; packing refuted. (Episodes AS-S05-AS-S06) | Local direction does not determine live magnitude. |
+| Adaptive sizing, 2026-07-25 | Implemented replay-safe sizing and local checks. | Approved a bounded ladder. | Mechanism was attributed to higher-scoring public solutions. | The episode ledger records an improvement; no exact score is repeated because the retrieved live table has no L6 row. (Episode AS-S04) | Reproduction can be valuable without being original. |
+| Latency and packing, 2026-07-26 to 2026-07-27 | Measured early close and packed-call throughput. | Required controlled live ladders. | Hidden evaluator timing and replay behavior governed transfer. | The episode ledger records a small external gain for early close and refutes packing. (Episodes AS-S05-AS-S06) | Local direction does not determine external magnitude. |
 | Model and router diagnosis, 2026-08-04 to 2026-08-08 | Built comparisons, routing, splitting, and instrumentation. | Required faithful framing and controlled arms. | Model framing and hidden evaluator behavior confounded attribution. | Both experiments invalid because their controls or arms were non-identifying. (Episodes AS-S07-AS-S08) | Working code is not automatically a valid experiment. |
 | Forge reproduction and recombination, 2026-08-09 | Reproduced commitment forge and combined it with board/model variants. | Approved direct controls and live comparisons. | Public dimong4/nctuan method supplied the central mechanism. | Forge and dual-board components partially supported, without matching the public ceiling. (Episodes AS-S09-AS-S10) | Preserve public provenance when evaluating recombination. |
-| Late ladders, 2026-08-12 to 2026-08-16 | Implemented probe-hop, GPU, split, chain-pack, and fast-emit arms. | Insisted on controls and kept unrun arms pending. | Live platform constraints determined efficacy. | L27, GPU, and L29 claims refuted; L31 chain-pack pending; objective unachieved. (Episodes AS-S11-AS-S14; Testimony: living outcomes register) | Distinguish functional, failed, pending, and achieved states. |
+| Late ladders, 2026-08-12 to 2026-08-16 | Implemented probe-hop, GPU, split, chain-pack, and fast-emit arms. | Insisted on controls and kept unrun arms pending. | Live platform constraints determined efficacy. | L27, GPU, and L29 claims refuted; L31 chain-pack pending; objective unachieved. (Episodes AS-S11-AS-S14; Testimony: living outcomes register; AgentSecurity live-results ledger, rows 55469249, 55469255, 55469264, 55469273, 55469280, 55525533, 55530790, 55538814, 55538829, 55538848, 55538855, and 55538875) | Distinguish functional, failed, pending, and achieved states. |
 
 ## 5. Case II: ARC-AGI-3
+
+**Outcome-evidence note.** ARC-AGI-3 scores and evaluation outcomes below were
+not independently re-queried from the external platform for this paper. They
+are reported only as repository project-ledger, protocol, design, transcript,
+or result-artifact records identified in the episode source register; those
+records establish what the project recorded, not a fresh live verification.
+(Sources ARC-S01-ARC-S12; AI evidence ledger, known evidence gaps)
 
 ### 5.1 Exploration, search, and evaluator boundaries
 
@@ -462,21 +486,24 @@ ARC-AGI-3 supplied a different research setting: an agent had to act in
 interactive games whose state, goals, and evaluator lifecycle were only partly
 visible. The process allowed broad agent-led exploration, but apparent
 agent-originated hypotheses still passed through human challenge, local harness
-tests, and scarce live evaluations. On 2026-06-29 the agent proposed a double
+tests, and scarce external evaluations. On 2026-06-29 the agent proposed a double
 reset between plays and reported 7-109-fold local efficiency after repairing a
 no-op. In competition mode the second play returned HTTP 400, making the test
 invalid for the claimed deployment setting. Exploration produced an executable
 idea; it did not supply the missing evaluator permission on which the idea
-depended. (Episode ARC-S03)
+depended. This outcome is a project design-record result. (Episode ARC-S03;
+Source ARC-S03)
 
 On 2026-07-01 the agent recognized that scoring retained the best run and built
 a search-and-replay approach: search for a solved path, then replay that action
-sequence cleanly. It solved all 25 development games, a substantial local
-harness result, but the scoring trick did not survive live conditions. The
-proper conclusion is split: the solver mechanism was locally valid, while its
+sequence cleanly. The project design record says it solved all 25 development
+games, a substantial local harness result, but the scoring trick did not survive
+external conditions. The proper conclusion is split: the solver mechanism was
+locally valid, while its
 external-transfer claim was not. Calling the development sweep an autonomous
 solution would erase both the hidden evaluator boundary and the human demand
-for development and live checks. (Episode ARC-S02)
+for development and external checks. These outcomes are project design-record
+claims, not independently re-queried scores. (Episode ARC-S02; Source ARC-S02)
 
 ### 5.2 Serving identity and development-to-hidden reversal
 
@@ -487,15 +514,18 @@ identity. The audit found that “The LoRA never served. The generation ran on
 base”. The apparent treatment and control were therefore the same model, so the
 comparison was an `invalid experiment`, not a failed fine-tune. This is a
 general computational-research point: model serving is part of the experiment,
-not plumbing outside it. (Episode ARC-S05; Quote Q06; Source ARC-S05)
+not plumbing outside it. The 1.26 value and serving diagnosis are repository and
+transcript records. (Episode ARC-S05; Quote Q06; Source ARC-S05)
 
-A different failure on 2026-07-12 was valid enough to be informative. Reducing
-prompt tokens raised the development mean from 0.89 to 1.96, roughly doubling
-local performance, but the hidden evaluation score was 0.73. Unlike the LoRA
-episode, the intervention actually ran; it simply did not generalize. The
-development-to-hidden reversal distinguishes a refuted transfer claim from an
-invalid comparison and shows why large local deltas cannot substitute for the
-competition's held-out outcome. (Episode ARC-S08; Source ARC-S08)
+A different failure on 2026-07-12 was valid enough to be informative. The
+project submission ledger records that reducing prompt tokens raised the
+development mean from 0.89 to 1.96, while its hidden-evaluation entry was 0.73.
+Unlike the LoRA episode, the intervention actually ran; it simply did not
+generalize in the recorded hidden result. The development-to-hidden reversal
+distinguishes a refuted transfer claim from an invalid comparison and shows why
+large local deltas cannot substitute for the
+project's recorded held-out outcome. This is a project-ledger result, not an
+independently queried live fact. (Episode ARC-S08; Source ARC-S08)
 
 An EWM policy reviewed on 2026-07-14 adds a third status. Independent code review
 found and repaired defects, after which later campaigns displaced the policy
@@ -507,13 +537,14 @@ result it never produced. (Episode ARC-S04)
 ### 5.3 Harness and perception as research infrastructure
 
 The case's clearest infrastructure value came from measuring and improving the
-observation-and-evaluation harness. On 2026-08-01, four same-versus-same replicate
-pairs showed an RMS variation of 0.707 levels per game. Two preregistered gates
-were under-powered, so no live-effect claim was made and the protocol was
-amended. Measuring noise before interpreting small differences turned an
-unreliable score comparison into an explicit instrument limitation. The
-governance rule became: every submission is an experiment, with an identified
-question, control, and decision gate rather than an isolated leaderboard try.
+observation-and-evaluation harness. The project protocol artifact records that,
+on 2026-08-01, four same-versus-same replicate pairs showed an RMS variation of
+0.707 levels per game. Two preregistered gates were under-powered, so no
+external-effect claim was made and the protocol was amended. Measuring noise
+before interpreting small differences turned an unreliable score comparison
+into an explicit instrument limitation. The governance rule became: every
+submission is an experiment, with an identified question, control, and decision
+gate rather than an isolated leaderboard try.
 (Episode ARC-S06; Source ARC-S06)
 
 Perception work made the mechanism concrete. On 2026-08-03 the agent corrected
@@ -522,22 +553,25 @@ replay and regression cases passed, but no isolated leaderboard increase was
 claimed. On 2026-08-09, observations were typed by role before goal inference so
 the reasoner could distinguish the controllable object, target, and context
 instead of flattening every frame into one description. The retained comparison
-changed from 0/9 for the flat frame to 6/6 for the right role-typed frame, again
-without a separable live attribution. These are confirmed or partially supported
-improvements to seeing and testing, not proof of an end-to-end competition
-advance. (Episode ARC-S07; Episode ARC-S01)
+changed from 0/9 for the flat frame to 6/6 for the right role-typed frame in the
+retained verdict artifact, again without a separable external attribution.
+These are confirmed or partially supported improvements to seeing and testing,
+not proof of an end-to-end competition advance. (Episode ARC-S07; Episode
+ARC-S01; Source ARC-S01; Source ARC-S07)
 
 ### 5.4 Hypothesis closure and public-signal noise
 
 Later work shows how hypotheses were closed rather than allowed to survive on
 plausibility. A structural plan channel with braking and phase gates executed on
-2026-08-09, but live results remained in the established score band. On
+2026-08-09, but project-ledger results remained in the established score band. On
 2026-08-10, best-of-N candidate selection worked in the harness, yet its required
 reset was swallowed in competition mode and the second play failed. A repaired
-duck-memory namespace strategy also stayed within its registered 0.69-1.30 band,
-scoring 0.83. Better structure, local selection, and repaired state were each
-real implementation work; none established the proposed score breakthrough.
-(Episode ARC-S10; Episode ARC-S09; Episode OC-S05)
+duck-memory namespace strategy also stayed within its registered 0.69-1.30 band;
+the project submission ledger records 0.83. Better structure, local selection,
+and repaired state were each real implementation work; none established the
+proposed score breakthrough. These are project-ledger and design-record results.
+(Episode ARC-S10; Episode ARC-S09; Episode OC-S05; Source ARC-S10; Source
+OC-S05)
 
 External signals were not automatically trustworthy. On 2026-08-09 an
 OpenCode/DeepSeek campaign synthesized nine linked specialist searches into a
@@ -545,10 +579,10 @@ research document, but a later audit found that the assumed corpus came from the
 wrong model. Parallel breadth could not repair invalid provenance, so the
 episode was classified `invalid experiment`. Earlier, a proposed duck-sparse
 35B arm looked favorable until a serving audit showed that its path had never
-executed; the human killed it before reset, producing neither a slot nor a live
-negative result. These episodes show human challenge closing attractive but
-unsupported hypotheses before they consumed further evaluation. (Episode
-OC-S04; Episode OC-S03)
+executed; the human killed it before reset, producing neither a slot nor an
+external negative result. These episodes show human challenge closing
+attractive but unsupported hypotheses before they consumed further evaluation.
+(Episode OC-S04; Episode OC-S03)
 
 The correction was converted into an evidence gate rather than left as a memory
 of failure. A later adapter comparison began with the rule “Serving identity
@@ -571,35 +605,42 @@ revision. Its hash, modification time, and extraction time are recorded, but
 the exact bytes are not reproducible from the frozen repository, so that
 provenance limitation travels with the result. (Episode ARC-S11; Source ARC-S11)
 
-The same day, Qwen 3.8—an external model candidate screened in the project—had
-a strong controlled local A/B: mean 2.5291 versus 1.4872 for Qwen 3.6. The human
-required an armed but gated live runner. No scored live result existed by the
+The same day, the project result artifact records that Qwen 3.8—an external
+model candidate screened in the project—had a controlled local A/B mean of
+2.5291 versus 1.4872 for Qwen 3.6. The human required an armed but gated live
+runner. No scored external result existed in the project records by the
 cutoff, so Qwen 3.8 remained `open`; its local advantage was not promoted into a
-live, ranking, or objective-achievement claim. External model selection, agent
-screening, and human approval were all material to the episode, making its
-origin mixed rather than autonomously agent-generated. (Episode ARC-S12; Source
-ARC-S12)
+live, ranking, or objective-achievement claim. This is a repository artifact
+claim, not an independently queried external result. External model selection,
+agent screening, and human approval were all material to the episode, making
+its origin mixed rather than autonomously agent-generated. (Episode ARC-S12;
+Source ARC-S12)
 
-Across both cases, Claude Code was the primary research system while Codex and
-OpenCode/DeepSeek were introduced mainly when the active line appeared stuck,
-repetitive, or prematurely settled. A fresh system could expose an inherited
-assumption, search a different neighborhood, or force a memory-blind restatement.
-It could not provide independent corroboration when providers saw overlapping
-repositories, prompts, public methods, or prior conclusions. Because task mix,
-timing, models, budgets, and exposure were unequal, switching is analyzed only
-as a diversity and reset mechanism, never as a provider ranking. The author's
-retrospective assessment likewise attributes most contributions to work built
-on other people's methods and identifies no clear unexpected agent-originated
-discovery. (Episode OC-S01; Episode OC-S02; Episode OC-S04; Testimony Q09)
+In retrospective testimony, the author reported that Claude Code was the
+primary research system while Codex and OpenCode/DeepSeek were introduced mainly
+when the active line appeared stuck, repetitive, or prematurely settled. The
+OpenCode episodes illustrate how a fresh system could expose an inherited
+assumption or force a memory-blind restatement; they do not independently
+establish the broader switching pattern. Switching could not provide independent
+corroboration when providers saw overlapping repositories, prompts, public
+methods, or prior conclusions. Because task mix, timing, models, budgets, and
+exposure were unequal, it is analyzed only as a diversity and reset mechanism,
+never as a provider ranking. The author's retrospective assessment likewise
+attributes most contributions to work built on other people's methods and
+identifies no clear unexpected agent-originated discovery. (Testimony: author
+baseline and interview; Episode OC-S01; Episode OC-S02; Episode OC-S04;
+Testimony Q09)
 
 At the cutoff, ARC-AGI-3's winning objective remained unachieved as retrospective
 testimony. That conclusion does not erase locally confirmed search, perception,
 parser, noise-calibration, or serving-control work, nor does it convert open
 Qwen 3.8 transfer or the Stage 2b portfolio possibility into achievements. It
-sets the outer boundary of the case: the agents expanded what one researcher
-could build and test, but dependable hypothesis choice, valid evaluation, and
-claim closure still required substantial human governance. (Episodes
-ARC-S01-ARC-S12; Testimony: living outcomes register; Testimony Q08)
+sets the outer boundary of the case. The author assessed that the agents enabled
+meaningful participation and contextual learning; this is retrospective
+testimony, not a measured productivity or capability effect. Dependable
+hypothesis choice, valid evaluation, and claim closure still required
+substantial human governance. (Episodes ARC-S01-ARC-S12; Testimony: living
+outcomes register; Testimony Q08)
 
 ### 5.6 Case evidence summary
 
@@ -610,12 +651,12 @@ Episodes OC-S03-OC-S05)
 
 | Phase | Agent contribution | Human contribution | External dependence | Outcome | Lesson |
 | --- | --- | --- | --- | --- | --- |
-| Evaluator exploration, 2026-06-29 to 2026-07-01 | Built reset probes and search/replay. | Required competition-mode and live checks. | Hidden lifecycle and scoring semantics controlled transfer. | Reset experiment invalid; search solved development but not live conditions. (Episodes ARC-S02-ARC-S03) | A local solver may depend on an unavailable evaluator action. |
-| Serving and hidden evaluation, 2026-07-11 to 2026-07-14 | Fine-tuned, reduced prompts, and repaired a reviewed policy. | Demanded serving identity and hidden evaluation. | Base-model serving, held-out tasks, and review shaped the evidence. | LoRA comparison invalid; prompt transfer refuted; EWM superseded. (Episodes ARC-S04-ARC-S05; Episode ARC-S08) | Distinguish non-running treatments, non-generalizing treatments, and displaced work. |
-| Measurement and perception, 2026-08-01 to 2026-08-09 | Measured A/A noise, fixed parsing, and typed observations by role. | Required registered gates, replay, and regression checks. | Stochastic evaluation and retained cases bounded interpretation. | Noise floor and parser confirmed; role typing partially supported without isolated live attribution. (Episodes ARC-S01; ARC-S06-ARC-S07) | Instrument quality and representation can be research contributions. |
-| Structural and memory strategies, 2026-08-09 to 2026-08-10 | Added planning gates, best-of-N selection, and a repaired namespace. | Required live comparison and challenged reset assumptions. | Competition lifecycle and prior cross-provider proposal constrained deployment. | Structural controls partially supported; best-of-N refuted; memory result stayed in-band. (Episodes ARC-S09-ARC-S10; Episode OC-S05) | Better internal process does not imply external efficacy. |
-| External research and serving audits, 2026-08-06 to 2026-08-10 | Conducted multi-agent searches and plumbing review. | Commissioned challenges, killed an unserved arm, and imposed evidence gates. | Wrong-model corpus and an unexecuted serving path invalidated attractive proposals. | Corpus experiment invalid; sparse arm killed without live result. (Episodes OC-S03-OC-S04; Quote Q07) | Breadth cannot substitute for source and serving provenance. |
-| Late alternatives, 2026-08-15 | Tested Stage 2b and screened Qwen 3.8. | Required full-25 and gated-live verdicts. | Stage 2b uses a mutable outside-Git audit artifact; Qwen was an external model candidate. | Replacement refuted; Qwen 3.8 local result open pending live score; objective unachieved. (Episodes ARC-S11-ARC-S12; Testimony: living outcomes register) | Carry provenance limits and open transfer status into the conclusion. |
+| Evaluator exploration, 2026-06-29 to 2026-07-01 | Built reset probes and search/replay. | Required competition-mode and external checks. | Hidden lifecycle and scoring semantics controlled transfer. | Project design records classify the reset experiment invalid and report that search solved development but not external conditions. (Episodes ARC-S02-ARC-S03; Source ARC-S02; Source ARC-S03) | A local solver may depend on an unavailable evaluator action. |
+| Serving and hidden evaluation, 2026-07-11 to 2026-07-14 | Fine-tuned, reduced prompts, and repaired a reviewed policy. | Demanded serving identity and held-out evaluation. | Base-model serving, held-out tasks, and review shaped the evidence. | Repository, transcript, and project-ledger records classify the LoRA comparison invalid, prompt transfer refuted, and EWM superseded. (Episodes ARC-S04-ARC-S05; Episode ARC-S08; Source ARC-S04; Source ARC-S05; Source ARC-S08) | Distinguish non-running treatments, non-generalizing treatments, and displaced work. |
+| Measurement and perception, 2026-08-01 to 2026-08-09 | Measured A/A noise, fixed parsing, and typed observations by role. | Required registered gates, replay, and regression checks. | Stochastic evaluation and retained cases bounded interpretation. | Protocol and verdict artifacts confirm the noise-floor and parser claims and partially support role typing without isolated external attribution. (Episodes ARC-S01; ARC-S06-ARC-S07; Source ARC-S01; Source ARC-S06; Source ARC-S07) | Instrument quality and representation can be research contributions. |
+| Structural and memory strategies, 2026-08-09 to 2026-08-10 | Added planning gates, best-of-N selection, and a repaired namespace. | Required project-ledger comparison and challenged reset assumptions. | Competition lifecycle and prior cross-provider proposal constrained deployment. | Project-ledger and design records partially support structural controls, refute best-of-N, and keep the memory result in-band. (Episodes ARC-S09-ARC-S10; Episode OC-S05; Source ARC-S09; Source ARC-S10; Source OC-S05) | Better internal process does not imply external efficacy. |
+| External research and serving audits, 2026-08-06 to 2026-08-10 | Conducted multi-agent searches and plumbing review; articulated and executed the serving-identity gate. | Commissioned challenges, demanded proof, and killed an unserved arm. | The gate emerged from mixed human challenge and agent articulation/execution; wrong-model corpus and an unexecuted serving path invalidated attractive proposals. | Corpus experiment invalid; sparse arm killed without an external result. (Episodes OC-S03-OC-S04; Episode ARC-S05; Quote Q07) | Breadth cannot substitute for source and serving provenance. |
+| Late alternatives, 2026-08-15 | Tested Stage 2b and screened Qwen 3.8. | Required full-25 and gated-external verdicts. | Stage 2b uses a mutable outside-Git audit artifact; Qwen was an external model candidate. | Artifacts refute replacement and leave Qwen 3.8 open without an external score; the objective remained unachieved as testimony. (Episodes ARC-S11-ARC-S12; Source ARC-S11; Source ARC-S12; Testimony: living outcomes register) | Carry provenance limits and open transfer status into the conclusion. |
 
 ## 6. Cross-Case Findings
 
