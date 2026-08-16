@@ -41,14 +41,19 @@ paper expresses it in prose.
 - Quote only material relevant to hypothesis formation, confidence, correction,
   intervention, or research governance. Keep it short and preserve enough
   surrounding context to avoid misleading attribution.
+- The author has authorized short quotations from the local agent transcripts
+  for this paper. Admission still requires an `authorized` status in the private
+  quote trace; withheld or revoked material must not appear in the manuscript.
 - Every admitted quote must retain a private trace to provider, case, session
-  identifier, timestamp, speaker, and source location. Public text may use a
-  pseudonymous source label where the raw identifier adds no evidentiary value.
+  identifier, timestamp, speaker, source location, and authorization status.
+  Public text may use a pseudonymous source label where the raw identifier adds
+  no evidentiary value.
 - Redaction must not change the proposition or speaker intent. Paraphrase rather
   than quote when safe redaction would make the excerpt ambiguous.
 - AI-authored claims, citations, summaries, and interpretations require an
   independent source check before manuscript use. Ahmed Mobasher remains the
-  accountable sole author.
+  accountable sole author. Both the Methods and Acknowledgements must disclose
+  assistance from Claude Code, Codex, and OpenCode/DeepSeek; none is an author.
 
 ## Session provenance and deduplication
 
@@ -59,8 +64,11 @@ paper expresses it in prose.
    counted again as an independent conversation.
 3. Workflow journals, scratchpad copies, and tool-result derivatives are
    provenance aids, not conversations.
-4. A continued Codex session is counted once by its rollout file and session
-   identifier even when the file contains repeated metadata records.
+4. A Codex rollout's canonical conversation identifier is the first
+   `session_meta.payload.session_id` when present, otherwise the ultimate
+   `parent_thread_id`, otherwise its own `id`. Multiple files with the same
+   canonical identifier form one lineage. Only a native historical root may be
+   counted; children and repeated metadata records remain trace-only.
 5. A content search hit is admitted to a case only when session metadata places
    its working directory in that case repository or a repository-specific
    worktree. Matches from other working directories remain incidental unless a
@@ -71,43 +79,79 @@ paper expresses it in prose.
 7. The current paper-design and provenance-audit lineage is excluded from the
    historical case-activity count to prevent the act of studying the corpus from
    inflating it.
-8. Token counts are usage descriptors only. They are not measures of thought,
+8. Claude top-level files are joined when their legacy `session_id`, bridge
+   identifier, or file identifier overlaps. Within each connected component,
+   the earliest substantive CLI record is the canonical conversation; later
+   substantive records are continuations and all SDK or bridge-only records are
+   derivatives.
+9. Token counts are usage descriptors only. They are not measures of thought,
    scientific value, originality, or provider performance.
 
 ### Claude inventory
 
-The Claude project stores were enumerated recursively. A top-level UUID-named
-file was classified as a primary session. Files below `subagents` were
-classified as child work; files named `journal.jsonl` below workflow directories
-were classified as workflow journals. No JSONL path in either store matched the
-scratchpad-copy or tool-result-derivative naming rules. Unique `sessionId`
-values equaled top-level file counts, and no duplicate top-level file hashes
-were found.
+The Claude project stores were enumerated recursively. Files below `subagents`
+are child work; `journal.jsonl` files below workflow directories are workflow
+journals. Top-level files require metadata classification: a native `cli` record
+with at least one typed or queued prompt is a substantive primary-session chunk;
+an `sdk-cli` record or a bridge/initialization record without an explicit prompt
+is a tool-result derivative. This corrects the earlier, invalid assumption that
+every top-level UUID file was an independent conversation.
 
-| Case store | All JSONL files | Primary sessions counted | Direct subagents | Workflow subagents | Workflow journals | Scratchpad copies | Tool-result derivatives |
+| Case store | All JSONL files | Substantive top-level chunks | Top-level tool derivatives | Direct subagents | Workflow subagents | Workflow journals | Canonical conversation groups |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| AgentSecurityComp | 327 | 11 | 52 | 249 | 15 | 0 | 0 |
-| ARC-AGI-3 | 942 | 116 | 185 | 627 | 14 | 0 | 0 |
-| Total | 1,269 | 127 | 237 | 876 | 29 | 0 | 0 |
+| AgentSecurityComp | 327 | 10 | 1 | 52 | 249 | 15 | 5 |
+| ARC-AGI-3 | 942 | 13 | 103 | 185 | 627 | 14 | 5 |
+| Total | 1,269 | 23 | 104 | 237 | 876 | 29 | 10 |
 
-The primary Claude record windows are 2026-06-13T09:28:39.036Z through
+The 103 ARC-AGI-3 top-level derivatives comprise 99 `sdk-cli` records and four
+bridge or initialization stubs. The AgentSecurityComp derivative is a bridge
+stub. No scratchpad-copy path was found. All 104 derivatives are excluded from
+conversation counts.
+
+The canonical mapping below lists every substantive chunk and any linked
+top-level stub. The complete map also assigns all 1,142 child and journal files
+to their top-level parent and canonical group.
+
+| Case | Canonical conversation ID | Linked top-level record IDs |
+| --- | --- | --- |
+| AgentSecurityComp | `d02227a2-1ed0-471c-abb2-994217974264` | `d02227a2-1ed0-471c-abb2-994217974264`, `d368bb45-0b14-4073-9740-774ade58e769`, bridge stub `ce940de4-1381-4ae1-a0bf-1d6a0005f13f` |
+| AgentSecurityComp | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569` | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569`, `25c84940-5ede-4850-a639-5579fdef6ebe` |
+| AgentSecurityComp | `a809e3ce-6bd5-4997-914a-1100fe705967` | `a809e3ce-6bd5-4997-914a-1100fe705967`, `84f715ee-9b96-4ee0-9950-48acf7a82447`, `9f138e71-bfaa-49fa-93aa-e6cf5f592493` |
+| AgentSecurityComp | `42258c4d-4471-458b-a3c0-757cf6791024` | `42258c4d-4471-458b-a3c0-757cf6791024` |
+| AgentSecurityComp | `0385f350-248c-431f-a9f2-1604c96b5ce2` | `0385f350-248c-431f-a9f2-1604c96b5ce2`, `9d0f25c3-7d3c-4eaf-a219-001b44ea5ec4` |
+| ARC-AGI-3 | `573f46bd-f297-4c15-8028-9676d148ba1b` | `573f46bd-f297-4c15-8028-9676d148ba1b`, `c9ecf8fc-b749-4067-9622-38b0060db14f`, `5174edda-9963-4cdd-9306-18d2695d0fd0`, `38ec9bae-690c-4713-aa14-c3245497ca9e`, `0ba5f0b9-392e-404c-824f-ade3803cc524`, `0e3cf55e-6aa2-408c-bf63-8dfa02fe7d9a`, bridge stubs `28a15468-c114-4b85-9aac-74810ea52076` and `92fbe257-daaf-4f72-a7c7-de4a2c44ea2e` |
+| ARC-AGI-3 | `626c7722-330b-4125-b1de-439d21bef0a0` | `626c7722-330b-4125-b1de-439d21bef0a0`, `066c8134-787a-41a1-8dcb-dd4815d4a1d1`, `d093e020-dbb1-4965-958c-471bfea0138e` |
+| ARC-AGI-3 | `32add479-d332-44f0-ae03-8ed849c86377` | `32add479-d332-44f0-ae03-8ed849c86377`, `ff31ed86-9a67-4b4a-9261-458a5f2e9819` |
+| ARC-AGI-3 | `2c317a12-f48d-4a3f-8ddc-8b48615ad490` | `2c317a12-f48d-4a3f-8ddc-8b48615ad490`, initialization stub `852362d3-8371-4164-a10a-be12b9571208` |
+| ARC-AGI-3 | `de216582-726c-415f-9dd5-71c05fb4d2c3` | `de216582-726c-415f-9dd5-71c05fb4d2c3` |
+
+ARC-AGI-3 record `0f234577-1d7a-4a1a-841e-1398fbf6b99c` is an unlinked
+bridge/initialization stub and is excluded. A privacy-preserving overlap audit
+of the 23 substantive chunks found zero shared message-UUID pairs, zero repeated
+prompt-and-timestamp pairs, zero identical three-prompt prefixes, and zero
+identical contiguous three-prompt runs. Prompt text was normalized and hashed in
+memory; neither text nor hashes are written to the map. These checks address
+regenerated identifiers and copied prefixes without publishing transcript
+content.
+
+The substantive Claude record windows are 2026-06-13T09:28:39.036Z through
 2026-08-15T14:51:09.743Z for AgentSecurityComp and
 2026-06-28T16:54:33.186Z through 2026-08-15T21:28:03.657Z for ARC-AGI-3.
-Subagent and journal counts map the scale of the evidence store but must never
-be added to the 127-conversation total.
+The reported quantity is 10 metadata- and overlap-deduplicated canonical
+conversation groups, not 127 top-level files.
 
 ### Codex inventory
 
-The required content search found 68 rollout files at audit time. First metadata
-records classify them as follows:
+The refreshed content search found 69 rollout files at fix-round audit time.
+First metadata records classify them as follows:
 
 | Classification | Root rollouts | Child rollouts | Count treatment |
 | --- | ---: | ---: | --- |
-| AgentSecurityComp working directory | 11 | 20 | Case candidates |
+| AgentSecurityComp working directory | 11 | 21 | Case candidates |
 | ARC-AGI-3 working directory | 5 | 23 | Case candidates |
 | Other working directory with a text match | 5 | 4 | Excluded as incidental |
 
-One AgentSecurityComp root and nine of its children belong to the current
+One AgentSecurityComp root and ten of its children belong to the current
 paper-design and provenance-audit lineage. After excluding that lineage, the
 historical Codex case corpus contains 15 root sessions and 34 linked child
 sessions: 10 roots and 11 children for AgentSecurityComp, and 5 roots and 23
@@ -120,8 +164,10 @@ factory, CortexControl, and a generated Codex conversation directory. They may
 contain imported, continued, or cross-project references, but no direct case
 attribution was established in this inventory, so all nine are excluded.
 Legacy history mode is treated as storage metadata, not as evidence of a new
-conversation. Parent identifiers and repeated metadata prevent continuation and
-subagent inflation.
+conversation. Every one of the 69 rows, including all inclusions and exclusions,
+is mapped in the companion source map. Its `canonical_conversation_id` applies
+the explicit `session_id` / ultimate-parent / own-ID rule above; the 15 retained
+roots have 15 distinct canonical identifiers.
 
 ### OpenCode/DeepSeek inventory
 
@@ -142,11 +188,39 @@ parent totals as a measure of independent work. The sessions used OpenCode
 models labelled `big-pickle` and `deepseek-v4-flash-free`. Unequal timing,
 models, tasks, and budgets rule out a balanced provider comparison.
 
-### Deduplicated source map
+### Reproducible source map
+
+The auditable row-level map is
+`paper/evidence/ai-agents-research-source-map.tsv`; its derivation utility is
+`paper/evidence/build_ai_agents_source_map.py`. The map contains 1,356 data rows
+and these columns: provider, case, record ID, record class, privacy-preserving
+source locator, canonical parent ID, canonical conversation ID, disposition,
+and reason. It includes all 1,269 Claude JSONL files, all 69 Codex search hits,
+all 15 matching OpenCode sessions, both repository revisions, and the approved
+testimony source.
+
+Source locators resolve against these private read-only bases:
+
+- `claude:AgentSecurityComp/` resolves under
+  `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-AgentSecurityComp/`;
+- `claude:ARC-AGI-3/` resolves under
+  `/Users/ahmed/.claude/projects/-Users-ahmed-Documents-ArcAGI3/`;
+- `codex:` resolves under `/Users/ahmed/.codex/sessions/`;
+- `opencode:session/` resolves to the `session.id` row in
+  `/Users/ahmed/.local/share/opencode/opencode.db`; and
+- `git:`, `brief:` locators resolve to the pinned repositories and approved
+  task brief already identified in this ledger.
+
+Rebuild the map with `python3 paper/evidence/build_ai_agents_source_map.py`.
+The utility reads only Claude/Codex metadata plus normalized prompt hashes and
+non-sensitive OpenCode session columns. It never writes transcript content or
+prompt hashes to the manifest.
+
+### Deduplicated source summary
 
 | Source | Independent conversation unit retained | Derivative records retained for traceability | Primary use |
 | --- | ---: | ---: | --- |
-| Claude Code | 127 top-level sessions | 1,142 subagent and workflow-journal files | Primary transcript evidence across both cases |
+| Claude Code | 10 canonical conversation groups | 13 continuation chunks and 1,246 trace-only records | Primary transcript evidence across both cases |
 | Codex | 15 historical case roots | 34 linked historical children | Supplementary challenge, reset, and implementation evidence |
 | OpenCode/DeepSeek | 5 parents | 10 linked specialists | Limited supplementary evidence |
 | Git repositories | 2 pinned revisions | Commit history and artifacts | Chronology, implementation, and revision checks |
@@ -223,18 +297,22 @@ superseded episodes remain in the ledger.
 ## Quote ledger
 
 No transcript quotation is selected in this provenance-only pass. A quote may
-be admitted only after a source-level context check and privacy review. Its
-private trace must record case, provider, parent session, child session when
-applicable, timestamp, speaker, exact source location, topic, surrounding
-context, redaction note, evidence class, and manuscript use. Quotes may not be
-used as substitutes for code, live evaluation, or literature evidence.
+be admitted only after a source-level context check, privacy review, and an
+`authorized` status under the author's project-level permission for short local
+transcript quotations. Its private trace must record case, provider, parent
+session, child session when applicable, timestamp, speaker, exact source
+location, topic, surrounding context, redaction note, evidence class,
+authorization status, and manuscript use. Withheld or revoked authorization
+blocks admission. Quotes may not be used as substitutes for code, live
+evaluation, or literature evidence.
 
 ## Descriptive measures and derivations
 
 | Measure | Derivation at this cutoff | Interpretation limit |
 | --- | --- | --- |
-| Claude primary conversations | 11 AgentSecurityComp + 116 ARC-AGI-3 = 127 | Store coverage, not independent hypotheses or achievements |
-| Claude derivative records | 237 direct subagents + 876 workflow subagents + 29 journals = 1,142 | Traceability only; excluded from conversation count |
+| Claude canonical conversation groups | 5 AgentSecurityComp + 5 ARC-AGI-3 = 10 | Metadata- and overlap-deduplicated groups, not hypotheses or achievements |
+| Claude raw record map | 23 substantive chunks + 104 top-level tool derivatives + 1,113 subagents + 29 journals = 1,269 | Every record has a source locator and disposition in the TSV map |
+| Claude excluded continuations | 13 of 23 substantive chunks | Linked to the 10 canonical groups by legacy or bridge identifiers |
 | Historical Codex roots | 10 AgentSecurityComp + 5 ARC-AGI-3 = 15 | Current paper-audit lineage and incidental matches excluded |
 | Historical Codex children | 11 AgentSecurityComp + 23 ARC-AGI-3 = 34 | Linked to parents; not independent conversations |
 | OpenCode parents | 2 AgentSecurityComp + 3 ARC-AGI-3 = 5 | Supplementary evidence only |
@@ -272,9 +350,11 @@ after the competitions conclude and the supporting records are checked.
 
 - Live Kaggle submission histories, exact statuses, scores, and leaderboard
   records were not queried in this provenance task.
-- Claude classification is based on filesystem position, naming, unique
-  `sessionId` values, and top-level hashes. Episode-level content overlap still
-  requires source review.
+- Claude classification and canonical groups are reproducible from entrypoint,
+  prompt-source, legacy-session, bridge, and path metadata. The hashed overlap
+  audit detects exact copied prompt runs of three or more, but paraphrased or
+  shorter overlap remains possible; the value 10 therefore describes canonical
+  conversation groups under this stated rule, not independent intellectual work.
 - The nine Codex matches from other working directories were conservatively
   excluded; their exact imported, continued, or incidental provenance was not
   adjudicated message by message.
@@ -287,6 +367,6 @@ after the competitions conclude and the supporting records are checked.
 - No balanced provider assignment, common task set, controlled model versions,
   equal budget, or human-only control exists.
 - No quote, coded episode, or literature claim has yet passed the source-level
-  admission checks defined above.
+  admission and authorization checks defined above.
 - Both competition outcomes remain open, and neither winning objective has been
   achieved at the cutoff.
