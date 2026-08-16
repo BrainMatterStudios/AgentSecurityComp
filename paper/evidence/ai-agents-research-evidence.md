@@ -1,6 +1,7 @@
 # AI Agents in Research Evidence Ledger
 
-This ledger is the provenance foundation for a living, comparative N-of-1 case
+This ledger is the provenance foundation for a living, comparative
+single-participant (N-of-1) case
 study. AgentSecurityComp is the primary case and ARC-AGI-3 is the comparative
 case. OpenCode/DeepSeek is supplementary evidence, not a balanced provider
 comparison. Session counts describe records, not research quality, autonomy, or
@@ -302,7 +303,7 @@ The current competition outcome is retrospective testimony: the winning
 objective has not been achieved. Exact AgentSecurity submission statuses and
 scores admitted to the manuscript come only from the independently retrieved
 live-results table in `paper/evidence/working-note-claim-ledger.md`, frozen at
-2026-08-16T09:25:34Z. That table does not establish a final rank or outcome.
+2026-08-16T11:10:21Z. That table does not establish a final rank or outcome.
 
 ## ARC-AGI-3 chronology
 
@@ -339,7 +340,9 @@ the registered 0.69-1.30 comparison interval. AgentSecurity's *L27* and *L31*
 are names for controlled submission ladders. *Probe-hop* enables a one-hop
 calibration probe before candidate sizing; *chain-pack* places several
 multi-hop messages in one candidate; and *fast-emit* is the separately
-calibrated in-memory path for fixed eight-hop candidates.
+calibrated in-memory path for fixed eight-hop candidates. A *low-rank
+adaptation (LoRA) adapter* is a compact fine-tuning layer, and an *A/B
+comparison* is a side-by-side test of two arms.
 
 ### AgentSecurityComp episodes
 
@@ -375,7 +378,7 @@ calibrated in-memory path for fixed eight-hop candidates.
 | ARC | 2026-08-10 | Use best-of-N with reset-based repeated plays. | agent | Probe results and repeated-play theory. | High before boundary test. | Required independent competition-mode verification. | Candidate selection worked in the harness. | Competition mode swallowed the boundary reset; second play failed. | refuted | A strategy depending on unavailable evaluator actions is not deployable. | ARC-S09 |
 | ARC | 2026-08-09 | Add a structural plan channel with brake and phase gates. | mixed | Human strategy goals plus prior failure analysis. | Moderate. | Required live ledger comparison. | Structural controls executed. | Results stayed in the existing score band. | partially supported | Better process structure is not automatically a score breakthrough. | ARC-S10 |
 | ARC | 2026-08-15 | Replace duck baseline with engineered Stage 2b. | mixed | Portfolio analysis and staged local benchmark. | Moderate. | Required a full-25 verdict. | 0.2463 versus duck 1.6333, with six game wins. | No replacement claim was shipped; only a narrow portfolio edge remained. | refuted | Preserve a narrow portfolio edge while rejecting the stated replacement claim. | ARC-S11 |
-| ARC | 2026-08-15 | Promote Qwen 3.8 after a controlled local A/B. | mixed | External model candidate, agent screening, human competition goal. | High locally. | Required an armed but gated live runner. | Mean 2.5291 versus Qwen 3.6 at 1.4872. | No scored live result existed by cutoff. | open | A strong local A/B remains an open transfer claim until live scoring. | ARC-S12 |
+| ARC | 2026-08-15 | Promote Qwen 3.8 after a controlled local A/B. | mixed | External model candidate, agent screening, human competition goal. | High locally. | Required an armed but gated live runner. | Stored row mean 2.5291 versus Qwen 3.6 at 1.4872 in a one-wave directional screen. | No scored live result existed by cutoff. | open | A strong local A/B remains an open transfer claim until live scoring. | ARC-S12 |
 
 ### OpenCode primary investigations
 
@@ -413,7 +416,7 @@ cutoff.
 | AS-S14 | AgentSecurityComp commit `b02d457`; `paper/evidence/working-note-claim-ledger.md`, row L31 submissions `55538814`, `55538829`, `55538848`, `55538855`, `55538875` |
 | ARC-S01 | ArcAGI3 commit `19fd560`; cutoff `ebe5b3e:scripts/research_2026_07_01/goal_inference/exp_b_reasoner/retest_roletyped/VERDICT.md#L1-L23` |
 | ARC-S02 | ArcAGI3 commits `8b5ab48`, `4270936`, `a077012`; cutoff `docs/DESIGN-2026-08-14-engineered-agent.md#L28-L35` |
-| ARC-S03 | ArcAGI3 commits `df9b96b`, `25e7a78`; cutoff `docs/DESIGN-2026-08-14-engineered-agent.md#L30-L33` |
+| ARC-S03 | ArcAGI3 commits `df9b96b`, `25e7a78`; cutoff `docs/geodesic-fix-validation.html#L42-L47` (repaired no-op and measured replay), `docs/HANDOFF-2026-07-01-research-continuation.md#L27-L32` (recorded 7–109× claim), and `docs/superpowers/specs/2026-08-01-sacrificial-recon-spine-design.md#L44-L47` (competition-mode HTTP 400 result) |
 | ARC-S04 | ArcAGI3 commit `10a94c6`; `claude:ARC-AGI-3/38ec9bae-690c-4713-aa14-c3245497ca9e.jsonl#L29`, continuation linked to canonical `573f46bd-f297-4c15-8028-9676d148ba1b` |
 | ARC-S05 | ArcAGI3 commit `7bc3cfc`; `claude:ARC-AGI-3/573f46bd-f297-4c15-8028-9676d148ba1b.jsonl#L6491,#L6766-L6819`, messages `069646ee`, `cd994208` |
 | ARC-S06 | ArcAGI3 commit `8d8b671`; cutoff `docs/A1-PROTOCOL-2026-08.md#L90-L125` (four replicate pairs, RMS, power calculation, and protocol consequence); implementation `8d8b671:scratchpad/rl_gate/aa_noise_floor.py` |
@@ -422,7 +425,7 @@ cutoff.
 | ARC-S09 | ArcAGI3 commit `b5ad790`; cutoff `docs/DESIGN-2026-08-14-engineered-agent.md#L30-L33` |
 | ARC-S10 | ArcAGI3 commits `4bb431d`, `cfeb92a`; cutoff `docs/submission-ledger.json#L27-L33,#L45-L50,#L62-L69`, structural submissions `55493742` (1.09), `55450891` (0.78), and `55418633` (1.03 as recorded in the later entries) |
 | ARC-S11 | ArcAGI3 cutoff-ancestor commit `da37afd`; audit-time mutable artifact `/Users/ahmed/Documents/ArcAGI3/scratchpad/engineered_stage2/stage2b_verdict.md#L100-L125`, SHA-256 `aa341694465ce6e8854bdc74e589de7c2d241cabbfb798a32aeb32970364b2fa`, file mtime `2026-08-14T23:22:57Z`, audit extraction `2026-08-16T08:45:51Z`; the artifact is outside Git and not cutoff-reproducible |
-| ARC-S12 | ArcAGI3 commits `4f3d330`, `ebe5b3e`; cutoff `docs/RESEARCH-2026-08-15-field-sweep-and-qwen38.md` and `scratchpad/qwen38/wave1_shipped_result.json` |
+| ARC-S12 | ArcAGI3 commits `4f3d330`, `ebe5b3e`; cutoff `docs/superpowers/specs/2026-08-15-qwen38-emergency-promotion-design.md#L14-L19,#L127-L140` (row means, official aggregation, and one-wave limitation), `docs/RESEARCH-2026-08-15-field-sweep-and-qwen38.md`, and `scratchpad/qwen38/wave1_shipped_result.json` |
 | OC-S01 | OpenCode parent `ses_0231a2013ffeeQefgINsuGs4Is`: scope part `prt_fdce5e043002Hlei3UVuTirUXs` (2026-08-07 15:44:40Z), local smoke `prt_fdd57568a001GD54y5cbvQ0dRU` (17:48:36Z), approval-gate statement `prt_fdd578c24001QSavNUh0Eo6xVN` (17:48:50Z), assessment `prt_fdd99103a001Kl13c0eW6b4uA7` (19:00:23Z); no child sessions |
 | OC-S02 | OpenCode parent `ses_019da7b0effeSVV74ieACHE15I`: scope message `msg_fe6258538001IR3J7Nyc6r9Ul5`, part `prt_fe6258539001I0glvysE6QnNH1` (2026-08-09 10:50:46Z); evidence synthesis `prt_fe6735d130015A4EbSnvC3Zp01` (12:15:47Z); local mechanics result `prt_fe800cd8e001YHesMMKyNQMCLE` (19:29:54Z); no child sessions |
 | OC-S03 | OpenCode parent `ses_0272a2568ffeSoBW8bBagLOznD`: scope `prt_fd8d5daeb001bzu9gYLI3bPP0u` (2026-08-06 20:48:41Z), linked child `ses_02728fff5ffeWMGhU1bTBxcIW7` with delegated scope `prt_fd8d70016001zCxLYQg5U8f3lE`; independent challenge supplied in `prt_fdd97277a001DUO32j3mkXSCzW`; retraction/audit `prt_fdd9b31db001QFOC6MgNsl3i4H` (2026-08-07 19:02:43Z); kill instruction `prt_fdd9cccb1001JqKBbKF2FZJ7DE` and confirmation `prt_fdd9cf6e5001nos3EqwzZfT49O` (19:04Z) |
@@ -530,7 +533,7 @@ linked record was checked for the full list.
 | L07, Gottweis et al. | Peer-reviewed article | Generate and rank biomedical hypotheses for expert selection and laboratory testing | Co-Scientist generated biomedical hypotheses that received preliminary in-vitro validation, including drug-repurposing candidates and a mechanism matching a co-timed unpublished finding. | All three main validations included experts in the loop; evidence was concentrated in biomedicine, literature access was incomplete, hallucination remained possible and validation was preliminary. | Recent systems can contribute experimentally testable hypotheses in scientist-led workflows; this is evidence of augmentation, not scientist replacement. |
 | L08, Ifargan et al. | Preprint | Move from annotated data through analysis to a traceable manuscript | Data-to-paper linked data, code, results and prose and could complete simple data-analysis manuscripts in autopilot mode. | The system starts from annotated data, showed limited novelty, made material errors even on simple work and consistently needed human co-piloting as complexity rose; it did not pursue follow-up questions. | Traceability can make agent-generated analysis more auditable, but complexity increases the need for human review. |
 | L09, Lu et al. | Preprint | Ideate, edit code, run small ML experiments, write papers and simulate review | The AI Scientist demonstrated an end-to-end computational pipeline in three machine-learning subfields using supplied seed code and templates. | The authors report implementation failures, weak experimental rigor, misleading conclusions and occasional hallucinated results; generated work was judged mainly by an automated reviewer. | End-to-end manuscript production is technically feasible in constrained computational settings, but paper production is not equivalent to reliable discovery. |
-| L10, Majumder et al. | Preprint | Search and verify hypotheses from supplied datasets | DiscoveryBench formalized 264 paper-derived tasks and 903 synthetic tasks; its best evaluated system reached only 25% on the authors' metric. | The benchmark excludes forecasting, simulation, massive data and multimodal pipelines and overrepresents easier-to-replicate domains. | Data-driven discovery benchmarks expose steep performance losses with workflow and domain complexity. |
+| L10, Majumder et al. | Preprint | Search and verify hypotheses from supplied datasets | DiscoveryBench formalized 264 paper-derived tasks and 903 synthetic tasks; its best evaluated system reached only 25% on the authors' metric. | The benchmark excludes forecasting, simulation, massive data and some domain-specific modeling workflows and overrepresents easier-to-replicate domains. | Data-driven discovery benchmarks expose steep performance losses with workflow and domain complexity. |
 | L11, Siegel et al. | Preprint | Reproduce published computational results from provided code and data | CORE-Bench evaluates 270 tasks derived from 90 papers; the best reported agent reached 21% accuracy on the hardest task level. | This is reproduction with an existing repository and data across three disciplines, not novel question formation or experimental discovery. | Reproducing existing computational work remains difficult for agents and is a narrower capability than conducting new research. |
 | L12, Skarlinski et al. | Preprint | Retrieve, synthesize and check contradictions in scientific literature | PaperQA2 matched or exceeded the study's human comparators on its defined retrieval and summarization evaluations and surfaced candidate contradictions for expert validation. | The tests cover three literature tasks; contradiction labels can be context-dependent, the detector was overconfident relative to human annotators, and the result does not cover experimentation. | Agents may exceed experts on carefully specified literature-synthesis tasks without possessing general scientific autonomy. |
 | L13, Si et al. | Preprint | Generate NLP research ideas for blinded expert review | In the study, reviewers rated agent ideas as more novel on average than human ideas but slightly less feasible. | Participants produced ideas under study constraints; ideas were not executed, novelty judgments were subjective, generation lacked diversity and LLM self-ranking was unreliable. | Idea-generation results support a bounded ideation role, not claims of completed discovery or dependable self-evaluation. |
@@ -570,9 +573,9 @@ placeholders.
 
 | Register item | AgentSecurityComp | ARC-AGI-3 | Evidence class and update rule |
 | --- | --- | --- | --- |
-| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; live Kaggle rows retrieved 2026-08-16T09:25:34Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b mutable artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff. Later evidence appends a dated observation. |
+| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; live Kaggle rows retrieved 2026-08-16T11:10:21Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b mutable artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff. Later evidence appends a dated observation. |
 | Winning objective | Ongoing and unachieved at cutoff. | Ongoing and unachieved at cutoff. | Retrospective testimony; verify against final official records. |
-| Current recorded score/status state | Independently retrieved live rows: L27 control `COMPLETE` at 88.730; L29 `COMPLETE` at 85.675; L31 fast-emit `COMPLETE` at 25.145; L31 chain-pack refs 55538814, 55538829, 55538848, and 55538855 all `PENDING` with no scores. No current-rank or final-best claim follows. | No current external score or rank was independently queried. Repository/project artifacts report Stage 2b at 0.2463 versus duck at 1.6333 over the full-25 development set and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is a current external fact. | AgentSecurity values are live observations at 2026-08-16T09:25:34Z. ARC values remain bounded project-record or audit-time-artifact claims. |
+| Current recorded score/status state | Independently retrieved live rows: L27 control `COMPLETE` at 88.730; L29 `COMPLETE` at 85.675; L31 fast-emit `COMPLETE` at 25.145; L31 chain-pack refs 55538814, 55538829, 55538848, and 55538855 all `PENDING` with no scores. No current-rank or final-best claim follows. | No current external score or rank was independently queried. Repository/project artifacts report Stage 2b at 0.2463 versus duck at 1.6333 over the full-25 development set and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is a current external fact. | AgentSecurity values are live observations at 2026-08-16T11:10:21Z. ARC values remain bounded project-record or audit-time-artifact claims. |
 | Reviewed deadlines | Official final submission deadline: 2026-09-01 at 23:59 UTC; optional Working Note deadline: 2026-09-08 at 23:59 UTC. | No official ARC deadline was admitted to this reviewed ledger; none is asserted. | AgentSecurity dates are source facts from the official timeline recorded in the working-note claim ledger. ARC requires a primary official source in a later revision. |
 | Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony: about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions with unrecorded amounts. No independently confirmed total exists at cutoff. |
 | Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate of 2-5 hours/day; not a contemporaneous time record. |
@@ -588,7 +591,7 @@ never inherits the result of a companion submission.
 ## Known evidence gaps
 
 - AgentSecurity exact statuses and scores were independently queried only for
-  the live-results table frozen at 2026-08-16T09:25:34Z; that table does not
+  the live-results table frozen at 2026-08-16T11:10:21Z; that table does not
   establish final ranking, later results, or competition outcome. ARC external
   state was not queried, so project-ledger outcomes are not current external
   facts.

@@ -5,7 +5,8 @@
 Large-language-model agents can search literature, inspect repositories, write
 and run code, and maintain long computational workflows, but those capabilities
 do not establish scientific autonomy, originality, or reliability. This living,
-comparative N-of-1 case study examines one experienced technologist's use of AI
+comparative single-participant (N-of-1) case study examines one experienced
+technologist's use of AI
 coding agents while entering two unfamiliar competition-based research domains:
 AgentSecurityComp as the primary case and ARC-AGI-3 as a comparative case. The
 review combines metadata-deduplicated private agent histories, pinned repository
@@ -345,7 +346,7 @@ and the supporting records are checked.
 
 **Outcome-evidence note.** Exact AgentSecurity scores and API statuses retained
 below come from the independently retrieved Kaggle rows frozen in the
-AgentSecurity live-results table at 2026-08-16T09:25:34Z. That retrieval is
+AgentSecurity live-results table at 2026-08-16T11:10:21Z. That retrieval is
 later than both the AI-case repository cutoff of 2026-08-16T10:29:29+03:00
 (07:29:29Z) and the mutable-history snapshot at 2026-08-16T08:06:05Z. Earlier
 figures not present in that retrieved table are described without an exact live
@@ -531,8 +532,9 @@ claims, not independently re-queried scores. (Episode ARC-S02; Source ARC-S02)
 
 ### 5.2 Serving identity and development-to-hidden reversal
 
-The sharpest validity failure occurred on 2026-07-11. A fine-tuned LoRA adapter
-appeared to beat its base model with a local result of 1.26, and the agent was
+The sharpest validity failure occurred on 2026-07-11. A fine-tuned low-rank
+adaptation (LoRA) adapter appeared to beat its base model with a local
+result of 1.26, and the agent was
 highly confident before the human requested proof of the deployed model's
 identity. The audit found that “The LoRA never served. The generation ran on
 base”. The apparent treatment and control were therefore the same model, so the
@@ -635,16 +637,16 @@ revision. Its hash, modification time, and extraction time are recorded, but
 the exact bytes are not reproducible from the frozen repository, so that
 provenance limitation travels with the result. (Episode ARC-S11; Source ARC-S11)
 
-The same day, the project result artifact records that Qwen 3.8—an external
-model candidate screened in the project—had a controlled local A/B mean of
-2.5291 versus 1.4872 for Qwen 3.6. The human required an armed but gated live
-runner. No scored external result existed in the project records by the
-cutoff, so Qwen 3.8 remained `open`; its local advantage was not promoted into a
-live, ranking, or objective-achievement claim. This is a repository artifact
-claim, not an independently queried external result. External model selection,
-agent screening, and human approval were all material to the episode, making
-its origin mixed rather than autonomously agent-generated. (Episode ARC-S12;
-Source ARC-S12)
+The same day, the project design record reports that Qwen 3.8—an external model
+candidate screened in the project—had a stored local row mean of 2.5291 versus
+1.4872 for Qwen 3.6 in a one-wave, side-by-side (A/B) directional screen. The
+human required an armed but gated live runner. No scored external result existed
+in the project records by the cutoff, so Qwen 3.8 remained `open`; its local
+advantage was not promoted into a live, ranking, or objective-achievement claim.
+This is a repository design-record claim, not an independently queried external
+result. External model selection, agent screening, and human approval were all
+material to the episode, making its origin mixed rather than autonomously
+agent-generated. (Episode ARC-S12; Source ARC-S12)
 
 In retrospective testimony, the author reported that Claude Code was the
 primary research system while Codex and OpenCode/DeepSeek were introduced mainly
@@ -1039,9 +1041,9 @@ is a completed evidence status, not a blank field.
 
 | Register item | AgentSecurityComp | ARC-AGI-3 | Authority and update constraint |
 | --- | --- | --- | --- |
-| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; live Kaggle rows retrieved 2026-08-16T09:25:34Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
+| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; live Kaggle rows retrieved 2026-08-16T11:10:21Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
 | Winning objective | Ongoing and unachieved at cutoff. | Ongoing and unachieved at cutoff. | Retrospective author testimony; verify against final official records. |
-| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145; four L31 chain-pack rows were `PENDING` without scores. These are identified public submission rows, not a current rank or final best-system claim. | No current external score or rank was independently queried. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. | AgentSecurity values are live observations at the stated retrieval. ARC values are bounded repository or mutable-artifact records and retain those provenance labels. |
+| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145; four L31 chain-pack rows were `PENDING` without scores. These are identified live submission rows, not a current rank or final best-system claim. | No current external score or rank was independently queried. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. | AgentSecurity values are live observations at the stated retrieval. ARC values are bounded repository or mutable-artifact records and retain those provenance labels. |
 | Recorded deadlines | Final submission: 2026-09-01 at 23:59 UTC; optional Working Note: 2026-09-08 at 23:59 UTC. | No official ARC deadline was admitted to the reviewed AI evidence ledger, so this manuscript asserts none. | AgentSecurity dates come from the reviewed official timeline. An ARC deadline requires a primary official source in a later evidence revision. |
 | Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony reports about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions whose amounts were not recorded. No independently confirmed total existed at cutoff. |
 | Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate: 2–5 hours per day; not a time-tracking result. |
