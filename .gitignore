@@ -23,6 +23,7 @@ models/
 .DS_Store
 .serena/
 .playwright-mcp/
+.worktrees/
 
 # Competitor kernels (downloaded; not ours to commit — same as refkernels/)
 refkernels_new/
