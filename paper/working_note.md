@@ -22,7 +22,7 @@ candidate message chains are replayed against guarded agents and scored for four
 families. The method combines a pinned-source audit of `aicomp-sdk 3.1.2`, controlled local
 measurements, and a status-preserving catalogue of live Kaggle submissions through 2026-08-16.
 Claims are classified as **Source facts**, **Local measurements**, **Live observations**,
-**Triangulated findings**, **Inferences**, or **Open hypotheses**.
+**Triangulated findings**, **Inferences**, **Testimony**, or **Open hypotheses**.
 
 The principal **Source fact** is a guardrail-predicate asymmetry in the public implementation:
 the guardrail and scoring predicates do not always inspect the same trace fields, sinks, or
@@ -113,9 +113,9 @@ inspected in a particular artifact, not how an undocumented revision ran.
 
 ### 2.2 Evidence tiers
 
-Every substantive claim is assigned one of the following labels in the internal claim ledger;
-the prose and tables preserve the distinction even where a label is not repeated in every
-sentence.
+This note uses the following evidence labels. The internal claim ledger applies the
+non-testimonial labels to experimental claims; testimonial statements are labeled in the prose.
+The distinction is preserved even where a label is not repeated in every sentence.
 
 | Label | Meaning in this note |
 |---|---|
@@ -124,6 +124,7 @@ sentence.
 | **Live observation** | Returned by the competition evaluator for an identified submission, with status preserved. |
 | **Triangulated finding** | The same bounded proposition is supported by at least two independent evidence types. |
 | **Inference** | A reasoned interpretation whose dependencies are stated but which is not directly observed. |
+| **Testimony** | Ahmed Mobasher's reported account, recollection, or judgment, not treated as a source fact, measurement, or evaluator observation. |
 | **Open hypothesis** | Untested, unresolved, contradictory, or still pending at the evidence cutoff. |
 
 Labels do not form a simple ladder: a live score is authoritative for its row but may remain a
@@ -146,8 +147,8 @@ satisfied both gates. The audit includes one-off runs, unmatched comparisons, co
 controls, `ERROR` rows, and source-derived proposals that reached the live evaluator without a
 complete local record. Those entries remain useful for provenance and hypothesis generation, but
 their wording is limited to **Source fact**, **Local measurement**, **Live observation**,
-**Inference**, or **Open hypothesis** as warranted. Local wall time is never assumed to transfer
-to the hidden evaluator.
+**Inference**, **Testimony**, or **Open hypothesis** as warranted. Local wall time is never
+assumed to transfer to the hidden evaluator.
 
 ### 2.4 Threats to validity
 
@@ -163,10 +164,10 @@ to the hidden evaluator.
 
 ### 2.5 AI-use disclosure
 
-Ahmed Mobasher is the sole author and is accountable for the manuscript. Claude Code, Codex, and
-OpenCode/DeepSeek assisted with code navigation, experiment implementation, drafting, and review.
-Their outputs are not treated as evidence unless checked against the source, local records, or
-live catalogue described above.
+Ahmed Mobasher is the sole author and is accountable for the manuscript. **Testimony:** Ahmed
+reports that Claude Code, Codex, and OpenCode/DeepSeek assisted with code navigation, experiment
+implementation, drafting, and review. Their outputs are not treated as evidence unless checked
+against the source, local records, or live catalogue described above.
 
 ---
 
@@ -303,10 +304,9 @@ carries the secret (`predicates.py:22-24`). Separately, for `email.send` the gua
 **`body`** as the target, so a *benign-bodied* `email.send`, issued with no web/email source in
 the recent window, is allowed — and it fires CONFUSED_DEPUTY (severity 3) as long as the last
 user message avoids the words `send`/`email`/`upload` (`predicates.py:299-310`). This is the
-one predicate cleanly scoreable under the public guardrail besides exfiltration. It is central
-to the private-board discussion in §6, because a benign-bodied `email.send` is **behaviourally
-indistinguishable from a legitimate mail task**, which has consequences for any provenance- or
-false-positive-sensitive private guardrail.
+one predicate cleanly scoreable under the public guardrail besides exfiltration. This conclusion
+is limited to the public implementation; the unavailable private implementation supports no
+corresponding allow/deny or false-positive claim.
 
 ---
 
@@ -373,9 +373,10 @@ re-processes growing context).
 (weight 4) hop to an EXFIL candidate steals a replay hop that a second `http.post` (weight 16)
 would use, so a mixed EXFIL+CONFUSED_DEPUTY candidate is dominated on the public row by spending
 that hop on EXFIL. (Independently, `gemma` does not reliably emit `email.send` under our
-framings, so the stack cannot even form on that row.) This makes CONFUSED_DEPUTY a **private-board
-hedge only** (§4.4, §6 (rec. 4)), not a public-row throughput lever — distinct from the commitment-forge
-below, which stacks *http.post* hops and is *not* dominated.
+framings, so the stack cannot even form on that row.) CONFUSED_DEPUTY is therefore not a
+public-row throughput lever under these tested framings. No conclusion is drawn for the private
+implementation. This differs from the commitment-forge below, which stacks *http.post* hops and
+is *not* dominated.
 
 ### 5.2 The commitment-forge (score-positive) — and the reasoning-row ceiling
 
@@ -399,41 +400,42 @@ say is the corrected form of the 08-03 draft's "unexplained ~20-point gap": port
 mechanism onto the reasoning row, as we implemented it, does not by itself reach the frontier, so
 the gap is not explained by decode cost on that row alone.
 
-### 5.3 The non-reasoning row as unexploited headroom (hypothesis, Gate-1 only)
+### 5.3 Non-reasoning-row transfer: positive once; durability not established
 
 The commitment-forge is a *reasoning-model* device (it forges a chain-of-thought channel the
 reasoning model honours). Across the ~10 competitor kernels we inspected, competitors forge the
 `gpt-oss` row and appear to leave the non-reasoning `gemma` row at single-post — an observation
 about *visible* code, not a certainty about the frontier's actual submissions. `gemma`
 nonetheless multiposts under a *different*, model-specific device — a control-token continuation
-forge that fabricates one completed tool cycle in gemma's own turn format. On our replica this
-fires **3 posts/candidate at k=4** and 2 at k=3 (2026-08-10, exact production bytes on the faithful
-replay path) — but this is a **Gate-1 result only**; its board score is pending (§7), and the one
-existing gemma-multipost *board* datapoint is a loss (a naïve gemma hop-pack scored 64.6 vs 82.4
-single, 2026-08-08 — the same naïve-vs-forge distinction as §5.1, but a caution nonetheless). We
-therefore state this as our *targeted hypothesis*: under a sum-like aggregation the non-reasoning
-row is unexploited headroom, so a forge that clears Gate 2 there would lift the aggregate. Our
-crown attempt is a **dual-forge** that detects the board and routes each to its native mechanism
-(gpt→commitment-forge, gemma→control-token forge) in one submission. It was unresolved at the
-prior draft's cutoff; the claim ledger records its later status for the results revision.
+forge that fabricates one completed tool cycle in gemma's own turn format. On the replica this
+produced **3 posts/candidate at k=4** and 2 at k=3 (**Local measurement**, 2026-08-10).
 
-### 5.4 Cross-model forge interference (score-negative)
+All five L25 rows later returned `COMPLETE`. The Gemma-only N=600 forge scored 34.000 versus
+27.000 for the listed single-post isolate (**Live observations** 55418165 and 55418171), a
+positive one-off comparison without a variance estimate. The N=900 follow-up was near-null:
+35.000 versus 34.605 (55444087 and 55444093). The N=600 dual-forge configurations scored 81.985
+and 82.660 versus the listed both-board single control at 54.000 (55418180, 55418184, and
+55418160). These rows establish only that the identified configurations produced those scores;
+they do not establish a durable Gemma-forge effect, a row-level aggregate decomposition, or a
+frontier mechanism.
+
+### 5.4 Cross-model forge interference (inference)
 
 A tempting shortcut is to send the (validated) reasoning commitment-forge to *both* boards. It
-back-fires. Board evidence: a both-boards *commitment-forge* scored **72.8** (n=4) and 81.2 (n=6)
+did not exceed the listed reference. Board evidence: a both-boards *commitment-forge* scored
+**72.8** (n=4) and 81.2 (n=6)
 (2026-08-10), at or below a single-post-both-boards reference of ≈82.4. Two honesty caveats we do
 not hide: (i) that ≈82.4 reference is itself imperfect — it comes from a 2026-08-08 run whose
-isolation router was broken (§7), so whether it is a clean both-boards single is uncertain; a clean
-control was included in the then-unresolved ladder. (ii) The n=6 result (81.2) is within
-run-to-run variance (~±6) of the reference, so the effect rests mainly on n=4. With those caveats,
-the pattern —
-a forge that *lifts* the isolated gpt row (§5.2) yet does not lift the both-boards total — is
-**consistent with** the reasoning forge degrading the non-reasoning row (its gpt-harmony control
-tokens are literal text to the other model family). We deliberately do not call this "poisoning":
-the non-reasoning row is not directly measured here (that isolate is pending, §7), and the
-inference assumes the two rows compose additively across separate submissions. The defensible
-lesson: a forge tuned to one model's turn grammar is not board-neutral, and per-board routing is
-the safe design — which the pending dual-forge tests directly.
+isolation router was broken (§7), so whether it is a clean both-boards single is uncertain; the
+later L25 clean N=600 control scored 54.000 but is not matched to these rows. (ii) The n=6 result
+(81.2) is within
+run-to-run variance (~±6) of the reference, so the effect rests mainly on n=4. The pattern is
+consistent with the reasoning forge degrading the non-reasoning row, but it does not identify
+that cause. The comparison does not directly isolate the reasoning forge on Gemma, and the
+aggregation rule is unknown. L25's completed native-Gemma isolate and dual-forge rows use a
+different mechanism and therefore do not close this causal question. Cross-model interference
+remains an **Inference**; per-model routing remains a design hypothesis rather than a validated
+remedy.
 
 ### 5.5 Structurally blocked (proven from source, not just measured)
 
@@ -460,21 +462,14 @@ Each asymmetry in §4 is a concrete, cheap fix for a benchmark or guardrail desi
 3. **Document the window relationship.** A taint window ⊇ a predicate's provenance window is a
    deliberate "defended-by-construction" choice; state it, so the public board's inability to
    measure that class is understood rather than mistaken for attacker failure. Closes §4.3.
-4. **Provenance vs. false-positive tension (private-board note).** The private guardrail is a
-   stateful `persistent_provenance` taint (identified at `jed_attack_gateway.py:174`; the private
-   row is selected via `AICOMP_ATTACK_GUARDRAIL_ID` in `build_guardrail_configs`,
-   `jed_attack_gateway.py:231-233`): it tracks
-   whether data reaching a sink is provenance-tainted across the whole trace, rather than the
-   public guardrail's fixed-window check. This raises the false-positive question sharply. A
-   benign-bodied `email.send` with clean provenance (no prior read of the sensitive asset in the
-   trace) is indistinguishable from a legitimate mail task. A private guardrail that blocks it to
-   stop confused-deputy attacks will also block legitimate mail, incurring a false-positive
-   penalty; one that allows it to preserve legitimate mail will score the confused-deputy
-   predicate. Our private-board hedge targets exactly this seam — a clean-provenance,
-   benign-bodied `email.send` (no sensitive read preceding it, body free of `send`/`email`/`upload`
-   so the last-user-message gate stays open, §4.4). This tension is intrinsic to content-blind
-   provenance defenses and is, in our view, the most interesting open defensive question the
-   benchmark surfaces.
+4. **Disclose private-evaluation limits.** **Source fact:** `build_guardrail_configs` always maps
+   the public label to `OptimalGuardrail` and may resolve a private factory from an entry point
+   when `AICOMP_ATTACK_GUARDRAIL_ID` is set (`jed_attack_gateway.py:223-234`). The gateway registry
+   contains the identifier `persistent_provenance_private` (`jed_attack_gateway.py:174`), but an
+   identifier is not implementation evidence. The reviewed source contains no private factory
+   implementation, so this note draws no conclusion about private state, provenance logic,
+   allow/deny decisions, false positives, or candidate efficacy. Benchmark designers should
+   publish a versioned behavior contract if private results are disclosed.
 
 ---
 
@@ -500,10 +495,11 @@ precise. FRAC ≈ 0.97 is the empirical peak; higher FRAC trades toward the phas
 | 08-09 | gpt-only forced-8-hop, N ∈ {150…800} | 42.7–47.9, all `COMPLETE` | The gpt row **saturates in the mid-40s**; more candidates do not help and did not void (§3.3). |
 | 08-10 | gpt single vs gpt commitment-forge (isolated) | 43.6 → 47.85 | The commitment-forge **transfers** (+10%); **our port** reaches only ≈48 — structural cap vs under-tuned port is open (§5.2, §7). |
 | 08-10 | commitment-forge on *both* boards | 72.8 (n=4) / 81.2 (n=6) vs ≈82.4 single* | At/below single-post — consistent with the reasoning forge interfering with the non-reasoning row (§5.4). |
-| 08-11 | **dual-forge** (per-board native forge) + gemma-forge/gemma-single isolates + clean both-single control | _pending_ | Whether the gemma control-token forge beats gemma single **on the board**, whether per-board routing lifts the aggregate, and a clean single-post both-boards control. |
+| 08-11 | **dual-forge** (per-board native forge) + Gemma-forge/Gemma-single isolates + clean both-single control | All five L25 rows `COMPLETE`: Gemma forge 34.000 vs single 27.000; dual-forge 81.985/82.660 vs both-single 54.000 | A positive N=600 comparison, not a durable effect or row-level decomposition. |
 
 \* The ≈82.4 reference is a 2026-08-08 run whose isolation router was broken; whether it is a clean
-both-boards single is uncertain (§5.4). A clean control is in the 08-11 ladder.
+both-boards single is uncertain (§5.4). The clean L25 N=600 both-board control scored 54.000
+(55418160).
 
 **The reframed open problem — stated as arithmetic, not assertion.** The 08-03 draft called the
 gap "unexplained decode cost on the reasoning target." That is wrong, but the replacement must be
@@ -516,13 +512,13 @@ single), the field's reasoning row would be ≈91–98 — **roughly double our 
 two things is true, and we cannot yet tell which: **(a)** the field's commitment-forge is far
 stronger than our port (i.e. our ≈48 is an under-tuned port, not a structural cap), or **(b)** the
 field also forges the non-reasoning row and our "open ground" reading of competitor kernels is
-incomplete. Both are live; they are not mutually exclusive. Our strategy hedges across them:
-improve reasoning-forge parity (a byte-level comparison against the frontier's forge is a pending
-task) **and** forge the non-reasoning row (the dual-forge). The narrow, testable questions the
-08-11 ladder answers: does the gemma control-token forge clear Gate 2 (a board score above gemma
-single), and does per-board routing lift the aggregate? We will not claim the lever until it clears
-both gates — a Gate-1-only "3 posts fire" is exactly the kind of local result §5.1 shows can fail
-to transfer.
+incomplete. They are not mutually exclusive. Byte-level parity with the inspected reasoning
+forge remains an **Open hypothesis**. The completed L25/L26 rows now bound the non-reasoning
+question: the N=600 Gemma forge comparison was positive once (34.000 versus 27.000), while the
+N=900 comparison was near-null (35.000 versus 34.605). The completed dual-forge aggregate rows
+also exceeded their listed N=600 both-single control, but unknown aggregation prevents a row-level
+decomposition. These observations do not establish a durable Gemma lever or explain competitor
+scores.
 
 **One unresolved measurement caveat, and its cost.** Public scores cannot by themselves
 distinguish whether the two rows are aggregated by *sum* or *mean*: board isolation zeroes the
@@ -557,7 +553,7 @@ are competition fixtures and scoring components in a sandboxed harness; nothing 
 real system, and defeating the scoring guardrail is the benchmark's intended, rules-sanctioned
 objective. We deliberately frame every finding as a lesson for **benchmark and guardrail
 design** (§4, §6) rather than as an operational recipe against any deployed agent. The
-asymmetry taxonomy is, we believe, most valuable precisely as a defensive checklist.
+asymmetry taxonomy is presented as a defensive checklist.
 
 ---
 
@@ -579,13 +575,14 @@ asymmetry taxonomy is, we believe, most valuable precisely as a defensive checkl
 ## Appendix B. Change log
 
 - 2026-08-03 — initial draft: scoring/cost model, asymmetry taxonomy, negative-result
-  catalogue, defensive recommendations. Results section pending then-unresolved submissions.
+  catalogue, defensive recommendations. Results section deferred while submissions were unresolved.
 - 2026-08-10 — major revision after L22–L24 board evidence. Corrected the runtime-budget claim
   (hard-void with no partial credit → per-board *saturation*; source shows void only on true phase
   overrun, §3.3). Replaced the blanket "all multipost is score-negative" with the punish/reward
   separation (§5): added the commitment-forge positive result and the reasoning-row ≈48 ceiling
   (§5.2), the non-reasoning-row lever (§5.3), and the cross-model forge-interference negative
-  (§5.4). Named the private guardrail (`persistent_provenance`, §6 rec. 4). Rewrote §7 as the
+  (§5.4). Recorded a private registry identifier (behavior inference removed in the 2026-08-16
+  revision; §6 rec. 4). Rewrote §7 as the
   L22–L25 progression and reframed the open problem; added the sum-vs-mean aggregation caveat.
 - 2026-08-10 (rev. 2, after adversarial review) — three independent reviewers audited citations,
   board numbers, and claims. Applied fixes: (i) corrected citations (ultra-dangerous set
@@ -596,7 +593,8 @@ asymmetry taxonomy is, we believe, most valuable precisely as a defensive checkl
   "carried by gemma" claims — the arithmetic shows a ≈48 cap plus an unforged non-reasoning row
   cannot reach 137, so either our port is under-tuned or the field also forges gemma; both are
   now stated as live, §5.2/§7. (iv) Downgraded "poisons the gemma row" to "interference,
-  consistent with degradation, direct isolate pending" (§5.4). (v) Disclosed the ERROR-vs-COMPLETE
+  consistent with degradation, with the direct isolate unresolved at that draft's cutoff" (§5.4).
+  (v) Disclosed the ERROR-vs-COMPLETE
   submission-status difference and the ≈82–90 single-post run-to-run variance (§5.1, §7). (vi) Flagged
   the ≈82.4 both-single reference as an ambiguous broken-router run; a clean control is in the
   08-11 ladder. (vii) Fixed the dangling §6.4 reference and the reviewer-count mismatch.
