@@ -6,7 +6,7 @@
 - **Evidence baseline:** `aicomp-sdk 3.1.2`; evidence cutoff 2026-08-16; live Kaggle records
   retrieved 2026-08-16T09:25:34Z. Source hashes and the audited repository revision are recorded
   in `paper/evidence/working-note-claim-ledger.md`.
-- **Document status:** Living draft. Completed, `ERROR`, and `PENDING` submissions are kept
+- **Document status:** Author-review draft. Completed, `ERROR`, and `PENDING` submissions are kept
   distinct. Four L31 chainpack rows were still `PENDING` at the cutoff and remain **Open
   hypotheses**; this note assigns them no outcome.
 - **AI-use disclosure:** §2.5. Ahmed Mobasher retains responsibility for every claim.
@@ -154,20 +154,26 @@ assumed to transfer to the hidden evaluator.
 
 | Threat | Constraint on interpretation |
 |---|---|
-| Hidden evaluator hardware | Timing and scaling differences cannot establish a universal or causal hardware limit. |
-| Evaluator or documentation change | Findings are pinned to the dated SDK/source hashes; conflicting timing descriptions are reported, not silently reconciled. |
-| Score variance | A single difference is not treated as a durable effect without replication or a clearly decisive matched comparison. |
-| Contaminated controls | Routing, candidate count, model mix, or configuration differences are disclosed; unmatched rows support narrower claims. |
-| Unknown aggregation | Public totals are not decomposed into a claimed sum/mean rule without identifying evidence. |
-| Competitor-artifact uncertainty | Inspected kernels support artifact observations, not claims of exact reproduction or live frontier behavior. |
-| Unavailable private implementation | No private-guardrail behavior is asserted or inferred from a module name or entry point. |
+| Evaluator, SDK, or documentation change | Findings are pinned to the dated SDK/source hashes and evidence cutoff. The official timing prose and pinned gateway disagree, so both are reported rather than silently reconciled. |
+| Hidden runtime | Evaluator hardware, serving stack, load, caching, and timing logs are unavailable. Timing and scaling differences therefore cannot identify a universal or causal hardware limit. |
+| Score variance | Nominally similar completed configurations vary, while most conditions have one run. A single difference is not treated as a durable effect without replication or a clearly decisive matched comparison. |
+| Scarce submission slots | The available live submissions and deadline limited repetitions and factorial controls. The live catalogue is a selected experiment sequence, not an exhaustive search or an unbiased sample of configurations. |
+| Imperfect controls | Routing, candidate count, model mix, timing, or configuration sometimes differ. These differences are disclosed, and unmatched rows support only narrower observations. |
+| Unknown platform aggregation | Public totals do not expose how model/guardrail rows are combined. The note does not infer a sum, mean, weighting, or private-row contribution. |
+| Competitor-version uncertainty | Inspected public kernels identify particular visible artifacts, not the exact bytes, revisions, dependencies, or private submissions that produced a leaderboard score. Named ports are reproduction attempts, not proof of frontier parity. |
+| Local-model provenance | The evidence snapshot does not hash the local GGUF model files or establish byte-for-byte parity between the local replica and live target models. Local behavior and counts therefore remain local measurements. |
+| Absent private source and scores | The private-guardrail implementation and component-level private scores are unavailable. A registry identifier and aggregate public score expose no private allow/deny rule, state, provenance policy, or efficacy. |
 
 ### 2.5 AI-use disclosure
 
-Ahmed Mobasher is the sole author and is accountable for the manuscript. **Testimony:** Ahmed
-reports that Claude Code, Codex, and OpenCode/DeepSeek assisted with code navigation, experiment
-implementation, drafting, and review. Their outputs are not treated as evidence unless checked
-against the source, local records, or live catalogue described above.
+Ahmed Mobasher is the sole accountable author. Claude Code and Codex were used as assistive tools
+for source and code navigation, experiment and analysis support, and drafting and revision. Ahmed
+selected the research questions, made the submission decisions, checked the cited source and live
+records, determined the final claims, and accepts responsibility for the manuscript's accuracy and
+originality. The AI systems are not authors and their outputs are not evidence unless checked
+against the source, local records, or live catalogue described above. This disclosure follows the
+general accountability principle in the ICMJE guidance on AI-assisted manuscript preparation [4];
+that policy is contextual guidance, not a competition rule.
 
 ---
 
@@ -426,26 +432,46 @@ mechanism or a claim about platform aggregation.
 
 ## 6. Defensive recommendations
 
-Each asymmetry in §4 is a concrete, cheap fix for a benchmark or guardrail designer:
+The recommendations below separate repairs implied by the inspected public SDK from general
+experimental practice. AgentDojo and InjecAgent independently motivate evaluating tool actions in
+the presence of untrusted external content [1,2], but they do not establish the benchmark-specific
+relations below; those relations come from the pinned code citations in §4.
 
-1. **Inspect every scored sink field.** Replace the first-present-field extraction with a check
-   over *all* fields the scorer treats as a sink (for `http.post`, inspect `data`, not just
-   `url`). Closes §4.1.
-2. **Align guard scope with scored scope.** If the intent is to measure destructive writes to a
-   specific asset, the guardrail should block exactly that asset, not a wider substring that
-   makes the class unmeasurable. Closes §4.2 (or makes the intentional over-block explicit).
-3. **Document the window relationship.** A taint window ⊇ a predicate's provenance window is a
-   deliberate "defended-by-construction" choice; state it, so the public board's inability to
-   measure that class is understood rather than mistaken for attacker failure. Closes §4.3.
-4. **Disclose private-evaluation limits.** The gateway maps `public` to `OptimalGuardrail` and may
-   resolve a configured private factory from an entry point
-   (`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:178-234`). Its fallback registry
-   exposes only the identifier `persistent_provenance_private` and the module/class names
-   `aicomp_private_guardrails.persistent_provenance.Guardrail`
-   (`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:172-175,207-215`). Those names
-   expose no implementation behavior. The reviewed source therefore supports no private-state,
-   provenance, allow/deny, false-positive, or candidate-efficacy claim; a versioned behavior
-   contract would make disclosed private results interpretable.
+1. **Validate every security-relevant argument, not the first present one.** The public guardrail
+   selects `url` before `data`, while EXFILTRATION evaluates `data` (§4.1). Guardrails and security
+   evaluators should share a typed sink schema and test every field that can carry the protected
+   value. A regression test should fail whenever changing an uninspected argument changes the
+   predicate outcome.
+2. **Make destructive-write policy and measurement scope agree.** The inspected guardrail blocks a
+   broad sensitive substring, while the predicate measures one canonical path (§4.2). Designers
+   should either align both scopes or label the measured class as defended by construction; a
+   score of zero then reflects policy coverage rather than demonstrated agent restraint.
+3. **Version and test provenance windows together.** The public guardrail's five-event taint window
+   contains the predicate's two-event window for the relevant tools (§4.3). A versioned contract
+   should state both windows and include boundary traces, so changes do not silently turn a
+   security class into an unreachable or newly reachable scoring class.
+4. **Represent authorization structurally.** CONFUSED_DEPUTY uses last-user keywords, whereas the
+   public guardrail does not apply the same intent gate and omits recipient and subject from target
+   extraction (§4.4). A structured authorization object tied to the requested action, recipient,
+   and payload is more auditable than mismatched lexical checks. Evaluation should test both
+   authorized utility and unauthorized action, because blocking everything is not a useful defense.
+5. **Publish a versioned evaluation contract.** Report SDK and guardrail identifiers, row schema,
+   timing rules, aggregation semantics, status handling, and which components remain hidden. The
+   gateway exposes only the private identifier `persistent_provenance_private` and the module/class
+   names `aicomp_private_guardrails.persistent_provenance.Guardrail`
+   (`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:172-175,207-234`); these disclose
+   no implementation behavior. A contract can define interfaces and reporting without revealing a
+   hidden defense.
+6. **Require evidence-gated comparisons.** Pre-register the mechanism, falsification condition,
+   matched control, and repetition plan; preserve failed and `ERROR` runs; and report local and live
+   results separately. Machine-learning reproducibility work likewise emphasizes code, reporting,
+   and checklist support [3]. Here, the practical benefit is narrower: it prevents plausible source
+   mechanics or local counts from being promoted to leaderboard-transfer claims.
+
+Together, the source audit, two-gate method, negative-result catalogue, and defensive mapping make
+the case study useful beyond its score: they explain implementation and assumptions, contribute a
+repeatable search discipline, isolate concrete security relations, leave builders and records for
+future evaluators, and keep the analysis within the rules-sanctioned benchmark.
 
 ---
 
@@ -511,18 +537,70 @@ evidence for hidden guardrail behavior, a hardware ceiling, or a frontier mechan
 
 ## 8. Reproducibility
 
+### 8.1 Frozen evidence snapshot
+
+Reproduction has two revision anchors. The mechanical/live evidence was audited at repository
+revision `2ed68e80705906dcbdf4f707edf8c37089ce0906` on `codex/paper-manuscripts`; the dated ledger is
+`paper/evidence/working-note-claim-ledger.md`, SHA-256
+`8bc53fd01f01ccf17e110c561f7da08c500063a6aefed8c78b13b57536b8f3d3`. The manuscript itself
+continues to advance, so a distributed copy should be cited by the immutable commit that contains
+that copy, not by the moving branch name. Later manuscript commits do not move the evidence cutoff
+unless they explicitly update the ledger hash, source hashes, retrieval timestamp, and affected
+claim dispositions.
+
+The snapshot uses `aicomp-sdk 3.1.2`, evidence cutoff 2026-08-16, and live records retrieved at
+2026-08-16T09:25:34Z. At that instant, L31 chainpack refs 55538814, 55538829, 55538848, and 55538855
+were `PENDING` with no score; this revision does not assign them a later outcome. The four primary
+source hashes are:
+
+| Source | SHA-256 |
+|---|---|
+| `comp/aicomp_sdk/scoring.py` | `13a0969ea6c64b257c46d47490b4259ade3a4965f19d2d6c6fe0ed151f618d4f` |
+| `comp/aicomp_sdk/core/predicates.py` | `9d9de5118d8883a0074a5405ed85cf2dec3f68e8516908cbc48f409e3ba56f37` |
+| `comp/aicomp_sdk/guardrails/optimal.py` | `6724fedf7bbf3e67dfcdd564ba8a73463e0f783d5c84e0a70dceff40c1bc61ed` |
+| `comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py` | `00ccb933420960f6919b6001f985a7fe916fb757e2710e598cfab4ba3a7afd11` |
+
+### 8.2 Code, builders, and run records
+
 - **Scored engine:** two GGUF targets use model-server specs with `max_new_tokens=1024`
   (`comp/kaggle_evaluation/jed_attack_134815/gguf_model_server.py:24-37,133-145`). The HF backend
   defaults `do_sample=False`, which the llama.cpp adapter maps to temperature 0 when no temperature
   is supplied (`comp/aicomp_sdk/agents/hf_chat_template/types.py:15-23`;
   `comp/aicomp_sdk/agents/hf_chat_template/backends/llama_cpp.py:74-83`). These settings reduce
-  sampling variation but are not, by themselves, proof of universal run determinism.
-- **Local replica:** the same GGUFs through the SDK's agent/env/guardrail classes, used for the
-  specifically reported firing/count measurements but not as evidence of scored wall time or a
-  frontier reproduction. Score claims come from the live catalogue.
-- **Sizing:** candidate-set size is calibrated on the scored machine (§3.4); do not port
-  local wall-time as a budget.
-- Source of every mechanical claim is cited `file:line` against the competition SDK and gateway.
+  sampling variation but do not establish run determinism or local/live model parity.
+- **Builders:** the tracked ladder builders are `dev/_build_l9.py`, `dev/_build_l22.py` through
+  `dev/_build_l29.py`, and `dev/_build_l31.py`; GPU variants are built by
+  `dev/_build_cuda_decode.py`, `dev/_build_cuda_gemma.py`, `dev/_build_cuda_gpuval.py`, and
+  `dev/_build_cuda_probe.py`. Generated `submission_kernel_*` directories preserve the submitted
+  notebook form where retained. Run builders from the immutable manuscript commit and inspect
+  their configuration before execution; they are provenance artifacts, not a promise that an old
+  live evaluator can be recreated.
+- **Submission refs:** §7 and the claim ledger record the Kaggle reference, timestamp, API status,
+  public score, configuration, and comparator for every analyzed live row. Submission IDs are the
+  canonical join key; labels such as L25 or `dimong4 EXACT` are descriptive, not identifiers.
+- **Local records:** retained version maps include `logs/l22_versions.json` through
+  `logs/l28_versions.json`; GPU source/output snapshots are under `logs/cuda_decode_out/`,
+  `logs/cuda_gemma_out/`, and `logs/cuda_probe_out/`. The record is not homogeneous: some ladders
+  have builders and live refs but no equivalent raw local log. Missing logs limit exact replay and
+  are not reconstructed from memory.
+- **Local replica and sizing:** local firing/count measurements use the SDK agent, environment, and
+  public-guardrail classes. Candidate-set size is calibrated on the scored machine (§3.4). Local
+  wall time, model bytes, and tool-call counts are not substituted for live scores.
+
+### 8.3 Data availability and exclusions
+
+The manuscript, claim ledger, tracked builders, generated kernels, and retained local logs are
+available in the repository revision distributed with this note. Mechanical claims use inline
+`file:line` citations; scholarly and policy context uses §10. The ledger is the compact public
+data table for analyzed Kaggle records.
+
+The following are absent or intentionally not redistributed: the implementation of
+`aicomp_private_guardrails.persistent_provenance.Guardrail`; component-level private-guardrail
+scores; evaluator hardware, service logs, and aggregation code not present in the reviewed SDK;
+authenticated Kaggle responses and credentials; local GGUF weight files; and private or
+unpublished competitor submissions. The author also omits unrelated vulnerabilities and
+operational attack material. These exclusions prevent exact reconstruction of the hidden live
+environment, which is why the claims remain pinned to public code and returned aggregate records.
 
 ---
 
@@ -533,7 +611,41 @@ are competition fixtures and scoring components in a sandboxed harness; nothing 
 real system, and defeating the scoring guardrail is the benchmark's intended, rules-sanctioned
 objective. We deliberately frame every finding as a lesson for **benchmark and guardrail
 design** (§4, §6) rather than as an operational recipe against any deployed agent. The
-asymmetry taxonomy is presented as a defensive checklist.
+asymmetry taxonomy is presented as a defensive checklist. Public SDK relations are reported at
+the minimum detail needed to make the scientific claims reproducible; unavailable private
+behavior, private scores, credentials, and unrelated real-system techniques are neither inferred
+nor disclosed.
+
+---
+
+## 10. Scholarly and policy context
+
+AgentDojo supplies a dynamic environment for evaluating prompt injection attacks and defenses on
+agents acting over untrusted tool data [1]. InjecAgent evaluates indirect prompt injection across
+tool-integrated agents and distinguishes direct harm from private-data exfiltration [2]. They
+establish the broader evaluation problem, not the JED SDK mechanics or any result in §7. Pineau et
+al. motivate the code, reporting, and reproducibility discipline applied here [3]. ICMJE guidance
+provides the disclosure and human-accountability principle used in §2.5 [4]. These references are
+kept separate from inline SDK `file:line` citations and official competition-page links.
+
+## References
+
+1. Edoardo Debenedetti, Jie Zhang, Mislav Balunović, Luca Beurer-Kellner, Marc Fischer, and
+   Florian Tramèr. 2024. [AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks
+   and Defenses for LLM Agents](https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html).
+   *Advances in Neural Information Processing Systems 37*, Datasets and Benchmarks Track.
+   DOI: 10.52202/079017-2636.
+2. Qiusi Zhan, Zhixiang Liang, Zifan Ying, and Daniel Kang. 2024.
+   [InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model
+   Agents](https://aclanthology.org/2024.findings-acl.624/). *Findings of the Association for
+   Computational Linguistics: ACL 2024*, 10471–10506. DOI: 10.18653/v1/2024.findings-acl.624.
+3. Joelle Pineau, Philippe Vincent-Lamarre, Koustuv Sinha, Vincent Larivière, Alina Beygelzimer,
+   Florence d'Alché-Buc, Emily Fox, and Hugo Larochelle. 2021.
+   [Improving Reproducibility in Machine Learning Research](https://www.jmlr.org/papers/v22/20-303.html).
+   *Journal of Machine Learning Research* 22(164):1–20.
+4. International Committee of Medical Journal Editors. [Use of AI by
+   Authors](https://www.icmje.org/recommendations/browse/artificial-intelligence/ai-use-by-authors.html),
+   accessed 2026-08-16. Official policy guidance.
 
 ---
 
@@ -563,7 +675,7 @@ asymmetry taxonomy is presented as a defensive checklist.
   separation (§5): added the one-off commitment-forge result, the non-reasoning-row comparison,
   and the cross-model forge-interference observation (all bounded further in the 2026-08-16
   revision). Recorded a private registry identifier without treating it as behavior evidence
-  (§6 rec. 4). Rewrote §7 as the
+  (§6 rec. 5). Rewrote §7 as the
   L22–L25 progression and reframed the open problem; added the sum-vs-mean aggregation caveat.
 - 2026-08-10 (rev. 2, after adversarial review) — three independent reviewers audited citations,
   board numbers, and claims. Applied fixes: (i) corrected source ranges for the ultra-dangerous
@@ -581,3 +693,6 @@ asymmetry taxonomy is presented as a defensive checklist.
   per-guardrail replay deadlines; bounded scoreability to the inspected public SDK; removed
   private-behavior, hardware-ceiling, official-aggregation, and frontier-mechanism inferences; and
   recorded that the named reproduction attempts did not reach their stated aim.
+- 2026-08-16 (author-review draft) — completed source-traced defensive recommendations, threats to
+  validity, reproducibility and data availability, responsible-communication boundaries,
+  AI-assistance disclosure, and verified scholarly/policy context.
