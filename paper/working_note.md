@@ -1,145 +1,172 @@
-# Throughput-Bound Red-Teaming and Guardrail–Predicate Asymmetry in a Multi-Step Tool-Attack Benchmark
+# Guardrail-Predicate Asymmetry and the Limits of Local-to-Leaderboard Transfer in Multi-Step Agent Red-Teaming
 
 **Working Note — AI Agent Security: Multi-Step Tool Attacks (Kaggle competition 134815)**
 
-_Draft. Living document — updated as experiments resolve. Last updated: 2026-08-10._
-
-> **Status of this draft.** The empirical figures below are from our own competition
-> submissions and local model replicas; every mechanical claim is cited to the competition
-> SDK source (`file:line`). Sections marked _(pending)_ update as in-flight submissions score.
-> Leaderboard numbers are honest, including where our method trails the field frontier. This
-> revision (2026-08-10) corrects two claims in the 08-03 draft that later board evidence
-> overturned: (i) the runtime budget is not a *hard-void* budget with no partial credit — recent
-> runs complete and the target rows *saturate* rather than void (§3.3); and (ii) multi-post is
-> not uniformly score-negative — a specific *commitment-forge* mechanism (which the field
-> frontier uses, and which we have since ported and measured) fires multiple posts per candidate
-> on the scored board, and the residual gap to the frontier localises to an *under-forged
-> non-reasoning row*, not an unexplained decode mystery (§5, §7).
+- **Author:** Ahmed Mobasher (sole author)
+- **Evidence baseline:** `aicomp-sdk 3.1.2`; evidence cutoff 2026-08-16; live Kaggle records
+  retrieved 2026-08-16T07:32:27Z. Source hashes and the audited repository revision are recorded
+  in `paper/evidence/working-note-claim-ledger.md`.
+- **Document status:** Living draft. Completed, `ERROR`, and `PENDING` submissions are kept
+  distinct. Four L31 chainpack rows were still `PENDING` at the cutoff and remain **Open
+  hypotheses**; this note assigns them no outcome.
+- **AI-use disclosure:** §2.5. Ahmed Mobasher retains responsibility for every claim.
 
 ---
 
 ## Abstract
 
-We study the JED multi-step tool-attack benchmark, in which an attack algorithm probes a
-tool-using LLM agent for security-predicate violations (exfiltration, confused-deputy,
-destructive write, untrusted-input-to-action) and is scored by replaying its candidate
-message-chains against a defensive guardrail inside a sandboxed harness. Working purely from
-the competition source, we (1) derive the benchmark's exact scoring geometry and show the
-score is **decode-throughput-bound and per-board saturating** — the finding-count cap is never
-the limiter, and beyond a hardware-set ceiling additional candidates neither raise the score nor
-(in our recent runs) void it; (2) present a **taxonomy of guardrail–predicate asymmetries** —
-structural mismatches between what the scoring predicate inspects and what the guardrail inspects
-— that determines which attacks are scoreable and which are structurally impossible; and (3)
-provide an **empirical catalogue of throughput levers**, separating the ones the harness punishes
-(naïve payload packing, multi-endpoint bursts, empty-forge hop-packing) from the one it rewards
-(a **commitment-forge** that fills a fabricated model-reasoning turn with a plan-plus-commitment,
-eliciting one post per named endpoint across replay hops). We find that **our port** of the
-field's commitment-forge lifts the isolated reasoning row (`gpt-oss`) only to ≈48 and does not
-exceed it — leaving genuinely open whether that is a structural throughput cap or an under-tuned
-port — and that, under a sum-like aggregation, this points the remaining headroom at the
-**non-reasoning row** (`gemma`), which multiposts under a *different*, model-specific forge that
-the competitor kernels we inspected appear to leave unexploited. We report a related negative — a
-both-board run that reuses the reasoning forge on the non-reasoning board scored at or below the
-single-post baseline, consistent with cross-model forge interference — and are explicit that the
-decisive per-board measurement (an isolated non-reasoning-forge board score) is **still in-flight**.
-We give defensive recommendations that close each asymmetry, and characterise the remaining open
-problem as a per-board forge-transfer question rather than an unexplained decode gap. All methods
-are validated under a two-gate discipline (controlled local count-measurement **and** a real
-leaderboard score); we report only what clears both gates, and label Gate-1-only results as such.
+Multi-step agent-security benchmarks must connect three things that do not automatically agree:
+what evaluator source code permits, what an attack does in a local replica, and what the live
+evaluator scores. This note studies that connection in the JED tool-attack benchmark, where
+candidate message chains are replayed against guarded agents and scored for four predicate
+families. The method combines a pinned-source audit of `aicomp-sdk 3.1.2`, controlled local
+measurements, and a status-preserving catalogue of live Kaggle submissions through 2026-08-16.
+Claims are classified as **Source facts**, **Local measurements**, **Live observations**,
+**Triangulated findings**, **Inferences**, or **Open hypotheses**.
+
+The principal **Source fact** is a guardrail-predicate asymmetry in the public implementation:
+the guardrail and scoring predicates do not always inspect the same trace fields, sinks, or
+temporal conditions. In particular, the public guardrail's target extraction for `http.post`
+prioritizes the URL, whereas the exfiltration predicate evaluates matching data in the request
+body. This is a benchmark-specific security insight, not a claim about the unavailable private
+guardrail or deployed systems. The live catalogue supplies a second result: plausible local or
+source-derived mechanisms often failed to transfer. Attempts described as exact public-kernel
+reproductions did not reproduce their stated target, every tested probe-hop variant lost to its
+same-batch control, GPU submissions did not establish the proposed advantage, and a fast-emission
+variant underperformed its listed comparator. Other single comparisons remain too variable or
+under-replicated for general conclusions.
+
+The methodological contribution is evidence gating. The desired protocol requires a controlled
+local behavior/count check and a matched, completed live evaluation before a mechanism is treated
+as transferred. Because several historical experiments lack one of those gates, this note does
+not claim universal compliance; it preserves them at their supported evidence tier. Limitations
+include hidden evaluator hardware, evaluator and documentation changes, run-to-run score variance,
+imperfect controls, unknown row aggregation, uncertain competitor-artifact provenance, and no
+private-guardrail implementation. For defenders and benchmark designers, the practical lesson is
+to align guardrail checks with scored predicates, expose versioned evaluation assumptions, retain
+negative results, and require evidence labels that prevent local plausibility from becoming a
+live-result claim.
 
 ---
 
 ## 1. Introduction
 
-### 1.1 The task
+### 1.1 The task and bounded thesis
 
-The benchmark is an *attack-only* red-teaming challenge. A competitor submits an
-`AttackAlgorithm` whose `run(env, config)` returns a list of candidate message-chains. Each
-candidate is independently replayed against a target agent under a guardrail; the trace is
-scored by a fixed set of security predicates. There are two target models (a reasoning model,
-`gpt-oss-20b`, and a non-reasoning MoE, `gemma-4-26B`) and two guardrails (a **public**
-`OptimalGuardrail` whose source is provided, and a **private** guardrail revealed only at final
-scoring). The public leaderboard aggregates the two public rows; the prize is decided on the
-private rows.
+The benchmark is an attack-only red-teaming challenge. A submitted `AttackAlgorithm` returns
+candidate message chains; the evaluator independently replays candidates in fresh environments
+before applying predicates for untrusted-to-action, exfiltration, destructive write, and confused
+deputy behavior (**Source facts**; claim ledger and §3). The gateway defines evaluations across
+two target models and public/private guardrail configurations. The reviewed source identifies the
+public configuration as `OptimalGuardrail`, but it exposes no implementation of the private
+guardrail. Accordingly, every guardrail-mechanics claim in this note is limited to the public code.
+
+The thesis is likewise bounded. Source inspection can reveal mismatches between the conditions a
+public guardrail denies and those a benchmark predicate rewards. It cannot establish that a
+candidate will transfer to an opaque live environment. The completed submission record contains
+multiple failed or inconclusive transfers, so local plausibility and live efficacy are treated as
+different claims. Leaderboard performance is evidence for particular configurations, not the
+note's central claim of value.
 
 ### 1.2 Contributions
 
-1. **A derived scoring/cost model** (§3) showing the binding constraint is model-decode
-   throughput per board, which *saturates* at a hardware-set ceiling — the finding-count cap is
-   never the limiter, and past the ceiling more candidates do not raise the score.
-2. **A guardrail–predicate asymmetry taxonomy** (§4): four distinct structural relationships
-   between a predicate's inspection and its guardrail's inspection, each with a different
-   security consequence, three of which we prove render a predicate *unscoreable* under the
-   public guardrail and one of which is the benchmark's central scoring seam.
-3. **An empirical throughput-lever catalogue** (§5) separating the score-negative levers (naïve
-   packing, multi-endpoint, empty-forge hop-packing) from the score-positive **commitment-forge**,
-   with the leaderboard data for each; plus a **cross-model forge-interference** negative and the
-   **per-board forge** finding that localises the frontier gap to the non-reasoning row.
-4. **Defensive recommendations** (§6) that close each asymmetry, and a false-positive argument
-   relevant to provenance-style private guardrails (the private guardrail is a stateful
-   `persistent_provenance` taint; §6 (rec. 4)).
-5. **A reproducibility appendix** (§8) and a methodology (§2) designed to survive the
-   local-measurement-does-not-transfer-to-the-scored-environment problem that dominates this
-   benchmark.
+1. **Source-derived asymmetry analysis.** A trace-level account of where the public guardrail and
+   scoring predicates inspect different fields, sinks, or event windows (§4), with claims bounded
+   to the pinned public implementation.
+2. **A live-tested transfer catalogue.** Matched and unmatched attempts are separated, failed
+   transfers are retained, and `COMPLETE`, `ERROR`, and `PENDING` rows are not conflated (§5 and
+   §7).
+3. **An evidence-gated methodology.** A source-plus-local-plus-live workflow records the evidence
+   tier of each claim and uses two-gate validation as the desired transfer protocol (§2).
+4. **Defensive and benchmark recommendations.** Recommendations connect the observed asymmetries
+   and transfer failures to guardrail coverage, evaluator transparency, matched controls, and
+   reproducible reporting (§6 and §8).
 
-### 1.3 Honest positioning
+### 1.3 Scope and threats preview
 
-Our best *banked* public score is a single-post exfiltration baseline with per-model adaptive
-sizing (§3.4). Its peak is ≈89.6, but nominally identical single-post anchors vary run-to-run
-across ≈82–90 (we do not claim a tight ≈89.6; §7), which is itself a caution about the size of the
-effects discussed below. The field frontier sits well above: a top of 137.1 with a cluster of ~14
-teams at ≈106–114 as of 2026-08-10. We have *partially* localised the gap. Under our port of the
-field's commitment-forge the isolated reasoning row reaches only ≈48; we have **not** confirmed
-byte-parity with the frontier's forge, so we cannot yet distinguish a structural throughput cap
-from an under-tuned port — and simple arithmetic (§7) shows the two are not the same story: if the
-field truly leaves the non-reasoning row at single-post, its reasoning row must far exceed our ≈48,
-i.e. our port is under-tuned. Either way, the non-reasoning row is *unexploited headroom our method
-targets*, not a proven "carrier" of the frontier. Our crown attempt (a per-board "dual-forge"
-routing each board to its native forge) is in-flight (§7); we report its components and their
-measured board deltas and are explicit about what remains unproven — in particular, the
-non-reasoning forge has cleared Gate 1 (3 posts/candidate) but **not** Gate 2. We regard the
-asymmetry taxonomy, the throughput-lever separation, and the methodology — not the leaderboard
-number — as the contribution, consistent with the Working Note's stated judging emphasis on
-methodology and security insight over rank.
+This is a versioned competition case study, not a general model of tool-agent security. Hardware
+inside the evaluator is hidden; code and official descriptions can change; nominally similar
+scores vary; some historical controls were contaminated by routing or configuration differences;
+and public scores do not reveal the aggregation rule. Competitor mechanisms are described only as
+observations of inspected artifacts unless exact revision and transfer evidence are available.
+The private implementation is unavailable, so this note neither predicts nor reverse-engineers
+its behavior. Section 2.4 states how these threats constrain the later findings.
 
 ---
 
 ## 2. Methodology
 
-### 2.1 The two-gate discipline
+### 2.1 Evidence sources and audit boundary
 
-The dominant failure mode in this benchmark is trusting a lever that looks good locally but
-does not transfer to the scored rerun (the scored environment runs server-side and is not
-observable during development). We therefore admit a claim as a "result" only when it clears
-**two gates**:
+The analysis joins three evidence streams. First, a **source audit** reads the pinned SDK and
+gateway paths whose hashes appear in the claim ledger. Second, **local experiments** exercise
+competition models and SDK components outside the live evaluator and record behavior, predicate
+firings, tool-call counts, token counts, and configuration. Third, the **live catalogue** preserves
+Kaggle submission ID, timestamp, status, score, configuration, and available control. This note
+uses the 2026-08-16 cutoff; later scores require a new dated revision.
 
-- **Gate 1 — controlled local measurement.** Run on a faithful local replica of the exact
-  target model (same GGUF, same agent/guardrail/env classes), discard warm-up, use ≥2 seeds,
-  and report **counts** (predicate firings, tool-calls per candidate, generations per
-  candidate, prefill/decode tokens) — never wall-time.
-- **Gate 2 — a real leaderboard score.** Only counts transfer between the local replica and the
-  scored rerun; wall-time does not (different hardware, different batching). Candidate-set size
-  is therefore only ever calibrated from *proven* leaderboard void boundaries, never from local
-  timing.
+The streams have different authority. Source establishes visible mechanics, not unobserved
+runtime behavior. Local execution measures its own environment, not hidden hardware. Live rows
+establish only the returned outcome for that submission. A visible score on an `ERROR` row is not
+a completed result, and a `PENDING` row has no outcome. Competitor artifacts establish what was
+inspected in a particular artifact, not how an undocumented revision ran.
 
-Everything that has not cleared both gates is labelled a hypothesis.
+### 2.2 Evidence tiers
 
-### 2.2 Faithful local replicas
+Every substantive claim is assigned one of the following labels in the internal claim ledger;
+the prose and tables preserve the distinction even where a label is not repeated in every
+sentence.
 
-We run the exact competition GGUFs (`gpt-oss-20b-Q4_K_M`, `gemma-4-26B-A4B-it-…-Q4_K_M`)
-through the SDK's own agent/env/guardrail classes, so firing behaviour and token counts match
-the scored engine. The replica predicts *counts and firing* faithfully; it does **not** predict
-throughput/wall-time. This distinction is the source of most of the negative results in §5:
-a lever that reduces token count can still reduce score if the binding cost is elsewhere.
+| Label | Meaning in this note |
+|---|---|
+| **Source fact** | Directly established by pinned evaluator/SDK code or official competition material. |
+| **Local measurement** | Recorded by a controlled local or cloud-replica execution outside the live evaluator. |
+| **Live observation** | Returned by the competition evaluator for an identified submission, with status preserved. |
+| **Triangulated finding** | The same bounded proposition is supported by at least two independent evidence types. |
+| **Inference** | A reasoned interpretation whose dependencies are stated but which is not directly observed. |
+| **Open hypothesis** | Untested, unresolved, contradictory, or still pending at the evidence cutoff. |
 
-### 2.3 Independent verification
+Labels do not form a simple ladder: a live score is authoritative for its row but may remain a
+poor estimate of a general effect, and a source fact cannot reveal unavailable private code.
 
-Because a single analyst can rationalise a wrong cost model, each load-bearing claim in this
-note was re-derived by independent reviewers given only the competition source with our own
-approach firewalled off. Four independent passes converged on the same scoring model and the
-same asymmetry taxonomy; where an independent pass proposed a lever, we cross-checked it against
-the empirical catalogue in §5 (several proposed levers are permitted by the code but appear in
-the dead-list, having failed Gate 2).
+### 2.3 Source-plus-local-plus-live validation
+
+For new transfer claims, the desired protocol is:
+
+1. derive the proposed mechanism and falsification condition from pinned source;
+2. pass **Gate 1**, a controlled local behavior/count test with model, software revision,
+   configuration, seeds or repetitions, and measured outputs recorded;
+3. pass **Gate 2**, a completed live submission compared with a pre-identified, sufficiently
+   matched control; and
+4. reconcile the gates, promoting only the proposition jointly supported by them to a
+   **Triangulated finding** and retaining discrepancies as negative results.
+
+This protocol is prospective and corrective. It is not a claim that every historical experiment
+satisfied both gates. The audit includes one-off runs, unmatched comparisons, contaminated
+controls, `ERROR` rows, and source-derived proposals that reached the live evaluator without a
+complete local record. Those entries remain useful for provenance and hypothesis generation, but
+their wording is limited to **Source fact**, **Local measurement**, **Live observation**,
+**Inference**, or **Open hypothesis** as warranted. Local wall time is never assumed to transfer
+to the hidden evaluator.
+
+### 2.4 Threats to validity
+
+| Threat | Constraint on interpretation |
+|---|---|
+| Hidden evaluator hardware | Timing and scaling differences cannot establish a universal or causal hardware limit. |
+| Evaluator or documentation change | Findings are pinned to the dated SDK/source hashes; conflicting timing descriptions are reported, not silently reconciled. |
+| Score variance | A single difference is not treated as a durable effect without replication or a clearly decisive matched comparison. |
+| Contaminated controls | Routing, candidate count, model mix, or configuration differences are disclosed; unmatched rows support narrower claims. |
+| Unknown aggregation | Public totals are not decomposed into a claimed sum/mean rule without identifying evidence. |
+| Competitor-artifact uncertainty | Inspected kernels support artifact observations, not claims of exact reproduction or live frontier behavior. |
+| Unavailable private implementation | No private-guardrail behavior is asserted or inferred from a module name or entry point. |
+
+### 2.5 AI-use disclosure
+
+Ahmed Mobasher is the sole author and is accountable for the manuscript. Claude Code, Codex, and
+OpenCode/DeepSeek assisted with code navigation, experiment implementation, drafting, and review.
+Their outputs are not treated as evidence unless checked against the source, local records, or
+live catalogue described above.
 
 ---
 
@@ -202,8 +229,9 @@ caps — 8 tool-hops/message (`core/env/api.py:9`, used in replay at `jed_attack
 depth scored a tight, non-monotonic band (42.7–47.9) across candidate counts N ∈ {150, 350, 550,
 800}, all `COMPLETE` (2026-08-09) — i.e. once the row's throughput ceiling is reached, adding
 candidates neither raises the score nor (at these N) voids the run. The earlier draft's claim of
-a *hard-void budget with no partial credit* over-read this: the correct statement is that the
-score is a **per-board decode-throughput quantity that saturates at a hardware-set ceiling**, and
+a *hard-void budget with no partial credit* over-read this: the supported statement is that the
+tested row showed a **non-monotonic plateau across N ∈ {150, 350, 550, 800}**, without identifying
+its cause, and
 the attacker's real levers are (a) findings-that-fire per unit replay on each board and (b)
 **which board** carries the un-forged headroom (§5, §7).
 
@@ -386,8 +414,8 @@ single, 2026-08-08 — the same naïve-vs-forge distinction as §5.1, but a caut
 therefore state this as our *targeted hypothesis*: under a sum-like aggregation the non-reasoning
 row is unexploited headroom, so a forge that clears Gate 2 there would lift the aggregate. Our
 crown attempt is a **dual-forge** that detects the board and routes each to its native mechanism
-(gpt→commitment-forge, gemma→control-token forge) in one submission. It is armed and in-flight; §7
-states exactly what is proven versus pending.
+(gpt→commitment-forge, gemma→control-token forge) in one submission. It was unresolved at the
+prior draft's cutoff; the claim ledger records its later status for the results revision.
 
 ### 5.4 Cross-model forge interference (score-negative)
 
@@ -396,8 +424,9 @@ back-fires. Board evidence: a both-boards *commitment-forge* scored **72.8** (n=
 (2026-08-10), at or below a single-post-both-boards reference of ≈82.4. Two honesty caveats we do
 not hide: (i) that ≈82.4 reference is itself imperfect — it comes from a 2026-08-08 run whose
 isolation router was broken (§7), so whether it is a clean both-boards single is uncertain; a clean
-control is in the in-flight ladder. (ii) The n=6 result (81.2) is within run-to-run variance
-(~±6) of the reference, so the effect rests mainly on n=4. With those caveats, the pattern —
+control was included in the then-unresolved ladder. (ii) The n=6 result (81.2) is within
+run-to-run variance (~±6) of the reference, so the effect rests mainly on n=4. With those caveats,
+the pattern —
 a forge that *lifts* the isolated gpt row (§5.2) yet does not lift the both-boards total — is
 **consistent with** the reasoning forge degrading the non-reasoning row (its gpt-harmony control
 tokens are literal text to the other model family). We deliberately do not call this "poisoning":
@@ -550,7 +579,7 @@ asymmetry taxonomy is, we believe, most valuable precisely as a defensive checkl
 ## Appendix B. Change log
 
 - 2026-08-03 — initial draft: scoring/cost model, asymmetry taxonomy, negative-result
-  catalogue, defensive recommendations. Results section pending in-flight submissions.
+  catalogue, defensive recommendations. Results section pending then-unresolved submissions.
 - 2026-08-10 — major revision after L22–L24 board evidence. Corrected the runtime-budget claim
   (hard-void with no partial credit → per-board *saturation*; source shows void only on true phase
   overrun, §3.3). Replaced the blanket "all multipost is score-negative" with the punish/reward
