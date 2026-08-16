@@ -4,7 +4,7 @@
 
 - **Author:** Ahmed Mobasher (sole author)
 - **Evidence baseline:** `aicomp-sdk 3.1.2`; evidence cutoff 2026-08-16; live Kaggle records
-  retrieved 2026-08-16T09:22:22Z. Source hashes and the audited repository revision are recorded
+  retrieved 2026-08-16T09:25:34Z. Source hashes and the audited repository revision are recorded
   in `paper/evidence/working-note-claim-ledger.md`.
 - **Document status:** Living draft. Completed, `ERROR`, and `PENDING` submissions are kept
   distinct. Four L31 chainpack rows were still `PENDING` at the cutoff and remain **Open
@@ -452,7 +452,7 @@ Each asymmetry in §4 is a concrete, cheap fix for a benchmark or guardrail desi
 ## 7. Results and the open problem
 
 The catalogue below is the canonical manuscript record of the analyzed live run family through
-the API retrieval at 2026-08-16T09:22:22Z. All figures are public-leaderboard scores. A gpt-only or
+the API retrieval at 2026-08-16T09:25:34Z. All figures are public-leaderboard scores. A gpt-only or
 Gemma-only "isolated" row is a submission whose candidates are intended to fire on one target and
 remain benign on the other; it isolates an observed nonzero signal only when routing succeeds and
 does not reveal platform aggregation or scaling. L30 is omitted because there were no Kaggle
