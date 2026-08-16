@@ -956,8 +956,8 @@ to stop invalid work. Leaders should evaluate portfolios by the number and
 importance of validly closed claims, not conversation volume, tokens, commits,
 or manuscript output. This recommendation is case-derived, while the broader
 literature points in the same direction: Data-to-paper reports increasing need
-for human co-piloting as complexity rises [8], and the AI Scientist reports
-implementation and interpretation failures despite end-to-end production [9].
+for human co-piloting as complexity rises [7], and the AI Scientist reports
+implementation and interpretation failures despite end-to-end production [8].
 
 **Tool builders.** Systems can make the governance protocol executable. Useful
 features include content-addressed inputs, immutable experiment manifests,
