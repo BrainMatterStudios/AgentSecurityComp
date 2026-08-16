@@ -1,6 +1,6 @@
 # Working Note Claim Ledger
 
-**Evidence cutoff:** 2026-08-16; live Kaggle records retrieved at 2026-08-16T10:42:08Z.
+**Evidence cutoff:** 2026-08-16; live Kaggle records retrieved at 2026-08-16T10:56:15Z.
 
 **Repository revision:** `2ed68e80705906dcbdf4f707edf8c37089ce0906` on `codex/paper-manuscripts`.
 
@@ -23,6 +23,22 @@ competition access and rule acceptance, and the listing is mutable rather than a
 of this exact snapshot. No stable public URL for the pinned gateway bytes was identified. The source
 provenance is therefore retained as repository-relative `comp/...` paths plus SHA-256 hashes, without
 claiming that an unversioned competition download reproduces the gateway snapshot.
+
+## Competitor-artifact provenance
+
+The four public-artifact files below were frozen together in repository commit
+`ba42647c6af5147466ac4f9d77fdb09df46a9f54`. The Kaggle slugs identify moving public kernels, not
+immutable versions; the retrieved notebooks did not preserve Kaggle script-version numbers. The
+immutable identity for each inspected byte sequence is therefore the repository commit plus Git
+blob and SHA-256. No row asserts that these bytes produced a particular leaderboard score or were
+used in an unpublished submission.
+
+| Public kernel identity | Frozen repository path | Git blob | SHA-256 | Observed feature in the frozen bytes |
+|---|---|---|---|---|
+| [dimong4/ai-agent-security](https://www.kaggle.com/code/dimong4/ai-agent-security) | `refkernels_new/dimong4_ai-agent-security/ai-agent-security.ipynb` | `bedbbf483bc6675e2e0da4b1ca2f52073d4b5218` | `08ae9b9c92ba81a343931f9b70ae09ecc6e853459b681cfaa07bf4a8a8b2e220` | Defines `_forge_plan_msg` with a filled Harmony analysis turn and an explicit commitment to continue; final `SLOW_MULTIPOST_N=4`. Comments scope it to the slow `gpt_oss` branch and say Gemma is not Harmony; the fast branch uses the single-post template. |
+| [nctuan/jed-slow-multipost](https://www.kaggle.com/code/nctuan/jed-slow-multipost) | `refkernels_new/nctuan_jed-slow-multipost/jed-slow-multipost.ipynb` | `83a90f5e806782c762e1c3f0ab07fc0cccbbe64f` | `4c9fc606d9b04b4160ae28df0122926914a140b113b5cf7ac571216ab6370da8` | Contains the same filled-plan construction and ends with a variant override `SLOW_MULTIPOST_N=3`; its comments and branch selection likewise scope the forge to slow Harmony/`gpt_oss`, with the fast branch single-post. |
+| [tetsutani/ai-agent-sec-adaptive-uniform-two-probe-recovery](https://www.kaggle.com/code/tetsutani/ai-agent-sec-adaptive-uniform-two-probe-recovery) | `refkernels_new/tetsutani_ai-agent-sec-adaptive-uniform-two-probe-recovery/ai-agent-sec-adaptive-uniform-two-probe-recovery.ipynb` | `1f1d08b39a4859813b9f6909eb21efc2a037f634` | `54b7d943dc717ea9c357d954dd3ac3f1f4d6bf3eae9d43b65092f25913666bb1` | Defines closed-analysis and commentary control-token templates, but each template requests one `http.post`; it does not contain the filled multi-endpoint commitment plan attributed to the two rows above. |
+| [paul720810/hermes-attack-v72-m112-20260721-151926](https://www.kaggle.com/code/paul720810/hermes-attack-v72-m112-20260721-151926) | `refkernels_new/paul720810_hermes-attack-v72-m112-20260721-151926/hermes-attack-v72-m112-20260721-151926.py` | `52002e622e3c48eaf2395438929e26570b706b60` | `66dd8a91b7b114800d11f0b25322c0617123e244f374f809e11fb578857ed105` | Its decoded payload defines one `_msg` requesting one `http.post`; it contains neither a filled Harmony commitment plan nor a Gemma-specific continuation forge. |
 
 ## Evidence labels
 
@@ -65,6 +81,9 @@ Kaggle API timestamps and descriptions below are transcribed as returned at the 
 
 | Ref | Date | Status | Score | Configuration | Matched control | Interpretation |
 |---|---|---:|---:|---|---|---|
+| 55013491 | 2026-07-27T00:03:47.653000 | ERROR | 85.770 | L7 CONTROL FRAC=99 bare NO close_ok (isolates the lever) | 55013500 | Visible score, but `ERROR`; matched FRAC-99 no-close configuration. |
+| 55013500 | 2026-07-27T00:03:59.377000 | ERROR | 87.210 | L7 MAX PLAY FRAC=99 bare close_ok decode-cut lever | 55013491 | Visible `+1.440` over the matched FRAC-99 no-close row, but both are `ERROR`; not a completed effect estimate. |
+| 55013507 | 2026-07-27T00:04:09.943000 | ERROR | 87.480 | L7 MID FRAC=97 bare close_ok (safety rung of max) | No same-FRAC no-close control | Visible score, but `ERROR`; cannot support a FRAC-97 close-versus-no-close delta. |
 | 55040336 | 2026-07-28T00:02:00.583000 | ERROR | 89.640 | L9 K=1 baseline single-post FRAC=97 pool (~87 canary) | Historical anchor | Visible score, but `ERROR`; not a completed control. |
 | 55040351 | 2026-07-28T00:02:11.003000 | ERROR | 80.015 | L9 PACK K=2 FRAC=97 (overhead amortization) | 55040336 | Visible score below the listed K=1 row, but both rows are `ERROR`; not a completed comparison. |
 | 55040363 | 2026-07-28T00:02:21.493000 | ERROR | 75.945 | L9 PACK K=4 FRAC=97 (overhead amortization) | 55040336 | Visible score below the listed K=1 row, but both rows are `ERROR`; not a completed comparison. |
@@ -125,6 +144,7 @@ Kaggle API timestamps and descriptions below are transcribed as returned at the 
 
 | Draft claim | Status | Replacement claim | Evidence |
 |---|---|---|---|
+| Decode-token minimisation produced about `+1.4` at FRAC 97. | Corrected | The matched visible delta is `+1.440` at FRAC 99: 87.210 with `close_ok` versus 85.770 without it. Both rows are `ERROR`. The FRAC-97 `close_ok` row has no same-FRAC no-close control. | Live observations 55013491, 55013500, and 55013507. |
 | L25 dual-forge results are pending. | Superseded | All five L25 rows are `COMPLETE`; the listed both-board dual-forge scores are 81.985 and 82.660 against the listed both-board single score of 54.000. | Live observations 55418160, 55418165, 55418171, 55418180, 55418184. |
 | The Gemma forge is established as a durable improvement. | Not established | One matched N=600 isolate comparison is 34.000 versus 27.000; the N=900 comparison is 35.000 versus 34.605. These one-off observations do not establish a general effect or its variance. | Live observations 55418165, 55418171, 55444087, 55444093. |
 | An exact public-kernel reproduction reaches the expected frontier. | Refuted | The named L26 reproductions completed at 77.670 and 83.115, below the stated 134 aim. | Live observations 55444083, 55444101. |

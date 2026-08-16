@@ -4,7 +4,7 @@
 
 - **Author:** Ahmed Mobasher (sole author)
 - **Evidence baseline:** `aicomp-sdk 3.1.2`; evidence cutoff 2026-08-16; live Kaggle records
-  retrieved 2026-08-16T10:42:08Z. Source hashes and the audited repository revision are recorded
+  retrieved 2026-08-16T10:56:15Z. Source hashes and the audited repository revision are recorded
   in `paper/evidence/working-note-claim-ledger.md`.
 - **Document status:** Author-review draft. Completed, `ERROR`, and `PENDING` submissions are kept
   distinct. Four L31 chainpack rows were still `PENDING` at the cutoff and remain **Open
@@ -160,7 +160,7 @@ assumed to transfer to the hidden evaluator.
 | Scarce submission slots | The available live submissions and deadline limited repetitions and factorial controls. The live catalogue is a selected experiment sequence, not an exhaustive search or an unbiased sample of configurations. |
 | Imperfect controls | Routing, candidate count, model mix, timing, or configuration sometimes differ. These differences are disclosed, and unmatched rows support only narrower observations. |
 | Unknown platform aggregation | Public totals do not expose how model/guardrail rows are combined. The note does not infer a sum, mean, weighting, or private-row contribution. |
-| Competitor-version uncertainty | Inspected public kernels identify particular visible artifacts, not the exact bytes, revisions, dependencies, or private submissions that produced a leaderboard score. Named ports are reproduction attempts, not proof of frontier parity. |
+| Competitor-version uncertainty | Four preserved public artifacts are pinned to exact repository blobs in §5.2, but their Kaggle script-version numbers were not preserved, and the snapshots do not establish dependencies, unpublished submissions, or linkage to a leaderboard score. Other inspected-but-unfrozen artifacts support no corpus-level claim. Named ports are reproduction attempts, not proof of frontier parity. |
 | Local-model provenance | The evidence snapshot does not hash the local GGUF model files or establish byte-for-byte parity between the local replica and live target models. Local behavior and counts therefore remain local measurements. |
 | Absent private source and scores | The private-guardrail implementation and component-level private scores are unavailable. A registry identifier and aggregate public score expose no private allow/deny rule, state, provenance policy, or efficacy. |
 
@@ -360,10 +360,13 @@ the cause. Our replica emitted all eight posts while the live outcome remained m
 local count suggested; the two-gate discipline (§2) retains that local/live divergence instead of
 substituting the local count for scored evidence.
 
-**Decode-token minimisation.** Suppressing the reasoning model's chain-of-thought via a forged
-closed-analysis turn cut generated tokens substantially but moved the score only about +1.4 in
-one FRAC-97 comparison. That observation does not isolate a general cost model: per-hop prefill,
-fixed overhead, context growth, and run variance remain possible explanations.
+**Decode-token minimisation.** In local measurements, a forged closed-analysis turn cut generated
+tokens. The matched live comparison was FRAC 99, not FRAC 97: `close_ok` ref 55013500 returned a
+visible 87.210 versus 85.770 for no-close ref 55013491, an exact `+1.440` difference. Both API rows
+are `ERROR`, so this is historical diagnostic evidence rather than a completed effect estimate.
+The FRAC-97 `close_ok` ref 55013507 returned 87.480 but has no same-FRAC no-close control. These
+observations do not isolate a general cost model: per-hop prefill, fixed overhead, context growth,
+and run variance remain possible explanations.
 
 **Corollary (CONFUSED_DEPUTY-stacking on the public row is dominated).** Adding an `email.send`
 (weight 4) hop to an EXFIL candidate steals a replay hop that a second `http.post` (weight 16)
@@ -374,15 +377,27 @@ public-row throughput lever under these tested framings. No conclusion is drawn 
 implementation. This differs from the commitment-forge below, which stacks *http.post* hops and
 is *not* dominated.
 
-### 5.2 The commitment-forge: artifact pattern and bounded transfer
+### 5.2 Competitor-artifact audit and bounded commitment-forge transfer
 
-Public competitor kernels we inspected contained a **commitment-forge** pattern: a candidate
-message fabricates a completed model turn whose reasoning channel contains a full plan and an
-explicit commitment to continue. This is an artifact-level observation, not evidence that any
-live frontier submission used the same bytes or mechanism. In our port on the fresh-environment
-replay path (§2.2), the pattern elicited one `http.post` per named endpoint across hops: 4/4 posts
-at four endpoints and 6/6 at six on the gpt replica, versus about one for our earlier empty-close
-forge. That establishes local behavior for our port.
+Four public artifacts were preserved together at immutable repository commit
+`ba42647c6af5147466ac4f9d77fdb09df46a9f54`. Their Kaggle slugs are moving identities, and the
+retrieved files do not record Kaggle script-version numbers. The commit, Git blob, and SHA-256 in
+the claim ledger therefore identify the exact bytes inspected; no row links those bytes to an
+unpublished submission or leaderboard score.
+
+| Frozen public artifact | Immutable repository identity | Observed feature | Claim boundary |
+|---|---|---|---|
+| [dimong4/ai-agent-security](https://www.kaggle.com/code/dimong4/ai-agent-security) | `refkernels_new/dimong4_ai-agent-security/ai-agent-security.ipynb`; blob `bedbbf483bc6675e2e0da4b1ca2f52073d4b5218` | Filled `_forge_plan_msg` with an explicit commitment to continue; final `SLOW_MULTIPOST_N=4`; comments scope it to slow Harmony/`gpt_oss`, while the fast branch is single-post. | Frozen source observation only; no live-use or score attribution. |
+| [nctuan/jed-slow-multipost](https://www.kaggle.com/code/nctuan/jed-slow-multipost) | `refkernels_new/nctuan_jed-slow-multipost/jed-slow-multipost.ipynb`; blob `83a90f5e806782c762e1c3f0ab07fc0cccbbe64f` | Same filled-plan construction; final variant override `SLOW_MULTIPOST_N=3`; likewise scoped to slow Harmony/`gpt_oss`, with the fast branch single-post. | Frozen source observation only; no live-use or score attribution. |
+| [tetsutani/ai-agent-sec-adaptive-uniform-two-probe-recovery](https://www.kaggle.com/code/tetsutani/ai-agent-sec-adaptive-uniform-two-probe-recovery) | `refkernels_new/tetsutani_ai-agent-sec-adaptive-uniform-two-probe-recovery/ai-agent-sec-adaptive-uniform-two-probe-recovery.ipynb`; blob `1f1d08b39a4859813b9f6909eb21efc2a037f634` | Closed-analysis and commentary token templates, each requesting one post; no filled multi-endpoint commitment plan. | Negative artifact observation, not evidence about other kernels. |
+| [paul720810/hermes-attack-v72-m112-20260721-151926](https://www.kaggle.com/code/paul720810/hermes-attack-v72-m112-20260721-151926) | `refkernels_new/paul720810_hermes-attack-v72-m112-20260721-151926/hermes-attack-v72-m112-20260721-151926.py`; blob `52002e622e3c48eaf2395438929e26570b706b60` | Decoded payload requests one post; no Harmony commitment plan or Gemma-specific continuation forge. | Negative artifact observation, not evidence about other kernels. |
+
+Two of these four frozen artifacts contain the **commitment-forge** pattern: a candidate fabricates
+a completed model turn whose reasoning channel contains a full plan and an explicit commitment to
+continue. In our separate port on the fresh-environment replay path (§2.2), the pattern elicited one
+`http.post` per named endpoint across hops: 4/4 posts at four endpoints and 6/6 at six on the gpt
+replica, versus about one for our earlier empty-close forge. That establishes local behavior for
+our port, not behavior or prevalence across the field.
 
 On the board, the L24 gpt-only forge produced a modest one-off increase over its same-batch
 gpt-only control (§7). It does not establish a reasoning-row or hardware ceiling. More decisively,
@@ -393,13 +408,14 @@ not evidence of frontier reproduction.
 
 ### 5.3 Non-reasoning-row transfer: positive once; durability not established
 
-The commitment-forge is a *reasoning-model* device (it forges a chain-of-thought channel the
-reasoning model honours). Across the ~10 competitor kernels we inspected, competitors forge the
-`gpt-oss` row and appear to leave the non-reasoning `gemma` row at single-post — an observation
-about *visible* code, not a certainty about the frontier's actual submissions. `gemma`
-nonetheless multiposts under a *different*, model-specific device — a control-token continuation
-forge that fabricates one completed tool cycle in gemma's own turn format. On the replica this
-produced **3 posts/candidate at k=4** and 2 at k=3 (**Local measurement**, 2026-08-10).
+In the two frozen artifacts that contain the filled commitment plan, comments and branch selection
+explicitly scope it to the slow Harmony/`gpt-oss` path and use a single-post template on the fast
+branch. Neither frozen artifact contains our later Gemma-specific continuation forge. That is an
+observation about two exact snapshots, not a claim about field prevalence or frontier submissions.
+In our separate local work, `gemma` multiposted under a different, model-specific device — a
+control-token continuation forge that fabricates one completed tool cycle in Gemma's own turn
+format. On the replica this produced **3 posts/candidate at k=4** and 2 at k=3
+(**Local measurement**, 2026-08-10).
 
 All five L25 rows returned `COMPLETE`. The Gemma-only N=600 forge scored 34.000 versus 27.000 for
 its same-batch single-post isolate (**Live observations** 55418165 and 55418171), an initial
@@ -484,7 +500,7 @@ future evaluators, and keep the analysis within the rules-sanctioned benchmark.
 ## 7. Results and the open problem
 
 The catalogue below is the canonical manuscript record of the analyzed live run family through
-the API retrieval at 2026-08-16T10:42:08Z. All figures are public-leaderboard scores. A gpt-only or
+the API retrieval at 2026-08-16T10:56:15Z. All figures are public-leaderboard scores. A gpt-only or
 Gemma-only "isolated" row is a submission whose candidates are intended to fire on one target and
 remain benign on the other; it isolates an observed nonzero signal only when routing succeeds and
 does not reveal platform aggregation or scaling. L30 is omitted because there were no Kaggle
@@ -497,6 +513,7 @@ historical comparator for later ladders. These roles are kept distinct below.
 
 | Ladder | Ref(s) | Status | Test and control | Score(s) | Evidence-supported interpretation |
 |---|---|---|---|---|---|
+| L7 decode-close | 55013491, 55013500, 55013507 | `ERROR` | FRAC-99 no-close vs `close_ok`; FRAC-97 `close_ok` without same-FRAC no-close control | 85.770 vs 87.210 (`+1.440`); 87.480 | The exact matched visible delta is at FRAC 99, and both rows are `ERROR`; it is not a completed effect estimate. The FRAC-97 row supports no matched close/no-close delta. |
 | L9 | 55040336, 55040351, 55040363, 55040369, 55040377 | `ERROR` | Single-post K=1 control; packing K=2/4/8/16 | 89.640; 80.015 / 75.945 / 73.665 / 70.645 | Visible packing scores declined with K, but every row is `ERROR`; 89.640 is a historical high-water, not a completed control. |
 | L22 | 55336143, 55336228, 55336286, 55336337, 55336379 | `COMPLETE` | gpt single vs hop-pack; Gemma single vs hop-pack; both-board hop-pack | 0.000 vs 0.000; 82.350 vs 64.575; 63.330 | The gpt isolation route produced no usable control; the matched Gemma hop-pack lost to its same-batch single. No positive hop-pack transfer was established. |
 | L23 | 55362610, 55362686, 55362749, 55362800, 55362843 | `COMPLETE` | gpt single 44.320; forced K8 at N=150/350/550/800 | 44.320; 47.865 / 42.665 / 47.540 / 47.865 | No monotonic improvement appeared across tested candidate counts and all runs completed. This is consistent with, but does not prove, a throughput or behavior ceiling. |
@@ -548,14 +565,14 @@ evidence for hidden guardrail behavior, a hardware ceiling, or a frontier mechan
 Reproduction has two revision anchors. The mechanical/live evidence was audited at repository
 revision `2ed68e80705906dcbdf4f707edf8c37089ce0906` on `codex/paper-manuscripts`; the dated ledger is
 `paper/evidence/working-note-claim-ledger.md`, SHA-256
-`2737ae1c43f22b218003748df72c8f6cd5a3d95bfefe70764f1dc0362a97ee2a`. The manuscript itself
+`24d6ea8664bd2c5634a031b0a7a2a452a93ae23262152ddae6d1cd911445635a`. The manuscript itself
 continues to advance, so a distributed copy should be cited by the immutable commit that contains
 that copy, not by the moving branch name. Later manuscript commits do not move the evidence cutoff
 unless they explicitly update the ledger hash, source hashes, retrieval timestamp, and affected
 claim dispositions.
 
 The snapshot uses `aicomp-sdk 3.1.2`, evidence cutoff 2026-08-16, and live records retrieved at
-2026-08-16T10:42:08Z. At that instant, L31 chainpack refs 55538814, 55538829, 55538848, and 55538855
+2026-08-16T10:56:15Z. At that instant, L31 chainpack refs 55538814, 55538829, 55538848, and 55538855
 were `PENDING` with no score; this revision does not assign them a later outcome. The four primary
 source hashes are:
 
