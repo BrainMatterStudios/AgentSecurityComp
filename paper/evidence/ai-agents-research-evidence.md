@@ -299,9 +299,10 @@ and unmeasured.
 | Repository boundary | `2ed68e80705906dcbdf4f707edf8c37089ce0906`, 2026-08-16T10:29:29+03:00 | Code and artifact cutoff |
 
 The current competition outcome is retrospective testimony: the winning
-objective has not been achieved. Exact submission statuses, scores, and
-leaderboard trajectories require live-record verification before manuscript
-use.
+objective has not been achieved. Exact AgentSecurity submission statuses and
+scores admitted to the manuscript come only from the independently retrieved
+live-results table in `paper/evidence/working-note-claim-ledger.md`, frozen at
+2026-08-16T09:25:34Z. That table does not establish a final rank or outcome.
 
 ## ARC-AGI-3 chronology
 
@@ -326,6 +327,19 @@ separate. Origin is coded conservatively as `human`, `agent`, `external`, or
 `invalid experiment`, `superseded`, or `open`. A provider's proposal is not
 treated as autonomous discovery when the record also contains human or external
 input. OpenCode specialist sessions are linked to their parent investigation.
+
+Terms used in the rows retain their project-specific meanings. An
+*executable-world-model (EWM)* policy tests proposed actions against an internal
+executable model before acting. The *duck baseline* is ARC's project nickname
+for its reactive reference policy; *Stage 2b* is the later engineered candidate
+tested as its replacement; and *full-25* means a verdict across all 25
+development games. A *0.707-level RMS* result is the root-mean-square paired
+variation across the four same-versus-same evaluations. *In-band* means within
+the registered 0.69-1.30 comparison interval. AgentSecurity's *L27* and *L31*
+are names for controlled submission ladders. *Probe-hop* enables a one-hop
+calibration probe before candidate sizing; *chain-pack* places several
+multi-hop messages in one candidate; and *fast-emit* is the separately
+calibrated in-memory path for fixed eight-hop candidates.
 
 ### AgentSecurityComp episodes
 
@@ -428,7 +442,7 @@ process or retrospective evidence only; they do not replace code or live results
 | Q01 | ASC original goal | “continue to work in loops and iterations until you solve the challenge” | 2026-06-13 | Ahmed | Claude Code | parent `d02227a2-1ed0-471c-abb2-994217974264`; no child | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl#L8`, message `27c64ae4-8719-4127-ac37-7d59fbea14a4`, 09:30:27Z | The opening goal asked for iterative competition work; it did not authorize unreviewed shared-state changes. | None | Human instruction | authorized; scope and persistence framing |
 | Q02 | ASC confident claim | “Both models are stuck at gpt-oss's ~465 boundary → ~44 ceiling.” | 2026-07-01 | Claude Code assistant | Claude Code | parent `d02227a2-1ed0-471c-abb2-994217974264`; no child | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl#L5294`, message `a574e226-e272-4d2e-98a2-b1f9e517fdb9`, 06:53:23Z | Presented as definitively established before later experiments weakened the ceiling claim. | None | Agent process claim, not measured fact | authorized; overconfidence example |
 | Q03 | ASC human challenge | “test the approach locally as much as possible to verify it thoroughly” | 2026-06-30 | Ahmed | Claude Code | parent `d02227a2-1ed0-471c-abb2-994217974264`; no child | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl#L5055`, message `040e05e3-bc81-4bea-ba43-8939e30a66a6`, 11:37:50Z | Ahmed withheld a decision pending deeper local verification. | None | Human governance instruction | authorized; oversight example |
-| Q04 | ASC retraction | “my ‘boundary ~570’ was wrong” | 2026-06-30 | Claude Code assistant | Claude Code | parent `d02227a2-1ed0-471c-abb2-994217974264`; no child | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl#L4988`, message `16af8f5a-e874-4197-901c-dab74be702fe`, 05:39:16Z | The assistant corrected a prior threshold after exact-model behavior contradicted it. | None | Agent self-correction | authorized; retraction example |
+| Q04 | ASC correction of earlier ~570 claim | “my ‘boundary ~570’ was wrong” | 2026-06-30 | Claude Code assistant | Claude Code | parent `d02227a2-1ed0-471c-abb2-994217974264`; no child | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl#L4988`, message `16af8f5a-e874-4197-901c-dab74be702fe`, 05:39:16Z | The assistant corrected a prior threshold after exact-model behavior contradicted it. Q04 predates Q02 and cannot retract Q02's later, distinct claim. | None | Agent self-correction | authorized; correction example |
 | Q05 | ASC memory-blind audit | “do not trust the memnory or recorded info, validate everything” | 2026-08-09 | Ahmed | OpenCode/DeepSeek | parent `ses_019da7b0effeSVV74ieACHE15I`; no child | message `msg_fe6258538001IR3J7Nyc6r9Ul5`, part `prt_fe6258539001I0glvysE6QnNH1`, 10:50:46Z | The parent prompt required primary revalidation and skepticism; original spelling retained. | None | Human governance instruction | authorized; audit-method example |
 | Q06 | ARC invalid experiment | “The LoRA never served. The generation ran on base” | 2026-07-11 | Claude Code assistant | Claude Code | parent `573f46bd-f297-4c15-8028-9676d148ba1b`; no child | `claude:ARC-AGI-3/573f46bd-f297-4c15-8028-9676d148ba1b.jsonl#L6784`, message `cd994208-74ea-4adc-a259-36aed85360be`, 19:37:00Z | A serving audit invalidated the earlier fine-tune comparison. | None | Agent self-correction corroborated by repository evidence | authorized; invalid-experiment example |
 | Q07 | ARC evidence gate | “Serving identity proven first.” | 2026-08-10 | Claude Code assistant | Claude Code | parent `32add479-d332-44f0-ae03-8ed849c86377`; no child | `claude:ARC-AGI-3/32add479-d332-44f0-ae03-8ed849c86377.jsonl#L1673`, message `753f259a-c79e-48e1-a438-5412cb982430`, 18:38:57Z | A later adapter A/B used deterministic controls before interpreting outcomes. | None | Agent process statement corroborated by test artifacts | authorized; evidence-gate example |
@@ -550,19 +564,34 @@ linked record was checked for the full list.
 
 ## Living outcomes register
 
-| Case | Status at cutoff | Evidence class | Update rule |
-| --- | --- | --- | --- |
-| AgentSecurityComp | Ongoing; winning objective not achieved | Retrospective testimony | Verify against live submissions and final competition records before revision |
-| ARC-AGI-3 | Ongoing; winning objective not achieved | Retrospective testimony | Verify against official scoring and final competition records before revision |
+This register is complete for the reviewed evidence: “not established” and “not
+independently corroborated” are explicit statuses rather than empty
+placeholders.
 
-Completed, pending, superseded, failed, and unresolved experiments must remain
-distinguishable. Final rankings, costs, and retrospective judgments enter only
-after the competitions conclude and the supporting records are checked.
+| Register item | AgentSecurityComp | ARC-AGI-3 | Evidence class and update rule |
+| --- | --- | --- | --- |
+| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; live Kaggle rows retrieved 2026-08-16T09:25:34Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b mutable artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff. Later evidence appends a dated observation. |
+| Winning objective | Ongoing and unachieved at cutoff. | Ongoing and unachieved at cutoff. | Retrospective testimony; verify against final official records. |
+| Current recorded score/status state | Independently retrieved live rows: L27 control `COMPLETE` at 88.730; L29 `COMPLETE` at 85.675; L31 fast-emit `COMPLETE` at 25.145; L31 chain-pack refs 55538814, 55538829, 55538848, and 55538855 all `PENDING` with no scores. No current-rank or final-best claim follows. | No current external score or rank was independently queried. Repository/project artifacts report Stage 2b at 0.2463 versus duck at 1.6333 over the full-25 development set and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is a current external fact. | AgentSecurity values are live observations at 2026-08-16T09:25:34Z. ARC values remain bounded project-record or audit-time-artifact claims. |
+| Reviewed deadlines | Official final submission deadline: 2026-09-01 at 23:59 UTC; optional Working Note deadline: 2026-09-08 at 23:59 UTC. | No official ARC deadline was admitted to this reviewed ledger; none is asserted. | AgentSecurity dates are source facts from the official timeline recorded in the working-note claim ledger. ARC requires a primary official source in a later revision. |
+| Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony: about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions with unrecorded amounts. No independently confirmed total exists at cutoff. |
+| Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate of 2-5 hours/day; not a contemporaneous time record. |
+| Reserved post-competition categories | Official final submission status and score, final rank, winning-objective verdict, Working Note outcome, receipt-reconciled costs if available, measured cumulative oversight if available, and dated interpretation change. | Official final evaluation status and score, final rank, winning-objective verdict, Qwen 3.8 external result if executed, receipt-reconciled costs if available, measured cumulative oversight if available, and dated interpretation change. | Populate only from cited official records, preserved artifacts, or explicitly labelled testimony. Retain every prior negative, invalid, superseded, pending, and open state. |
+
+Update procedure: freeze the prior version; state new cutoffs; query official
+final records; append every new completed, failed, cancelled, or still-pending
+arm; reconcile the reserved categories; retain any old code when a row is
+recoded and explain why; recalculate episode totals and citation-reference
+checks; and recheck target-venue AI policy before author approval. An unrun arm
+never inherits the result of a companion submission.
 
 ## Known evidence gaps
 
-- Live Kaggle submission histories, exact statuses, scores, and leaderboard
-  records were not queried in this provenance task.
+- AgentSecurity exact statuses and scores were independently queried only for
+  the live-results table frozen at 2026-08-16T09:25:34Z; that table does not
+  establish final ranking, later results, or competition outcome. ARC external
+  state was not queried, so project-ledger outcomes are not current external
+  facts.
 - Claude classification and canonical groups were derived at the stated store
   snapshot from entrypoint, prompt-source, legacy-session, bridge, and path
   metadata. The hashed overlap audit detects exact copied prompt runs of three
