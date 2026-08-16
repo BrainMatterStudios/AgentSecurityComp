@@ -166,14 +166,18 @@ assumed to transfer to the hidden evaluator.
 
 ### 2.5 AI-use disclosure
 
-Ahmed Mobasher is the sole accountable author. Claude Code and Codex were used as assistive tools
-for source and code navigation, experiment and analysis support, and drafting and revision. Ahmed
-selected the research questions, made the submission decisions, checked the cited source and live
-records, determined the final claims, and accepts responsibility for the manuscript's accuracy and
-originality. The AI systems are not authors and their outputs are not evidence unless checked
-against the source, local records, or live catalogue described above. This disclosure follows the
-general accountability principle in the ICMJE guidance on AI-assisted manuscript preparation [4];
-that policy is contextual guidance, not a competition rule.
+Ahmed Mobasher is the sole accountable author. Claude Code was the primary AI assistance for
+source and code navigation and experiment implementation. Codex assisted with evidence-ledger
+review, analysis, drafting, and revision. OpenCode/DeepSeek had a limited supplementary role in
+perspective resets and investigation of selected AgentSecurityComp questions. The systems were
+used unequally and were not assigned a common task set, so their use is not a balanced provider
+comparison and supports no provider ranking. Ahmed selected the research questions, made the
+submission decisions, checked the cited source and live records, determined the final claims, and
+accepts responsibility for the manuscript's accuracy and originality. The AI systems are not
+authors and their outputs are not evidence unless checked against the source, local records, or
+live catalogue described above. This disclosure follows the general accountability principle in
+the ICMJE guidance on AI-assisted manuscript preparation [4]; that policy is contextual guidance,
+not a competition rule.
 
 ---
 
