@@ -1,12 +1,13 @@
 # Working Note Claim Ledger
 
-**Evidence cutoff:** 2026-08-16; live Kaggle records retrieved at 2026-08-16T09:25:34Z.
+**Evidence cutoff:** 2026-08-16; live Kaggle records retrieved at 2026-08-16T10:42:08Z.
 
 **Repository revision:** `2ed68e80705906dcbdf4f707edf8c37089ce0906` on `codex/paper-manuscripts`.
 
-**SDK:** `aicomp-sdk 3.1.2`
+**SDK:** [`aicomp-sdk 3.1.2`](https://pypi.org/project/aicomp-sdk/3.1.2/), installable
+exactly with `python -m pip install aicomp-sdk==3.1.2`
 
-**Pinned primary-checkout source hashes:**
+**Pinned source hashes:**
 
 | Source path | SHA-256 |
 |---|---|
@@ -15,7 +16,13 @@
 | `comp/aicomp_sdk/guardrails/optimal.py` | `6724fedf7bbf3e67dfcdd564ba8a73463e0f783d5c84e0a70dceff40c1bc61ed` |
 | `comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py` | `00ccb933420960f6919b6001f985a7fe916fb757e2710e598cfab4ba3a7afd11` |
 
-The `comp/` directory is ignored in this linked worktree. These source files were read, without modification, from the primary checkout at `/Users/ahmed/Documents/AgentSecurityComp/comp` and are identified here by their repository-relative paths and hashes.
+The three `aicomp_sdk/` files above match the public PyPI 3.1.2 wheel byte for byte. The
+`kaggle_evaluation/` gateway is not included in that wheel. Kaggle's authenticated competition-data
+distribution lists `kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py`, but access requires
+competition access and rule acceptance, and the listing is mutable rather than an immutable archive
+of this exact snapshot. No stable public URL for the pinned gateway bytes was identified. The source
+provenance is therefore retained as repository-relative `comp/...` paths plus SHA-256 hashes, without
+claiming that an unversioned competition download reproduces the gateway snapshot.
 
 ## Evidence labels
 
@@ -63,7 +70,7 @@ Kaggle API timestamps and descriptions below are transcribed as returned at the 
 | 55040363 | 2026-07-28T00:02:21.493000 | ERROR | 75.945 | L9 PACK K=4 FRAC=97 (overhead amortization) | 55040336 | Visible score below the listed K=1 row, but both rows are `ERROR`; not a completed comparison. |
 | 55040369 | 2026-07-28T00:02:32.057000 | ERROR | 73.665 | L9 PACK K=8 FRAC=97 (overhead amortization) | 55040336 | Visible score below the listed K=1 row, but both rows are `ERROR`; not a completed comparison. |
 | 55040377 | 2026-07-28T00:02:42.700000 | ERROR | 70.645 | L9 PACK K=16 FRAC=95 (max amortization) | 55040336 | Visible score below the listed K=1 row, but both rows are `ERROR`; not a completed comparison. |
-| 55160909 | 2026-08-01T11:19:33.873000 | ERROR | 89.550 | L13 ANCHOR both-boards FRAC=97 pool{close_ok,terse_ok} (~89.6 floor/canary) | Historical high-water anchor | Visible score, but `ERROR`; not a completed control. |
+| 55160909 | 2026-08-01T11:19:33.873000 | ERROR | 89.550 | L13 ANCHOR both-boards FRAC=97 pool{close_ok,terse_ok} (~89.6 floor/canary) | L13 anchor | Visible score, but `ERROR`; not a completed control. |
 | 55160913 | 2026-08-01T11:19:45.293000 | ERROR | 41.445 | L13 SPLIT gpt-only FRAC=97 -> publicScore=gpt_row/2 (direct gpt read) | L13 anchor 55160909 | Visible score, but `ERROR`; supports no completed row-level conclusion. |
 | 55160917 | 2026-08-01T11:19:56.117000 | ERROR | 42.660 | L13 SPLIT gemma-only FRAC=97 -> publicScore=gemma_row/2 (gemma maxed check) | L13 anchor 55160909 | Visible score, but `ERROR`; supports no completed row-level conclusion. |
 | 55160920 | 2026-08-01T11:20:06.953000 | ERROR | — | L13 gpt-only FRAC=99 (gpt headroom, no gemma void-drag) | L13 anchor 55160909 | No public score returned; unresolved historical attempt. |

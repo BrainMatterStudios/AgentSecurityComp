@@ -4,7 +4,7 @@
 
 - **Author:** Ahmed Mobasher (sole author)
 - **Evidence baseline:** `aicomp-sdk 3.1.2`; evidence cutoff 2026-08-16; live Kaggle records
-  retrieved 2026-08-16T09:25:34Z. Source hashes and the audited repository revision are recorded
+  retrieved 2026-08-16T10:42:08Z. Source hashes and the audited repository revision are recorded
   in `paper/evidence/working-note-claim-ledger.md`.
 - **Document status:** Author-review draft. Completed, `ERROR`, and `PENDING` submissions are kept
   distinct. Four L31 chainpack rows were still `PENDING` at the cutoff and remain **Open
@@ -430,7 +430,9 @@ mechanism or a claim about platform aggregation.
   by the ultra-dangerous substring check, so trace-read secrets never populate; only the
   environment-independent sentinel route remains.
 - Multiple tool calls per decode — rejected by response parsing.
-- Raising the replay hop cap via reset options — ignored by the gateway.
+- Raising the replay hop cap via reset options — ignored by the gateway, which does not forward
+  reset arguments and caps interaction and replay hops at its configured default
+  (`comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:386-407,621-632`).
 
 ---
 
@@ -482,7 +484,7 @@ future evaluators, and keep the analysis within the rules-sanctioned benchmark.
 ## 7. Results and the open problem
 
 The catalogue below is the canonical manuscript record of the analyzed live run family through
-the API retrieval at 2026-08-16T09:25:34Z. All figures are public-leaderboard scores. A gpt-only or
+the API retrieval at 2026-08-16T10:42:08Z. All figures are public-leaderboard scores. A gpt-only or
 Gemma-only "isolated" row is a submission whose candidates are intended to fire on one target and
 remain benign on the other; it isolates an observed nonzero signal only when routing succeeds and
 does not reveal platform aggregation or scaling. L30 is omitted because there were no Kaggle
@@ -546,14 +548,14 @@ evidence for hidden guardrail behavior, a hardware ceiling, or a frontier mechan
 Reproduction has two revision anchors. The mechanical/live evidence was audited at repository
 revision `2ed68e80705906dcbdf4f707edf8c37089ce0906` on `codex/paper-manuscripts`; the dated ledger is
 `paper/evidence/working-note-claim-ledger.md`, SHA-256
-`8bc53fd01f01ccf17e110c561f7da08c500063a6aefed8c78b13b57536b8f3d3`. The manuscript itself
+`2737ae1c43f22b218003748df72c8f6cd5a3d95bfefe70764f1dc0362a97ee2a`. The manuscript itself
 continues to advance, so a distributed copy should be cited by the immutable commit that contains
 that copy, not by the moving branch name. Later manuscript commits do not move the evidence cutoff
 unless they explicitly update the ledger hash, source hashes, retrieval timestamp, and affected
 claim dispositions.
 
 The snapshot uses `aicomp-sdk 3.1.2`, evidence cutoff 2026-08-16, and live records retrieved at
-2026-08-16T09:25:34Z. At that instant, L31 chainpack refs 55538814, 55538829, 55538848, and 55538855
+2026-08-16T10:42:08Z. At that instant, L31 chainpack refs 55538814, 55538829, 55538848, and 55538855
 were `PENDING` with no score; this revision does not assign them a later outcome. The four primary
 source hashes are:
 
@@ -563,6 +565,14 @@ source hashes are:
 | `comp/aicomp_sdk/core/predicates.py` | `9d9de5118d8883a0074a5405ed85cf2dec3f68e8516908cbc48f409e3ba56f37` |
 | `comp/aicomp_sdk/guardrails/optimal.py` | `6724fedf7bbf3e67dfcdd564ba8a73463e0f783d5c84e0a70dceff40c1bc61ed` |
 | `comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py` | `00ccb933420960f6919b6001f985a7fe916fb757e2710e598cfab4ba3a7afd11` |
+
+The SDK files are reproducible from the public
+[`aicomp-sdk 3.1.2`](https://pypi.org/project/aicomp-sdk/3.1.2/) wheel via
+`python -m pip install aicomp-sdk==3.1.2`; the three SDK hashes above match that wheel. The gateway
+is not in the PyPI package. Kaggle lists its path only in the authenticated, rule-gated competition
+data distribution, which is mutable and does not expose an immutable archive URL for this exact
+hashed snapshot. Accordingly, the note does not present the current competition download as a
+byte-exact public acquisition path for the pinned gateway.
 
 ### 8.2 Code, builders, and run records
 
@@ -645,7 +655,8 @@ kept separate from inline SDK `file:line` citations and official competition-pag
    Computational Linguistics: ACL 2024*, 10471–10506. DOI: 10.18653/v1/2024.findings-acl.624.
 3. Joelle Pineau, Philippe Vincent-Lamarre, Koustuv Sinha, Vincent Larivière, Alina Beygelzimer,
    Florence d'Alché-Buc, Emily Fox, and Hugo Larochelle. 2021.
-   [Improving Reproducibility in Machine Learning Research](https://www.jmlr.org/papers/v22/20-303.html).
+   [Improving Reproducibility in Machine Learning Research (A Report from the NeurIPS 2019
+   Reproducibility Program)](https://www.jmlr.org/papers/v22/20-303.html).
    *Journal of Machine Learning Research* 22(164):1–20.
 4. International Committee of Medical Journal Editors. [Use of AI by
    Authors](https://www.icmje.org/recommendations/browse/artificial-intelligence/ai-use-by-authors.html),
