@@ -397,7 +397,7 @@ planned L8 campaign; the later returned packing descriptions are labeled L9.
 ### ARC-AGI-3 episodes
 
 | Case | Date | Episode | Origin | Prior evidence | Agent confidence | Human intervention | Local outcome | Live outcome | Final status | Lesson | Source IDs |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ARC | 2026-08-09 | Replace a flat object list with a role-typed, HUD-masked scene before goal inference. | mixed | Failure review of flat-frame perception. | High. | Directed retesting on retained cases. | Flat input 0/9; combined representation 6/6. | No isolated live attribution. | partially supported | The local change is supported, but typing and masking changed together and cannot receive separate causal credit. | ARC-S01 |
 | ARC | 2026-07-01 | Search solved paths, then replay them. | agent | Verification that scoring used the best run. | High. | Required dev and live checks. | Search solved all 25 development games. | The scoring trick did not survive live conditions. | partially supported | Separate solver validity from evaluator transfer. | ARC-S02 |
 | ARC | 2026-06-29 | Double-reset between plays to improve geodesic efficiency. | agent | Local state-machine analysis. | High. | Challenged the result against competition mode. | An eval-faithful artifact reported 2.6–152× on 15/25 games after the no-op repair; a later handoff recorded 7–109×. | Second play returned HTTP 400. | invalid experiment | Preserve differing local measurements and test lifecycle semantics in the actual evaluation mode. | ARC-S03 |
@@ -414,7 +414,7 @@ planned L8 campaign; the later returned packing descriptions are labeled L9.
 ### OpenCode primary investigations
 
 | Case | Date | Episode | Origin | Prior evidence | Agent confidence | Human intervention | Local outcome | Live outcome | Final status | Lesson | Source IDs |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ASC | 2026-08-07 | Independently review L20/L21 mechanisms and next tests. | mixed | Repository state and submission history. | Moderate. | Framed the audit and retained submission authority. | Local smoke testing supported some mechanics; no child specialists were used. | The OpenCode record produced no new live submission or efficacy result. | partially supported | An independent review is evidence synthesis, not an independent project. | OC-S01 |
 | ASC | 2026-08-09 | Re-audit the case without trusting memory or recorded conclusions. | mixed | Parent prompt required primary validation. | Deliberately provisional. | Explicitly imposed the memory-blind rule. | Rechecked code and evidence; no child specialists. | No completed live adjudication by cutoff. | open | A strong epistemic instruction improves audit discipline but is not an outcome. | OC-S02 |
 | ARC | 2026-08-06 | Audit the proposed duck-sparse 35B arm. | mixed | Repository artifacts and a parent-led question. | Initially favorable, then retracted. | Commissioned the audit, supplied an independent challenge, then killed the arm. | Parent plus one specialist reviewed the plumbing; the serving path had not executed. | The arm was killed before reset; no slot or live result was produced. | open | Parent and specialist outputs are one investigation, and a killed arm is not a negative live result. | OC-S03 |

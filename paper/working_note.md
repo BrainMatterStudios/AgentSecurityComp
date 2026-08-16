@@ -382,9 +382,10 @@ endpoints and appends a fabricated closed-analysis turn, but leaves that turn em
 L23 rows did not establish positive transfer (§7). Across the tested L23 candidate counts, the
 scores were non-monotonic and every run completed. This is consistent with a throughput or
 behavior ceiling in that configuration, but does not prove one or identify evaluator hardware as
-the cause. Our replica emitted all eight posts while the live outcome remained much lower than the
-local count suggested; the two-gate discipline (§2) retains that local/live divergence instead of
-substituting the local count for scored evidence.
+the cause. The contemporaneous project record reports 8/8 posts on the replica, while the live
+outcome remained much lower than that recorded local count suggested; raw stdout and model hashes
+were not retained, as documented in the provenance ledger. The two-gate discipline (§2) retains
+that local/live divergence instead of substituting the project record for scored evidence.
 
 **Decode-token minimisation.** In local measurements, a forged closed-analysis turn cut generated
 tokens. The matched live comparison was FRAC 99, not FRAC 97: `close_ok` ref 55013500 returned a

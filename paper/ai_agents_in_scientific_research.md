@@ -886,7 +886,7 @@ external effect, a valid experiment, and a durable scientific conclusion must
 be adjudicated separately. (AI evidence ledger, descriptive measures and
 derivations, with all 31 IDs assigned exactly once)
 
-Hypothesis selection and novelty remained weak points. The ledger contains 14
+Hypothesis selection and novelty remained weak points. The ledger contains 13
 agent-origin propositions, but several pursued throughput, routing, serving, or
 reset explanations that were later refuted or invalidated. The author could not
 identify a clear unexpected agent-originated discovery and assessed the
