@@ -698,7 +698,7 @@ projects executable. This supports the author's retrospective judgment that
 the tools enabled meaningful participation and contextual learning. It does not
 show that the author or agents thereby acquired domain mastery, and without a
 human-only control it supplies no measured productivity effect. (Episodes
-AS-S01-AS-S03; Episodes ARC-S02, ARC-S06-ARC-S07; Testimony Q08; Testimony:
+AS-S01-AS-S03; Episodes ARC-S02, ARC-S05-ARC-S07; Testimony Q08; Testimony:
 author baseline and interview)
 
 Execution was also more dependable than scientific interpretation. Agents
@@ -710,8 +710,8 @@ A working router did not identify a routing effect; a working GPU path did not
 establish a CPU bottleneck; repaired policy code did not establish durable
 superiority. Artifact production is therefore evidence of execution, while
 scientific insight additionally requires an identifying comparison and a result
-that survives the relevant evaluation boundary. (Episodes AS-S08, AS-S12;
-Episodes ARC-S04-ARC-S05)
+that survives the relevant evaluation boundary. (Episodes AS-S01, AS-S08,
+AS-S12; Episodes ARC-S04-ARC-S05, ARC-S07)
 
 The adaptive-sizing and commitment-forge episodes show how valuable
 recombination should be attributed. Both central mechanisms came from public or
@@ -763,10 +763,9 @@ known evidence gaps)
 
 ## 7. Where Agents Add Value
 
-The cases support a practical role for agents as high-throughput research
-executors. Their value was distributed across the workflow rather than
-concentrated in autonomous discovery. (Episodes AS-S01-AS-S14; Episodes
-ARC-S01-ARC-S12)
+The cases support a practical role for agents as research executors. Their value
+was distributed across the observed workflow rather than concentrated in
+autonomous discovery. (Episodes AS-S01-AS-S14; Episodes ARC-S01-ARC-S12)
 
 - **Navigation and onboarding.** Repository search, SDK inspection, and
   evaluator reading converted unfamiliar systems into executable maps. This
@@ -787,11 +786,11 @@ ARC-S01-ARC-S12)
   validity than an unqualified leaderboard narrative would have been. (Episodes
   AS-S05, AS-S08; Episodes ARC-S05-ARC-S07; Quote Q07)
 - **Experiment generation.** Agents produced alternative mechanisms and
-  executable arms at a rate that allowed the human to request bounded ladders,
-  controls, and full-game verdicts. The episode ledger records both successful
-  component tests and informative closures; generation expanded the set of
-  testable propositions without making their selection or interpretation
-  trustworthy by default. (Episodes AS-S05-AS-S14; Episodes ARC-S08-ARC-S12)
+  executable arms, while the human requested bounded ladders, controls, and
+  full-game verdicts. The episode ledger records both successful component tests
+  and informative closures; generating testable propositions did not make their
+  selection or interpretation trustworthy by default. (Episodes AS-S05-AS-S14;
+  Episodes ARC-S08-ARC-S12)
 - **Literature and method discovery.** Agent search surfaced public strategies,
   model candidates, and specialist syntheses that could guide reproduction or
   challenge. This capability depended on source identity: the public forge was
@@ -803,9 +802,9 @@ These contributions matter even when they do not yield a new scientific
 finding. A parser regression suite, a deterministic serving probe, a preserved
 negative ladder, or a reproducible runner can improve the next inquiry. The
 appropriate claim is that agents produced research infrastructure and
-experimental throughput under review. Calling every artifact an insight would
-erase the causal and provenance work that turns execution into knowledge.
-(Episodes ARC-S04, ARC-S06-ARC-S07; Episodes AS-S08, AS-S11-AS-S14)
+a reviewed record of implemented experiments. Calling every artifact an insight
+would erase the causal and provenance work that turns execution into knowledge.
+(Episodes ARC-S04-ARC-S07; Episodes AS-S08, AS-S11-AS-S14)
 
 ## 8. Where Agents Struggle
 
@@ -925,7 +924,8 @@ engineered spaces whose hypotheses, instruments, objectives, or search domains
 are substantially specified by humans [1-3]. These repository agents operated
 across less controlled layers—code, model serving, literature, memory, and
 hidden evaluators—where a fluent transition between layers could conceal a
-broken experimental link. ScienceAgentBench and PaperBench likewise measure
+broken experimental link. (Episodes ARC-S02, ARC-S05; Episode OC-S04)
+ScienceAgentBench and PaperBench likewise measure
 scientific programming or replication under explicit task definitions, and
 their reviewed results do not establish general research autonomy [5,10].
 
@@ -940,12 +940,15 @@ hallucinated results make manuscript completion an inadequate reliability test
 [8]. Literature-agent results support retrieval and synthesis on defined tasks,
 but their reported overconfidence and context-sensitive judgments, together
 with the citation-fabrication study and this case's wrong-corpus episode, support
-direct-source checking rather than trust in polished synthesis [12,14].
+direct-source checking rather than trust in polished synthesis. ([12,14];
+Episode OC-S04)
 
 No general performance rate follows from two competitions, one researcher, and
 31 interpretively coded episodes. The narrower implication is operational: AI
-agents can lower the execution barrier and enlarge the feasible experimental
-workflow for a technically experienced researcher, but this benefit becomes
+agents generated executable computational work in unfamiliar domains, and the
+author retrospectively perceived that they enabled his participation and
+contextual learning. Without a human-only control, the cases do not measure how
+much work became feasible or how quickly it was completed. The work becomes
 scientifically defensible only when provenance, validity, external transfer,
 confidence, and stopping are governed explicitly. In these cases the fitting
 role was neither passive assistant nor autonomous scientist, but governed
