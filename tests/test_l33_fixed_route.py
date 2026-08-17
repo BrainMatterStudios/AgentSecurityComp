@@ -82,20 +82,20 @@ def test_l33_builder_defines_fixed_n_ladder_and_metadata(tmp_path, monkeypatch):
     envs = [r.env for r in module.RUNGS]
 
     assert run_dirs == [
-        "submission_kernel_l33_fixed1530",
-        "submission_kernel_l33_fixed1600",
-        "submission_kernel_l33_fixed1524",
-        "submission_kernel_l33_fixed1450",
+        "submission_kernel_l33_fixed1200",
+        "submission_kernel_l33_fixed1500",
+        "submission_kernel_l33_fixed1750",
+        "submission_kernel_l33_fixed1900",
         "submission_kernel_l33_fixed2000",
     ]
     assert slugs == [
-        "ahmedmobasher86/jed-l33-fixed-1530",
-        "ahmedmobasher86/jed-l33-fixed-1600",
-        "ahmedmobasher86/jed-l33-fixed-1524",
-        "ahmedmobasher86/jed-l33-fixed-1450",
+        "ahmedmobasher86/jed-l33-fixed-1200",
+        "ahmedmobasher86/jed-l33-fixed-1500",
+        "ahmedmobasher86/jed-l33-fixed-1750",
+        "ahmedmobasher86/jed-l33-fixed-1900",
         "ahmedmobasher86/jed-l33-fixed-2000",
     ]
-    assert [e["JED_RS_FIXED_N"] for e in envs] == [1530, 1600, 1524, 1450, 2000]
+    assert [e["JED_RS_FIXED_N"] for e in envs] == [1200, 1500, 1750, 1900, 2000]
     for env in envs:
         assert env["JED_REPLAY_SAFE"] == 1
         assert env["JED_RS_FIXED_ROUTE"] == 1
