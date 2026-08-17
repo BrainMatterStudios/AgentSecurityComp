@@ -78,6 +78,7 @@ def test_l33_builder_defines_fixed_n_ladder_and_metadata(tmp_path, monkeypatch):
     spec.loader.exec_module(module)
 
     run_dirs = [r.directory for r in module.RUNGS]
+    slugs = [r.slug for r in module.RUNGS]
     envs = [r.env for r in module.RUNGS]
 
     assert run_dirs == [
@@ -86,6 +87,13 @@ def test_l33_builder_defines_fixed_n_ladder_and_metadata(tmp_path, monkeypatch):
         "submission_kernel_l33_fixed1524",
         "submission_kernel_l33_fixed1450",
         "submission_kernel_l33_fixed2000",
+    ]
+    assert slugs == [
+        "ahmedmobasher86/jed-l33-fixed-1530",
+        "ahmedmobasher86/jed-l33-fixed-1600",
+        "ahmedmobasher86/jed-l33-fixed-1524",
+        "ahmedmobasher86/jed-l33-fixed-1450",
+        "ahmedmobasher86/jed-l33-fixed-2000",
     ]
     assert [e["JED_RS_FIXED_N"] for e in envs] == [1530, 1600, 1524, 1450, 2000]
     for env in envs:
