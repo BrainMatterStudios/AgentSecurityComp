@@ -1,0 +1,14 @@
+{
+  "id": "ahmedmobasher86/jed-l33-fixed1450",
+  "title": "jed l33 fixed 1450",
+  "code_file": "k.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "enable_internet": false,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ]
+}

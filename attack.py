@@ -1210,6 +1210,8 @@ class AttackAlgorithm(AttackAlgorithmBase):
         margin_s = float(_envi("JED_RS_MARGIN", 60))
         margin_mult = 1.35
         max_cand = max(1, _envi("JED_RS_MAX_CAND", 2000))
+        fixed_n = _envi("JED_RS_FIXED_N", 0)
+        fixed_route = _envi("JED_RS_FIXED_ROUTE", 0)
         # JED_RS_PACK=K>1: each RETURNED candidate carries K single-post messages
         # (K distinct hosts) under ONE build_attack_env. The gateway replays each as
         # K interacts => K EXFIL findings, amortizing the per-candidate env-build
@@ -1275,7 +1277,12 @@ class AttackAlgorithm(AttackAlgorithmBase):
         if assume_board in ("gpt", "gemma"):
             detected = assume_board
         if detected is None and (
-            only in ("gpt", "gemma") or _per_model_frac or split or dual_forge or l32_selector
+            only in ("gpt", "gemma")
+            or _per_model_frac
+            or split
+            or dual_forge
+            or l32_selector
+            or (fixed_n > 0 and fixed_route)
         ):
             detected = self._detect_board(env, max_hops)
         if only in ("gpt", "gemma") and detected != only:
@@ -1308,7 +1315,6 @@ class AttackAlgorithm(AttackAlgorithmBase):
         # so they cannot detect replay-phase amortization -- only a fixed-N BOARD run can.
         # Pair with JED_RS_ONLY=gpt to read the isolated row. Voids if N too high for the
         # real replay budget (informative: brackets the K-post per-candidate cost on T4).
-        fixed_n = _envi("JED_RS_FIXED_N", 0)
         forge_plan = _envi("JED_RS_FORGE_PLAN", 0)
         if fixed_n > 0:
             n = min(fixed_n, max_cand)
@@ -1334,10 +1340,13 @@ class AttackAlgorithm(AttackAlgorithmBase):
                     _rs_hoppack_chain_messages(
                         20000 + i * hoppack * chainpack, hoppack, chainpack, marker
                     )) for i in range(n)]
-            # single-post forced N: bypass the conservative ledger (which sized ~985) to
-            # probe the rerun's TRUE single-post capacity (fixed-N K8 implied ~1176 posts
-            # fit -> the ledger may be under-sizing single-post by ~20%). Uses close_ok.
-            _tname, _tpl = _RS_TEMPLATES[5]
+            # single-post forced N: bypass the conservative ledger to probe the
+            # rerun's TRUE single-post capacity. L33 can route the fixed template by
+            # board: GPT gets close_ok (harmony close), Gemma gets terse_ok (literal
+            # harmony tokens are wasted there). Without JED_RS_FIXED_ROUTE, preserve
+            # the historical close_ok behavior.
+            _tidx = 6 if fixed_route and detected == "gemma" else 5
+            _tname, _tpl = _RS_TEMPLATES[_tidx]
             return [AttackCandidate.from_messages(
                 (_tpl.format(m=marker, u=_rs_url(i), h=_rs_host(i)).strip()[:1990],))
                 for i in range(n)]
