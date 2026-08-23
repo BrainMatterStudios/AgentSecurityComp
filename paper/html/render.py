@@ -44,15 +44,15 @@ PAPERS = (
         document_id="BMS-RP-26-01",
         kind="Research working note",
         deck=(
-            "A source-audited account of what public evaluator code permits—and "
-            "what live evidence actually supports."
+            "A source-audited account of where the guardrail and its scoring predicates "
+            "disagree—and why the leaderboard frontier is gated by throughput, not attack design."
         ),
         subject="AI Agent Security · Multi-Step Tool Attacks",
         stats=(
-            ("2", "target model families"),
-            ("4", "scored predicate families"),
+            ("4", "guardrail–predicate asymmetries"),
             ("2-gate", "local-to-live protocol"),
-            ("16 Aug", "2026 evidence cutoff"),
+            ("mean", "board-verified row aggregation"),
+            ("21 Aug", "2026 cutoff (+addendum)"),
         ),
         kickers=(
             "Summary", "Bounded thesis", "Evidence discipline", "Evaluator mechanics",
