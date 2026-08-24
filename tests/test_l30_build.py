@@ -1,4 +1,5 @@
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 
@@ -43,6 +44,18 @@ def test_l30_rungs_cover_control_capacity_and_crown_attempts():
     assert envs[4]["JED_EMIT_CALIBRATE"] == 1
     assert envs[4]["JED_EMIT_SAFETY"] == "0.55"
     assert envs[4]["JED_EMIT_CAP_N"] == 2000
+
+
+def test_l30_control_is_loaded_from_the_pinned_repository_artifact():
+    """Catch a silent fallback from the frozen dimong4 payload to current attack.py."""
+    build = load_builder()
+
+    assert build.D4_SOURCE_PATH == (
+        ROOT / "refkernels_new" / "dimong4_ai-agent-security" / "ai-agent-security.ipynb"
+    )
+    assert hashlib.sha256(build.D4_CONTROL_SOURCE.encode()).hexdigest() == (
+        "72da4fdd085eb52e35cd95047b20a29975a07baf7522d1f7506961985545fd1f"
+    )
 
 
 def test_l30_builder_writes_submission_notebooks_and_metadata(tmp_path, monkeypatch):

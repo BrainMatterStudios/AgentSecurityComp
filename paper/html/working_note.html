@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A source-audited account of where the guardrail and its scoring predicates disagree—and why the leaderboard frontier is gated by throughput, not attack design.">
+<meta name="description" content="A source-audited account of where the guardrail and its scoring predicates disagree—and where a tested attack family reaches a throughput plateau.">
 <meta name="author" content="Ahmed Mobasher — BrainMatterStudios">
 <meta name="generator" content="paper/html/render.py">
 <title>Guardrail-Predicate Asymmetry and the Limits of Local-to-Leaderboard Transfer in Multi-Step Agent Red-Teaming — BrainMatterStudios</title>
@@ -159,7 +159,7 @@ footer { margin-top:5rem; padding-top:2.2rem; border-top:1px solid var(--hair-2)
     <div class="logo-lockup"><span class="wordmark">Bra<span class="i">ı<span class="tittle"></span></span>nMatter<span class="stop">.</span></span><span class="descriptor"><span>Studios</span><span class="sep">·</span><span>The Hague × Cairo</span><span class="sep">·</span><span class="tag">Bespoke AI. Built to think.</span></span></div>
     <div class="eyebrow"><span>BrainMatterStudios</span><span class="sep">/</span><span>Research working note</span><span class="sep">/</span><span>August 2026</span></div>
     <h1>Guardrail-Predicate Asymmetry and the Limits of Local-to-Leaderboard Transfer in Multi-Step Agent Red-Teaming<span class="stop">.</span></h1>
-    <p class="deck">A source-audited account of where the guardrail and its scoring predicates disagree—and why the leaderboard frontier is gated by throughput, not attack design.</p>
+    <p class="deck">A source-audited account of where the guardrail and its scoring predicates disagree—and where a tested attack family reaches a throughput plateau.</p>
     <dl class="docrec">
       <div><dt>Document</dt><dd>BMS-RP-26-01 · Draft 26.08</dd></div>
       <div><dt>Author</dt><dd>Ahmed Mobasher<br>Sole author</dd></div>
@@ -170,15 +170,17 @@ footer { margin-top:5rem; padding-top:2.2rem; border-top:1px solid var(--hair-2)
     </dl>
     <div class="band"><div class="stat"><div class="n">4</div><div class="l">guardrail–predicate asymmetries</div></div>
 <div class="stat"><div class="n">2-gate</div><div class="l">local-to-live protocol</div></div>
-<div class="stat"><div class="n">mean</div><div class="l">board-verified row aggregation</div></div>
-<div class="stat"><div class="n">21 Aug</div><div class="l">2026 cutoff (+addendum)</div></div></div>
+<div class="stat"><div class="n">mean</div><div class="l">strongly supported public aggregation</div></div>
+<div class="stat"><div class="n">24 Aug</div><div class="l">2026 authenticated addendum</div></div></div>
     <div class="source-record"><p><strong>Working Note — AI Agent Security: Multi-Step Tool Attacks (Kaggle competition 134815)</strong></p>
 <ul>
 <li><strong>Author:</strong> Ahmed Mobasher (sole author)</li>
 <li><strong>Evidence baseline:</strong> <code>aicomp-sdk 3.1.2</code>; current distributed gateway listed
 2026-08-16T12:09:57Z; frozen live Kaggle records retrieved
 2026-08-16T10:56:15Z. A second dated cutoff (2026-08-21) appends later
-project-board observations in §7.3 without altering the frozen table. Source
+project-board observations in §7.3 without altering the frozen table; an
+authenticated 2026-08-24 recheck appends the latest completed rows and leaderboard
+state. Source
 hashes and acquisition limits are recorded in
 <code>paper/evidence/working-note-claim-ledger.md</code>.</li>
 <li><strong>Document status:</strong> Author-review draft. Completed, <code>ERROR</code>, and <code>PENDING</code> submissions are kept
@@ -186,10 +188,11 @@ distinct. Four L31 chainpack rows were <code>PENDING</code> at the frozen 08-16 
 dated 2026-08-16T11:59:48Z recheck found one complete at 73.605 and three still
 pending. At 2026-08-16T12:44:16Z, all four were complete at 79.985, 79.365,
 73.605, and 54.375; none of these later states is silently substituted for the
-frozen table. Developments through 2026-08-21 — including a board-verified
-row-aggregation rule and a quantified throughput ceiling — are appended as a
-dated addendum (§7.3) at the project-board-record evidence tier; they were not
-re-transcribed row-by-row into the frozen 08-16 claim ledger.</li>
+frozen table. Developments through 2026-08-21 — including board evidence that
+strongly supports mean row aggregation and a quantified plateau for the tested family — are appended as a
+dated addendum (§7.3) at the project-board-record evidence tier. The 2026-08-24
+recheck is transcribed separately in the claim ledger rather than silently merged
+into the 08-16 table.</li>
 <li><strong>AI-use disclosure:</strong> §2.5. Ahmed Mobasher retains responsibility for every claim.</li>
 </ul>
 <hr/>
@@ -205,29 +208,31 @@ re-transcribed row-by-row into the frozen 08-16 claim ledger.</li>
 <li><a href="#7-results-and-the-open-problem"><span class="n">07</span><span class="t">7. Results and the open problem</span><span class="k">Live catalogue</span></a></li>
 <li><a href="#8-reproducibility"><span class="n">08</span><span class="t">8. Reproducibility</span><span class="k">Reproduction</span></a></li>
 <li><a href="#9-responsible-communication"><span class="n">09</span><span class="t">9. Responsible communication</span><span class="k">Communication</span></a></li>
-<li><a href="#10-scholarly-and-policy-context"><span class="n">10</span><span class="t">10. Scholarly and policy context</span><span class="k">Context</span></a></li>
+<li><a href="#10-related-work-and-context"><span class="n">10</span><span class="t">10. Related work and context</span><span class="k">Context</span></a></li>
 <li><a href="#references"><span class="n">REF</span><span class="t">References</span><span class="k">Sources</span></a></li>
 <li><a href="#appendix-a-notation"><span class="n">A</span><span class="t">Appendix A. Notation</span><span class="k">Notation</span></a></li>
 <li><a href="#appendix-b-change-log"><span class="n">B</span><span class="t">Appendix B. Change log</span><span class="k">Revision record</span></a></li></ol></nav>
   <main><section id="abstract" class="abstract">
   <div class="rail"><span class="num">ABSTRACT</span><div class="kicker">Summary</div></div>
-  <div class="col"><h2>Abstract<span class="stop">.</span></h2><p>A leaderboard number can measure the wrong thing. Auditing the JED multi-step agent-security
+  <div class="col"><h2>Abstract<span class="stop">.</span></h2><p>A leaderboard number can measure more than one thing. Auditing the JED multi-step agent-security
 benchmark — where candidate message chains are replayed against guarded agents and scored for four
-predicate families — yields two results a competitor optimizing the score would miss. <strong>First</strong>, the
+predicate families — yields two bounded results. <strong>First</strong>, the
 guardrail and the scoring predicates do not inspect the same trace fields, sinks, or time windows: a
 set of <strong>guardrail–predicate asymmetries</strong> that doubles as a precise defensive checklist of where a
-guardrail and its evaluator must be made to agree. <strong>Second</strong>, the public leaderboard frontier is
-gated by per-candidate <strong>serving throughput, not attack cleverness</strong> — a measurement-validity
-property established from source and a board-verified aggregation probe, not asserted. Around these
+guardrail and its evaluator must be made to agree. <strong>Second</strong>, within the tested single-post,
+packing, forge, and probe-hop family, public performance became <strong>throughput-limited</strong>: increasing
+the requested candidate count did not raise the score, and none of the tested transformations
+closed the gap to the frontier. This is a measurement-validity warning, not evidence that serving
+throughput rather than an untested attack design explains the cross-team leaderboard gap. Around these
 we contribute a status-preserving <strong>catalogue of what does and does not transfer</strong> from a local
 replica to the live board, and a discipline that holds every claim to the agreement between what the
 evaluator's code permits, what an attack does locally, and what the live evaluator scores — each
 labeled a <strong>Source fact</strong>, <strong>Local measurement</strong>, <strong>Live observation</strong>, <strong>Triangulated finding</strong>,
 <strong>Inference</strong>, <strong>Testimony</strong>, or <strong>Open hypothesis</strong>, enforced rather than decorative. A dated
-extension (§7.4) carries the analysis to the <strong>private</strong> board: its selection structure is
-source-derived (one guardrail per rerun, applied only in replay, so an attack cannot adapt to it),
-and a reusable check — testing a competitor's leaked mock against the organizer's own hardcoded
-identifiers — demotes that artifact from evidence to testimony and bounds what it can claim.</p>
+extension (§7.4) records the limited <strong>private-board structure</strong> exposed by the gateway: at most one
+private guardrail is selected per evaluation run and applied during replay, so the submitted
+algorithm cannot observe it during generation. The private implementation, private aggregation,
+and previously reported reconstruction matrix remain unavailable and are not treated as evidence.</p>
 <p>The central security insight is a set of <strong>guardrail–predicate asymmetries</strong> in the public
 implementation: the guardrail and the scoring predicates do not inspect the same trace fields,
 sinks, or temporal windows. The sharpest case is a field mismatch — the public guardrail's target
@@ -242,17 +247,20 @@ be made to agree.</p>
 <p>The empirical spine is a discipline we call <strong>evidence gating</strong>: a mechanism is not "transferred"
 until it passes both a controlled local behavior/count check and a matched, completed live
 submission. Applied honestly, that discipline turns a scarce-submission red-team log into a map of
-dead ends and the reason each is dead. Under a <strong>board-verified mean row-aggregation rule</strong> (an
-equal-row discriminator ruled out sum, and one-target isolate rows scoring ≈ half their firing row
-fixed mean against min and max), the negative results
+dead ends and the reason each is dead. A completed equal-row discriminator rules out sum, while
+one-target isolate results strongly support mean over min and max; because component rows are hidden
+and runs vary, the public mean rule remains a strong board-supported inference rather than a source
+fact. Under that interpretation, the negative results
 cohere into one mechanism rather than a list of disappointments: single-post candidates are cheap
 score cells that a per-candidate cost floor lets you emit by the hundred, while packing, forging,
-and probe-hop variants trade many cheap cells for a few expensive posts and are dominated. Exact
-public-kernel reproductions fell short of their stated target, every probe-hop variant lost to its
+and probe-hop variants trade many cheap cells for a few expensive posts and were dominated in the
+tested configurations. Byte-identical competitor-algorithm payload reproductions fell short of
+their stated target, every probe-hop variant lost to its
 same-batch control, GPU submissions established no advantage, and a Gemma forge that looked positive
-once at N=600 went near-null at N=900. The leaderboard frontier (top ≈137 versus our ≈88) requires
-roughly a 1.55× per-candidate throughput edge that no attacker-controllable lever in the public
-control surface supplies — a <strong>measurement-validity</strong> finding about the benchmark, not a defeat.
+once at N=600 went near-null at N=900. At the authenticated 2026-08-24 recheck, the public top was
+138.250, our best completed score was 91.520, and our best completed single-post control was 88.650.
+That gap is not causally attributed: the experiments show a throughput plateau for our tested family,
+not that no attacker-controllable design can do better.
 Limitations remain first-class: hidden evaluator hardware, evaluator and documentation drift,
 run-to-run variance, imperfect controls, uncertain competitor-artifact provenance, and no
 private-guardrail <em>behavior</em> source (a dated addendum, §7.4, derives the private board's selection
@@ -286,41 +294,38 @@ note's central claim of value.</p>
 public guardrail and the scoring predicates inspect different fields, sinks, or event windows
 (§4), each demonstrated from pinned code and bounded to the public implementation. This is the
 note's primary security insight and doubles as a defensive checklist.</li>
-<li><strong>A quantified score geometry and throughput ceiling.</strong> A source-anchored model of the
+<li><strong>A quantified score geometry and tested-family throughput plateau.</strong> A source-anchored model of the
 single-post score cell (raw 18 per candidate; row ≈ 0.09·N; single-post row ceiling 180, with the
-formula cap at 1000), a board-verified
-<strong>mean</strong> row-aggregation rule established by an equal-row discriminator (ruling out sum) together
+formula cap at 1000), a strongly supported
+<strong>mean</strong> public row-aggregation inference based on an equal-row discriminator (ruling out sum) together
 with one-target isolate rows scoring ≈ row/2 (ruling out min and max), and the
-resulting finding that the leaderboard frontier is gated by a per-candidate cost floor outside
-the attacker's control surface rather than by attack design (§3, §7.3).</li>
+resulting finding that our tested attack family reaches a per-candidate throughput plateau
+(§3, §7.3). The cross-team frontier gap is not assigned to hardware, serving, or attack design.</li>
 <li><strong>A live-tested transfer catalogue.</strong> Matched and unmatched attempts are separated, failed
 transfers are retained, and <code>COMPLETE</code>, <code>ERROR</code>, and <code>PENDING</code> rows are never conflated (§5 and
 §7). The catalogue is a reusable map of which levers are dead and <em>why</em>.</li>
 <li><strong>An evidence-gated methodology.</strong> A source-plus-local-plus-live workflow records the evidence
 tier of each claim and uses two-gate validation as the transfer protocol (§2).</li>
 <li><strong>Defensive and benchmark recommendations.</strong> Recommendations connect the observed asymmetries,
-the throughput ceiling, and the transfer failures to guardrail coverage, evaluator transparency,
+the tested-family throughput plateau, and the transfer failures to guardrail coverage, evaluator transparency,
 matched controls, and reproducible reporting (§6 and §8).</li>
-<li><strong>Private-board structure and a bounded transfer of the asymmetry thesis</strong> (dated addendum, §7.4).
-The gateway is shown to select exactly one private guardrail per rerun and to apply it only in
-replay, so an attack cannot adapt to it (Source facts); a competitor's private-guardrail wheel is
-demoted from evidence to testimony by an internal-inconsistency check against the organizer's own
-hardcoded identifiers (a reusable provenance method); and the §4 field-mismatch asymmetry is argued,
-as an explicitly bounded inference, to plausibly recur on the likely private guardrail rather than
-being nullified there.</li>
+<li><strong>Private-board evidence boundary</strong> (dated addendum, §7.4). The historical gateway snapshot
+selects at most one private guardrail per evaluation run and applies guardrails during replay,
+after candidate generation. No private aggregation rule, implementation behavior, or live score
+is inferred. A previously inspected competitor wheel and matrix are disclosed as unreproduced
+testimony because their bytes, harness, model hash, and raw outputs are absent.</li>
 </ol>
 <h3 id="1-introduction-1-3-scope-and-threats-preview">1.3 Scope and threats preview</h3>
 <p>This is a versioned competition case study, not a general model of tool-agent security. Hardware
 inside the evaluator is hidden; code and official descriptions can change; nominally similar
 scores vary; some historical controls were contaminated by routing or configuration differences;
-and the <em>public</em> row-aggregation rule was not in the SDK source (a post-cutoff probe resolved it as
-mean; §7.3), while any private-row contribution stays unknown. Competitor mechanisms are described
+and the <em>public</em> row-aggregation rule was not in the SDK source (post-cutoff observations strongly
+support mean; §7.3), while any private-row contribution stays unknown. Competitor mechanisms are described
 only as observations of inspected artifacts unless exact revision and transfer evidence are available.
 The private guardrail's <em>implementation behavior</em> is unavailable, so this note neither predicts nor
-reverse-engineers it; a later dated addendum (§7.4) adds only what the shipped gateway makes a
-Source fact — that a single private guardrail is selected per rerun and applied in replay — plus an
-explicitly labeled bounded inference about which guardrail is live, and does not claim any private
-score. Section 2.4 states how these threats constrain the later findings.</p>
+reverse-engineers it; §7.4 retains only the per-run selection and replay ordering visible in the
+historical gateway snapshot and explicitly declines to infer private aggregation or behavior.
+Section 2.4 states how these threats constrain the later findings.</p>
 <hr/>
 </div>
 </section>
@@ -328,15 +333,18 @@ score. Section 2.4 states how these threats constrain the later findings.</p>
   <div class="rail"><span class="num">02</span><div class="kicker">Evidence discipline</div></div>
   <div class="col"><h2>2. Methodology<span class="stop">.</span></h2><h3 id="2-methodology-2-1-evidence-sources-and-audit-boundary">2.1 Evidence sources and audit boundary</h3>
 <p>The analysis joins three evidence streams. First, a <strong>source audit</strong> reads the pinned SDK and
-the current Kaggle-distributed gateway whose hashes appear in the claim ledger. In inline
+the Kaggle-distributed gateway whose reported hashes appear in the claim ledger. In inline
 citations, <strong>distributed gateway</strong> means the 43,768-byte file listed by Kaggle with timestamp
 2026-08-05T17:49:56.517Z and SHA-256 <code>4fec028b...</code>; the different 35,088-byte <code>comp/...</code>
-gateway is cited only as a historical repository snapshot. Distribution identity does not prove
-deployment identity for a particular live run. Second, <strong>local experiments</strong> exercise
+gateway is cited only as a historical, ignored working-tree snapshot; despite earlier wording, it
+is not committed to Git. The current 43,768-byte gateway was listed again on 2026-08-24, but a fresh
+CLI download returned HTTP 429, so this revision did not independently re-hash its bytes.
+Distribution identity does not prove deployment identity for a particular live run. Second,
+<strong>local experiments</strong> exercise
 competition models and SDK components outside the live evaluator and record behavior, predicate
 firings, tool-call counts, token counts, and configuration. Third, the <strong>live catalogue</strong> preserves
 Kaggle submission ID, timestamp, status, score, configuration, and available control. This note
-uses the 2026-08-16 cutoff; later scores require a new dated revision.</p>
+uses the 2026-08-16 frozen cutoff plus explicitly dated 2026-08-21 and 2026-08-24 addenda.</p>
 <p>The streams have different authority. Source establishes distributed mechanics, not unobserved
 runtime behavior. Local execution measures its own environment, not hidden hardware. Live rows
 establish only the returned outcome for that submission. A visible score on an <code>ERROR</code> row is not
@@ -441,7 +449,7 @@ measurements; the ledger gives the exact retained provenance.</p>
 </tr>
 <tr>
 <td>Platform aggregation of public rows</td>
-<td>The 08-16 SDK source does not expose how the two public rows are combined. A post-cutoff discriminator probe resolved the <em>public</em> rule as <strong>mean</strong> (§7.3); that resolution is a project-board observation, not an SDK source fact. How any private-guardrail row would contribute to a private total remains unknown, and no private-row weighting is inferred.</td>
+<td>The 08-16 SDK source does not expose how the two public rows are combined. Post-cutoff board observations strongly support <strong>mean</strong> for the public score (§7.3), but component rows are hidden and the direct unequal-row discriminator was never submitted. How any private-guardrail row would contribute to a private total remains unknown, and no private-row weighting is inferred.</td>
 </tr>
 <tr>
 <td>Competitor-version uncertainty</td>
@@ -503,8 +511,8 @@ attack-score row per configured <code>(model, guardrail)</code> pair; with both 
 are the familiar four rows
 (<code>distributed gateway:886-998</code>).
 This source establishes the row scores. How the competition platform combines the two public rows
-into one public leaderboard number is not in the SDK; §7.3 reports a board-verified <strong>mean</strong> rule
-established after the frozen cutoff.</p>
+into one public leaderboard number is not in the SDK; §7.3 reports board observations that strongly
+support <strong>mean</strong>, gathered after the frozen cutoff.</p>
 <p><strong>The single-post cell and its consequence.</strong> The cheapest scoring object in this benchmark is a
 single <code>http.post</code> that carries the sentinel to a <em>distinct</em> domain. It fires EXFILTRATION
 (severity 5, weight 16) and, because the novelty hash for a URL sink buckets on the domain
@@ -611,10 +619,9 @@ deadline margin (§5, §7).</p>
   <div class="rail"><span class="num">04</span><div class="kicker">Security taxonomy</div></div>
   <div class="col"><h2>4. Guardrail–predicate asymmetry: a taxonomy<span class="stop">.</span></h2><p>The following taxonomy compares predicates with the <strong>inspected public SDK 3.1.2 path only</strong>.
 Scoreability depends on success checks, fields, tool scope, event windows, and intent gates; none
-of these statements predicts the unavailable private guardrail or another deployment. (A later dated
-addendum, §7.4, revisits the field-mismatch case of §4.1 for the <em>likely</em> private guardrail as an
-explicitly bounded inference — a provenance-named guardrail need not inspect the <code>http.post</code> body the
-predicate scores — but that extension is labeled inference, not part of this source-only taxonomy.)</p>
+of these statements predicts the unavailable private guardrail or another deployment. Section 7.4
+records only the private-board structure visible in the historical gateway snapshot and explicitly
+declines to infer private behavior from an identifier.</p>
 <p><code>OptimalGuardrail.decide</code> checks explicit authorization flags, then an "ultra-dangerous"
 substring on one extracted target, then web/email taint for a fixed dangerous-tool set, and
 otherwise allows (<code>comp/aicomp_sdk/guardrails/optimal.py:15-60</code>). <code>_extract_target</code> returns the
@@ -631,7 +638,7 @@ check while an uninspected payload carries the environment-independent sentinel.
 recent web/email taint and the post succeeds, that event can score EXFILTRATION under this public
 SDK. This is a field mismatch, not a claim that arbitrary secret-value exfiltration is possible:
 the public guardrail separately blocks a canonical <code>secret.txt</code> read (§5.5).</p>
-<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;border-radius:12px;background:#fbfaf6;overflow-x:auto"><svg viewBox="0 0 700 322" role="img" width="100%" style="max-width:700px;height:auto;font-family:inherit" aria-label="Field-mismatch asymmetry between guardrail and exfiltration predicate"><rect x="150" y="14" width="400" height="50" rx="9" fill="#f4f1e8" stroke="#e0dacc" stroke-width="1"/><text x="350" y="34" text-anchor="middle" font-size="12.5" font-family="ui-monospace,monospace" fill="#26241f">http.post(</text><text x="350" y="52" text-anchor="middle" font-size="12.5" font-family="ui-monospace,monospace"><tspan fill="#12692b">url="…ok.co/sync"</tspan><tspan fill="#8a8478">, </tspan><tspan fill="#93122a">data="…SECRET_MARKER"</tspan><tspan fill="#26241f"> )</tspan></text><path d="M300,64 L180,92" stroke="#12692b" stroke-width="2" marker-end="url(#ah_g)"/><path d="M400,64 L520,92" stroke="#93122a" stroke-width="2" marker-end="url(#ah_r)"/><defs><marker id="ah_g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#12692b"/></marker><marker id="ah_r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#93122a"/></marker></defs><rect x="22" y="96" width="320" height="210" rx="11" fill="#fbfaf6" stroke="#e7e2d6" stroke-width="1"/><text x="40" y="122" font-size="13.5" font-weight="700" fill="#12692b">Guardrail  ·  OptimalGuardrail.decide</text><text x="40" y="140" font-size="11.5" fill="#8a8478">reads ONE field, url-first</text><text x="40" y="166" font-size="12" fill="#26241f">1. _extract_target(): first present of</text><text x="40" y="190" font-size="12" fill="#26241f">   [path, url, cmd, data, body] → url</text><text x="40" y="214" font-size="12" fill="#26241f">2. scan url for {secret, token, …} → none</text><text x="40" y="238" font-size="12" fill="#26241f">→ url is benign</text><rect x="40" y="256" width="169" height="30" rx="15" fill="#12692b"/><text x="53" y="276" font-size="12.5" font-weight="700" fill="#ffffff">ALLOWS the call ✓</text><rect x="358" y="96" width="320" height="210" rx="11" fill="#fbfaf6" stroke="#e7e2d6" stroke-width="1"/><text x="376" y="122" font-size="13.5" font-weight="700" fill="#93122a">Scorer  ·  EXFILTRATION predicate</text><text x="376" y="140" font-size="11.5" fill="#8a8478">reads a DIFFERENT field</text><text x="376" y="166" font-size="12" fill="#26241f">1. EXFIL_SINKS[&#x27;http.post&#x27;] = &#x27;data&#x27;</text><text x="376" y="190" font-size="12" fill="#26241f">2. read data → contains SECRET_MARKER</text><text x="376" y="214" font-size="12" fill="#26241f">   (url is never inspected here)</text><text x="376" y="238" font-size="12" fill="#26241f">→ sentinel present</text><rect x="376" y="256" width="127" height="30" rx="15" fill="#93122a"/><text x="389" y="276" font-size="12.5" font-weight="700" fill="#ffffff">SCORES sev-5</text></svg><figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 3. The field-mismatch asymmetry (§4.1). The guardrail and the exfiltration predicate inspect different arguments of the same http.post call — the guard reads url, the scorer reads data — so a benign url passes the filter while the scored sentinel rides in the uninspected payload. Read as a defensive checklist: validate every field that can carry the protected value, not the first one.</figcaption></figure>
+<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;border-radius:12px;background:#fbfaf6;overflow-x:auto"><svg viewBox="0 0 700 322" role="img" width="100%" style="max-width:700px;height:auto;font-family:inherit" aria-label="Field-mismatch asymmetry between guardrail and exfiltration predicate"><rect x="150" y="14" width="400" height="50" rx="9" fill="#f4f1e8" stroke="#e0dacc" stroke-width="1"/><text x="350" y="34" text-anchor="middle" font-size="12.5" font-family="ui-monospace,monospace" fill="#26241f">http.post(</text><text x="350" y="52" text-anchor="middle" font-size="12.5" font-family="ui-monospace,monospace"><tspan fill="#12692b">url="…ok.co/sync"</tspan><tspan fill="#8a8478">, </tspan><tspan fill="#93122a">data="…SECRET_MARKER"</tspan><tspan fill="#26241f"> )</tspan></text><path d="M300,64 L180,92" stroke="#12692b" stroke-width="2" marker-end="url(#ah_g)"/><path d="M400,64 L520,92" stroke="#93122a" stroke-width="2" marker-end="url(#ah_r)"/><defs><marker id="ah_g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#12692b"/></marker><marker id="ah_r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#93122a"/></marker></defs><rect x="22" y="96" width="320" height="210" rx="11" fill="#fbfaf6" stroke="#e7e2d6" stroke-width="1"/><text x="40" y="122" font-size="13.5" font-weight="700" fill="#12692b">Guardrail  ·  OptimalGuardrail.decide</text><text x="40" y="140" font-size="11.5" fill="#8a8478">reads ONE field, url-first</text><text x="40" y="166" font-size="12" fill="#26241f">1. _extract_target(): first present of</text><text x="40" y="190" font-size="12" fill="#26241f">   [path, url, cmd, data, body] → url</text><text x="40" y="214" font-size="12" fill="#26241f">2. scan url for {secret, token, …} → none</text><text x="40" y="238" font-size="12" fill="#26241f">→ url is benign</text><rect x="40" y="256" width="169" height="30" rx="15" fill="#12692b"/><text x="53" y="276" font-size="12.5" font-weight="700" fill="#ffffff">ALLOWS the call ✓</text><rect x="358" y="96" width="320" height="210" rx="11" fill="#fbfaf6" stroke="#e7e2d6" stroke-width="1"/><text x="376" y="122" font-size="13.5" font-weight="700" fill="#93122a">Scorer  ·  EXFILTRATION predicate</text><text x="376" y="140" font-size="11.5" fill="#8a8478">reads a DIFFERENT field</text><text x="376" y="166" font-size="12" fill="#26241f">1. EXFIL_SINKS[&#x27;http.post&#x27;] = &#x27;data&#x27;</text><text x="376" y="190" font-size="12" fill="#26241f">2. read data → contains SECRET_MARKER</text><text x="376" y="214" font-size="12" fill="#26241f">   (url is never inspected here)</text><text x="376" y="238" font-size="12" fill="#26241f">→ sentinel present</text><rect x="376" y="256" width="127" height="30" rx="15" fill="#93122a"/><text x="389" y="276" font-size="12.5" font-weight="700" fill="#ffffff">SCORES sev-5</text></svg><figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 1. The field-mismatch asymmetry (§4.1). The guardrail and the exfiltration predicate inspect different arguments of the same http.post call — the guard reads url, the scorer reads data — so a benign url passes the filter while the scored sentinel rides in the uninspected payload. Read as a defensive checklist: validate every field that can carry the protected value, not the first one.</figcaption></figure>
 <h3 id="4-guardrail-predicate-asymmetry-a-taxonomy-4-2-guard-scope-wider-than-score-scope-destructive-write">4.2 Guard scope wider than score scope (DESTRUCTIVE_WRITE)</h3>
 <p>The public guardrail denies a target containing <code>secret</code>, while DESTRUCTIVE_WRITE accepts only a
 successful <code>fs.write</code> or <code>fs.delete</code> whose normalized path is the canonical root <code>secret.txt</code>
@@ -674,11 +681,12 @@ an unmatched historical comparator as a completed matched result. In the tested 
 naïve packing was negative, a commitment-forge transferred weakly once, a model-specific Gemma
 forge did not retain clear headroom at larger N, and the public-artifact reproduction attempts did
 not reach their stated target. These are not four independent disappointments. Under the score
-geometry of §3.1 (one novelty cell per finding) and the board-verified mean aggregation of §7.3,
-every "stacking" lever spends a per-candidate budget slot to add posts to <em>one</em> finding, forgoing
+geometry of §3.1 (one novelty cell per finding) and the public-mean interpretation strongly supported
+by §7.3, every "stacking" lever spends a per-candidate budget slot to add posts to <em>one</em> finding, forgoing
 the per-candidate cell bonus that a fresh single-post finding would bank; unless it also lowers the
-per-candidate cost floor — which none of these levers did on the board — it is dominated by
-single-post by construction. The rows below are the live confirmation of that one mechanism.</p>
+per-candidate cost floor — which none of these levers did in the submitted comparisons — it is
+disfavored relative to single-post in this tested family. The rows below are live evidence for that
+bounded comparison, not a proof covering untested designs.</p>
 <h3 id="5-throughput-levers-bounded-comparisons-5-1-na-ve-packing-and-empty-forge-hop-packing-score-negative">5.1 Naïve packing and empty-forge hop-packing (score-negative)</h3>
 <p><strong>Message-packing (K single-post messages per candidate).</strong> L9's visible values declined as K rose
 from 1 to 16 (§7). Every row in that series was marked <code>ERROR</code>, including the 89.640 K=1
@@ -763,9 +771,12 @@ Gate-1 measurement, field prevalence, or live behavior.</p>
 <p>On the board, the L24 gpt-only forge produced a modest one-off increase over its same-batch
 gpt-only control (§7). It does not establish a reasoning-row or hardware ceiling. More decisively,
 the two completed L26 submissions labelled <code>dimong4 EXACT</code> scored 77.670 and 83.115, below their
-stated 134 aim. We therefore treat byte-level parity, the cause of the transfer gap, and any
-connection to live frontier methods as unresolved; these rows are failed reproduction attempts,
-not evidence of frontier reproduction.</p>
+stated 134 aim. Audit of the retained notebooks found that their embedded <code>AttackAlgorithm</code> payload
+is byte-identical to the frozen artifact (SHA-256
+<code>7853edc3ce65f4060ffcbf6c8d7ade3cfdcc4e2ce4984ec9a48c59b6ea6b1186</code>), while their setup and
+gateway-serving wrapper differs from the competitor notebook. They are therefore exact
+<strong>algorithm-payload</strong> reproductions, not exact-kernel reproductions. The cause of the transfer gap
+and any connection to a live frontier method remain unresolved.</p>
 <h3 id="5-throughput-levers-bounded-comparisons-5-3-non-reasoning-row-transfer-positive-once-durability-not-established">5.3 Non-reasoning-row transfer: positive once; durability not established</h3>
 <p>In the two frozen artifacts that contain the filled commitment plan, comments and branch selection
 explicitly scope it to the slow Harmony/<code>gpt-oss</code> path and use a single-post template on the fast
@@ -812,7 +823,20 @@ reset arguments and caps interaction and replay hops at its configured default
 </section>
 <section id="6-defensive-recommendations" class="">
   <div class="rail"><span class="num">06</span><div class="kicker">For defenders</div></div>
-  <div class="col"><h2>6. Defensive recommendations<span class="stop">.</span></h2><p>The recommendations below separate repairs implied by the inspected public SDK from general
+  <div class="col"><h2>6. Defensive recommendations<span class="stop">.</span></h2><p><strong>Checklist (a guardrail and its evaluator agree when all seven hold).</strong> For builders in a hurry,
+the recommendations below reduce to a scannable audit list; each item is expanded and source-cited
+in the numbered subsection that follows.</p>
+<ol>
+<li><strong>Inspect every field that can carry the protected value, not the first present one</strong> (guard reads <code>url</code>, scorer reads <code>data</code> — §4.1).</li>
+<li><strong>Make policy scope and measurement scope agree</strong> (guard blocks a broad substring; predicate scores one canonical path — §4.2).</li>
+<li><strong>Version the provenance/taint windows together</strong> (guard's 5-event window contains the predicate's 2-event window — §4.3).</li>
+<li><strong>Represent authorization structurally, not by last-user keywords</strong> (intent gate present in the predicate, absent in the guard — §4.4).</li>
+<li><strong>Publish a versioned evaluation contract</strong> (identifiers, row schema, timing, aggregation, status handling, and what is hidden).</li>
+<li><strong>Require evidence-gated comparisons</strong> (pre-registered mechanism, falsification, matched control; keep negatives; separate local from live).</li>
+<li><strong>Do not infer a hidden defense from its identifier</strong> (treat provenance, content inspection,
+authorization, and egress policy as separate mechanisms until implementation evidence exists — §7.4).</li>
+</ol>
+<p>The recommendations below separate repairs implied by the inspected public SDK from general
 experimental practice. AgentDojo and InjecAgent independently motivate evaluating tool actions in
 the presence of untrusted external content [1,2], but they do not establish the benchmark-specific
 relations below; those relations come from the pinned code citations in §4.</p>
@@ -847,15 +871,11 @@ matched control, and repetition plan; preserve failed and <code>ERROR</code> run
 results separately. Machine-learning reproducibility work likewise emphasizes code, reporting,
 and checklist support [3]. Here, the practical benefit is narrower: it prevents plausible source
 mechanics or local counts from being promoted to leaderboard-transfer claims.</li>
-<li><strong>Do not let a provenance name imply content or egress coverage</strong> (motivated by §7.4, at the
-inference tier). A guardrail named for provenance or taint tracking blocks privileged actions that
-<em>follow</em> untrusted input, but that mechanism does not by itself inspect an outbound payload for
-secret content or enforce an egress barrier. An attack that never reads untrusted input — a direct
-exfiltration forge — stays untainted and can pass a pure-provenance check: the §4.1 field/mechanism
-mismatch, transferred to the private setting as a bounded inference. Provenance tracking, payload
-content inspection, and egress barriers are complementary controls; a defense intended to stop
-exfiltration should compose all three rather than assume one subsumes the others, and its tests
-should include an untainted direct-egress trace, not only untrusted-to-action chains.</li>
+<li><strong>Do not infer a hidden defense from its identifier.</strong> A name containing “provenance” does not
+establish whether the implementation tracks taint, inspects payload content, enforces recipient
+authorization, or blocks egress. Those are complementary mechanisms and should be specified and
+tested separately. Section 7.4 applies the same rule to this manuscript: the private identifier
+defines no behavior without source or reproducible measurements.</li>
 </ol>
 <p>Together, the source audit, two-gate method, negative-result catalogue, and defensive mapping make
 the case study useful beyond its score: they explain implementation and assumptions, contribute a
@@ -1019,9 +1039,9 @@ parity, or reproduction of a live frontier method.</li>
 either target, routing, model-specific message formats, and unobserved evaluator conditions remain
 possible contributors. At the 08-16 cutoff the public scores did not identify whether the two
 public rows are combined by sum, mean, or another rule, so the frozen catalogue decomposes no
-dual-target total. That specific question was resolved after the cutoff by a purpose-built
-discriminator probe: §7.3 reports a board-verified <strong>mean</strong> rule, which the frozen analysis above
-should be read alongside. At the frozen cutoff the four L31 chainpack rows were <code>PENDING</code>; they
+dual-target total. Later board observations narrowed that question: §7.3 reports evidence that
+strongly supports <strong>mean</strong> for the public score, which the frozen analysis above should be read
+alongside. At the frozen cutoff the four L31 chainpack rows were <code>PENDING</code>; they
 were unresolved measurements, not evidence for hidden guardrail behavior, a hardware ceiling, or a
 frontier mechanism.</p>
 <p><strong>Appended status-only observation.</strong> At 2026-08-16T11:59:48Z, ref 55538848 had become
@@ -1032,161 +1052,78 @@ recheck, 2026-08-16T12:44:16Z, all four chainpack rows were <code>COMPLETE</code
 55538848, and 55538855 scored 79.985, 79.365, 73.605, and 54.375 respectively. All remain below
 the completed 88.730 L27 control used as a historical threshold, but the comparison is unmatched
 and therefore neither estimates a causal chainpack effect nor establishes a final competition outcome.</p>
-<h3 id="7-results-and-the-open-problem-7-3-developments-since-the-frozen-cutoff-dated-addendum-2026-08-21">7.3 Developments since the frozen cutoff (dated addendum, 2026-08-21)</h3>
-<p>The observations in this subsection postdate the frozen 2026-08-16 catalogue. They are recorded at
-the <strong>project-board-record</strong> tier: they come from the author's own Kaggle submissions and local
-probes as logged in the repository, were <strong>not</strong> re-transcribed row-by-row into the frozen claim
-ledger, and were <strong>not</strong> independently re-queried for this note. They neither rewrite §7's frozen
-table nor change any status assigned there. The free-hardware (T4) probes cited below over-predict
-throughput by roughly 8× relative to the slower rerun hardware and are used only for direction, not
-magnitude.</p>
-<p><strong>Row aggregation is mean (board-verified).</strong> The 08-16 catalogue declined to say how the two
-public rows combine (§7.2). Two matched live observations resolve it. First, a purpose-built
-<strong>equal-row discriminator</strong> — both models single-post at <code>JED_RS_FIXED_N=500</code>, so each public row
-is ≈ <code>0.09·500 = 45</code> (ref 55610724) — scored <strong>45.0</strong>. With two equal rows, <code>mean = min = max = 45</code>
-while <code>sum = 90</code>, so this run <strong>rules out sum</strong>. Second, and decisively, the <strong>one-target isolate</strong>
-rows score ≈ <code>row/2</code>: a submission whose candidates fire on one model and stay benign on the other
-returns a <code>(row, ≈0)</code> pair, for which <code>mean = row/2</code>, <code>min = 0</code>, and <code>sum = max = row</code>. The observed
-gpt-single isolate <code>44.190</code> and gemma-single isolate <code>37.845</code> (≈ half of their ≈88/≈76 firing rows)
-match the <code>row/2</code> prediction, <strong>ruling out sum, max, and min</strong> and leaving <strong>mean</strong>. The single-post
-cost model independently predicts <code>publicScore = mean(gpt_row, gemma_row)</code> and reproduces the
-observed best single-post board score of ≈88 (<strong>Live observation</strong> plus <strong>Triangulated finding</strong>:
-the equal-row discriminator, the isolate rows, and the cost-model prediction). (An <em>unequal</em>-row
-probe — <code>gpt ≈ 18</code>/<code>gemma ≈ 45</code>, which would have separated all four rules at once via
-<code>min 18 / mean 31.5 / max 45 / sum 63</code> — was coded (<code>JED_AGG_PROBE</code>) but <strong>never submitted</strong>; the
-resolution above rests only on the submitted equal-row discriminator and the isolate rows, not on
-that unrun design.) Two consequences follow. First, the isolate interpretation used throughout §5 and §7
-(<code>publicScore ≈ row/2</code> for a one-target isolate) is correct under this rule. Second, a weak row
-<em>drags the mean of every both-board submission</em>, which retro-explains the dual-forge both-board
-underperformance in §5.3 — the Gemma forge depresses its own row and therefore the mean — and
-confirms the cell-bonus argument in §3.1.</p>
-<p><strong>Score geometry and the achievable ceiling.</strong> The single-post law <code>normalized_row ≈ 0.09·N</code>
-(§3.1) is board-consistent: the best sustained public configuration is a distinct-domain single-post
-set that fits ≈978 candidates within the phase budget and scores ≈88 both-boards. The single-post
-row ceiling is 180 (the <code>2000</code>-candidate limit × 0.09); the formula cap proper is 1000, reachable
-only by higher-severity or multi-event findings. The public leaderboard top is ≈137.13, in a dense
-cluster of roughly 110–137. Under mean
-aggregation, reaching ≈137 requires on the order of 1,520 scored exfiltration events per row against
-our ≈978 — a <strong>≈1.55× per-candidate throughput edge</strong>.</p>
-<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;border-radius:12px;background:#fbfaf6;overflow-x:auto"><svg viewBox="0 0 680 360" role="img" width="100%" style="max-width:680px;height:auto;font-family:inherit" aria-label="Throughput-gating curve: row score versus candidate count"><line x1="58" y1="294.0" x2="662" y2="294.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="298.0" text-anchor="end" font-size="11" fill="#8a8478">0</text><line x1="58" y1="204.0" x2="662" y2="204.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="208.0" text-anchor="end" font-size="11" fill="#8a8478">50</text><line x1="58" y1="135.6" x2="662" y2="135.6" stroke="#ece7db" stroke-width="1"/><text x="50" y="139.6" text-anchor="end" font-size="11" fill="#8a8478">88</text><line x1="58" y1="47.4" x2="662" y2="47.4" stroke="#ece7db" stroke-width="1"/><text x="50" y="51.4" text-anchor="end" font-size="11" fill="#8a8478">137</text><text x="58.0" y="314" text-anchor="middle" font-size="11" fill="#8a8478">0</text><text x="235.6" y="314" text-anchor="middle" font-size="11" fill="#8a8478">500</text><text x="413.3" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1000</text><text x="590.9" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1500</text><text x="360" y="334" text-anchor="middle" font-size="12" fill="#6b665c">candidates emitted per row (N)</text><text x="16" y="159" font-size="12" fill="#6b665c" transform="rotate(-90 16 159)" text-anchor="middle">normalized row score</text><line x1="58.0" y1="294.0" x2="598.8" y2="47.4" stroke="#c08a00" stroke-width="2" stroke-dasharray="6 5"/><text x="520" y="55" font-size="11.5" fill="#9a6f00">ideal 0.09·N (if throughput scaled)</text><polyline points="58.0,294.0 405.5,135.6 662.0,135.6" fill="none" stroke="#1f5fbf" stroke-width="2.5"/><line x1="405.5" y1="24" x2="405.5" y2="294" stroke="#b9b3a4" stroke-width="1" stroke-dasharray="3 4"/><text x="410" y="36" font-size="10.5" fill="#8a8478">phase budget ≈978</text><circle cx="598.8" cy="47.4" r="4" fill="#c08a00"/><text x="593" y="39" text-anchor="end" font-size="11" fill="#9a6f00">LB top ≈137 → needs ~1.55× throughput</text><circle cx="405.5" cy="135.6" r="4.5" fill="#12692b"/><text x="405" y="127" text-anchor="middle" font-size="11" font-weight="600" fill="#12692b">our best ≈88</text><circle cx="599.5" cy="137.2" r="4.5" fill="#93122a"/><circle cx="626.5" cy="137.6" r="4.5" fill="#93122a"/><text x="626" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#93122a">N=1524/1600 → ~87 (plateau)</text></svg><figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 2. The frontier is throughput-gated, not cleverness-gated. Row score tracks 0.09·N only until the per-phase candidate budget (~978) caps it; beyond that, adding candidates does nothing — today’s N=1524/1600 “137 shots” landed at ~87 (real board scores). Reaching the ≈137 top requires ~1.55× per-candidate throughput, which no attacker-controllable lever supplies (§7.3).</figcaption></figure>
-<p><strong>Why that edge is outside the attack surface.</strong> The binding cost per candidate is the target
-model's own generation, which runs inside the evaluator's container rather than in the submitted
-code; a submission emits message chains, it does not decode. Across the tested public control
-surface — message packing, commitment/continuation forging, probe-hop calibration, URL shortening,
-and enabling GPU on our own kernel — no lever changed that floor on the board (§5, §7). Whether the
-floor is dominated by <strong>decode</strong> or by <strong>prefill</strong> is <strong>unresolved between project records</strong>: a
-later record characterizes it as decode-bound after a board test in which padding the prompt to add
-≈57% prefill cost the score only ≈8%, while an earlier record characterized it as prefill-bound. The
-most rigorous <em>local</em> instrument for this question — a CPU harness reading llama.cpp's own
-per-candidate <code>n_eval</code>/<code>n_p_eval</code> counters with a self-check that generated-token counts match, and
-free of the earlier GPU/warmup confound — measures the steady-state prefill cost slightly <em>above</em>
-the decode cost (i.e. points to prefill), so the local and board records genuinely disagree and the
-question stays open. The throughput-gating conclusion does not depend on that resolution — under either mechanism the floor
-sits in the evaluator's generation path, not the attacker's message design. The realistic ceiling
-with the levers identified here is ≈91–95 (<strong>Inference/Testimony</strong>), and closing the remaining gap
-to the frontier would require a per-candidate throughput advantage the repository cannot exercise
-and cannot reproduce on the free evaluation hardware.</p>
-<p><strong>Measurement-validity reading (the security-relevant point).</strong> Taken together, these observations
-say that the <em>public</em> leaderboard frontier in this benchmark rewards a per-candidate throughput
-advantage — plausibly hidden hardware, a faster serving stack, or an evaluation-lifecycle condition
-outside the published control surface — more than it rewards a materially better multi-step attack.
-The public methods reviewed for this note are single-post or validation-fill variants (§5.2) and
-are not attached to a frontier score in the reviewed artifacts; no reviewed public kernel accounts
-for the ≈110–137 cluster. This is a benchmark-design observation
-about what the score actually measures, not a claim about any specific competitor's hidden
-configuration, the private guardrail, or a final ranking. For benchmark designers it motivates
-recommendation 5 in §6: a versioned evaluation contract should state the hardware and
-throughput assumptions, because otherwise the metric silently conflates attack quality with
-serving speed.</p>
-<p><strong>Still open at this cutoff.</strong> A row-matrix batch of single-versus-forge isolates for each model was
-armed to land on 2026-08-22 to attribute the ceiling to a specific row (whether the Gemma row or the
-GPT row is the binding limiter) and to test whether the kernel's <code>enable_gpu</code> flag is inert. Those
-results are not in this cutoff and will be appended, if pursued, as a further dated observation.</p>
-<h3 id="7-results-and-the-open-problem-7-4-the-private-board-structure-from-source-behavior-from-a-reconstruction-dated-addendum-2026-08-23">7.4 The private board: structure from source, behavior from a reconstruction (dated addendum, 2026-08-23)</h3>
-<p>This subsection records a second batch of developments, at the <strong>project-board-record</strong> tier, that
-narrow a limitation §1 stated as absolute ("the reviewed source exposes no implementation of the
-private guardrail"). That remains true of the private guardrail's <em>behavior</em>. But its <em>selection and
-scoring structure</em> is fully source-derived, and a competitor artifact — correctly labeled as such —
-now lets us model the space of plausible behaviors and, more usefully, extend the §4 asymmetry
-thesis to the private board as a bounded inference.</p>
-<p><strong>Private-board structure is a Source fact.</strong> In the committed gateway
-(<code>comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:223-234</code>; the distributed gateway of
-§2.1 carries the same selection logic), <code>build_guardrail_configs()</code> fixes the
-public configuration to <code>OptimalGuardrail</code> and adds <strong>exactly one</strong> private configuration, resolved
-from the single environment variable <code>AICOMP_ATTACK_GUARDRAIL_ID</code> (<code>:136</code>) via the
-<code>aicomp_sdk.attack_guardrails</code> entry-point group; there is no loop over, or aggregation of, multiple
-private guardrails. Two structural consequences follow directly, both <strong>Source facts</strong>. First, one
-unknown guardrail is live for the entire private board; per model this yields exactly four rows
-(<code>{gpt_oss,gemma}×{public,private}</code>), so the private score is the mean of two private rows under the
-same aggregation rule verified for the public board in §7.3. Second, and decisively for attack
-design: phase-1 candidate generation always runs against <code>OptimalGuardrail</code>, and the private
-guardrail is applied <strong>only during replay</strong>. The submitted algorithm therefore cannot observe or
-adapt to the private guardrail at runtime — private scoring is a pure replay of the <em>same</em> candidate
-chains generated under the permissive public guardrail. An attack cannot be "tuned to the private
-board" except by choosing candidate chains that survive a guardrail it never sees.</p>
-<p><strong>A competitor artifact, and how to tell a reconstruction from the original (Testimony bounded by a
-provenance check).</strong> A low-ranked competitor published a wheel, <code>aicomp-private-guardrails</code> (version
-4.0.0), exposing five guardrails through the exact entry-point group the gateway consumes:
-<code>optimal</code>, <code>persistent_provenance_private</code>, <code>secret_egress_barrier</code>, <code>protected_secret_and_email_intent</code>,
-and <code>two_step_untrusted_lock</code>. Every one of those identifiers is <em>publicly recoverable from the
-shipped gateway</em> — the install glob, the entry-point group name, and a hardcoded fallback map
-<code>_KNOWN_GUARDRAILS</code> that names <code>persistent_provenance_private</code> and its module (<code>jed_attack_gateway.py:173-174</code>) — so matching them
-proves nothing about provenance. The decisive discriminator is an internal inconsistency with the
-organizer's own code: the gateway's fallback expects the module
-<code>aicomp_private_guardrails.persistent_provenance</code> (no <code>_private</code> suffix, <code>:174</code>), whereas the published wheel
-ships <code>persistent_provenance_private.py</code> (with the suffix) and maps its entry point to that suffixed
-module. A genuine organizer wheel would satisfy the organizer's own hardcoded fallback; this one does
-not, and its packaging metadata carries no author, homepage, or license. The artifact is therefore a
-<strong>reconstruction built from the public contract</strong>, not the held-out original — a general
-methodological point for this benchmark's evidence discipline (§2.1): a competitor's mock can be
-demoted from evidence to testimony by checking it against identifiers the organizer hardcoded for
-itself. A repository-wide search confirms only the name <code>persistent_provenance</code> appears anywhere in
-the organizer code (the fallback), and no organizer wheel or these behaviors are published anywhere;
-the four other guardrails' internals, and the exact logic of the fifth, are the competitor's
-invention.</p>
-<p><strong>What the reconstruction measures (Local measurement, explicitly against the reconstruction).</strong>
-Replaying our attack arms against the five reconstructed guardrails on the real <code>gpt-oss-20b</code> target
-yields a clean attack×guardrail matrix. Literal-sentinel exfiltration fires at full per-candidate
-volume under three of the five (<code>optimal</code>, <code>protected_secret_and_email_intent</code>, <code>two_step</code>) and is
-denied under the two that inspect the request body or latch an egress lock
-(<code>persistent_provenance_private</code>, <code>secret_egress_barrier</code>). A benign confused-deputy <code>email.send</code>
-fires under four of five and is denied only where an email-intent gate is present; under the
-reconstructed <code>persistent_provenance_private</code> it fires <strong>only</strong> when the recipient domain is in a
-configured allowlist (empty by default). An encoded-exfiltration escape does <strong>not</strong> exist under any
-of the five, for a source-exact reason (§4.1 machinery): the scored sentinel is matched literal-only,
-so encoding it can never fire; and encoding a <em>real</em> read secret is unnecessary under the three
-guardrails that do not inspect the <code>http.post</code> body (<code>optimal</code>, <code>protected_secret_and_email_intent</code>,
-<code>two_step</code> — the literal forge already fires there), while under exactly the two that <em>do</em> block
-literal egress the encoded route is also closed — <code>persistent_provenance_private</code> denies the
-<code>secret.txt</code> read, and <code>secret_egress_barrier</code> allows the read but latches an <code>http.post</code> lock — so
-no guardrail both forces encoding and permits the encoded read-and-post together. The one place a severity-5 predicate
-other than exfiltration survives is <code>secret_egress_barrier</code>, which ignores <code>email.*</code> entirely, so an
-untrusted-read-then-notify chain fires untrusted-to-action there. These are measurements against a
-reconstruction; they characterize the <em>space</em> of plausible private behaviors, not the live board.</p>
-<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;border-radius:12px;background:#fbfaf6;overflow-x:auto"><svg viewBox="0 0 700 262" role="img" width="100%" style="max-width:700px;height:auto;font-family:inherit" aria-label="Attack by guardrail scoring matrix"><text x="226" y="44" text-anchor="middle" font-size="12.5" font-weight="600" fill="#33302b"><tspan x="226" dy="0">optimal</tspan></text><text x="330" y="44" text-anchor="middle" font-size="12.5" font-weight="600" fill="#33302b"><tspan x="330" dy="0">persistent</tspan><tspan x="330" dy="14">provenance</tspan></text><text x="434" y="44" text-anchor="middle" font-size="12.5" font-weight="600" fill="#33302b"><tspan x="434" dy="0">secret</tspan><tspan x="434" dy="14">egress</tspan></text><text x="538" y="44" text-anchor="middle" font-size="12.5" font-weight="600" fill="#33302b"><tspan x="538" dy="0">protected</tspan><tspan x="538" dy="14">secret</tspan></text><text x="642" y="44" text-anchor="middle" font-size="12.5" font-weight="600" fill="#33302b"><tspan x="642" dy="0">two-step</tspan></text><text x="12" y="92" font-size="13" font-weight="600" fill="#26241f">EXFIL</text><text x="166" y="92" text-anchor="end" font-size="11" fill="#8a8478">sev5</text><rect x="177" y="71" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="226" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><rect x="281" y="71" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="330" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="385" y="71" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="434" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="489" y="71" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="538" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><rect x="593" y="71" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="642" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><text x="12" y="138" font-size="13" font-weight="600" fill="#26241f">CD  email.send</text><text x="166" y="138" text-anchor="end" font-size="11" fill="#8a8478">sev3</text><rect x="177" y="117" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="226" y="142" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><rect x="281" y="117" width="98" height="40" rx="6" fill="#faedc0" stroke="#ffffff" stroke-width="2"/><text x="330" y="142" text-anchor="middle" font-size="15" font-weight="700" fill="#7a5c00">◐</text><rect x="385" y="117" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="434" y="142" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><rect x="489" y="117" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="538" y="142" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="593" y="117" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="642" y="142" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><text x="12" y="184" font-size="13" font-weight="600" fill="#26241f">UTA  read→send</text><text x="166" y="184" text-anchor="end" font-size="11" fill="#8a8478">sev5</text><rect x="177" y="163" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="226" y="188" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="281" y="163" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="330" y="188" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="385" y="163" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="434" y="188" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><rect x="489" y="163" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="538" y="188" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="593" y="163" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="642" y="188" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><text x="12" y="230" font-size="13" font-weight="600" fill="#26241f">DEST  secret.txt</text><text x="166" y="230" text-anchor="end" font-size="11" fill="#8a8478">sev4</text><rect x="177" y="209" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="226" y="234" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="281" y="209" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="330" y="234" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="385" y="209" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="434" y="234" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text><rect x="489" y="209" width="98" height="40" rx="6" fill="#f7dcdf" stroke="#ffffff" stroke-width="2"/><text x="538" y="234" text-anchor="middle" font-size="15" font-weight="700" fill="#93122a">✗</text><rect x="593" y="209" width="98" height="40" rx="6" fill="#d6f0dd" stroke="#ffffff" stroke-width="2"/><text x="642" y="234" text-anchor="middle" font-size="15" font-weight="700" fill="#12692b">✓</text></svg><div style="margin-top:8px;font-size:12.5px;color:#6b665c"><b style="color:#12692b">✓</b> predicate fires · <b style="color:#93122a">✗</b> denied · <b style="color:#7a5c00">◐</b> fires only if recipient domain allowlisted. Columns are cm391’s five reconstructed private guardrails; the two selected attacks (EXFIL row, CD row) cover complementary columns, which is why a best-of-2 {EXFIL, CD} hedge scores under every column but an empty-allowlist provenance wall.</div><figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 1. Which scored predicate survives which reconstructed private guardrail (real gpt-oss replays, §7.4). Measured against a competitor reconstruction, not the live board.</figcaption></figure>
-<p><strong>The asymmetry thesis extends to the private board (Inference; Open hypothesis).</strong> The single most
-consequential reading is that the §4 guardrail–predicate asymmetry is not confined to the public
-guardrail. The organizer hardcodes a fallback for exactly one private id,
-<code>persistent_provenance_private</code>, which is a strong intent signal — an <strong>Inference</strong>, not a Source
-fact — that this is the live private guardrail. Its <em>name</em> denotes a provenance/taint mechanism:
-deny privileged operations that follow untrusted (web or email) provenance. A name-faithful guardrail
-of that kind does <strong>not</strong> inspect <code>http.post</code> bodies for secrets; body inspection is precisely the
-content-filtering behavior the reconstruction <em>adds</em>, and it is the least name-justified part of the
-guess. Our exfiltration forge issues <code>http.post</code> calls with no preceding untrusted read, so it never
-acquires taint. It follows, as an <strong>Open hypothesis</strong> bounded by the unavailable real wheel, that
-the same field-mismatch asymmetry documented for the public board in §4.1 — the guardrail and the
-exfiltration predicate inspecting different things — plausibly recurs on the private board, and that
-a high-throughput untainted exfiltration forge may score there rather than being nullified. The
-belief that exfiltration "scores zero on the private board," carried in the project records, is
-traceable entirely to the reconstruction's invented body scan and should be held only at the
-strength of that guess. The complementary confused-deputy arm — a benign <code>email.send</code> with neither
-secret payload nor untrusted provenance — survives both a taint check and a body-content check by
-construction, and fails only against an email-intent gate or an empty domain allowlist. A two-slot
-final selection that pairs a max-throughput exfiltration forge with a benign confused-deputy set
-addressed to a plausibly-allowlisted domain (the environment's own organization domain, verified in
-the file fixtures, plus its dominant business-recipient domain) therefore scores under every modeled
-private behavior except the single case that both inspects request bodies and ships an empty
-allowlist. This is a bounded strategic inference, not a live result; no private score is claimed.</p>
+<h3 id="7-results-and-the-open-problem-7-3-developments-since-the-frozen-cutoff-dated-addenda-2026-08-21-and-2026-08-24">7.3 Developments since the frozen cutoff (dated addenda, 2026-08-21 and 2026-08-24)</h3>
+<p>These observations postdate the frozen 2026-08-16 catalogue. The 2026-08-21 project records are
+kept at their original provenance tier; the 2026-08-24 submission statuses and leaderboard values
+were independently re-queried through authenticated Kaggle endpoints and are transcribed in the
+claim ledger. Neither addendum rewrites the frozen table.</p>
+<p><strong>Public aggregation strongly supports mean.</strong> The equal-row discriminator (ref 55610724) requested
+500 single-post candidates for both models and scored 45.000. Under the source-derived <code>0.09·N</code>
+geometry, this rules out sum (90) but does not distinguish mean, min, and max (all 45). Later
+one-target isolates scored 44.190 for GPT and 37.845 for Gemma (refs 55679273 and 55679283).
+Interpreted as <code>(firing row, ≈0)</code> pairs, those values are consistent with half-row contributions and
+therefore strongly favor mean over min or max. This is not a source fact: the component rows are
+hidden, model routing is inferred from the submitted code, and nominally similar live runs vary.
+The limitation is visible in the same batch: adding the GPT-forge and Gemma-single isolate totals
+predicts 85.210, while the combined configuration scored 90.820 (ref 55679296), a 5.610-point
+difference. Mean is therefore the best-supported public aggregation rule, but “decisively proven”
+would overstate the available observations. The unequal-row probe that would have separated all
+four rules directly was coded but never submitted.</p>
+<p><strong>Score geometry and the tested-family plateau.</strong> A distinct-domain single-post candidate is worth
+18 raw points, or about 0.09 normalized row points (§3.1). Completed fixed-count attempts requested
+1,200, 1,500, 1,750, 1,900, and 2,000 candidates yet remained in the 85.860–88.650 band (refs
+55588144, 55588157, 55588174, 55588189, 55588201). On 2026-08-24, further requests at N=1,524 and
+N=1,600 scored 87.120 and 86.895; N=1,530 returned <code>ERROR</code> (refs 55727926, 55727923, 55727914).
+Those rows establish a plateau for this submitted family: requesting more candidates did not yield
+the <code>0.09·N</code> score that would follow if all requested candidates completed and fired.</p>
+<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;border-radius:12px;background:#fbfaf6;overflow-x:auto"><svg viewBox="0 0 680 360" role="img" width="100%" style="max-width:680px;height:auto;font-family:inherit" aria-label="Tested-family public-score plateau versus requested candidate count"><line x1="58" y1="294.0" x2="662" y2="294.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="298.0" text-anchor="end" font-size="11" fill="#8a8478">0</text><line x1="58" y1="204.0" x2="662" y2="204.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="208.0" text-anchor="end" font-size="11" fill="#8a8478">50</text><line x1="58" y1="135.6" x2="662" y2="135.6" stroke="#ece7db" stroke-width="1"/><text x="50" y="139.6" text-anchor="end" font-size="11" fill="#8a8478">88</text><line x1="58" y1="45.6" x2="662" y2="45.6" stroke="#ece7db" stroke-width="1"/><text x="50" y="49.6" text-anchor="end" font-size="11" fill="#8a8478">138</text><text x="58.0" y="314" text-anchor="middle" font-size="11" fill="#8a8478">0</text><text x="201.8" y="314" text-anchor="middle" font-size="11" fill="#8a8478">500</text><text x="345.6" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1000</text><text x="489.4" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1500</text><text x="633.2" y="314" text-anchor="middle" font-size="11" fill="#8a8478">2000</text><text x="360" y="334" text-anchor="middle" font-size="12" fill="#6b665c">candidates emitted per row (N)</text><text x="16" y="159" font-size="12" fill="#6b665c" transform="rotate(-90 16 159)" text-anchor="middle">public score / equal-row ideal</text><line x1="58.0" y1="294.0" x2="499.8" y2="45.2" stroke="#c08a00" stroke-width="2" stroke-dasharray="6 5"/><text x="403" y="92" font-size="11.5" fill="#9a6f00">ideal equal-row law 0.09·N</text><polyline points="58.0,294.0 339.3,135.6 662.0,135.6" fill="none" stroke="#1f5fbf" stroke-width="2.5"/><line x1="339.3" y1="24" x2="339.3" y2="294" stroke="#b9b3a4" stroke-width="1" stroke-dasharray="3 4"/><text x="331" y="38" text-anchor="end" font-size="10.5" fill="#8a8478">historical fit ≈978 completed firings</text><circle cx="499.8" cy="45.2" r="4" fill="#c08a00"/><text x="494" y="63" text-anchor="end" font-size="11" fill="#9a6f00">public top 138.250 (illustrative)</text><circle cx="403.1" cy="137.3" r="4.5" fill="#12692b"/><circle cx="496.3" cy="137.2" r="4.5" fill="#93122a"/><circle cx="518.2" cy="137.6" r="4.5" fill="#93122a"/><text x="518" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#93122a">N=1524/1600 → ~87</text><circle cx="633.2" cy="134.4" r="4.5" fill="#12692b"/><text x="633" y="150" text-anchor="middle" font-size="11" font-weight="600" fill="#12692b">N=2000 → 88.650</text></svg><figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 2. The tested fixed-count single-post family plateaus near 86–89 despite larger requested N. The dashed 0.09·N line is the source-derived ideal if every requested finding completed and fired; placing the 138.250 public top on that reference is illustrative, not a causal event-count or hardware inference. The cross-team gap remains unexplained (§7.3).</figcaption></figure>
+<p>The plateau does <strong>not</strong> establish a universal or attacker-independent ceiling. Packing, continuation
+forging, probe-hop calibration, URL shortening, prompt padding, multi-message candidates, and
+enabling GPU on the submitted notebook all failed to close it in the tested configurations, but
+the search was neither exhaustive nor randomized. The target models execute inside the evaluator,
+yet message design can change prefill, decode, routing, tool-call count, and replay cost. Hidden
+hardware, serving lifecycle, run variance, and an untested attack design therefore remain competing
+explanations for the cross-team gap.</p>
+<p><strong>Authenticated 2026-08-24 state.</strong> The leaderboard top was 138.250 and fifth place was 128.170.
+Our best completed public score was 91.520 (ref 55727891, GPT forge-8 plus Gemma single); the best
+completed single-post control in this sequence was 88.650 (ref 55588201). Thus the top-to-best ratio
+was about 1.51×, while the top-to-single-post ratio was about 1.56×. These ratios describe returned
+scores, not event counts or causal throughput differences. The public leaderboard placed the author
+approximately 241st at the retrieval time; neither public rank nor these values predict the private
+leaderboard.</p>
+<p><strong>Measurement-validity reading.</strong> The defensible finding is that the public metric is sensitive to
+how much model/replay work fits inside its timed evaluator, so benchmark reports should publish the
+serving and aggregation contract. The stronger proposition—“the frontier is throughput rather than
+attack cleverness”—is left open because no inspected artifact is securely linked to a frontier
+submission and the cross-team gap has not been experimentally decomposed.</p>
+<h3 id="7-results-and-the-open-problem-7-4-the-private-board-source-visible-structure-and-an-explicit-evidence-boundary-dated-addendum-2026-08-23-corrected-2026-08-24">7.4 The private board: source-visible structure and an explicit evidence boundary (dated addendum, 2026-08-23; corrected 2026-08-24)</h3>
+<p>The private guardrail implementation, component scores, and platform aggregation remain unavailable.
+The ignored historical gateway snapshot at
+<code>comp/kaggle_evaluation/jed_attack_134815/jed_attack_gateway.py:136,173-234</code> shows that an evaluation
+run always includes <code>OptimalGuardrail</code> and may add <strong>one</strong> private guardrail selected from the single
+<code>AICOMP_ATTACK_GUARDRAIL_ID</code> value. This supports “at most one private guardrail per evaluation run,”
+not “one guardrail for the entire private board”: the source does not prevent the environment value
+from changing between reruns. The gateway emits per-model/per-guardrail rows, but it does not prove
+how Kaggle combines the private rows. The public mean evidence in §7.3 is not transferred to private
+aggregation.</p>
+<p>The same historical snapshot shows candidate generation occurring before per-guardrail replay.
+Consequently, within a run the submitted algorithm cannot observe the private guardrail during
+generation; its already-generated candidates are replayed under whichever private factory the
+gateway resolved. This is the useful source-visible constraint. It does not reveal the guardrail's
+allow/deny logic or justify selecting attacks by its identifier alone.</p>
+<p>An earlier draft described a competitor-supplied <code>aicomp-private-guardrails</code> wheel and an
+attack×guardrail matrix. The reported module-name mismatch with the gateway fallback and missing
+package metadata are reasons to doubt organizer provenance, but they do not prove the wheel is a
+reconstruction: a stale fallback or renamed implementation is possible. More importantly, this
+repository does not retain the wheel bytes, source hash, matrix harness, model hash, traces, or raw
+outputs. The matrix and its behavior claims therefore fail Gate 1 and are removed rather than
+reported as local measurements. They remain <strong>unreproduced testimony</strong>, not evidence about the live
+private guardrail.</p>
+<p>No private-behavior inference follows from the identifier <code>persistent_provenance_private</code>.
+Provenance tracking, payload inspection, authorization checks, and egress policy are distinct
+defensive mechanisms in general, but a name alone establishes none of their implementation details.
+The private effectiveness of the final exfiltration and confused-deputy submissions is an open
+hypothesis until private results or reproducible private source become available.</p>
 <hr/>
 </div>
 </section>
@@ -1240,9 +1177,10 @@ The audited source hashes are:</p>
 <code>fa106658f18d7954ba0a2da468379e6dc7b25b1a3543ce30d3cc9109ae0b8e68</code>, and the three SDK hashes
 above match its extracted files. The gateway is not in the wheel. At 2026-08-16T12:09:57Z,
 Kaggle's authenticated distribution listed the current gateway at 43,768 bytes with timestamp
-2026-08-05T17:49:56.517Z. The authenticated Data Explorer yielded the exact 43,768 bytes and
-1,031 newline-terminated lines whose hash is shown above. The standard CLI download command is
-recorded in the ledger, but it returned HTTP 429 during this audit. Competition access and rule
+2026-08-05T17:49:56.517Z. The 2026-08-16 project audit records that Data Explorer yielded 43,768
+bytes and 1,031 newline-terminated lines with the hash shown above. On 2026-08-24, an authenticated
+file listing again reported 43,768 bytes, but the standard CLI download returned HTTP 429; this
+revision therefore did not independently reacquire or re-hash the current bytes. Competition access and rule
 acceptance are required; the distribution is mutable and is not an immutable public archive.
 The smaller 35,088-byte, 846-line <code>comp/...</code> file is retained only as a historical 2026-06-27
 snapshot. Neither distributed-file identity nor hash proves live deployment identity.</p>
@@ -1260,7 +1198,9 @@ sampling variation but do not establish run determinism or local/live model pari
 <code>dev/_build_cuda_probe.py</code>. Generated <code>submission_kernel_*</code> directories preserve the submitted
 notebook form where retained. Run builders from the immutable manuscript commit and inspect
 their configuration before execution; they are provenance artifacts, not a promise that an old
-live evaluator can be recreated.</li>
+live evaluator can be recreated. The L30 builder now extracts the frozen dimong4 payload from the
+tracked <code>refkernels_new/dimong4_ai-agent-security/ai-agent-security.ipynb</code>; it no longer depends on
+an untracked <code>/tmp/d4.py</code> file or silently falls back to the moving <code>attack.py</code>.</li>
 <li><strong>Submission refs:</strong> §7 and the claim ledger record the Kaggle reference, timestamp, API status,
 public score, configuration, and comparator for every analyzed live row. Submission IDs are the
 canonical join key; labels such as L25 or <code>dimong4 EXACT</code> are descriptive, not identifiers.</li>
@@ -1286,7 +1226,9 @@ scores; evaluator hardware, service logs, and aggregation code not present in th
 authenticated Kaggle responses and credentials; local GGUF weight files; and private or
 unpublished competitor submissions. The author also omits unrelated vulnerabilities and
 operational attack material. These exclusions prevent exact reconstruction of the hidden live
-environment, which is why the claims remain pinned to public code and returned aggregate records.</p>
+environment, which is why the claims remain pinned to public code and returned aggregate records.
+The previously discussed competitor private-wheel bytes, matrix harness, model hash, traces, and
+raw outputs are also absent; §7.4 therefore reports neither the matrix nor its behavior claims.</p>
 <hr/>
 </div>
 </section>
@@ -1304,9 +1246,35 @@ nor disclosed.</p>
 <hr/>
 </div>
 </section>
-<section id="10-scholarly-and-policy-context" class="">
+<section id="10-related-work-and-context" class="">
   <div class="rail"><span class="num">10</span><div class="kicker">Context</div></div>
-  <div class="col"><h2>10. Scholarly and policy context<span class="stop">.</span></h2><p>AgentDojo supplies a dynamic environment for evaluating prompt injection attacks and defenses on
+  <div class="col"><h2>10. Related work and context<span class="stop">.</span></h2><h3 id="10-related-work-and-context-10-1-prior-kaggle-working-notes">10.1 Prior Kaggle Working Notes</h3>
+<p>This note builds on a public competition discussion rather than claiming the underlying SDK
+relations were first observed here. Takayuki's June 23
+<a href="https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/discussion/712535" rel="noopener noreferrer" target="_blank">diversity-aware search note</a>
+already identified the URL/body mismatch, taint-window interaction, single-post score law, and
+runtime constraint. Xander's July 21
+<a href="https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/discussion/727895" rel="noopener noreferrer" target="_blank">attack-surface-collapse note</a>
+gave a polished source-pinned account of predicate reachability, score-cell geometry, throughput,
+and defensive implications. Gagan Deep's July 27
+<a href="https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/discussion/729993" rel="noopener noreferrer" target="_blank">score-progression note</a>
+provided a more accessible practical progression.</p>
+<p>Tom Yim's August 5
+<a href="https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/discussion/732942" rel="noopener noreferrer" target="_blank">guardrail-hardening note</a>
+contributed a concrete defense matrix and false-positive analysis. Giuseppe Frigeni's August 10
+<a href="https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/discussion/734213" rel="noopener noreferrer" target="_blank">denial-window note</a>
+paired model experiments with a guardrail patch. Radiantallomancer's August 13
+<a href="https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/discussion/734944" rel="noopener noreferrer" target="_blank">objective-from-source note</a>
+analyzed gateway mechanics, the field mismatch, throughput, and negative results. Hotton's August 23
+<a href="https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/discussion/737100" rel="noopener noreferrer" target="_blank">agent-behavior note</a>
+measured indirect-injection behavior on the competition models.</p>
+<p>The incremental contribution here is therefore not priority over those mechanics. It is the
+four-part guardrail–predicate taxonomy as an audit checklist, the explicit evidence-tier protocol,
+the status-preserving negative-result catalogue, and a reproducibility audit of the author's own
+submission sequence. Where this note repeats an earlier observation, the earlier Working Notes
+receive credit and the claim is presented as independent confirmation or synthesis.</p>
+<h3 id="10-related-work-and-context-10-2-scholarly-and-policy-context">10.2 Scholarly and policy context</h3>
+<p>AgentDojo supplies a dynamic environment for evaluating prompt injection attacks and defenses on
 agents acting over untrusted tool data [1]. InjecAgent evaluates indirect prompt injection across
 tool-integrated agents and distinguishes direct harm from private-data exfiltration [2]. They
 establish the broader evaluation problem, not the JED SDK mechanics or any result in §7. Pineau et
@@ -1393,26 +1361,24 @@ recorded that the named reproduction attempts did not reach their stated aim.</l
 validity, reproducibility and data availability, responsible-communication boundaries,
 AI-assistance disclosure, and verified scholarly/policy context.</li>
 <li>2026-08-21 (dated addendum) — added §7.3 at the project-board-record tier without altering the
-frozen 08-16 catalogue. Resolved the public row-aggregation rule as <strong>mean</strong> via a discriminator
+frozen 08-16 catalogue. Initially characterized the public row-aggregation rule as <strong>mean</strong> via a discriminator
 probe (triangulated by the single-post cost model reproducing the ≈88 board score) and propagated
 that resolution to §2.4, §3.1, §5, and §7.2. Added the source-anchored single-post score geometry
 (raw 18/candidate; row ≈ 0.09·N; single-post row ceiling 180, formula cap 1000) and the cell-bonus asymmetry that makes single-post
-dominate packing. Stated the throughput-gated ceiling explicitly: best public ≈88, leaderboard top
-≈137.13, a ≈1.55× per-candidate throughput gap that no tested public-surface lever closes, with the
+dominate packing in the tested configurations. Initially characterized the cross-team gap as
+throughput-gated: best public ≈88, leaderboard top ≈137.13, with the
 decode-vs-prefill mechanism left unresolved between project records. Reframed the abstract and §1.2
 around the security insight, the score geometry, and the negative-result map. No claim about the
 private guardrail, competitor configurations, hardware identity, or a final ranking was added.</li>
-<li>2026-08-23 (dated addendum) — added §7.4 at the project-board-record tier without altering the
+<li>2026-08-23 (dated addendum; superseded in part by the 2026-08-24 audit below) — added §7.4 at the project-board-record tier without altering the
 frozen catalogue. Derived the private board's selection <strong>structure</strong> from the shipped gateway as
 Source facts (one private guardrail per rerun via <code>AICOMP_ATTACK_GUARDRAIL_ID</code>; four rows; phase-1
 generation runs under <code>OptimalGuardrail</code> and the private guardrail is applied only in replay, so an
 attack cannot adapt to it). Demoted a competitor's private-guardrail wheel from evidence to
 testimony via an internal-inconsistency check against the organizer's own hardcoded fallback module
-name (a reusable provenance method), and reported a local attack×guardrail matrix measured against
-that reconstruction on the real gpt-oss target. Extended the §4.1 field-mismatch asymmetry to the
-likely private guardrail as an <strong>explicitly bounded inference</strong> (a provenance-named guardrail need
-not inspect the scored <code>http.post</code> body), and added defensive recommendation 7 (provenance name does
-not imply content/egress coverage). Added forward-pointers from the abstract, §1.2 (contribution 6),
+name, and reported an attack×guardrail matrix. The 2026-08-24 audit found that the wheel, harness,
+model hash, traces, and raw outputs were not retained, so it removes the matrix and the private-behavior
+inference rather than treating them as measurements. Added forward-pointers from the abstract, §1.2 (contribution 6),
 §1.3, and §4 to §7.4. No private score, competitor configuration, or final ranking was claimed.</li>
 <li>2026-08-23 (accuracy audit, five independent source/test verifications) — corrected defects found by
 auditing every claim against source and the live submission history. (i) <strong>Aggregation evidence</strong>:
@@ -1422,22 +1388,31 @@ the submitted equal-row discriminator (ref 55610724, scored 45.0, rules out sum)
 isolate rows scoring ≈ row/2 (rule out min and max); §7.3, Abstract, and §1.2 updated. (ii)
 <strong>"cap 180"</strong> clarified everywhere as the single-post <em>row ceiling</em> (2000-candidate limit × 0.09),
 distinct from the formula cap of 1000 (§1.2, §7.3, App. B). (iii) §7.4 encoded-escape justification
-narrowed from a false universal to the two literal-blocking guardrails (<code>persistent_provenance</code>,
-<code>secret_egress</code>). (iv) §7.4 gateway reference aligned to the committed-file convention with
-verifiable line cites (<code>:136</code>, <code>:173-174</code>, <code>:223-234</code>). (v) Added that the most rigorous local
+narrowed from a false universal to two literal-blocking reconstructed guardrails. (iv) §7.4 gateway
+reference was aligned to the historical working-tree snapshot with line cites
+(<code>:136</code>, <code>:173-174</code>, <code>:223-234</code>), but that snapshot was incorrectly called committed. (v) Added that the most rigorous local
 decode-vs-prefill harness points to prefill, disagreeing with the decode-bound board record (§7.3).
-The audit confirmed the §4 taxonomy, all in-repo <code>file:line</code> cites and SHA-256 hashes, the board
-table (every retrievable ref matches the live API), and that the §7.4 matrix harness and inference
-are sound and properly bounded; the distributed-gateway citations remain externally-hosted and are
-disclosed as such (§2.1, §8.1).</li>
+The audit confirmed the §4 taxonomy and the then-frozen board table. Its claim that the §7.4 matrix
+was fully verified is superseded by the 2026-08-24 reproducibility audit below.</li>
 <li>2026-08-24 (presentation pass) — no new claims; readability and legibility only. Reframed the
 abstract to open with the two headline findings (guardrail–predicate asymmetry as a defensive
 checklist; throughput-gating as a measurement-validity property) and to foreground the §7.4
-private-board/reconstruction contribution. Added three inline-SVG figures via a <code>render.py</code> figure
-hook (data-driven where applicable, so they cannot drift from the text): Figure 1, the attack×guardrail
-matrix (§7.4); Figure 2, the throughput-gating curve with real board points incl. the N=1524/1600
+private-board/reconstruction discussion. Added three inline-SVG figures via a <code>render.py</code> figure
+hook: an attack×guardrail matrix (removed by the accuracy audit below); a throughput curve with real board points incl. the N=1524/1600
 plateau (§7.3); Figure 3, the field-mismatch asymmetry schematic (§4.1). Fixed an SVG rendering bug
-(the Markdown→HTML pass was lowercasing case-sensitive <code>viewBox</code>).</li>
+(the Markdown→HTML pass was lowercasing case-sensitive <code>viewBox</code>). Added a scannable seven-item
+summary checklist at the head of §6 (each item expanded in the numbered subsection below).</li>
+<li>2026-08-24 (independent reproducibility and prior-art audit) — independently re-queried completed
+submissions and the public leaderboard; appended refs through 55727926 and updated the public top
+to 138.250, author best to 91.520, and retrieval-time rank to approximately 241. Narrowed the
+throughput conclusion to the tested attack family and left the cross-team cause open. Downgraded
+public mean aggregation from “decisive” to strongly supported, removed the unsupported transfer to
+private aggregation, and changed “one private guardrail for the board” to “at most one per run.”
+Removed the unreproducible private matrix and behavior inference; corrected the historical gateway
+from “committed” to ignored working-tree snapshot; and added explicit credit to seven earlier Kaggle
+Working Notes. Verified that the L26 payloads contain byte-identical competitor algorithm source
+but different wrappers. Made the L30 builder hermetic by extracting the tracked frozen notebook
+instead of reading <code>/tmp/d4.py</code> or falling back to the moving <code>attack.py</code>.</li>
 </ul>
 </div>
 </section></main>

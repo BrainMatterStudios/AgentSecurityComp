@@ -13,6 +13,7 @@ This script only writes local Kaggle kernel folders. It does not push, run, or
 submit anything.
 """
 
+import ast
 import base64
 import json
 import os
@@ -26,7 +27,32 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 COMPETITION = "ai-agent-security-multi-step-tool-attacks"
 ATTACK_B64 = base64.b64encode((ROOT / "attack.py").read_bytes()).decode()
-D4_PATH = Path("/tmp/d4.py")
+D4_SOURCE_PATH = (
+    ROOT
+    / "refkernels_new"
+    / "dimong4_ai-agent-security"
+    / "ai-agent-security.ipynb"
+)
+
+
+def _load_pinned_d4_source(path: Path) -> str:
+    """Extract the frozen competitor ``AttackAlgorithm`` source from its notebook."""
+    notebook = json.loads(path.read_text())
+    matches: list[str] = []
+    for cell in notebook.get("cells", []):
+        if cell.get("cell_type") != "code":
+            continue
+        tree = ast.parse("".join(cell.get("source", [])))
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Assign):
+                continue
+            if any(isinstance(target, ast.Name) and target.id == "src" for target in node.targets):
+                value = ast.literal_eval(node.value)
+                if isinstance(value, str):
+                    matches.append(value)
+    if len(matches) != 1:
+        raise RuntimeError(f"expected one src payload in {path}, found {len(matches)}")
+    return matches[0]
 
 
 def _patch_d4_control(src: str) -> str:
@@ -43,7 +69,7 @@ def _patch_d4_control(src: str) -> str:
     return out
 
 
-D4_CONTROL_SOURCE = _patch_d4_control(D4_PATH.read_text()) if D4_PATH.exists() else (ROOT / "attack.py").read_text()
+D4_CONTROL_SOURCE = _patch_d4_control(_load_pinned_d4_source(D4_SOURCE_PATH))
 D4_B64 = base64.b64encode(D4_CONTROL_SOURCE.encode()).decode()
 
 CELL0 = (

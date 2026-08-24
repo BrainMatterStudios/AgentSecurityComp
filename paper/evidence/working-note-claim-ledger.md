@@ -4,6 +4,9 @@
 2026-08-16T10:56:15Z. A later status-only recheck at 2026-08-16T11:59:48Z is
 recorded separately; a second recheck at 2026-08-16T12:44:16Z found all four
 chainpack rows complete. Neither recheck rewrites the frozen catalogue.
+An authenticated 2026-08-24 recheck is appended separately with the later rows
+used by manuscript §7.3 and a dated leaderboard snapshot; it likewise does not
+rewrite the frozen catalogue.
 
 **Manuscript audit base:** `588978e9d5ea8bd0365bbb60e812ba77cff9f84c` on
 `codex/paper-manuscripts`. The immutable commit containing the released manuscript
@@ -36,9 +39,16 @@ unsuccessful acquisition route rather than a completed download. Access requires
 competition access and rule acceptance, the listing is mutable, and no immutable
 public archive URL for these bytes was identified.
 
-The repository `comp/...` gateway is a distinct historical snapshot: 35,088 bytes,
+On 2026-08-24, an authenticated `competitions files` query again listed the current
+gateway at 43,768 bytes. A fresh standard CLI download again returned HTTP 429, so
+the 2026-08-24 audit independently confirmed the listing metadata but did not
+reacquire or re-hash the file bytes.
+
+The ignored working-tree `comp/...` gateway is a distinct historical snapshot: 35,088 bytes,
 846 newline-terminated lines, hash `00ccb933...`, inspected at the 2026-06-27 SDK
-3.1.2 transition. It is retained for historical experiment provenance only. Current
+3.1.2 transition. It is excluded by `.gitignore` and is not present in the Git tree;
+earlier manuscript wording that called it committed was incorrect. It is retained
+for historical experiment provenance only. Current
 mechanical claims below cite the 43,768-byte Kaggle distribution as **distributed
 gateway**; its presence in the distribution does not prove that the live service
 executed those exact bytes for any particular submission.
@@ -191,6 +201,43 @@ rows `COMPLETE`: ref 55538814 scored 79.985, ref 55538829 scored 79.365, ref
 outcomes remain below the historical 88.730 L27 control, but they do not estimate
 a causal chainpack effect or establish a final rank. The frozen table above remains unchanged.
 
+### Authenticated 2026-08-24 addendum
+
+The following later rows were re-queried through the authenticated Kaggle submissions
+endpoint on 2026-08-24. They are a separate dated addendum, not retroactive edits to
+the 2026-08-16 table.
+
+| Ref | Date | Status | Score | Configuration | Bounded interpretation |
+|---|---|---:|---:|---|---|
+| 55588144 | 2026-08-18T00:07:02.713000 | COMPLETE | 87.030 | Fixed single-post N=1200 | Requested count above the earlier adaptive estimate did not produce the ideal `0.09·N` score. |
+| 55588157 | 2026-08-18T00:07:20.697000 | COMPLETE | 87.795 | Fixed single-post N=1500 | Completed plateau observation; not evidence that 1,500 candidates fired. |
+| 55588174 | 2026-08-18T00:07:38.677000 | COMPLETE | 87.210 | Fixed single-post N=1750 | Completed plateau observation. |
+| 55588189 | 2026-08-18T00:07:56.593000 | COMPLETE | 85.860 | Fixed single-post N=1900 | Completed plateau observation. |
+| 55588201 | 2026-08-18T00:08:14.420000 | COMPLETE | 88.650 | Fixed single-post N=2000 | Best completed single-post control in this dated sequence. |
+| 55610724 | 2026-08-19T00:07:02.470000 | COMPLETE | 45.000 | Equal-row discriminator, fixed N=500 | Rules out sum under the source-derived 45-per-row expectation; does not distinguish mean/min/max alone. |
+| 55679273 | 2026-08-22T00:05:04.607000 | COMPLETE | 44.190 | GPT single isolate N=2000 | Consistent with a half-row contribution if routing and the inferred firing row hold. |
+| 55679283 | 2026-08-22T00:05:11.370000 | COMPLETE | 37.845 | Gemma single isolate N=2000 | Consistent with a half-row contribution if routing and the inferred firing row hold. |
+| 55679288 | 2026-08-22T00:05:18.010000 | COMPLETE | 47.365 | GPT forge-8 isolate N=2000 | Isolate observation; no component row is exposed. |
+| 55679293 | 2026-08-22T00:05:24.683000 | COMPLETE | 35.190 | Gemma forge isolate N=2000 | Below the same-batch Gemma single isolate. |
+| 55679296 | 2026-08-22T00:05:31.427000 | COMPLETE | 90.820 | GPT forge-8 plus Gemma single | Exceeds the sum of the separate isolate totals by 5.610, demonstrating material run/configuration variation in row reconstruction. |
+| 55727891 | 2026-08-24T00:05:06.220000 | COMPLETE | 91.520 | Hedge A: GPT forge-8 plus Gemma single | Author's best completed public score at the retrieval time. No private score is exposed. |
+| 55727898 | 2026-08-24T00:05:13.063000 | COMPLETE | 16.390 | Hedge B: confused-deputy forge | Public observation only; does not validate private allowlist or guardrail behavior. |
+| 55727914 | 2026-08-24T00:05:30.377000 | ERROR | — | Fixed single-post N=1530 | Error retained as error; no score is inferred. |
+| 55727923 | 2026-08-24T00:05:41.510000 | COMPLETE | 86.895 | Fixed single-post N=1600 | Further completed plateau observation. |
+| 55727926 | 2026-08-24T00:05:51.807000 | COMPLETE | 87.120 | Fixed single-post N=1524 | Further completed plateau observation. |
+
+The authenticated leaderboard snapshot returned top score 138.250, fifth-place
+score 128.170, and Ahmed Mobasher at approximately rank 241 with 91.520. These
+values are mutable public-board observations and do not predict private rank or the
+final result.
+
+Retained L26 notebooks `submission_kernel_l26b_ref/k.ipynb` and
+`submission_kernel_l26b_ref2/k.ipynb` embed the same competitor algorithm payload,
+SHA-256 `7853edc3ce65f4060ffcbf6c8d7ade3cfdcc4e2ce4984ec9a48c59b6ea6b1186`,
+as the `src` string extracted from the frozen dimong4 notebook. Their surrounding
+notebook setup and serving wrapper differ. The supported phrase is therefore
+“byte-identical algorithm-payload reproduction,” not “exact kernel reproduction.”
+
 ## Claim disposition
 
 | Draft claim | Status | Replacement claim | Evidence |
@@ -198,7 +245,7 @@ a causal chainpack effect or establish a final rank. The frozen table above rema
 | Decode-token minimisation produced about `+1.4` at FRAC 97. | Corrected | The matched visible delta is `+1.440` at FRAC 99: 87.210 with `close_ok` versus 85.770 without it. Both rows are `ERROR`. The FRAC-97 `close_ok` row has no same-FRAC no-close control. | Live observations 55013491, 55013500, and 55013507. |
 | L25 dual-forge results are pending. | Superseded | All five L25 rows are `COMPLETE`; the listed both-board dual-forge scores are 81.985 and 82.660 against the listed both-board single score of 54.000. | Live observations 55418160, 55418165, 55418171, 55418180, 55418184. |
 | The Gemma forge is established as a durable improvement. | Not established | One matched N=600 isolate comparison is 34.000 versus 27.000; the N=900 comparison is 35.000 versus 34.605. These one-off observations do not establish a general effect or its variance. | Live observations 55418165, 55418171, 55444087, 55444093. |
-| An exact public-kernel reproduction reaches the expected frontier. | Refuted | The named L26 reproductions completed at 77.670 and 83.115, below the stated 134 aim. | Live observations 55444083, 55444101. |
+| An exact public-kernel reproduction reaches the expected frontier. | Corrected and refuted at the narrower scope | The L26 notebooks embed byte-identical competitor algorithm payloads but use different wrappers; they scored 77.670 and 83.115, below the stated 134 aim. | Live observations 55444083, 55444101; retained payload SHA `7853edc3...`. |
 | The L27 probe-hop lever improved the control. | Refuted | Every listed L27 probe-hop variant scored below the same-batch 88.730 control. | Live observations 55469249, 55469255, 55469264, 55469273, 55469280. |
 | L28 reasoning-effort settings establish a positive lever. | Not established | The three completed L28 variants are 83.415, 77.400, and 85.410 against a listed 83.325 control; they are inconclusive without replication. | Live observations 55493289, 55493299, 55493307, 55493315. |
 | The tested GPU route would meet or exceed the 83.115 historical CPU reproduction threshold. | Refuted, narrowly | The named GPU decode attempts scored 50.175 and 32.895, below 83.115. Because 83.115 is historical and not a same-batch hardware control, this closes only the threshold proposition; it does not identify a causal CPU-versus-GPU effect. | Live observations 55525533, 55525536, 55444101. |
@@ -206,3 +253,5 @@ a causal chainpack effect or establish a final rank. The frozen table above rema
 | L31 fast-emit demonstrates a high-ceiling backup. | Refuted | The completed fast-emit row scored 25.145, below the listed L29 split result of 85.675. | Live observations 55538875, 55530790. |
 | L31 chainpack variants have an outcome at the frozen cutoff. | Open at cutoff; all completed later | All four were `PENDING` at 2026-08-16T10:56:15Z. At 11:59:48Z one was complete; at the appended 12:44:16Z recheck all four were `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. No matched-effect, general chainpack, rank, or final-outcome claim follows. | Live observations 55538814, 55538829, 55538848, 55538855; appended rechecks above. |
 | The private guardrail permits or blocks a specified behavior. | Prohibited inference | No private-guardrail behavior claim is made from a module name, entry point, or public-guardrail source. | Distributed gateway source fact at `:143-242`. |
+| A competitor private-wheel matrix is a reproducible local measurement. | Not established; removed | The wheel bytes, source hash, harness, model hash, traces, and raw outputs are absent. The matrix fails Gate 1 and is not reported as evidence. | Repository-wide artifact audit, 2026-08-24. |
+| Public mean aggregation also determines the private leaderboard score. | Not established; removed | Public observations strongly support mean for public rows, but no reviewed source or live component score establishes private-row aggregation. | Refs 55610724, 55679273, 55679283; gateway emits rows but does not define platform aggregation. |

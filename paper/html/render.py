@@ -45,14 +45,14 @@ PAPERS = (
         kind="Research working note",
         deck=(
             "A source-audited account of where the guardrail and its scoring predicates "
-            "disagree—and why the leaderboard frontier is gated by throughput, not attack design."
+            "disagree—and where a tested attack family reaches a throughput plateau."
         ),
         subject="AI Agent Security · Multi-Step Tool Attacks",
         stats=(
             ("4", "guardrail–predicate asymmetries"),
             ("2-gate", "local-to-live protocol"),
-            ("mean", "board-verified row aggregation"),
-            ("21 Aug", "2026 cutoff (+addendum)"),
+            ("mean", "strongly supported public aggregation"),
+            ("24 Aug", "2026 authenticated addendum"),
         ),
         kickers=(
             "Summary", "Bounded thesis", "Evidence discipline", "Evaluator mechanics",
@@ -255,102 +255,44 @@ def markdown_renderer() -> MarkdownIt:
     return MarkdownIt("commonmark", {"html": False, "linkify": False}).enable("table")
 
 
-def _attack_matrix_svg() -> str:
-    """Data-driven attack×guardrail matrix (§7.4), so the figure cannot drift from the text.
-
-    Cells: F = predicate fires (guardrail allows the scored action); X = denied;
-    C = conditional (fires only if the recipient domain is allowlisted)."""
-    guards = ["optimal", "persistent​provenance", "secret​egress",
-              "protected​secret", "two-step"]
-    rows = [
-        ("EXFIL", "sev5", ["F", "X", "X", "F", "F"]),
-        ("CD  email.send", "sev3", ["F", "C", "F", "X", "F"]),
-        ("UTA  read→send", "sev5", ["X", "X", "F", "X", "X"]),
-        ("DEST  secret.txt", "sev4", ["X", "X", "F", "X", "F"]),
-    ]
-    fill = {"F": "#d6f0dd", "X": "#f7dcdf", "C": "#faedc0"}
-    ink = {"F": "#12692b", "X": "#93122a", "C": "#7a5c00"}
-    mark = {"F": "✓", "X": "✗", "C": "◐"}
-    lab_w, cell_w, head_h, row_h, x0, y0 = 168, 104, 62, 46, 6, 6
-    W = lab_w + 5 * cell_w + 2 * x0
-    H = head_h + 4 * row_h + 2 * y0 + 4
-    p = [f'<svg viewBox="0 0 {W} {H}" role="img" width="100%" '
-         f'style="max-width:{W}px;height:auto;font-family:inherit" '
-         'aria-label="Attack by guardrail scoring matrix">']
-    # column headers
-    for j, g in enumerate(guards):
-        cx = x0 + lab_w + j * cell_w + cell_w / 2
-        p.append(f'<text x="{cx:.0f}" y="{y0+head_h-24:.0f}" text-anchor="middle" '
-                 'font-size="12.5" font-weight="600" fill="#33302b">'
-                 + "".join(f'<tspan x="{cx:.0f}" dy="{0 if i==0 else 14}">{escape(part)}</tspan>'
-                           for i, part in enumerate(g.split("​"))) + '</text>')
-    # rows
-    for i, (name, sev, cells) in enumerate(rows):
-        ry = y0 + head_h + i * row_h
-        p.append(f'<text x="{x0+6}" y="{ry+row_h/2+1:.0f}" font-size="13" font-weight="600" '
-                 f'fill="#26241f">{escape(name)}</text>')
-        p.append(f'<text x="{x0+lab_w-8}" y="{ry+row_h/2+1:.0f}" text-anchor="end" font-size="11" '
-                 f'fill="#8a8478">{escape(sev)}</text>')
-        for j, c in enumerate(cells):
-            cx = x0 + lab_w + j * cell_w
-            p.append(f'<rect x="{cx+3}" y="{ry+3}" width="{cell_w-6}" height="{row_h-6}" rx="6" '
-                     f'fill="{fill[c]}" stroke="#ffffff" stroke-width="2"/>')
-            p.append(f'<text x="{cx+cell_w/2:.0f}" y="{ry+row_h/2+5:.0f}" text-anchor="middle" '
-                     f'font-size="15" font-weight="700" fill="{ink[c]}">{mark[c]}</text>')
-    p.append("</svg>")
-    legend = ('<div style="margin-top:8px;font-size:12.5px;color:#6b665c">'
-              '<b style="color:#12692b">✓</b> predicate fires · '
-              '<b style="color:#93122a">✗</b> denied · '
-              '<b style="color:#7a5c00">◐</b> fires only if recipient domain allowlisted. '
-              'Columns are cm391’s five reconstructed private guardrails; the two selected '
-              'attacks (EXFIL row, CD row) cover complementary columns, which is why a best-of-2 '
-              '{EXFIL, CD} hedge scores under every column but an empty-allowlist provenance wall.</div>')
-    cap = ('<figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 1. '
-           'Which scored predicate survives which reconstructed private guardrail (real gpt-oss '
-           'replays, §7.4). Measured against a competitor reconstruction, not the live board.</figcaption>')
-    return ('<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;'
-            'border-radius:12px;background:#fbfaf6;overflow-x:auto">'
-            + "".join(p) + legend + cap + "</figure>")
-
-
 def _throughput_curve_svg() -> str:
-    """Data-driven throughput-gating curve (§7.3): row score rises as 0.09·N until the
-    per-phase candidate budget (~978) caps it, then plateaus ~88 — so the ≈137 top needs
-    ~1.55× throughput, not a better attack. Points are real board scores."""
+    """Data-driven tested-family plateau (§7.3), with real public-board points."""
     W, H, L, R, T, B = 680, 360, 58, 18, 24, 66
     x0, x1, y0, y1 = L, W - R, T, H - B
-    Nmax, Smax = 1700.0, 150.0
+    Nmax, Smax = 2100.0, 150.0
     sx = lambda n: x0 + (n / Nmax) * (x1 - x0)
     sy = lambda s: y1 - (s / Smax) * (y1 - y0)
     p = [f'<svg viewBox="0 0 {W} {H}" role="img" width="100%" '
          f'style="max-width:{W}px;height:auto;font-family:inherit" '
-         'aria-label="Throughput-gating curve: row score versus candidate count">']
+         'aria-label="Tested-family public-score plateau versus requested candidate count">']
     # gridlines + y ticks
-    for s in (0, 50, 88, 137):
+    for s in (0, 50, 88, 138):
         y = sy(s)
         p.append(f'<line x1="{x0}" y1="{y:.1f}" x2="{x1}" y2="{y:.1f}" stroke="#ece7db" stroke-width="1"/>')
         p.append(f'<text x="{x0-8}" y="{y+4:.1f}" text-anchor="end" font-size="11" fill="#8a8478">{s}</text>')
     # x ticks
-    for n in (0, 500, 1000, 1500):
+    for n in (0, 500, 1000, 1500, 2000):
         x = sx(n)
         p.append(f'<text x="{x:.1f}" y="{y1+20:.0f}" text-anchor="middle" font-size="11" fill="#8a8478">{n}</text>')
     p.append(f'<text x="{(x0+x1)/2:.0f}" y="{y1+40:.0f}" text-anchor="middle" font-size="12" fill="#6b665c">candidates emitted per row (N)</text>')
-    p.append(f'<text x="16" y="{(y0+y1)/2:.0f}" font-size="12" fill="#6b665c" transform="rotate(-90 16 {(y0+y1)/2:.0f})" text-anchor="middle">normalized row score</text>')
+    p.append(f'<text x="16" y="{(y0+y1)/2:.0f}" font-size="12" fill="#6b665c" transform="rotate(-90 16 {(y0+y1)/2:.0f})" text-anchor="middle">public score / equal-row ideal</text>')
     # ideal (throughput-unlimited) 0.09*N — dashed amber
-    p.append(f'<line x1="{sx(0):.1f}" y1="{sy(0):.1f}" x2="{sx(1522):.1f}" y2="{sy(137):.1f}" '
+    p.append(f'<line x1="{sx(0):.1f}" y1="{sy(0):.1f}" x2="{sx(1536):.1f}" y2="{sy(138.25):.1f}" '
              'stroke="#c08a00" stroke-width="2" stroke-dasharray="6 5"/>')
-    p.append(f'<text x="{sx(1300):.0f}" y="{sy(133):.0f}" font-size="11.5" fill="#9a6f00">ideal 0.09·N (if throughput scaled)</text>')
-    # actual throughput-limited: rise to 88 at N=978, then flat — solid blue
-    p.append(f'<polyline points="{sx(0):.1f},{sy(0):.1f} {sx(978):.1f},{sy(88):.1f} {sx(1700):.1f},{sy(88):.1f}" '
+    p.append(f'<text x="{sx(1200):.0f}" y="{sy(112):.0f}" font-size="11.5" fill="#9a6f00">ideal equal-row law 0.09·N</text>')
+    # fitted plateau for this tested family — solid blue
+    p.append(f'<polyline points="{sx(0):.1f},{sy(0):.1f} {sx(978):.1f},{sy(88):.1f} {sx(2100):.1f},{sy(88):.1f}" '
              'fill="none" stroke="#1f5fbf" stroke-width="2.5"/>')
-    # budget line at N=978
+    # historical fitted completion level at N≈978
     p.append(f'<line x1="{sx(978):.1f}" y1="{y0}" x2="{sx(978):.1f}" y2="{y1}" stroke="#b9b3a4" stroke-width="1" stroke-dasharray="3 4"/>')
-    p.append(f'<text x="{sx(978)+5:.0f}" y="{y0+12:.0f}" font-size="10.5" fill="#8a8478">phase budget ≈978</text>')
-    # top-137 marker
-    p.append(f'<circle cx="{sx(1522):.1f}" cy="{sy(137):.1f}" r="4" fill="#c08a00"/>')
-    p.append(f'<text x="{sx(1522)-6:.0f}" y="{sy(137)-8:.0f}" text-anchor="end" font-size="11" fill="#9a6f00">LB top ≈137 → needs ~1.55× throughput</text>')
+    p.append(f'<text x="{sx(978)-8:.0f}" y="{y0+14:.0f}" text-anchor="end" font-size="10.5" fill="#8a8478">historical fit ≈978 completed firings</text>')
+    # top score placed on the ideal-law reference only; this is not an event-count inference
+    p.append(f'<circle cx="{sx(1536):.1f}" cy="{sy(138.25):.1f}" r="4" fill="#c08a00"/>')
+    p.append(f'<text x="{sx(1536)-6:.0f}" y="{sy(138.25)+18:.0f}" text-anchor="end" font-size="11" fill="#9a6f00">public top 138.250 (illustrative)</text>')
     # real measured points
-    pts = [(978, 88.0, "#12692b", "our best ≈88"), (1524, 87.1, "#93122a", None), (1600, 86.9, "#93122a", "N=1524/1600 → ~87 (plateau)")]
+    pts = [(1200, 87.03, "#12692b", None), (1524, 87.12, "#93122a", None),
+           (1600, 86.895, "#93122a", "N=1524/1600 → ~87"),
+           (2000, 88.65, "#12692b", "N=2000 → 88.650")]
     for n, s, col, lab in pts:
         p.append(f'<circle cx="{sx(n):.1f}" cy="{sy(s):.1f}" r="4.5" fill="{col}"/>')
         if lab:
@@ -358,10 +300,10 @@ def _throughput_curve_svg() -> str:
             p.append(f'<text x="{sx(n):.0f}" y="{sy(s)+dy:.0f}" text-anchor="middle" font-size="11" font-weight="600" fill="{col}">{escape(lab)}</text>')
     p.append("</svg>")
     cap = ('<figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 2. '
-           'The frontier is throughput-gated, not cleverness-gated. Row score tracks 0.09·N only until '
-           'the per-phase candidate budget (~978) caps it; beyond that, adding candidates does nothing — '
-           'today’s N=1524/1600 “137 shots” landed at ~87 (real board scores). Reaching the ≈137 top '
-           'requires ~1.55× per-candidate throughput, which no attacker-controllable lever supplies (§7.3).</figcaption>')
+           'The tested fixed-count single-post family plateaus near 86–89 despite larger requested N. '
+           'The dashed 0.09·N line is the source-derived ideal if every requested finding completed and '
+           'fired; placing the 138.250 public top on that reference is illustrative, not a causal event-count '
+           'or hardware inference. The cross-team gap remains unexplained (§7.3).</figcaption>')
     return ('<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;'
             'border-radius:12px;background:#fbfaf6;overflow-x:auto">'
             + "".join(p) + cap + "</figure>")
@@ -410,7 +352,7 @@ def _asymmetry_svg() -> str:
                        "   (url is never inspected here)",
                        "→ sentinel present", ], "SCORES sev-5"))
     p.append("</svg>")
-    cap = ('<figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 3. '
+    cap = ('<figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 1. '
            'The field-mismatch asymmetry (§4.1). The guardrail and the exfiltration predicate '
            'inspect different arguments of the same http.post call — the guard reads url, the scorer '
            'reads data — so a benign url passes the filter while the scored sentinel rides in the '
@@ -421,8 +363,7 @@ def _asymmetry_svg() -> str:
             + "".join(p) + cap + "</figure>")
 
 
-FIGURES = {"matrix": _attack_matrix_svg(), "throughput": _throughput_curve_svg(),
-           "asymmetry": _asymmetry_svg()}
+FIGURES = {"throughput": _throughput_curve_svg(), "asymmetry": _asymmetry_svg()}
 
 
 def enrich_fragment(fragment: str, section_id: str) -> str:
