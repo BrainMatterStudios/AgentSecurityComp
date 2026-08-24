@@ -772,6 +772,19 @@ generation; its already-generated candidates are replayed under whichever privat
 gateway resolved. This is the useful source-visible constraint. It does not reveal the guardrail's
 allow/deny logic or justify selecting attacks by its identifier alone.
 
+**A reusable, source-only provenance check.** The same gateway snapshot hardcodes exactly one
+private-guardrail identifier together with its expected fallback module path
+(`_KNOWN_GUARDRAILS`, `jed_attack_gateway.py:173-174`: `persistent_provenance_private` →
+`aicomp_private_guardrails.persistent_provenance`). This yields a small but reusable, fully
+source-level test a defender or researcher can apply to *any* candidate private-guardrail package
+**without executing it**: compare the package's declared entry-point module against the identifier
+and fallback path the organizer's own gateway expects, and check for packaging metadata (author,
+homepage, license) consistent with an organizer-published artifact. A mismatch is a provenance
+signal — a reason to treat a third-party package as unverified before relying on it as the held-out
+defense. We report this only as a **method** (a Source-fact-level check, reproducible from the
+gateway alone); consistent with the evidence boundary below, a single mismatch is suggestive rather
+than conclusive, and we draw no conclusion here about any specific third-party artifact.
+
 An earlier draft described a competitor-supplied `aicomp-private-guardrails` wheel and an
 attack×guardrail matrix. The reported module-name mismatch with the gateway fallback and missing
 package metadata are reasons to doubt organizer provenance, but they do not prove the wheel is a
@@ -1057,3 +1070,8 @@ kept separate from inline SDK `file:line` citations and official competition-pag
   Working Notes. Verified that the L26 payloads contain byte-identical competitor algorithm source
   but different wrappers. Made the L30 builder hermetic by extracting the tracked frozen notebook
   instead of reading `/tmp/d4.py` or falling back to the moving `attack.py`.
+- 2026-08-24 (methodological addendum) — re-added, in §7.4, the private-guardrail **provenance check**
+  as a reusable, source-only method (derived from the gateway's `_KNOWN_GUARDRAILS` identifier and
+  fallback module path, `jed_attack_gateway.py:173-174`), framed competitor-neutrally and drawing no
+  conclusion about any specific third-party artifact. This restores the methodological contribution
+  without reintroducing the removed, unreproduced behavior matrix.

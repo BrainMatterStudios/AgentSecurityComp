@@ -1111,6 +1111,18 @@ Consequently, within a run the submitted algorithm cannot observe the private gu
 generation; its already-generated candidates are replayed under whichever private factory the
 gateway resolved. This is the useful source-visible constraint. It does not reveal the guardrail's
 allow/deny logic or justify selecting attacks by its identifier alone.</p>
+<p><strong>A reusable, source-only provenance check.</strong> The same gateway snapshot hardcodes exactly one
+private-guardrail identifier together with its expected fallback module path
+(<code>_KNOWN_GUARDRAILS</code>, <code>jed_attack_gateway.py:173-174</code>: <code>persistent_provenance_private</code> →
+<code>aicomp_private_guardrails.persistent_provenance</code>). This yields a small but reusable, fully
+source-level test a defender or researcher can apply to <em>any</em> candidate private-guardrail package
+<strong>without executing it</strong>: compare the package's declared entry-point module against the identifier
+and fallback path the organizer's own gateway expects, and check for packaging metadata (author,
+homepage, license) consistent with an organizer-published artifact. A mismatch is a provenance
+signal — a reason to treat a third-party package as unverified before relying on it as the held-out
+defense. We report this only as a <strong>method</strong> (a Source-fact-level check, reproducible from the
+gateway alone); consistent with the evidence boundary below, a single mismatch is suggestive rather
+than conclusive, and we draw no conclusion here about any specific third-party artifact.</p>
 <p>An earlier draft described a competitor-supplied <code>aicomp-private-guardrails</code> wheel and an
 attack×guardrail matrix. The reported module-name mismatch with the gateway fallback and missing
 package metadata are reasons to doubt organizer provenance, but they do not prove the wheel is a
@@ -1413,6 +1425,11 @@ from “committed” to ignored working-tree snapshot; and added explicit credit
 Working Notes. Verified that the L26 payloads contain byte-identical competitor algorithm source
 but different wrappers. Made the L30 builder hermetic by extracting the tracked frozen notebook
 instead of reading <code>/tmp/d4.py</code> or falling back to the moving <code>attack.py</code>.</li>
+<li>2026-08-24 (methodological addendum) — re-added, in §7.4, the private-guardrail <strong>provenance check</strong>
+as a reusable, source-only method (derived from the gateway's <code>_KNOWN_GUARDRAILS</code> identifier and
+fallback module path, <code>jed_attack_gateway.py:173-174</code>), framed competitor-neutrally and drawing no
+conclusion about any specific third-party artifact. This restores the methodological contribution
+without reintroducing the removed, unreproduced behavior matrix.</li>
 </ul>
 </div>
 </section></main>
