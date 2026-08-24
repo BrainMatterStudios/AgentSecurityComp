@@ -24,17 +24,23 @@
 
 ## Abstract
 
-A multi-step agent-security benchmark is only as trustworthy as the agreement between three
-things that do not automatically coincide: what the evaluator's source code permits, what an
-attack does in a local replica, and what the live evaluator actually scores. This note audits
-that agreement in the JED tool-attack benchmark, where candidate message chains are replayed
-against guarded agents and scored for four predicate families. It contributes (i) a source-derived
-taxonomy of **guardrail–predicate asymmetries**, (ii) a status-preserving **catalogue of what does
-and does not transfer** from a local replica to the live leaderboard, and (iii) a quantified
-account of **why the leaderboard frontier is gated by throughput rather than by attack cleverness**.
-Every claim is classified as a **Source fact**, **Local measurement**, **Live observation**,
-**Triangulated finding**, **Inference**, **Testimony**, or **Open hypothesis**, and the labels are
-enforced rather than decorative.
+A leaderboard number can measure the wrong thing. Auditing the JED multi-step agent-security
+benchmark — where candidate message chains are replayed against guarded agents and scored for four
+predicate families — yields two results a competitor optimizing the score would miss. **First**, the
+guardrail and the scoring predicates do not inspect the same trace fields, sinks, or time windows: a
+set of **guardrail–predicate asymmetries** that doubles as a precise defensive checklist of where a
+guardrail and its evaluator must be made to agree. **Second**, the public leaderboard frontier is
+gated by per-candidate **serving throughput, not attack cleverness** — a measurement-validity
+property established from source and a board-verified aggregation probe, not asserted. Around these
+we contribute a status-preserving **catalogue of what does and does not transfer** from a local
+replica to the live board, and a discipline that holds every claim to the agreement between what the
+evaluator's code permits, what an attack does locally, and what the live evaluator scores — each
+labeled a **Source fact**, **Local measurement**, **Live observation**, **Triangulated finding**,
+**Inference**, **Testimony**, or **Open hypothesis**, enforced rather than decorative. A dated
+extension (§7.4) carries the analysis to the **private** board: its selection structure is
+source-derived (one guardrail per rerun, applied only in replay, so an attack cannot adapt to it),
+and a reusable check — testing a competitor's leaked mock against the organizer's own hardcoded
+identifiers — demotes that artifact from evidence to testimony and bounds what it can claim.
 
 The central security insight is a set of **guardrail–predicate asymmetries** in the public
 implementation: the guardrail and the scoring predicates do not inspect the same trace fields,
@@ -380,6 +386,8 @@ recent web/email taint and the post succeeds, that event can score EXFILTRATION 
 SDK. This is a field mismatch, not a claim that arbitrary secret-value exfiltration is possible:
 the public guardrail separately blocks a canonical `secret.txt` read (§5.5).
 
+{{FIG:asymmetry}}
+
 ### 4.2 Guard scope wider than score scope (DESTRUCTIVE_WRITE)
 
 The public guardrail denies a target containing `secret`, while DESTRUCTIVE_WRITE accepts only a
@@ -714,6 +722,8 @@ cluster of roughly 110–137. Under mean
 aggregation, reaching ≈137 requires on the order of 1,520 scored exfiltration events per row against
 our ≈978 — a **≈1.55× per-candidate throughput edge**.
 
+{{FIG:throughput}}
+
 **Why that edge is outside the attack surface.** The binding cost per candidate is the target
 model's own generation, which runs inside the evaluator's container rather than in the submitted
 code; a submission emits message chains, it does not decode. Across the tested public control
@@ -815,6 +825,8 @@ no guardrail both forces encoding and permits the encoded read-and-post together
 other than exfiltration survives is `secret_egress_barrier`, which ignores `email.*` entirely, so an
 untrusted-read-then-notify chain fires untrusted-to-action there. These are measurements against a
 reconstruction; they characterize the *space* of plausible private behaviors, not the live board.
+
+{{FIG:matrix}}
 
 **The asymmetry thesis extends to the private board (Inference; Open hypothesis).** The single most
 consequential reading is that the §4 guardrail–predicate asymmetry is not confined to the public
@@ -1059,3 +1071,11 @@ kept separate from inline SDK `file:line` citations and official competition-pag
   table (every retrievable ref matches the live API), and that the §7.4 matrix harness and inference
   are sound and properly bounded; the distributed-gateway citations remain externally-hosted and are
   disclosed as such (§2.1, §8.1).
+- 2026-08-24 (presentation pass) — no new claims; readability and legibility only. Reframed the
+  abstract to open with the two headline findings (guardrail–predicate asymmetry as a defensive
+  checklist; throughput-gating as a measurement-validity property) and to foreground the §7.4
+  private-board/reconstruction contribution. Added three inline-SVG figures via a `render.py` figure
+  hook (data-driven where applicable, so they cannot drift from the text): Figure 1, the attack×guardrail
+  matrix (§7.4); Figure 2, the throughput-gating curve with real board points incl. the N=1524/1600
+  plateau (§7.3); Figure 3, the field-mismatch asymmetry schematic (§4.1). Fixed an SVG rendering bug
+  (the Markdown→HTML pass was lowercasing case-sensitive `viewBox`).
