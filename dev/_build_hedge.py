@@ -48,6 +48,11 @@ HEDGE = {
    {"JED_REPLAY_SAFE": "1", "JED_EXFIL_PAYLOAD": "SECRET_MARKER",
     "JED_RS_FORGE_GPT_ONLY": "1", "JED_RS_FORGE_PLAN": "8", "JED_RS_FIXED_N": "2000"},
    "HEDGE A: max-throughput EXFIL forge (gpt forge8 + gemma single), both boards"),
+ "jed-hedge-a-min": (
+   {"JED_REPLAY_SAFE": "1", "JED_EXFIL_PAYLOAD": "SECRET_MARKER",
+    "JED_RS_FORGE_GPT_ONLY": "1", "JED_RS_FORGE_PLAN": "8", "JED_RS_FIXED_N": "2000",
+    "JED_RS_FORGE_MIN": "1"},
+   "HEDGE A-min: minimized forge (A/B-verified 8/8 fire, ~26% shorter msg) - throughput A/B vs hedge-a-exfil"),
  "jed-hedge-b-cd": (
    {"JED_REPLAY_SAFE": "1", "JED_RS_CD_FORGE": "8", "JED_RS_FIXED_N": "2000",
     "JED_RS_CD_DOMAINS": "corp.invalid,corp.invalid,company.invalid,corp.invalid,partner.invalid"},
