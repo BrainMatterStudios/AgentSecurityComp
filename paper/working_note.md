@@ -757,6 +757,22 @@ yet message design can change prefill, decode, routing, tool-call count, and rep
 hardware, serving lifecycle, run variance, and an untested attack design therefore remain competing
 explanations for the cross-team gap.
 
+**Reconciling the decode-vs-prefill records (Inference, anchored on a Source fact and a Live
+observation).** Two project records appeared to disagree: the most rigorous local harness (CPU)
+measured the per-candidate cost as *prefill*-dominated, while a board test — padding the prompt to
+add ≈57% prefill cost the score only ≈8% — indicated the live path is *not* prefill-bound. These are
+reconcilable rather than contradictory once the evaluator's serving configuration is read from
+source: the GGUF model server sets `n_gpu_layers = -1`, i.e. full GPU offload, in its spec
+(`gguf_model_server.py:36`). On a GPU, prefill parallelizes across the prompt while token generation
+stays sequential and memory-bandwidth-bound, so **decode dominates** — consistent with the board's
+prefill-insensitivity; on CPU, lacking that parallelism, **prefill dominates** — consistent with the
+local harness. The same reading explains why enabling GPU on our own notebook produced no board
+advantage: when a GPU is present the server is already fully offloaded, so the flag changes nothing.
+The evaluator's hardware is not directly observable, so this remains an **Inference** — but it is
+anchored on a Source fact (the offload spec) and a Live observation (the prefill-padding test), and
+its consequence holds either way: the binding cost is the evaluator's generation path — sequential
+decode on its accelerator — which no attacker message-design lever reaches.
+
 **Authenticated 2026-08-24 state.** The leaderboard top was 138.250 and fifth place was 128.170.
 Our best completed public score was 92.670 (ref 55766377, a minimized-forge variant of the GPT
 forge-8 plus Gemma single configuration; the prompt trim is Pareto-safe by construction — A/B-verified
@@ -1111,3 +1127,9 @@ kept separate from inline SDK `file:line` citations and official competition-pag
   contribution 6. Fixed FRAC-notation ambiguity (Appendix A: FRAC 97/99 ≡ 0.97/0.99), the change-log
   figure renumbering (two surviving figures: 1 asymmetry, 2 throughput), a double-negative in the
   abstract, the "JED" gloss on first use, and softened an over-asserted throughput-figure label.
+- 2026-08-28 (open-question resolution) — replaced the flat "decode-vs-prefill unresolved" note in
+  §7.3 with a reconciliation: the local-CPU (prefill-bound) and board (decode-bound) records are
+  consistent once the server spec's `n_gpu_layers = -1` full-GPU-offload (`gguf_model_server.py:36`)
+  is read — GPU decode dominates, CPU prefill dominates — which also explains the GPU-flag null
+  result. Labeled an Inference anchored on a Source fact and a Live observation; hardware not
+  directly observable.
