@@ -285,7 +285,7 @@ def _throughput_curve_svg() -> str:
              'fill="none" stroke="#1f5fbf" stroke-width="2.5"/>')
     # historical fitted completion level at N≈978
     p.append(f'<line x1="{sx(978):.1f}" y1="{y0}" x2="{sx(978):.1f}" y2="{y1}" stroke="#b9b3a4" stroke-width="1" stroke-dasharray="3 4"/>')
-    p.append(f'<text x="{sx(978)-8:.0f}" y="{y0+14:.0f}" text-anchor="end" font-size="10.5" fill="#8a8478">historical fit ≈978 completed firings</text>')
+    p.append(f'<text x="{sx(978)-8:.0f}" y="{y0+14:.0f}" text-anchor="end" font-size="10.5" fill="#8a8478">illustrative completion level (N≈978)</text>')
     # top score placed on the ideal-law reference only; this is not an event-count inference
     p.append(f'<circle cx="{sx(1536):.1f}" cy="{sy(138.25):.1f}" r="4" fill="#c08a00"/>')
     p.append(f'<text x="{sx(1536)-6:.0f}" y="{sy(138.25)+18:.0f}" text-anchor="end" font-size="11" fill="#9a6f00">public top 138.250 (illustrative)</text>')

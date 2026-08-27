@@ -28,15 +28,17 @@
 ## Abstract
 
 A leaderboard number can measure more than one thing. Auditing the JED multi-step agent-security
-benchmark — where candidate message chains are replayed against guarded agents and scored for four
+benchmark (the internal codename for the *AI Agent Security: Multi-Step Tool Attacks* competition
+SDK) — where candidate message chains are replayed against guarded agents and scored for four
 predicate families — yields two bounded results. **First**, the
 guardrail and the scoring predicates do not inspect the same trace fields, sinks, or time windows: a
 set of **guardrail–predicate asymmetries** that doubles as a precise defensive checklist of where a
 guardrail and its evaluator must be made to agree. **Second**, within the tested single-post,
 packing, forge, and probe-hop family, public performance became **throughput-limited**: increasing
 the requested candidate count did not raise the score, and none of the tested transformations
-closed the gap to the frontier. This is a measurement-validity warning, not evidence that serving
-throughput rather than an untested attack design explains the cross-team leaderboard gap. Around these
+closed the gap to the frontier. This is a measurement-validity finding about the public metric — not
+a causal claim that serving throughput, rather than an untested attack design, explains the cross-team
+leaderboard gap. Around these
 we contribute a status-preserving **catalogue of what does and does not transfer** from a local
 replica to the live board, and a discipline that holds every claim to the agreement between what the
 evaluator's code permits, what an attack does locally, and what the live evaluator scores — each
@@ -72,8 +74,9 @@ and probe-hop variants trade many cheap cells for a few expensive posts and were
 tested configurations. Byte-identical competitor-algorithm payload reproductions fell short of
 their stated target, every probe-hop variant lost to its
 same-batch control, GPU submissions established no advantage, and a Gemma forge that looked positive
-once at N=600 went near-null at N=900. At the authenticated 2026-08-24 recheck, the public top was
-138.250, our best completed score was 91.520, and our best completed single-post control was 88.650.
+once at N=600 went near-null at N=900. At the authenticated 2026-08-28 recheck, the public top was
+138.250 (unchanged from 08-24), our best completed score was 92.670 (a minimized-forge variant), and
+our best completed single-post control was 88.650.
 That gap is not causally attributed: the experiments show a throughput plateau for our tested family,
 not that no attacker-controllable design can do better.
 Limitations remain first-class: hidden evaluator hardware, evaluator and documentation drift,
@@ -127,11 +130,15 @@ note's central claim of value.
 5. **Defensive and benchmark recommendations.** Recommendations connect the observed asymmetries,
    the tested-family throughput plateau, and the transfer failures to guardrail coverage, evaluator transparency,
    matched controls, and reproducible reporting (§6 and §8).
-6. **Private-board evidence boundary** (dated addendum, §7.4). The historical gateway snapshot
-   selects at most one private guardrail per evaluation run and applies guardrails during replay,
-   after candidate generation. No private aggregation rule, implementation behavior, or live score
-   is inferred. A previously inspected competitor wheel and matrix are disclosed as unreproduced
-   testimony because their bytes, harness, model hash, and raw outputs are absent.
+6. **Private-board evidence boundary and a source-only provenance check** (dated addendum, §7.4). The
+   historical gateway snapshot selects at most one private guardrail per evaluation run and applies
+   guardrails during replay, after candidate generation. No private aggregation rule, implementation
+   behavior, or live score is inferred. A previously inspected competitor wheel and matrix are disclosed
+   as unreproduced testimony because their bytes, harness, model hash, and raw outputs are absent. The
+   addendum also contributes a **reusable, source-only provenance check** — comparing a candidate
+   private-guardrail package's declared entry-point module against the identifier and fallback path the
+   organizer's gateway hardcodes (`_KNOWN_GUARDRAILS`), applicable without executing the package — as a
+   way to demote an unverified third-party artifact before relying on it.
 
 ### 1.3 Scope and threats preview
 
@@ -373,6 +380,16 @@ Scoreability depends on success checks, fields, tool scope, event windows, and i
 of these statements predicts the unavailable private guardrail or another deployment. Section 7.4
 records only the private-board structure visible in the historical gateway snapshot and explicitly
 declines to infer private behavior from an identifier.
+
+| Predicate | What the guardrail inspects | What the scorer inspects / gates on | Mismatch | Fix (§6) |
+|---|---|---|---|---|
+| EXFILTRATION | `http.post` **url** (first present arg) | `http.post` **data** (body) | field | 1 |
+| DESTRUCTIVE_WRITE | broad `secret` substring on the target | only the canonical root `secret.txt` path | scope | 2 |
+| UNTRUSTED_TO_ACTION | web/email source in the last **5** events | web/email source in the last **2** events | window | 3 |
+| CONFUSED_DEPUTY | no intent gate; url/body only (omits recipient/subject) | `email.send` gated on last-user `send`/`email`/`upload` | intent gate | 4 |
+
+Each row is demonstrated from pinned code in the matching subsection below and bounded to the public
+SDK.
 
 `OptimalGuardrail.decide` checks explicit authorization flags, then an "ultra-dangerous"
 substring on one extracted target, then web/email taint for a fixed dangerous-tool set, and
@@ -741,10 +758,17 @@ hardware, serving lifecycle, run variance, and an untested attack design therefo
 explanations for the cross-team gap.
 
 **Authenticated 2026-08-24 state.** The leaderboard top was 138.250 and fifth place was 128.170.
-Our best completed public score was 91.520 (ref 55727891, GPT forge-8 plus Gemma single); the best
-completed single-post control in this sequence was 88.650 (ref 55588201). Thus the top-to-best ratio
-was about 1.51×, while the top-to-single-post ratio was about 1.56×. These ratios describe returned
-scores, not event counts or causal throughput differences. The public leaderboard placed the author
+Our best completed public score was 92.670 (ref 55766377, a minimized-forge variant of the GPT
+forge-8 plus Gemma single configuration; the prompt trim is Pareto-safe by construction — A/B-verified
+to hold the 8/8 http.post fire rate at a shorter message — and the ~1.15-point gain over the 91.520
+forge-8 run, ref 55727891, is within the run-to-run variance band, so it is not attributed to the
+trim). The best completed single-post control in this sequence was 88.650 (ref 55588201). That the
+best configuration uses a *forge* is consistent with — not contrary to — the same-row
+forge-is-dominated finding of §5: forge amortizes only on the slow, decode-bound `gpt_oss` row, where
+K posts cost materially less than K single-posts (§3.1), while the Gemma row stays single-post, so a
+per-model split (forge on GPT, single-post on Gemma) wins where same-row forge does not. Thus the
+top-to-best ratio was about 1.49×, while the top-to-single-post ratio was about 1.56×. These ratios
+describe returned scores, not event counts or causal throughput differences. The public leaderboard placed the author
 approximately 241st at the retrieval time; neither public rank nor these values predict the private
 leaderboard.
 
@@ -970,8 +994,9 @@ kept separate from inline SDK `file:line` citations and official competition-pag
 
 ## Appendix A. Notation
 
-- **FRAC** — configured fraction of a phase budget used by the adaptive sizer. Historical builders
-  used 9,000 seconds; the current distributed gateway uses an 8,750-second internal phase budget.
+- **FRAC** — configured fraction of a phase budget used by the adaptive sizer, written as a fraction
+  throughout; the shorthand "FRAC 97" / "FRAC 99" in §5.1 and §7 mean FRAC 0.97 / 0.99. Historical
+  builders used 9,000 seconds; the current distributed gateway uses an 8,750-second internal phase budget.
 - **finding** — one replayed candidate that fired ≥1 predicate.
 - **cell / novelty** — the per-finding score-cell hash; distinct cells add +2 each.
 - **void** — `INVALID_SUBMISSION`. In the current distributed gateway, an outer phase-watchdog
@@ -1055,8 +1080,10 @@ kept separate from inline SDK `file:line` citations and official competition-pag
   abstract to open with the two headline findings (guardrail–predicate asymmetry as a defensive
   checklist; throughput-gating as a measurement-validity property) and to foreground the §7.4
   private-board/reconstruction discussion. Added three inline-SVG figures via a `render.py` figure
-  hook: an attack×guardrail matrix (removed by the accuracy audit below); a throughput curve with real board points incl. the N=1524/1600
-  plateau (§7.3); Figure 3, the field-mismatch asymmetry schematic (§4.1). Fixed an SVG rendering bug
+  hook: an attack×guardrail matrix (removed by the accuracy audit below); a throughput curve with real
+  board points incl. the N=1524/1600 plateau (now Figure 2, §7.3); and the field-mismatch asymmetry
+  schematic (now Figure 1, §4.1). The two surviving figures were renumbered when the matrix was removed.
+  Fixed an SVG rendering bug
   (the Markdown→HTML pass was lowercasing case-sensitive `viewBox`). Added a scannable seven-item
   summary checklist at the head of §6 (each item expanded in the numbered subsection below).
 - 2026-08-24 (independent reproducibility and prior-art audit) — independently re-queried completed
@@ -1075,3 +1102,12 @@ kept separate from inline SDK `file:line` citations and official competition-pag
   fallback module path, `jed_attack_gateway.py:173-174`), framed competitor-neutrally and drawing no
   conclusion about any specific third-party artifact. This restores the methodological contribution
   without reintroducing the removed, unreproduced behavior matrix.
+- 2026-08-28 (final-polish pass, cold-reviewer copyedit) — clarity/consistency only, no new claims.
+  Updated the stale best completed score 91.520 → 92.670 (ref 55766377, minimized-forge variant;
+  gain within variance) and the top-to-best ratio to ≈1.49× (§7.3, abstract). Added a sentence
+  reconciling the best-config-is-a-forge result with the same-row forge-is-dominated finding
+  (per-model split; forge only on the slow gpt_oss row, §7.3). Added a summary table at the head of §4
+  giving the four asymmetries at a glance. Surfaced the source-only provenance check in §1.2
+  contribution 6. Fixed FRAC-notation ambiguity (Appendix A: FRAC 97/99 ≡ 0.97/0.99), the change-log
+  figure renumbering (two surviving figures: 1 asymmetry, 2 throughput), a double-negative in the
+  abstract, the "JED" gloss on first use, and softened an over-asserted throughput-figure label.

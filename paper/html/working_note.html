@@ -215,15 +215,17 @@ into the 08-16 table.</li>
   <main><section id="abstract" class="abstract">
   <div class="rail"><span class="num">ABSTRACT</span><div class="kicker">Summary</div></div>
   <div class="col"><h2>Abstract<span class="stop">.</span></h2><p>A leaderboard number can measure more than one thing. Auditing the JED multi-step agent-security
-benchmark — where candidate message chains are replayed against guarded agents and scored for four
+benchmark (the internal codename for the <em>AI Agent Security: Multi-Step Tool Attacks</em> competition
+SDK) — where candidate message chains are replayed against guarded agents and scored for four
 predicate families — yields two bounded results. <strong>First</strong>, the
 guardrail and the scoring predicates do not inspect the same trace fields, sinks, or time windows: a
 set of <strong>guardrail–predicate asymmetries</strong> that doubles as a precise defensive checklist of where a
 guardrail and its evaluator must be made to agree. <strong>Second</strong>, within the tested single-post,
 packing, forge, and probe-hop family, public performance became <strong>throughput-limited</strong>: increasing
 the requested candidate count did not raise the score, and none of the tested transformations
-closed the gap to the frontier. This is a measurement-validity warning, not evidence that serving
-throughput rather than an untested attack design explains the cross-team leaderboard gap. Around these
+closed the gap to the frontier. This is a measurement-validity finding about the public metric — not
+a causal claim that serving throughput, rather than an untested attack design, explains the cross-team
+leaderboard gap. Around these
 we contribute a status-preserving <strong>catalogue of what does and does not transfer</strong> from a local
 replica to the live board, and a discipline that holds every claim to the agreement between what the
 evaluator's code permits, what an attack does locally, and what the live evaluator scores — each
@@ -257,8 +259,9 @@ and probe-hop variants trade many cheap cells for a few expensive posts and were
 tested configurations. Byte-identical competitor-algorithm payload reproductions fell short of
 their stated target, every probe-hop variant lost to its
 same-batch control, GPU submissions established no advantage, and a Gemma forge that looked positive
-once at N=600 went near-null at N=900. At the authenticated 2026-08-24 recheck, the public top was
-138.250, our best completed score was 91.520, and our best completed single-post control was 88.650.
+once at N=600 went near-null at N=900. At the authenticated 2026-08-28 recheck, the public top was
+138.250 (unchanged from 08-24), our best completed score was 92.670 (a minimized-forge variant), and
+our best completed single-post control was 88.650.
 That gap is not causally attributed: the experiments show a throughput plateau for our tested family,
 not that no attacker-controllable design can do better.
 Limitations remain first-class: hidden evaluator hardware, evaluator and documentation drift,
@@ -309,11 +312,15 @@ tier of each claim and uses two-gate validation as the transfer protocol (§2).<
 <li><strong>Defensive and benchmark recommendations.</strong> Recommendations connect the observed asymmetries,
 the tested-family throughput plateau, and the transfer failures to guardrail coverage, evaluator transparency,
 matched controls, and reproducible reporting (§6 and §8).</li>
-<li><strong>Private-board evidence boundary</strong> (dated addendum, §7.4). The historical gateway snapshot
-selects at most one private guardrail per evaluation run and applies guardrails during replay,
-after candidate generation. No private aggregation rule, implementation behavior, or live score
-is inferred. A previously inspected competitor wheel and matrix are disclosed as unreproduced
-testimony because their bytes, harness, model hash, and raw outputs are absent.</li>
+<li><strong>Private-board evidence boundary and a source-only provenance check</strong> (dated addendum, §7.4). The
+historical gateway snapshot selects at most one private guardrail per evaluation run and applies
+guardrails during replay, after candidate generation. No private aggregation rule, implementation
+behavior, or live score is inferred. A previously inspected competitor wheel and matrix are disclosed
+as unreproduced testimony because their bytes, harness, model hash, and raw outputs are absent. The
+addendum also contributes a <strong>reusable, source-only provenance check</strong> — comparing a candidate
+private-guardrail package's declared entry-point module against the identifier and fallback path the
+organizer's gateway hardcodes (<code>_KNOWN_GUARDRAILS</code>), applicable without executing the package — as a
+way to demote an unverified third-party artifact before relying on it.</li>
 </ol>
 <h3 id="1-introduction-1-3-scope-and-threats-preview">1.3 Scope and threats preview</h3>
 <p>This is a versioned competition case study, not a general model of tool-agent security. Hardware
@@ -622,6 +629,49 @@ Scoreability depends on success checks, fields, tool scope, event windows, and i
 of these statements predicts the unavailable private guardrail or another deployment. Section 7.4
 records only the private-board structure visible in the historical gateway snapshot and explicitly
 declines to infer private behavior from an identifier.</p>
+<div class="tbl"><div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Predicate</th>
+<th>What the guardrail inspects</th>
+<th>What the scorer inspects / gates on</th>
+<th>Mismatch</th>
+<th>Fix (§6)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EXFILTRATION</td>
+<td><code>http.post</code> <strong>url</strong> (first present arg)</td>
+<td><code>http.post</code> <strong>data</strong> (body)</td>
+<td>field</td>
+<td>1</td>
+</tr>
+<tr>
+<td>DESTRUCTIVE_WRITE</td>
+<td>broad <code>secret</code> substring on the target</td>
+<td>only the canonical root <code>secret.txt</code> path</td>
+<td>scope</td>
+<td>2</td>
+</tr>
+<tr>
+<td>UNTRUSTED_TO_ACTION</td>
+<td>web/email source in the last <strong>5</strong> events</td>
+<td>web/email source in the last <strong>2</strong> events</td>
+<td>window</td>
+<td>3</td>
+</tr>
+<tr>
+<td>CONFUSED_DEPUTY</td>
+<td>no intent gate; url/body only (omits recipient/subject)</td>
+<td><code>email.send</code> gated on last-user <code>send</code>/<code>email</code>/<code>upload</code></td>
+<td>intent gate</td>
+<td>4</td>
+</tr>
+</tbody>
+</table></div><div class="tbl-cap">Evidence table retained from the Markdown manuscript</div></div>
+<p>Each row is demonstrated from pinned code in the matching subsection below and bounded to the public
+SDK.</p>
 <p><code>OptimalGuardrail.decide</code> checks explicit authorization flags, then an "ultra-dangerous"
 substring on one extracted target, then web/email taint for a fixed dangerous-tool set, and
 otherwise allows (<code>comp/aicomp_sdk/guardrails/optimal.py:15-60</code>). <code>_extract_target</code> returns the
@@ -1076,7 +1126,7 @@ four rules directly was coded but never submitted.</p>
 N=1,600 scored 87.120 and 86.895; N=1,530 returned <code>ERROR</code> (refs 55727926, 55727923, 55727914).
 Those rows establish a plateau for this submitted family: requesting more candidates did not yield
 the <code>0.09·N</code> score that would follow if all requested candidates completed and fired.</p>
-<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;border-radius:12px;background:#fbfaf6;overflow-x:auto"><svg viewBox="0 0 680 360" role="img" width="100%" style="max-width:680px;height:auto;font-family:inherit" aria-label="Tested-family public-score plateau versus requested candidate count"><line x1="58" y1="294.0" x2="662" y2="294.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="298.0" text-anchor="end" font-size="11" fill="#8a8478">0</text><line x1="58" y1="204.0" x2="662" y2="204.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="208.0" text-anchor="end" font-size="11" fill="#8a8478">50</text><line x1="58" y1="135.6" x2="662" y2="135.6" stroke="#ece7db" stroke-width="1"/><text x="50" y="139.6" text-anchor="end" font-size="11" fill="#8a8478">88</text><line x1="58" y1="45.6" x2="662" y2="45.6" stroke="#ece7db" stroke-width="1"/><text x="50" y="49.6" text-anchor="end" font-size="11" fill="#8a8478">138</text><text x="58.0" y="314" text-anchor="middle" font-size="11" fill="#8a8478">0</text><text x="201.8" y="314" text-anchor="middle" font-size="11" fill="#8a8478">500</text><text x="345.6" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1000</text><text x="489.4" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1500</text><text x="633.2" y="314" text-anchor="middle" font-size="11" fill="#8a8478">2000</text><text x="360" y="334" text-anchor="middle" font-size="12" fill="#6b665c">candidates emitted per row (N)</text><text x="16" y="159" font-size="12" fill="#6b665c" transform="rotate(-90 16 159)" text-anchor="middle">public score / equal-row ideal</text><line x1="58.0" y1="294.0" x2="499.8" y2="45.2" stroke="#c08a00" stroke-width="2" stroke-dasharray="6 5"/><text x="403" y="92" font-size="11.5" fill="#9a6f00">ideal equal-row law 0.09·N</text><polyline points="58.0,294.0 339.3,135.6 662.0,135.6" fill="none" stroke="#1f5fbf" stroke-width="2.5"/><line x1="339.3" y1="24" x2="339.3" y2="294" stroke="#b9b3a4" stroke-width="1" stroke-dasharray="3 4"/><text x="331" y="38" text-anchor="end" font-size="10.5" fill="#8a8478">historical fit ≈978 completed firings</text><circle cx="499.8" cy="45.2" r="4" fill="#c08a00"/><text x="494" y="63" text-anchor="end" font-size="11" fill="#9a6f00">public top 138.250 (illustrative)</text><circle cx="403.1" cy="137.3" r="4.5" fill="#12692b"/><circle cx="496.3" cy="137.2" r="4.5" fill="#93122a"/><circle cx="518.2" cy="137.6" r="4.5" fill="#93122a"/><text x="518" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#93122a">N=1524/1600 → ~87</text><circle cx="633.2" cy="134.4" r="4.5" fill="#12692b"/><text x="633" y="150" text-anchor="middle" font-size="11" font-weight="600" fill="#12692b">N=2000 → 88.650</text></svg><figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 2. The tested fixed-count single-post family plateaus near 86–89 despite larger requested N. The dashed 0.09·N line is the source-derived ideal if every requested finding completed and fired; placing the 138.250 public top on that reference is illustrative, not a causal event-count or hardware inference. The cross-team gap remains unexplained (§7.3).</figcaption></figure>
+<figure style="margin:1.6em 0;padding:18px 20px;border:1px solid #e7e2d6;border-radius:12px;background:#fbfaf6;overflow-x:auto"><svg viewBox="0 0 680 360" role="img" width="100%" style="max-width:680px;height:auto;font-family:inherit" aria-label="Tested-family public-score plateau versus requested candidate count"><line x1="58" y1="294.0" x2="662" y2="294.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="298.0" text-anchor="end" font-size="11" fill="#8a8478">0</text><line x1="58" y1="204.0" x2="662" y2="204.0" stroke="#ece7db" stroke-width="1"/><text x="50" y="208.0" text-anchor="end" font-size="11" fill="#8a8478">50</text><line x1="58" y1="135.6" x2="662" y2="135.6" stroke="#ece7db" stroke-width="1"/><text x="50" y="139.6" text-anchor="end" font-size="11" fill="#8a8478">88</text><line x1="58" y1="45.6" x2="662" y2="45.6" stroke="#ece7db" stroke-width="1"/><text x="50" y="49.6" text-anchor="end" font-size="11" fill="#8a8478">138</text><text x="58.0" y="314" text-anchor="middle" font-size="11" fill="#8a8478">0</text><text x="201.8" y="314" text-anchor="middle" font-size="11" fill="#8a8478">500</text><text x="345.6" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1000</text><text x="489.4" y="314" text-anchor="middle" font-size="11" fill="#8a8478">1500</text><text x="633.2" y="314" text-anchor="middle" font-size="11" fill="#8a8478">2000</text><text x="360" y="334" text-anchor="middle" font-size="12" fill="#6b665c">candidates emitted per row (N)</text><text x="16" y="159" font-size="12" fill="#6b665c" transform="rotate(-90 16 159)" text-anchor="middle">public score / equal-row ideal</text><line x1="58.0" y1="294.0" x2="499.8" y2="45.2" stroke="#c08a00" stroke-width="2" stroke-dasharray="6 5"/><text x="403" y="92" font-size="11.5" fill="#9a6f00">ideal equal-row law 0.09·N</text><polyline points="58.0,294.0 339.3,135.6 662.0,135.6" fill="none" stroke="#1f5fbf" stroke-width="2.5"/><line x1="339.3" y1="24" x2="339.3" y2="294" stroke="#b9b3a4" stroke-width="1" stroke-dasharray="3 4"/><text x="331" y="38" text-anchor="end" font-size="10.5" fill="#8a8478">illustrative completion level (N≈978)</text><circle cx="499.8" cy="45.2" r="4" fill="#c08a00"/><text x="494" y="63" text-anchor="end" font-size="11" fill="#9a6f00">public top 138.250 (illustrative)</text><circle cx="403.1" cy="137.3" r="4.5" fill="#12692b"/><circle cx="496.3" cy="137.2" r="4.5" fill="#93122a"/><circle cx="518.2" cy="137.6" r="4.5" fill="#93122a"/><text x="518" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#93122a">N=1524/1600 → ~87</text><circle cx="633.2" cy="134.4" r="4.5" fill="#12692b"/><text x="633" y="150" text-anchor="middle" font-size="11" font-weight="600" fill="#12692b">N=2000 → 88.650</text></svg><figcaption style="margin-top:10px;font-size:12.5px;color:#8a8478">Figure 2. The tested fixed-count single-post family plateaus near 86–89 despite larger requested N. The dashed 0.09·N line is the source-derived ideal if every requested finding completed and fired; placing the 138.250 public top on that reference is illustrative, not a causal event-count or hardware inference. The cross-team gap remains unexplained (§7.3).</figcaption></figure>
 <p>The plateau does <strong>not</strong> establish a universal or attacker-independent ceiling. Packing, continuation
 forging, probe-hop calibration, URL shortening, prompt padding, multi-message candidates, and
 enabling GPU on the submitted notebook all failed to close it in the tested configurations, but
@@ -1085,10 +1135,17 @@ yet message design can change prefill, decode, routing, tool-call count, and rep
 hardware, serving lifecycle, run variance, and an untested attack design therefore remain competing
 explanations for the cross-team gap.</p>
 <p><strong>Authenticated 2026-08-24 state.</strong> The leaderboard top was 138.250 and fifth place was 128.170.
-Our best completed public score was 91.520 (ref 55727891, GPT forge-8 plus Gemma single); the best
-completed single-post control in this sequence was 88.650 (ref 55588201). Thus the top-to-best ratio
-was about 1.51×, while the top-to-single-post ratio was about 1.56×. These ratios describe returned
-scores, not event counts or causal throughput differences. The public leaderboard placed the author
+Our best completed public score was 92.670 (ref 55766377, a minimized-forge variant of the GPT
+forge-8 plus Gemma single configuration; the prompt trim is Pareto-safe by construction — A/B-verified
+to hold the 8/8 http.post fire rate at a shorter message — and the ~1.15-point gain over the 91.520
+forge-8 run, ref 55727891, is within the run-to-run variance band, so it is not attributed to the
+trim). The best completed single-post control in this sequence was 88.650 (ref 55588201). That the
+best configuration uses a <em>forge</em> is consistent with — not contrary to — the same-row
+forge-is-dominated finding of §5: forge amortizes only on the slow, decode-bound <code>gpt_oss</code> row, where
+K posts cost materially less than K single-posts (§3.1), while the Gemma row stays single-post, so a
+per-model split (forge on GPT, single-post on Gemma) wins where same-row forge does not. Thus the
+top-to-best ratio was about 1.49×, while the top-to-single-post ratio was about 1.56×. These ratios
+describe returned scores, not event counts or causal throughput differences. The public leaderboard placed the author
 approximately 241st at the retrieval time; neither public rank nor these values predict the private
 leaderboard.</p>
 <p><strong>Measurement-validity reading.</strong> The defensible finding is that the public metric is sensitive to
@@ -1322,8 +1379,9 @@ accessed 2026-08-16. Official policy guidance.</li>
 <section id="appendix-a-notation" class="">
   <div class="rail"><span class="num">A</span><div class="kicker">Notation</div></div>
   <div class="col"><h2>Appendix A. Notation<span class="stop">.</span></h2><ul>
-<li><strong>FRAC</strong> — configured fraction of a phase budget used by the adaptive sizer. Historical builders
-used 9,000 seconds; the current distributed gateway uses an 8,750-second internal phase budget.</li>
+<li><strong>FRAC</strong> — configured fraction of a phase budget used by the adaptive sizer, written as a fraction
+throughout; the shorthand "FRAC 97" / "FRAC 99" in §5.1 and §7 mean FRAC 0.97 / 0.99. Historical
+builders used 9,000 seconds; the current distributed gateway uses an 8,750-second internal phase budget.</li>
 <li><strong>finding</strong> — one replayed candidate that fired ≥1 predicate.</li>
 <li><strong>cell / novelty</strong> — the per-finding score-cell hash; distinct cells add +2 each.</li>
 <li><strong>void</strong> — <code>INVALID_SUBMISSION</code>. In the current distributed gateway, an outer phase-watchdog
@@ -1410,8 +1468,10 @@ was fully verified is superseded by the 2026-08-24 reproducibility audit below.<
 abstract to open with the two headline findings (guardrail–predicate asymmetry as a defensive
 checklist; throughput-gating as a measurement-validity property) and to foreground the §7.4
 private-board/reconstruction discussion. Added three inline-SVG figures via a <code>render.py</code> figure
-hook: an attack×guardrail matrix (removed by the accuracy audit below); a throughput curve with real board points incl. the N=1524/1600
-plateau (§7.3); Figure 3, the field-mismatch asymmetry schematic (§4.1). Fixed an SVG rendering bug
+hook: an attack×guardrail matrix (removed by the accuracy audit below); a throughput curve with real
+board points incl. the N=1524/1600 plateau (now Figure 2, §7.3); and the field-mismatch asymmetry
+schematic (now Figure 1, §4.1). The two surviving figures were renumbered when the matrix was removed.
+Fixed an SVG rendering bug
 (the Markdown→HTML pass was lowercasing case-sensitive <code>viewBox</code>). Added a scannable seven-item
 summary checklist at the head of §6 (each item expanded in the numbered subsection below).</li>
 <li>2026-08-24 (independent reproducibility and prior-art audit) — independently re-queried completed
@@ -1430,6 +1490,15 @@ as a reusable, source-only method (derived from the gateway's <code>_KNOWN_GUARD
 fallback module path, <code>jed_attack_gateway.py:173-174</code>), framed competitor-neutrally and drawing no
 conclusion about any specific third-party artifact. This restores the methodological contribution
 without reintroducing the removed, unreproduced behavior matrix.</li>
+<li>2026-08-28 (final-polish pass, cold-reviewer copyedit) — clarity/consistency only, no new claims.
+Updated the stale best completed score 91.520 → 92.670 (ref 55766377, minimized-forge variant;
+gain within variance) and the top-to-best ratio to ≈1.49× (§7.3, abstract). Added a sentence
+reconciling the best-config-is-a-forge result with the same-row forge-is-dominated finding
+(per-model split; forge only on the slow gpt_oss row, §7.3). Added a summary table at the head of §4
+giving the four asymmetries at a glance. Surfaced the source-only provenance check in §1.2
+contribution 6. Fixed FRAC-notation ambiguity (Appendix A: FRAC 97/99 ≡ 0.97/0.99), the change-log
+figure renumbering (two surviving figures: 1 asymmetry, 2 throughput), a double-negative in the
+abstract, the "JED" gloss on first use, and softened an over-asserted throughput-figure label.</li>
 </ul>
 </div>
 </section></main>
