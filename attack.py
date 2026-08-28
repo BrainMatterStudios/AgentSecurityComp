@@ -1450,8 +1450,12 @@ class AttackAlgorithm(AttackAlgorithmBase):
             # trace export + predicate eval + cell hashing + scoring, all once per finding) is
             # amortized over 8*K events instead of 8. Source-verified: hop cap is 8
             # (gateway:398-400) but MAX_REPLAY_MESSAGES_PER_FINDING=32 (ops.py:48), and one env
-            # replays all K messages accumulating the trace. This is the untested throughput lever
-            # behind the 108-147 public cluster; our prior L37 multimsg was bug-confounded.
+            # replays all K messages accumulating the trace. CAVEAT: the amortization hypothesis was
+            # tested at L37 (single-post message packing, M=4..32) and REFUTED on the board
+            # (monotonic 87.6->59.6 — packing grows the finding's accumulated context, and that
+            # prefill cost outweighs the env-build amortization). This FORGE variant differs (K
+            # interacts of 8 posts each vs M interacts of 1 post -> fewer inter-message steps for
+            # the same EXFIL), so it is a long-shot re-test of that refuted idea, not a new lever.
             mm = max(1, min(32, _envi("JED_RS_MULTIMSG", 0)))
             if mm > 1:
                 fp = max(1, min(8, forge_plan or 8))
