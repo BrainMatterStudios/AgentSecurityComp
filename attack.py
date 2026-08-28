@@ -1444,6 +1444,19 @@ class AttackAlgorithm(AttackAlgorithmBase):
         portfolio = _envi("JED_RS_PORTFOLIO", 0)
         if fixed_n > 0:
             n = min(fixed_n, max_cand)
+            # JED_RS_MULTIMSG=K (2-32): pack K forge messages into ONE candidate/finding — each
+            # message is an 8-hop forge on a distinct URL batch, so the finding fires 8*K EXFIL
+            # while the per-candidate fixed replay overhead (build_attack_env + reset + gRPC +
+            # trace export + predicate eval + cell hashing + scoring, all once per finding) is
+            # amortized over 8*K events instead of 8. Source-verified: hop cap is 8
+            # (gateway:398-400) but MAX_REPLAY_MESSAGES_PER_FINDING=32 (ops.py:48), and one env
+            # replays all K messages accumulating the trace. This is the untested throughput lever
+            # behind the 108-147 public cluster; our prior L37 multimsg was bug-confounded.
+            mm = max(1, min(32, _envi("JED_RS_MULTIMSG", 0)))
+            if mm > 1:
+                fp = max(1, min(8, forge_plan or 8))
+                return [AttackCandidate.from_messages(
+                    tuple(_forge(i * mm + m, fp, marker) for m in range(mm))) for i in range(n)]
             if portfolio > 0:
                 uta_frac = max(0, min(100, _envi("JED_RS_UTA_FRAC", 30)))
                 out = []
