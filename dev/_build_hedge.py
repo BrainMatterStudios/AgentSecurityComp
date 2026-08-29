@@ -42,7 +42,10 @@ CELL3 = ("import os\nfrom pathlib import Path\n"
          " print('skip',repr(e)[:60])\n"
          "if not sub.exists(): sub.write_text('Id,Score\\ngpt_oss_public,0.0\\ngpt_oss_private,0.0\\ngemma_public,0.0\\ngemma_private,0.0\\n')\n")
 
-# FIXED_N is an upper bound; the phase budget caps the count actually run (~978).
+# FIXED_N=2000: replay iterates candidates[:2000] with NO internal deadline and VOIDS the whole
+# submission on a 9000s overrun (gateway.py:786-790; single-post N=1530 ERRORed 2026-08-24). This is
+# safe HERE only because forge8/CD UNDER-fire (fast, ~0.5-few posts/cand). If Slot A ever switches to
+# a well-firing forge, move it to the adaptive path (JED_RS_FORGE_VARIANT, no fixed_n) or it will void.
 HEDGE = {
  "jed-hedge-a-exfil": (
    {"JED_REPLAY_SAFE": "1", "JED_EXFIL_PAYLOAD": "SECRET_MARKER",
