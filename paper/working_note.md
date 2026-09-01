@@ -76,7 +76,11 @@ their stated target, every probe-hop variant lost to its
 same-batch control, GPU submissions established no advantage, and a Gemma forge that looked positive
 once at N=600 went near-null at N=900. At the authenticated 2026-08-28 recheck, the public top was
 138.250 (unchanged from 08-24), our best completed score was 92.670 (a minimized-forge variant), and
-our best completed single-post control was 88.650.
+our best completed single-post control was 88.650. By the 2026-09-01 deadline the public top had
+advanced to 147.530 while our best remained 92.670; a final week of negative results (§7.5) — refuted
+forge-wording and inter-hop-suppression variants, a corrected all-or-nothing replay-void model, and
+adaptive-sizing gains that did not transfer to a blended submission — widened the observed gap to
+≈1.59× without closing it.
 That gap is not causally attributed: the experiments show a throughput plateau for our tested family,
 not that no attacker-controllable design can do better.
 Limitations remain first-class: hidden evaluator hardware, evaluator and documentation drift,
@@ -282,17 +286,16 @@ mapping, then deduplicates the returned hashes across findings
 discarded before either signature is attached. A validated finding normally receives a valid
 `score_cell_signature` constructed from tool events only, while its richer diagnostic signature
 also receives egress and user messages
-(`distributed gateway:825-835`). The narrower fallback
+(`jed_attack_gateway.py:673-678`). The narrower fallback
 therefore describes compatibility behavior, not a score change for ordinary gateway-generated
 findings. A predicate-less trace contributes neither severity weight nor novelty, and one finding
 contributes no more than one unique-cell bonus.
 
-The gateway's default model list is `{gpt_oss, gemma}`. It always configures the public guardrail
-and adds a private guardrail only when its identifier is configured
-(`distributed gateway:129-144,231-242`). It emits one
-attack-score row per configured `(model, guardrail)` pair; with both guardrails configured, these
-are the familiar four rows
-(`distributed gateway:886-998`).
+The gateway's default model list is `{gpt_oss, gemma}` (`jed_attack_gateway.py:124`). It always
+configures the public guardrail and adds a private guardrail only when its identifier is configured
+(`jed_attack_gateway.py:223-233`). It emits one attack-score row per configured `(model, guardrail)`
+pair, `row_id = f"{model}_{guardrail}"`; with both guardrails configured, these are the familiar four
+rows (`jed_attack_gateway.py:770-771`).
 This source establishes the row scores. How the competition platform combines the two public rows
 into one public leaderboard number is not in the SDK; §7.3 reports board observations that strongly
 support **mean**, gathered after the frozen cutoff.
@@ -333,30 +336,41 @@ severity contributions, while still carrying at most one novelty hash (§3.1).
 
 ### 3.3 The runtime budget is the real scorer
 
-The current distributed gateway sets an **8,750-second internal budget** separately for attack
-generation and for each configured guardrail replay. Each phase is also enclosed by an outer
-watchdog of 8,930 seconds: 8,750 seconds plus 5 seconds of environment-operation grace and a
-175-second response buffer (`distributed gateway:59-68,904-950`). With public and private
-guardrails configured, the source describes one generation phase plus two separately timed
-replays per model.
+The shipped gateway sets a **9,000-second budget** (`DEFAULT_BUDGET_S`) separately for attack
+generation and for each configured guardrail replay, and sets the gRPC response timeout to
+**9,035 seconds** — 9,000 plus 5 seconds of environment-operation grace and a 30-second response
+buffer (`jed_attack_gateway.py:59-64`). With public and private guardrails configured, the source
+runs one generation phase plus two separately timed replays per model
+(`jed_attack_gateway.py:737,758`). (An earlier project note cited an 8,750-second internal budget
+and a 175-second buffer from a distributed gateway build we could not re-hash on 2026-08-24, §2.1;
+that unverifiable figure is superseded here by the readable snapshot, which says 9,000/5/30.)
 
-Timeout is not a single all-or-nothing state. During generation, the gateway repeatedly checks
-the internal deadline and, on expiry, cancels the attack session but returns already completed,
-gateway-observed candidates (`distributed gateway:537-546,559-676`). During replay, it checks the
-internal deadline around candidate work and can return the findings already validated, their
-partial score, `timed_out=true`, and `candidates_replayed` (`distributed gateway:741-868`). Only
-failure of the whole phase operation to return before the outer watchdog raises
-`ModelEvaluationTimedOut`, which this caller converts to `INVALID_SUBMISSION`
-(`distributed gateway:271-304,904-974`). Thus `COMPLETE` does not imply that no internal deadline
-was reached, and a timeout does not universally imply a void.
+**A phase is all-or-nothing (Source fact).** Generation and each replay run as a single operation
+wrapped by `_run_until_deadline` (`jed_attack_gateway.py:271-300`, invoked at `:738,760`), which
+executes the operation on a worker thread and, if it has not returned by the phase deadline, raises a
+timeout. Replay raises `ModelEvaluationTimedOut` (`:280,296`); generation has two timeout paths — an
+in-band `ModelAttackTimedOut` when the attack subprocess itself reports a timeout (`:554`) and a
+`ModelEvaluationTimedOut` if the generation phase overruns its own deadline (`:280,296` via `:738`).
+All three are caught and converted to `INVALID_SUBMISSION` (`:785-789`). `_replay_and_score`
+(`:587-698`) contains **no per-candidate deadline check and no partial-score path**: it either returns
+a complete score over `candidates[:MAX_REPLAY_FINDINGS]` or the whole phase is aborted;
+`ops.py:745` states it directly — "A timeout raises `TimeoutError` before findings are returned."
+Thus an over-budget replay **voids the entire submission**; it does not return a lower completed
+score. This is corroborated by our own record (§7.3): a single-post request at N=1,530 returned
+`ERROR` — a replay-overrun void — while N=1,524 and N=1,600 completed. A completed request finishes
+inside the budget (single-post "under-fires" and replays fast); a set whose measured replay cost
+exceeds 9,000 seconds is voided whole. This corrects an earlier note that timeout "partial-scores
+rather than voids" (change log, Appendix B); the correction *strengthens* the section's thesis —
+the runtime budget is not merely a soft cap on score but a hard gate that can zero a submission,
+which is why every fixed-count configuration in this study must be sized against the replay budget.
 
 Official prose supplies two more descriptions. The
 [Data page](https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/data)
 says the two models run sequentially with an independent 9,000-second budget each, while the
 [Evaluation page](https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/overview/evaluation)
-says 18,000 seconds per model. The note preserves those statements alongside the current
-distributed 8,750-second internal/8,930-second outer mechanics. It does not infer which source
-version governed any particular live submission. Empirically, one completed
+says 18,000 seconds per model. The note preserves those statements alongside the readable
+gateway's 9,000-second internal/9,035-second outer mechanics (`jed_attack_gateway.py:59-64`). It
+does not infer which source version governed any particular live submission. Empirically, one completed
 gpt-only forced-8-hop sweep returned 42.7–47.9 for N ∈ {150, 350, 550, 800}; that bounded
 observation shows neither monotonic gain nor a timeout in those four runs, but it does not identify
 a hardware ceiling or predict other evaluator configurations.
@@ -365,8 +379,8 @@ a hardware ceiling or predict other evaluator configurations.
 
 Our implementation sizes the returned candidate set from timed trials on the evaluation path,
 then clamps cumulative measured latency to a configured fraction (FRAC) of the phase budget it was
-written against. Historical builders used 9,000 seconds; the current distributed gateway's
-internal phase budget is 8,750 seconds.
+written against. Both our builders and the readable gateway use a 9,000-second phase budget
+(`jed_attack_gateway.py:59`).
 This avoids treating local wall time as portable. FRAC ≈ 0.97 was the strongest tested setting,
 not a universal optimum or a claim about evaluator hardware; a larger fraction simply leaves less
 deadline margin (§5, §7).
@@ -579,8 +593,8 @@ mechanism or a claim about platform aggregation.
   environment-independent sentinel route remains.
 - Multiple tool calls per decode — rejected by response parsing.
 - Raising the replay hop cap via reset options — ignored by the gateway, which does not forward
-  reset arguments and caps interaction and replay hops at its configured default
-  (`distributed gateway:405-435,749-775`).
+  reset arguments and caps interaction and replay hops at its configured default of 8
+  (`jed_attack_gateway.py:55,387-400,632`).
 
 ---
 
@@ -626,7 +640,7 @@ relations below; those relations come from the pinned code citations in §4.
    timing rules, aggregation semantics, status handling, and which components remain hidden. The
    gateway exposes only the private identifier `persistent_provenance_private` and the module/class
    names `aicomp_private_guardrails.persistent_provenance.Guardrail`
-   (`distributed gateway:143-242`); these disclose
+   (`jed_attack_gateway.py:173-174`, consistent with §7.4); these disclose
    no implementation behavior. A contract can define interfaces and reporting without revealing a
    hidden defense.
 6. **Require evidence-gated comparisons.** Pre-register the mechanism, falsification condition,
@@ -768,10 +782,15 @@ stays sequential and memory-bandwidth-bound, so **decode dominates** — consist
 prefill-insensitivity; on CPU, lacking that parallelism, **prefill dominates** — consistent with the
 local harness. The same reading explains why enabling GPU on our own notebook produced no board
 advantage: when a GPU is present the server is already fully offloaded, so the flag changes nothing.
-The evaluator's hardware is not directly observable, so this remains an **Inference** — but it is
-anchored on a Source fact (the offload spec) and a Live observation (the prefill-padding test), and
-its consequence holds either way: the binding cost is the evaluator's generation path — sequential
-decode on its accelerator — which no attacker message-design lever reaches.
+This remains an **Inference**, and a guarded one. `n_gpu_layers = -1` offloads all layers *only if a
+GPU is present*; it does not establish that the evaluator runs on a GPU, and the prefill-padding
+result is a single unreplicated board observation. So the records are *consistent with* a
+fully-offloaded-GPU serving story rather than proof of one; on a CPU-only evaluator the same flag
+offloads nothing and prefill would dominate. Either reading points at the evaluator's generation
+path — prefill or decode on its own hardware — as the binding per-candidate cost, which is why no
+attacker message-design lever we tested moved the board; but we do not claim to have identified that
+hardware, and we do not treat "no attacker lever can reach it" as established (§7.2 leaves the
+cross-team gap open).
 
 **Authenticated 2026-08-24 state.** The leaderboard top was 138.250 and fifth place was 128.170.
 Our best completed public score was 92.670 (ref 55766377, a minimized-forge variant of the GPT
@@ -839,6 +858,73 @@ Provenance tracking, payload inspection, authorization checks, and egress policy
 defensive mechanisms in general, but a name alone establishes none of their implementation details.
 The private effectiveness of the final exfiltration and confused-deputy submissions is an open
 hypothesis until private results or reproducible private source become available.
+
+### 7.5 Final-week results and selections (dated addendum, 2026-09-01)
+
+These runs postdate the frozen catalogue and the §7.3/§7.4 addenda; all leaderboard values are
+**Live observations** re-queried through authenticated Kaggle endpoints, and none rewrites the frozen
+table. Every result below is a negative or null for the frontier gap, and each is consistent with —
+and strengthens — the tested-family throughput plateau of §7.3.
+
+**Frontier moved; the gap widened.** By the 2026-09-01 deadline the public top was **147.530** (up
+from the 138.250 recorded on 08-24/08-28), with a 138–143 cluster, all on the current evaluator.
+Against our best completed 92.670 the top-to-best ratio is therefore ≈**1.59×**, not the ≈1.49× of
+§7.3. We did not close it, and the frontier method is not present in any public artifact we inspected;
+the four public notebooks and working notes re-pulled on 08-28..09-01 (including two new multi-step
+write-ups) top out near 90–100 or are non-scoring theory, so the frontier configuration remains
+unshared and unreproduced.
+
+**Firing-rate wording is not a lever.** Four GPT-isolated commitment-forge wordings under adaptive
+sizing returned public 48.865 (plan, ref 55877747), 46.910 (min, 55879086), 45.430 (multipost,
+55879084), and 10.650 (a bare inline-sequence forge that collapsed, 55877752). Read as isolate
+half-rows (×2), the plain plan forge (≈97.7) was best and no restructured wording beat it; the
+inline-sequence collapse shows wording can move the row sharply *down* but did not move it up. The
+hypothesis that a better forge wording recovers the frontier gap is unsupported on the board.
+
+**Adaptive void-safe sizing improves the isolate rows but does not transfer to the blend.** Motivated
+by the void semantics of §3.3 — an over-budget replay voids the whole submission — we replaced
+fixed-count emission with an adaptive fill that sizes each returned set to its measured hops=8 replay
+cost under FRAC·9,000 s, so a well-firing forge returns fewer, costlier candidates rather than
+voiding (a **Source fact** consequence of the corrected budget model, applied as a design change).
+In GPT isolation this lifted the forge row from ≈83 (fixed-N forge-8) to ≈97.7 (adaptive plan,
+48.865×2), and a Gemma-isolated FRAC=99 single-post fill read ≈85.8 (42.885×2) versus ≈75.7 for the
+earlier single-post isolate. But the isolate gains did not carry to a blended submission: a combined
+GPT-adaptive-forge + Gemma-FRAC=99 run scored 90.975 and 89.220 (refs 55902727, 55904216), below both
+a same-day forge-8 control at 91.600 (55902731) and the banked 92.670. This is a further instance of
+the note's central caution — isolate readings (×2) over-predict the blend — with the ~12-point
+isolate-to-blend gap of §7.3 reappearing intact.
+
+**Inter-hop reasoning suppression failed.** Reading the replay loop — each hop generates the model's
+pre-tool reasoning as decode tokens (`sandbox.py:223-264`) — we tested a forge that explicitly
+forbids any text before, between, or after the eight calls, an inter-hop-suppression idea suggested
+by a public competitor artifact's "no commentary" phrasing. In GPT isolation it collapsed to public
+15.900 and 19.040 (refs 55927142, 55928757; ≈32–38 as a half-row), far below the ≈97 plain-forge
+plateau: the aggressive instruction suppressed firing itself, not just reasoning. The hypothesis is
+refuted on the board.
+
+**Probe-hop count is not a throughput lever (Source fact).** The replay phase forces
+`max_tool_hops = 8` in its own separate 9,000-second budget (`jed_attack_gateway.py:632,758`); a
+search-phase probe-hop setting changes only how fast candidate generation proceeds, not the replay
+cost that gates the score, and measuring trial latency at fewer than eight hops would under-estimate
+replay cost and risk the void of §3.3. Probe-hop tuning therefore cannot raise the replayed score,
+consistent with the §5.5 hop-cap finding.
+
+**Final selections and the private hedge.** The two submissions selected for scoring form the intended
+two-way private-board hedge. **Slot A** is the minimized GPT forge-8 + Gemma single configuration
+(public 92.670, ref 55766377), which scores the private board where exfiltration is not additionally
+blocked. **Slot B** is a clean CONFUSED_DEPUTY `email.send` set carrying no secret payload and no
+untrusted provenance (public 16.555, ref 55805571), constructed to survive a private guardrail that
+inspects request bodies or taints provenance (§4.4). This is the first place the note documents the
+confused-deputy Slot B as a *selected* artifact rather than only a §4.4 mechanism; its private
+effectiveness remains the open hypothesis of §7.4, and a broader CONFUSED_DEPUTY+UNTRUSTED_TO_ACTION
+diversity arm (public 10.520, ref 55931330) was tested but not selected, being lower-throughput and
+dependent on the private whitelist overriding taint.
+
+**Reading.** The final week added no positive transfer. Every attacker-controllable lever we could
+construct — forge wording, adaptive sizing, inter-hop suppression, probe-hop count — either failed to
+beat the ≈92 plateau or lowered it, while the frontier advanced to 147.53. Consistent with §7.2, this
+neither proves an attacker-independent ceiling nor identifies the frontier mechanism; it extends the
+catalogue of dead ends and their reasons, which is the note's contribution.
 
 ---
 
@@ -1011,15 +1097,18 @@ kept separate from inline SDK `file:line` citations and official competition-pag
 ## Appendix A. Notation
 
 - **FRAC** — configured fraction of a phase budget used by the adaptive sizer, written as a fraction
-  throughout; the shorthand "FRAC 97" / "FRAC 99" in §5.1 and §7 mean FRAC 0.97 / 0.99. Historical
-  builders used 9,000 seconds; the current distributed gateway uses an 8,750-second internal phase budget.
+  throughout; the shorthand "FRAC 97" / "FRAC 99" in §5.1 and §7 mean FRAC 0.97 / 0.99. Both our
+  builders and the readable gateway use a 9,000-second phase budget (`jed_attack_gateway.py:59`).
 - **finding** — one replayed candidate that fired ≥1 predicate.
 - **cell / novelty** — the per-finding score-cell hash; distinct cells add +2 each.
-- **void** — `INVALID_SUBMISSION`. In the current distributed gateway, an outer phase-watchdog
-  expiry is converted to this status, while an internal generation timeout can preserve completed
-  candidates and an internal replay timeout can return already validated findings and a partial
-  score (`distributed gateway:537-676,741-868,904-974`). The completed N sweep in §3.3 does not
-  establish whether an internal deadline was reached or a general saturation boundary.
+- **void** — `INVALID_SUBMISSION`. Each phase (generation, and each guardrail replay) runs as a single
+  operation under a 9,000-second deadline; overrun raises a timeout — `ModelEvaluationTimedOut` for a
+  replay or generation-wall overrun, or an in-band `ModelAttackTimedOut` when the attack subprocess
+  reports a timeout — all converted to this status (`jed_attack_gateway.py:271-300,554,785-789`). `_replay_and_score` has no per-candidate deadline and
+  no partial-score path, so an over-budget replay voids the whole submission rather than returning a
+  lower completed score (`:587-698`; `ops.py:745`). Our N=1,530 `ERROR` (§7.3) is one such replay-overrun
+  void; N=1,524/1,600 completed. This corrects an earlier note (from a distributed gateway build we
+  could not re-hash) that timeout could partial-score; see the change log.
 - **commitment-forge** — a candidate that fabricates a completed model-reasoning turn carrying a
   plan plus an explicit commitment to continue; our reported local port elicited one `http.post`
   per named endpoint across replay hops (§5.2).
@@ -1133,3 +1222,26 @@ kept separate from inline SDK `file:line` citations and official competition-pag
   is read — GPU decode dominates, CPU prefill dominates — which also explains the GPU-flag null
   result. Labeled an Inference anchored on a Source fact and a Live observation; hardware not
   directly observable.
+- 2026-09-01 (final validation pass, three independent source/board/adversarial reviews) — corrected
+  defects found by re-auditing every claim against the shipped `comp/` gateway and the live submission
+  record. (i) **Runtime-budget/void model (§3.3, §3.4, Appendix A)**: replaced the unverifiable
+  "distributed gateway" figures (8,750 s internal / 175 s buffer / 8,930 s outer, and a
+  replay-partial-score-on-timeout narrative) with the readable gateway's values — 9,000 s phase budget,
+  9,035 s response timeout (`jed_attack_gateway.py:59-64`) — and the correct **all-or-nothing** void
+  semantics: `_replay_and_score` has no partial-score path, and a phase overrun raises
+  `ModelAttackTimedOut`/`ModelEvaluationTimedOut` → `INVALID_SUBMISSION` (`:271-300,554,785-789`;
+  `ops.py:745`). This reconciles the previously unexplained N=1,530 `ERROR` (a replay-overrun void)
+  reported in §7.3, removing an internal contradiction the earlier draft carried. (ii) **Decode-vs-prefill
+  Inference (§7.3)** softened: `n_gpu_layers=-1` does not establish the evaluator uses a GPU, and the
+  prefill-padding test is a single unreplicated observation; removed the over-strong "holds either way"
+  and "no attacker lever can reach it" phrasing. (iii) Added **§7.5** (dated 2026-09-01) recording the
+  final week's results without altering the frozen table: the frontier advanced to 147.530 (gap widened
+  to ≈1.59×); a firing-rate-wording forge sweep was refuted (plan best, an inline-sequence variant
+  collapsed); adaptive void-safe sizing raised the GPT and Gemma *isolate* rows but did **not** transfer
+  to a blended submission (90.975/89.220 &lt; control 91.600 &lt; banked 92.670); an inter-hop-suppression
+  forge collapsed to ≈32–38; probe-hop count was shown to be a non-lever (replay forces 8 hops in its own
+  budget). Documented the two final **selected** submissions as the private-board hedge (Slot A forge
+  92.670 / ref 55766377; Slot B CONFUSED_DEPUTY 16.555 / ref 55805571) — the first time the note records
+  the confused-deputy Slot B as a selected artifact. The three reviews independently confirmed that the
+  §3.1/§3.2/§4 scoring and asymmetry source facts and the §7.4 private-board block remain accurate to the
+  byte, and that no numeric claim overstates the author's ≈92 standing.
