@@ -1,4 +1,28 @@
-# Guardrail-Predicate Asymmetry and the Limits of Local-to-Leaderboard Transfer in Multi-Step Agent Red-Teaming
+<!-- ============================================================= -->
+<!-- KAGGLE DISCUSSION POST — ready to paste into a new forum topic -->
+<!-- Suggested Title (paste into the topic title field, WITHOUT this line):        -->
+<!--   [Working Note] Guardrail–Predicate Asymmetry and the Limits of Local-to-Leaderboard Transfer -->
+<!-- Everything BELOW this comment block is the post body.          -->
+<!-- ============================================================= -->
+
+*Submitted for the Working Note Award.*
+
+## TL;DR
+
+A leaderboard number can measure more than one thing. Reading the competition's own scorer, guardrail, and gateway from source (not inferring from the board), this note reports two bounded results and an honest map of dead ends:
+
+- **A security finding (the durable contribution):** the public guardrail and the scoring predicates do **not** inspect the same trace fields, sinks, or time windows — four **guardrail–predicate asymmetries**. The sharpest: for `http.post` the guardrail extracts the **URL** while the exfiltration predicate scores the request **body**, so a benign URL passes the filter while an uninspected payload carries the scored sentinel. Read as a checklist, this is exactly where a guardrail and its evaluator must be made to agree.
+- **A measurement-validity finding:** within the single-post / packing / forge / probe-hop family we tested, the public metric became **throughput-limited** — requesting more candidates did not raise the score, and no transformation we tried closed the gap to the frontier. This is a property of the *metric*, **not** a claim that serving throughput (rather than an untested attack design) explains the cross-team gap.
+- **An evidence discipline:** every claim is labeled *Source fact / Local measurement / Live observation / Triangulated / Inference / Testimony / Open hypothesis*, and a mechanism is never called "transferred" until it passes both a local check **and** a matched, completed live submission. Applied honestly, that turns a scarce-submission red-team log into a map of *which levers are dead and why*.
+
+**Honest standing:** our best completed public score was **92.670**; by the deadline the public top had advanced to **147.53** (gap ≈1.59×). We did **not** find the frontier lever — every attacker-controllable transformation we could construct (forge wording, adaptive sizing, inter-hop reasoning suppression, probe-hop count) either failed to beat ~92 or lowered it (§7.5). The note reports that plainly rather than overstating it.
+
+**For defenders / benchmark designers:** align guardrail checks with scored predicates; publish a versioned evaluation contract (budget, aggregation, status semantics); retain negative results; and require evidence labels so local plausibility is never reported as a live result.
+
+*Validation: this note was finalized 2026-09-01 after three independent reviews (source-fact, numeric, adversarial) plus a judge pass against the shipped SDK and the live submission record. All source citations resolve to the shipped `jed_attack_gateway.py` / `aicomp_sdk`.*
+
+---
+
 
 **Working Note — AI Agent Security: Multi-Step Tool Attacks (Kaggle competition 134815)**
 
