@@ -1,11 +1,11 @@
 <!-- ============================================================= -->
 <!-- KAGGLE DISCUSSION POST — ready to paste into a new forum topic -->
 <!-- Suggested Title (paste into the topic title field, WITHOUT this line):        -->
-<!--   [Working Note] Guardrail–Predicate Asymmetry and the Limits of Local-to-Leaderboard Transfer -->
+<!--   Working Note: Guardrail–Predicate Asymmetry and the Limits of Local-to-Leaderboard Transfer -->
 <!-- Everything BELOW this comment block is the post body.          -->
 <!-- ============================================================= -->
 
-*Submitted for the Working Note Award.*
+*Submitted for the Working Note Award. Final standing: 173rd of 4,251 teams (Silver).*
 
 ## TL;DR
 
@@ -15,11 +15,11 @@ A leaderboard number can measure more than one thing. Reading the competition's 
 - **A measurement-validity finding:** within the single-post / packing / forge / probe-hop family we tested, the public metric became **throughput-limited** — requesting more candidates did not raise the score, and no transformation we tried closed the gap to the frontier. This is a property of the *metric*, **not** a claim that serving throughput (rather than an untested attack design) explains the cross-team gap.
 - **An evidence discipline:** every claim is labeled *Source fact / Local measurement / Live observation / Triangulated / Inference / Testimony / Open hypothesis*, and a mechanism is never called "transferred" until it passes both a local check **and** a matched, completed live submission. Applied honestly, that turns a scarce-submission red-team log into a map of *which levers are dead and why*.
 
-**Honest standing:** our best completed public score was **92.670**; by the deadline the public top had advanced to **147.53** (gap ≈1.59×). We did **not** find the frontier lever — every attacker-controllable transformation we could construct (forge wording, adaptive sizing, inter-hop reasoning suppression, probe-hop count) either failed to beat ~92 or lowered it (§7.5). The note reports that plainly rather than overstating it.
+**Honest standing:** our best completed public score was **92.670**; by the deadline the public top had advanced to **147.53** (public gap ≈1.59×). We did **not** find the frontier lever on the public board — every attacker-controllable transformation we could construct (forge wording, adaptive sizing, inter-hop reasoning suppression, probe-hop count) either failed to beat ~92 or lowered it (§7.5). The final placement of **173rd / 4,251 (Silver)** came from the private leaderboard, on which the two selected submissions — a max-throughput exfiltration forge and a clean confused-deputy hedge — were scored; the private component scores are unavailable, so that is reported as an outcome, not a validated mechanism.
 
 **For defenders / benchmark designers:** align guardrail checks with scored predicates; publish a versioned evaluation contract (budget, aggregation, status semantics); retain negative results; and require evidence labels so local plausibility is never reported as a live result.
 
-*Validation: this note was finalized 2026-09-01 after three independent reviews (source-fact, numeric, adversarial) plus a judge pass against the shipped SDK and the live submission record. All source citations resolve to the shipped `jed_attack_gateway.py` / `aicomp_sdk`.*
+*Validation: this note was finalized after three independent reviews (source-fact, numeric, adversarial) plus a judge pass against the shipped SDK and the live submission record. All source citations resolve to the shipped `jed_attack_gateway.py` / `aicomp_sdk`.*
 
 ---
 
@@ -953,6 +953,14 @@ construct — forge wording, adaptive sizing, inter-hop suppression, probe-hop c
 beat the ≈92 plateau or lowered it, while the frontier advanced to 147.53. Consistent with §7.2, this
 neither proves an attacker-independent ceiling nor identifies the frontier mechanism; it extends the
 catalogue of dead ends and their reasons, which is the note's contribution.
+
+**Final standing (confirmed post-deadline, 2026-09-02).** The competition's medal notification placed
+the author **173rd of 4,251 teams (Silver)**, above the ≈241 public rank recorded at the 08-24 retrieval
+(§7.3). Because the ≈92 public score did not change over the final week, the improvement is attributable
+to the private leaderboard, on which the two selected submissions were scored — consistent with, though
+not proof of, the private-board hedge of §7.4/§7.5 contributing where the public throughput plateau did
+not. The private component scores remain unavailable, so this is reported as an outcome, not a validated
+mechanism.
 
 ---
 
