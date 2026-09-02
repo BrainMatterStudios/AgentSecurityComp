@@ -1,0 +1,15 @@
+{
+  "id": "ahmedmobasher86/working-note-guardrail-predicate-asymmetry",
+  "title": "Working Note: Guardrail-Predicate Asymmetry",
+  "code_file": "working-note.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "competition_sources": [
+    "ai-agent-security-multi-step-tool-attacks"
+  ],
+  "dataset_sources": [],
+  "kernel_sources": []
+}
