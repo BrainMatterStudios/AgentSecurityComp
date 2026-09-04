@@ -1,0 +1,373 @@
+<title>Referee Report: Access Without Autonomy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#F1F2F0; --surface:#FBFBF9; --surface-2:#EAEBE6;
+    --ink:#1B1C1A; --ink-soft:#55564F; --ink-faint:#83837B;
+    --line:#DBDCD4; --line-soft:#E7E8E1;
+    --accent:#7C3A2E; --accent-soft:#A65744;
+    --block:#A5342E; --subst:#A96A20; --precision:#3F6E5C; --framing:#4A5A86; --mech:#6E6D67;
+    --block-bg:#F4E4E1; --subst-bg:#F3E9D9; --precision-bg:#DFEBE5; --framing-bg:#E3E7F0; --mech-bg:#E8E8E3;
+    --shadow:0 1px 2px rgba(27,28,26,.05), 0 8px 24px rgba(27,28,26,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#161719; --surface:#1E1F22; --surface-2:#25262A;
+      --ink:#EAE8E1; --ink-soft:#AAA9A1; --ink-faint:#7C7C74;
+      --line:#33342F; --line-soft:#2A2B27;
+      --accent:#DB8E72; --accent-soft:#C97A60;
+      --block:#E37564; --subst:#D6A24E; --precision:#6FB79A; --framing:#8F9DD6; --mech:#9B9A90;
+      --block-bg:#33211E; --subst-bg:#312819; --precision-bg:#1C2C26; --framing-bg:#20232E; --mech-bg:#272722;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#161719; --surface:#1E1F22; --surface-2:#25262A;
+    --ink:#EAE8E1; --ink-soft:#AAA9A1; --ink-faint:#7C7C74;
+    --line:#33342F; --line-soft:#2A2B27;
+    --accent:#DB8E72; --accent-soft:#C97A60;
+    --block:#E37564; --subst:#D6A24E; --precision:#6FB79A; --framing:#8F9DD6; --mech:#9B9A90;
+    --block-bg:#33211E; --subst-bg:#312819; --precision-bg:#1C2C26; --framing-bg:#20232E; --mech-bg:#272722;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Spectral",Georgia,serif; font-weight:400;
+    font-size:18px; line-height:1.62; letter-spacing:.002em;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px}
+  .measure{max-width:66ch}
+
+  .label{font-family:"IBM Plex Sans",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.11em; font-size:11.5px; font-weight:600}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  a{color:var(--accent); text-underline-offset:2px; text-decoration-thickness:1px}
+
+  /* ---- Masthead ---- */
+  header{border-bottom:1px solid var(--line); padding:60px 0 34px; margin-bottom:8px}
+  .eyebrow{color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:22px}
+  .eyebrow::after{content:""; flex:1; height:1px; background:var(--line)}
+  h1{
+    font-weight:600; font-size:clamp(2.1rem,5.6vw,3.4rem); line-height:1.04;
+    letter-spacing:-.015em; margin:0 0 .35em; text-wrap:balance;
+  }
+  h1 em{font-style:italic; color:var(--accent-soft); font-weight:500}
+  .dek{font-size:clamp(1.05rem,2.4vw,1.28rem); color:var(--ink-soft); max-width:60ch; margin:0 0 26px; font-weight:300}
+  .metaline{display:flex; flex-wrap:wrap; gap:8px 22px; align-items:center; color:var(--ink-faint); font-family:"IBM Plex Sans",sans-serif; font-size:13px}
+  .metaline b{color:var(--ink-soft); font-weight:600}
+
+  /* ---- Verdict tiles ---- */
+  .verdict{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin:38px 0 10px}
+  .vt{background:var(--surface); padding:20px 18px}
+  .vt .label{color:var(--ink-faint); margin-bottom:9px; display:block}
+  .vt .big{font-size:1.5rem; font-weight:600; line-height:1.12; letter-spacing:-.01em}
+  .vt .sub{font-family:"IBM Plex Sans",sans-serif; font-size:12.5px; color:var(--ink-soft); margin-top:5px; line-height:1.4}
+  .vt.flag .big{color:var(--block)}
+  @media(max-width:720px){.verdict{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---- Sections ---- */
+  section{padding:44px 0; border-bottom:1px solid var(--line-soft)}
+  .snum{font-family:"IBM Plex Mono",monospace; color:var(--accent); font-size:14px; font-weight:500}
+  h2{font-weight:600; font-size:clamp(1.5rem,3.4vw,2rem); letter-spacing:-.012em; margin:.35em 0 .5em; text-wrap:balance}
+  h3{font-weight:600; font-size:1.16rem; margin:1.8em 0 .3em; letter-spacing:-.005em}
+  p{margin:0 0 1.05em}
+  p.measure, section > .measure{}
+  strong{font-weight:600}
+  .lead{font-size:1.16rem; color:var(--ink)}
+
+  /* callout */
+  .callout{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:8px; padding:20px 22px; margin:26px 0; box-shadow:var(--shadow)}
+  .callout .label{color:var(--accent); display:block; margin-bottom:8px}
+  .callout p:last-child{margin-bottom:0}
+
+  /* ---- Finding groups ---- */
+  .grouphead{display:flex; align-items:baseline; gap:14px; margin:14px 0 4px; flex-wrap:wrap}
+  .grouphead .gtag{font-family:"IBM Plex Sans",sans-serif; font-weight:600; font-size:13px; letter-spacing:.04em; text-transform:uppercase; padding:3px 11px; border-radius:100px}
+  .grouphead .gcount{font-family:"IBM Plex Mono",monospace; color:var(--ink-faint); font-size:13px}
+  .grouphead .gdesc{font-family:"IBM Plex Sans",sans-serif; color:var(--ink-soft); font-size:13.5px; flex:1; min-width:220px}
+  .g-block .gtag{background:var(--block-bg); color:var(--block)}
+  .g-subst .gtag{background:var(--subst-bg); color:var(--subst)}
+  .g-precision .gtag{background:var(--precision-bg); color:var(--precision)}
+  .g-framing .gtag{background:var(--framing-bg); color:var(--framing)}
+  .g-mech .gtag{background:var(--mech-bg); color:var(--mech)}
+
+  .finding{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:20px 22px; margin:14px 0; box-shadow:var(--shadow); position:relative}
+  .finding::before{content:""; position:absolute; left:0; top:16px; bottom:16px; width:3px; border-radius:3px; background:var(--sev)}
+  .finding.block{--sev:var(--block)} .finding.subst{--sev:var(--subst)} .finding.precision{--sev:var(--precision)} .finding.framing{--sev:var(--framing)} .finding.mech{--sev:var(--mech)}
+  .fhead{display:flex; align-items:baseline; gap:12px; margin-bottom:8px; flex-wrap:wrap}
+  .fid{font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:500; color:var(--sev); flex-shrink:0}
+  .ftitle{font-weight:600; font-size:1.14rem; letter-spacing:-.005em; line-height:1.28}
+  .floc{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-faint); background:var(--surface-2); padding:2px 8px; border-radius:5px; border:1px solid var(--line-soft); flex-shrink:0; align-self:center}
+  .finding p{font-size:15.5px; line-height:1.56; margin:0 0 .7em}
+  .fix{font-family:"IBM Plex Sans",sans-serif; font-size:14.5px; line-height:1.55; background:var(--surface-2); border-radius:7px; padding:11px 14px; margin-top:10px}
+  .fix b{color:var(--sev); font-weight:600; letter-spacing:.03em; text-transform:uppercase; font-size:11.5px; margin-right:7px}
+  .finding .mono{font-size:.92em}
+
+  /* strengths list */
+  .strengths{list-style:none; padding:0; margin:18px 0 0; display:grid; gap:12px}
+  .strengths li{background:var(--surface); border:1px solid var(--line); border-radius:9px; padding:14px 18px; padding-left:44px; position:relative; font-size:15.5px; line-height:1.5}
+  .strengths li::before{content:"✓"; position:absolute; left:16px; top:13px; color:var(--precision); font-weight:700; font-family:"IBM Plex Sans",sans-serif}
+  .strengths b{font-weight:600}
+
+  /* decisions */
+  .decision{border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:18px 20px; margin:14px 0; box-shadow:var(--shadow)}
+  .decision .q{font-weight:600; font-size:1.08rem; margin-bottom:6px; display:flex; gap:10px; align-items:baseline}
+  .decision .q .mono{color:var(--framing); font-size:13px}
+  .decision p{font-size:15px; margin:0; color:var(--ink-soft); font-family:"IBM Plex Sans",sans-serif; line-height:1.55}
+
+  /* path steps */
+  ol.path{counter-reset:step; list-style:none; padding:0; margin:20px 0 0; display:grid; gap:2px}
+  ol.path li{counter-increment:step; position:relative; padding:16px 18px 16px 60px; background:var(--surface); border:1px solid var(--line); border-radius:9px; font-size:15.5px; line-height:1.5}
+  ol.path li::before{content:counter(step,decimal-leading-zero); position:absolute; left:18px; top:15px; font-family:"IBM Plex Mono",monospace; font-weight:500; color:var(--accent); font-size:14px}
+  ol.path b{font-weight:600}
+
+  footer{padding:40px 0 70px; color:var(--ink-faint); font-family:"IBM Plex Sans",sans-serif; font-size:13px; line-height:1.6}
+  footer .label{display:block; margin-bottom:10px; color:var(--ink-soft)}
+
+  @media(max-width:520px){
+    body{font-size:17px}
+    .floc{display:none}
+    .vt .big{font-size:1.3rem}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow label">Manuscript Referee Report · Internal</div>
+    <h1>Access Without Autonomy, <em>reviewed on its own terms</em></h1>
+    <p class="dek">An evaluation of <span class="mono">paper/ai_agents_in_scientific_research.md</span> against the two competition records it studies — with the concrete fixes needed to take it from a frozen draft to a publishable manuscript.</p>
+    <div class="metaline">
+      <span><b>Manuscript</b> 1,279 lines · 31 coded episodes</span>
+      <span><b>Drafted</b> 2026-08-16 (single day)</span>
+      <span><b>Reviewed</b> 2026-09-04</span>
+    </div>
+  </header>
+
+  <div class="verdict">
+    <div class="vt">
+      <span class="label">Verdict</span>
+      <div class="big">Major revision</div>
+      <div class="sub">Method is publishable; the evidence base is stale and incomplete.</div>
+    </div>
+    <div class="vt flag">
+      <span class="label">Core gap</span>
+      <div class="big">19 days behind</div>
+      <div class="sub">Frozen 08-16; the competition it studies concluded 09-01.</div>
+    </div>
+    <div class="vt flag">
+      <span class="label">Missing outcome</span>
+      <div class="big">173 / 4,251</div>
+      <div class="sub">Silver medal — never reported. It <em>confirms</em> the thesis.</div>
+    </div>
+    <div class="vt">
+      <span class="label">Findings</span>
+      <div class="big">3 · 4 · 4 · 3 · 4</div>
+      <div class="sub">Blocking · Substantive · Precision · Framing · Mechanical</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="snum">01</div>
+    <h2>Overall assessment</h2>
+    <div class="measure">
+      <p class="lead">This is an unusually disciplined manuscript. Its central methodological move — refusing to collapse execution, insight, originality, reliability, and autonomy into a single "autonomy score," and holding every claim to an evidence tier that separates a local measurement from a completed live result — is genuinely its own contribution, independent of the two cases. That discipline is rare and it is the paper's real asset.</p>
+      <p>The problem is not rigor. It is that the manuscript was drafted in a single sitting on <strong>2026-08-16</strong> and has not been touched since, while the primary case it studies ran for another two weeks and <strong>concluded on 2026-09-01</strong>. The paper is built as a "living manuscript" with a dated cutoff, a living-outcomes register (§11.2), and a formal post-competition update procedure (Appendix A.6) — all designed for exactly this moment. None of it has been executed. The companion working note was carried through to 09-02; this paper was not.</p>
+      <p>The consequence is sharper than staleness. The evidence window closes <em>before the most thesis-relevant episodes of the whole project even happened.</em> The AgentSecurity case narrative ends at "late ladders, L31 pending." It never reaches the private-board pivot, the human-designed confused-deputy hedge, the two-submission selection, or the final Silver medal — and that final outcome is the cleanest confirmation of the paper's own argument that the manuscript could possibly have. Fixing the paper is therefore mostly a matter of <em>finishing the study it already designed itself to finish</em>, not re-architecting it.</p>
+    </div>
+
+    <h3>What already works — protect these in revision</h3>
+    <ul class="strengths measure">
+      <li><b>The six-capability decomposition</b> (§6.1) and the evidence-tier system (§3.5, A.3) are the transferable core. They survive any outcome update.</li>
+      <li><b>The governance protocol</b> (§9) is the strongest practitioner-facing artifact — each control is tied to a specific coded failure, not generic "keep a human in the loop" advice.</li>
+      <li><b>Limitations are first-class and honest</b> (§3.6, §11.1): no human-only control, single coder, N-of-1, hidden evaluators, testimony labeled as testimony. Reviewers reward this.</li>
+      <li><b>Internal arithmetic is consistent</b> — 14 + 12 + 5 = 31 episodes; statuses (4/10/7/5/1/4) and origins (13/15/3/0) both sum to 31.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="snum">02</div>
+    <h2>Findings register</h2>
+    <p class="measure">Ordered by severity. Each finding names its location in the manuscript, the defect, and the fix. Location cites are section numbers and, where useful, source lines.</p>
+
+    <div class="grouphead g-block">
+      <span class="gtag">Blocking</span><span class="gcount">3 findings</span>
+      <span class="gdesc">Must be resolved before the paper can be submitted honestly.</span>
+    </div>
+
+    <div class="finding block">
+      <div class="fhead"><span class="fid">B1</span><span class="ftitle">The living-update was never run</span><span class="floc">§11.2 · App. A.6</span></div>
+      <p>The manuscript declares a repository cutoff of 2026-08-16 and reserves post-competition fields "to be populated only after the competitions conclude." The AgentSecurity competition concluded 2026-09-01; the deadline (09-01) is inside the paper's own recorded timeline. Every "unachieved at cutoff" statement (abstract l.40, §4.4 l.507, §5.6, §11.2) now reads as an un-run procedure rather than a genuine open state.</p>
+      <div class="fix"><b>Fix</b> Execute the Appendix A.6 procedure verbatim: add a new dated cutoff (a "cutoff-2" revision), retrieve final official standings, and populate the reserved register fields. Keep the 08-16 states in the revision history exactly as A.6 prescribes — do not overwrite them.</div>
+    </div>
+
+    <div class="finding block">
+      <div class="fhead"><span class="fid">B2</span><span class="ftitle">The thesis-confirming episodes are entirely absent</span><span class="floc">§4 · §6.2</span></div>
+      <p>The paper never once mentions the <span class="mono">private board</span>, the CONFUSED_DEPUTY <span class="mono">email.send</span> hedge, the two-selection strategy, or the best banked public score (<span class="mono">92.670</span>) — confirmed by a zero-hit grep across the manuscript. Yet the final Silver came from the <em>private</em> board via a <em>human-selected</em> hedge, not from the agent cracking public throughput (every attacker-controllable lever failed; the public frontier widened to ~1.59×). This is the paper's "access without autonomy / execution without dependable originality" argument, demonstrated by the actual result.</p>
+      <div class="fix"><b>Fix</b> Add one or two AgentSecurity episodes (private-board hedge design; final two-submission selection) coded as <span class="mono">mixed</span> — human strategy, agent execution. Fold the outcome into §4.4/§4.5, §6.2, and §10 as the case's payoff. This is the single highest-value edit in the paper.</div>
+    </div>
+
+    <div class="finding block">
+      <div class="fhead"><span class="fid">B3</span><span class="ftitle">"Winning objective unachieved" is now incomplete, not wrong</span><span class="floc">Abstract · §4.4 · §11.2</span></div>
+      <p>It remains true that the top-prize "win" was not achieved. But a <strong>Silver-medal placement (173rd of 4,251)</strong> <em>was</em> achieved, on the private board. Stated as a flat "unachieved," the manuscript now understates its own outcome and — more importantly — drops the distinction that carries the argument: placement came from human hedging, the win did not come from agent autonomy.</p>
+      <div class="fix"><b>Fix</b> Report the medal precisely and separate "win / top prize" (unachieved) from "placement" (Silver, private board, human-selected hedge). Attribute it in the paper's own vocabulary of execution vs. originality.</div>
+    </div>
+
+    <div class="grouphead g-subst">
+      <span class="gtag">Substantive</span><span class="gcount">4 findings</span>
+      <span class="gdesc">Affect rigor, completeness, or peer-review defensibility.</span>
+    </div>
+
+    <div class="finding subst">
+      <div class="fhead"><span class="fid">S1</span><span class="ftitle">The two cases are now asymmetric in freshness</span><span class="floc">§5 · §11.2</span></div>
+      <p>ARC-AGI-3 outcomes were never freshly queried (the paper admits this), and the ARC work in fact continued into September (a Flash-Next model-swap campaign, submissions through 09-01+, sessions to 09-04). The register's "No official ARC deadline was admitted" is now likely false, and updating only AgentSecurity would leave a lopsided comparison.</p>
+      <div class="fix"><b>Fix</b> Decide symmetry deliberately: either freshly query ARC's final state, or explicitly bound the ARC case as "observation ended 2026-08-15, not re-queried, competition still ongoing" and say so in the abstract. Do not silently leave one case updated and one frozen.</div>
+    </div>
+
+    <div class="finding subst">
+      <div class="fhead"><span class="fid">S2</span><span class="ftitle">The empirical base is not reviewer-auditable</span><span class="floc">§3.4 · App. A.1</span></div>
+      <p>The entire study rests on private agent histories that are "controlled source material" resolvable only by "an authorized auditor." A peer reviewer cannot verify a single coded episode. For an empirical paper this is a real objection, distinct from the honestly-stated N-of-1 limitation.</p>
+      <div class="fix"><b>Fix</b> Release a redacted episode ledger (the 31 coded rows with their public locators — commits, submission refs, section anchors) as supplementary material, and name reviewer-auditability explicitly as a limitation. The evidence ledger already exists; a redacted public cut is low effort and materially strengthens acceptance odds.</div>
+    </div>
+
+    <div class="finding subst">
+      <div class="fhead"><span class="fid">S3</span><span class="ftitle">Single-coder coding, no inter-rater reliability</span><span class="floc">§3.3 · §11.1</span></div>
+      <p>Honestly disclosed, but a methods reviewer will press on it because the episode counts and status labels are the paper's quantitative spine. "13 agent-origin, zero human-origin" is a coding result that a second coder might move.</p>
+      <div class="fix"><b>Fix</b> Venue-dependent: either have a second coder re-code a subsample and report agreement (κ), or reframe explicitly as an interpretive single-coder case study and drop any language that reads as a frequency estimate. Pick one before submission.</div>
+    </div>
+
+    <div class="finding subst">
+      <div class="fhead"><span class="fid">S4</span><span class="ftitle">Several outcomes still rest on ERROR rows that later completed</span><span class="floc">§4.2 · Table 1</span></div>
+      <p>The L6/L7/L9 vignettes correctly refuse to claim a live effect because the rows were <span class="mono">ERROR</span> at cutoff — good discipline. But by the final deadline many of these were re-run to completion. Leaving them as "ERROR, unadjudicated" when completed replacements now exist would be its own kind of staleness.</p>
+      <div class="fix"><b>Fix</b> During the A.6 update, check whether completed re-runs exist for each ERROR-row episode. Where they do, append the completed result (preserving the ERROR state in history); where they don't, keep "unadjudicated" and say it was never re-run.</div>
+    </div>
+
+    <div class="grouphead g-precision">
+      <span class="gtag">Precision</span><span class="gcount">4 findings</span>
+      <span class="gdesc">Numbers and internal consistency that must be reconciled after the update.</span>
+    </div>
+
+    <div class="finding precision">
+      <div class="fhead"><span class="fid">C1</span><span class="ftitle">The public frontier figure is out of date</span><span class="floc">§4.4</span></div>
+      <p>The narrative anchors on a frontier near ~137 (the 08-16 state). By the 09-01 deadline the public top reached <span class="mono">147.530</span>, widening the best-to-top ratio to ≈1.59×. Any gap framing built on the old number understates the finding.</p>
+      <div class="fix"><b>Fix</b> Update the frontier value and the gap ratio wherever referenced; note the frontier method remained unshared/unreproduced in public artifacts through 09-01.</div>
+    </div>
+
+    <div class="finding precision">
+      <div class="fhead"><span class="fid">C2</span><span class="ftitle">The best banked public score is never stated</span><span class="floc">§11.2 register</span></div>
+      <p>The register cites the L27 control (88.730) and L29 (85.675) as the "most recent recorded experiment state," which reads as the paper's best. The actual banked best was <span class="mono">92.670</span>. Reporting only the late-ladder numbers misrepresents the case's public ceiling.</p>
+      <div class="fix"><b>Fix</b> State the banked public best explicitly and distinguish "most recent" from "best" in the register.</div>
+    </div>
+
+    <div class="finding precision">
+      <div class="fhead"><span class="fid">C3</span><span class="ftitle">Every count must be recomputed after adding episodes</span><span class="floc">Abstract · §3.3 · §6.1 · §8 · App. A.1</span></div>
+      <p>Adding the private-board episodes (B2) changes the totals the paper repeats in five places: 31 episodes, the 14/12/5 case split, the 4/10/7/5/1/4 status distribution, and the 13/15/3/0 origin distribution. A.1 asserts "all 31 episode IDs occur exactly once" — that invariant check must be re-run.</p>
+      <div class="fix"><b>Fix</b> Treat the counts as derived, not typed. After coding new episodes, recompute all six tallies and update every occurrence; re-verify the "each ID exactly once" invariant.</div>
+    </div>
+
+    <div class="finding precision">
+      <div class="fhead"><span class="fid">C4</span><span class="ftitle">The abstract is dense enough to fail a word cap</span><span class="floc">Abstract</span></div>
+      <p>At ~380 words in one block, front-loading every hedge, it will exceed most venue abstract limits (150–250 words) and buries the lead. The strongest one-line result — a human-hedged Silver while the agent never cracked throughput — is not in it.</p>
+      <div class="fix"><b>Fix</b> Rewrite to the target venue's cap; lead with the confirmed outcome, keep the key caveats, and move the exhaustive hedging into §3.6/§11 where it already lives.</div>
+    </div>
+
+    <div class="grouphead g-framing">
+      <span class="gtag">Framing</span><span class="gcount">3 findings</span>
+      <span class="gdesc">Positioning choices that shape how the contribution reads.</span>
+    </div>
+
+    <div class="finding framing">
+      <div class="fhead"><span class="fid">F1</span><span class="ftitle">Let the final outcome sharpen the thesis</span><span class="floc">Title · Abstract · §10</span></div>
+      <p>The title makes a general-sounding claim from two cases. The abstract bounds it well, but the "unachieved at cutoff" framing was the weakest possible ending. The human-hedge Silver is a cleaner, more memorable illustration of "access without autonomy" than an open cliffhanger — the paper currently leaves its best evidence on the table.</p>
+      <div class="fix"><b>Fix</b> Rebuild the closing arc around the actual result; keep the title, but make §10 pay it off with the outcome rather than a pending state.</div>
+    </div>
+
+    <div class="finding framing">
+      <div class="fhead"><span class="fid">F2</span><span class="ftitle">Name the target reader</span><span class="floc">§1 · §10</span></div>
+      <p>The paper cites the autonomous-lab / robot-scientist literature heavily but speaks to "researchers, IT professionals, research leaders, tool builders." It sits between science-of-science, agentic-coding practice, and HCI, without committing to one. That ambiguity will read as unfocused to a specific venue's reviewers.</p>
+      <div class="fix"><b>Fix</b> Once a venue is chosen, tune §1 and §10 to that community's priors and trim implications aimed at the other audiences.</div>
+    </div>
+
+    <div class="finding framing">
+      <div class="fhead"><span class="fid">F3</span><span class="ftitle">The governance protocol is buried</span><span class="floc">§9</span></div>
+      <p>The §9 control table is the most reusable thing in the paper, but it arrives on page ~30 after two long case walk-throughs. Many venues want the transferable contribution surfaced earlier.</p>
+      <div class="fix"><b>Fix</b> Consider promoting a condensed version of the protocol into the introduction or a "contributions" list, with §9 as the full treatment.</div>
+    </div>
+
+    <div class="grouphead g-mech">
+      <span class="gtag">Mechanical</span><span class="gcount">4 findings</span>
+      <span class="gdesc">Production and hygiene items for the final pass.</span>
+    </div>
+
+    <div class="finding mech">
+      <div class="fhead"><span class="fid">M1</span><span class="ftitle">Regenerate the HTML/PDF editions</span><span class="floc">paper/html/</span></div>
+      <p>The rendered editions predate any update and will diverge from the Markdown source the moment edits land.</p>
+      <div class="fix"><b>Fix</b> Regenerate via <span class="mono">render.py</span> as the last step, after all content is final.</div>
+    </div>
+
+    <div class="finding mech">
+      <div class="fhead"><span class="fid">M2</span><span class="ftitle">Refresh reference and policy access dates</span><span class="floc">§3.5 · References</span></div>
+      <p>All 17 references and the ICMJE / Springer Nature policy pages are dated "checked 2026-08-16." Every DOI/arXiv link and both policy pages should be re-verified at submission and re-dated.</p>
+      <div class="fix"><b>Fix</b> Re-resolve each DOI/arXiv ID and both policy URLs; update the access dates. Confirm the target venue's <em>current</em> AI-authorship rules (per A.6 step 6).</div>
+    </div>
+
+    <div class="finding mech">
+      <div class="fhead"><span class="fid">M3</span><span class="ftitle">Decide blinding and third-party handle exposure</span><span class="floc">Ack. · §4.4</span></div>
+      <p>The manuscript names the author throughout and names public competitors by Kaggle handle (<span class="mono">dimong4/nctuan</span>). A double-blind venue requires anonymizing the author; publishing individuals' handles is a privacy call regardless of venue.</p>
+      <div class="fix"><b>Fix</b> If the venue is double-blind, prepare an anonymized variant. Decide whether to keep, generalize, or anonymize competitor handles.</div>
+    </div>
+
+    <div class="finding mech">
+      <div class="fhead"><span class="fid">M4</span><span class="ftitle">Reconcile the deadlines row</span><span class="floc">§11.2</span></div>
+      <p>The register lists the Working Note as due 09-08; it was submitted ~09-02. The ARC deadline is asserted as "none admitted," which S1 flags as likely outdated.</p>
+      <div class="fix"><b>Fix</b> Update the Working Note status to "submitted 09-02," and either cite the real ARC deadline or restate why none is asserted.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="snum">03</div>
+    <h2>Decisions only you can make</h2>
+    <p class="measure">Three choices materially change the finalization work and cannot be defaulted. They gate the fixes above.</p>
+
+    <div class="decision">
+      <div class="q"><span class="mono">D1</span> Target venue?</div>
+      <p>Drives length, abstract cap, blinding (M3), citation style, and whether an N-of-1 interpretive case study is acceptable as-is (S3). Candidates: arXiv preprint · an agents / science-of-science workshop · an HCI/CSCW venue · a "perspectives" journal.</p>
+    </div>
+    <div class="decision">
+      <div class="q"><span class="mono">D2</span> Freshly query ARC-AGI-3, or bound it as unqueried?</div>
+      <p>Determines whether the two cases are symmetric after the update (S1). Fresh query needs the ArcAGI3 repo + live Kaggle access; bounding it is a one-paragraph honesty statement.</p>
+    </div>
+    <div class="decision">
+      <div class="q"><span class="mono">D3</span> Release a redacted episode ledger?</div>
+      <p>The largest single lever on peer-review defensibility (S2). Low effort — the ledger exists — but it is a disclosure decision about your own project records.</p>
+    </div>
+  </section>
+
+  <section style="border-bottom:none">
+    <div class="snum">04</div>
+    <h2>Recommended path to finalize</h2>
+    <ol class="path measure">
+      <li><b>Pick the venue (D1).</b> Everything downstream — length, blinding, abstract cap, coding rigor — keys off this.</li>
+      <li><b>Run the Appendix A.6 update (B1).</b> New dated cutoff; retrieve final AgentSecurity standing; decide the ARC symmetry question (D2, S1).</li>
+      <li><b>Code and integrate the private-board episodes (B2, B3).</b> The payoff edit: add the hedge and selection episodes, then rebuild the closing arc (F1).</li>
+      <li><b>Reconcile every number (C1–C3, S4, M4).</b> Recompute all six tallies; re-run the "each ID once" invariant; update frontier, best score, and ERROR-row completions.</li>
+      <li><b>Rewrite the abstract (C4)</b> to the venue cap, leading with the confirmed outcome.</li>
+      <li><b>Strengthen defensibility (S2, S3, F2, F3).</b> Redacted ledger if D3 is yes; second-coder subsample if the venue needs it; tune the reader and surface the protocol.</li>
+      <li><b>Production pass (M1, M2, M3).</b> Re-verify references, decide blinding, regenerate HTML/PDF — last, once content is frozen.</li>
+    </ol>
+    <div class="callout" style="margin-top:30px">
+      <span class="label">Bottom line</span>
+      <p>The paper does not need to be re-argued — it needs to be <strong>finished</strong>. Its own machinery was built to absorb the ending it is now missing, and that ending happens to be its strongest evidence. Run the update it designed, add the two episodes it stopped short of, and reconcile the counts; the rigor is already there.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="label">Sources for this report</span>
+    Manuscript <span class="mono">paper/ai_agents_in_scientific_research.md</span> (git-frozen 2026-08-16) · companion <span class="mono">working_note.md</span> §7.5 (final standing, 2026-09-02) · Claude session histories for both projects, 2026-08-16 → 09-04 · evidence ledgers under <span class="mono">paper/evidence/</span>. Outcome figures are Live observations from the working note; competitor handles and internal scores are reproduced only as they appear in the project record.
+  </footer>
+</div>

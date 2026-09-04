@@ -33,6 +33,12 @@ class Paper:
     kind: str
     deck: str
     subject: str
+    date_label: str
+    revision_label: str
+    status_label: str
+    evidence_state: tuple[str, ...]
+    draft_tag: str
+    footer_status: str
     stats: tuple[tuple[str, str], ...]
     kickers: tuple[str, ...]
 
@@ -48,6 +54,12 @@ PAPERS = (
             "disagree—and where a tested attack family reaches a throughput plateau."
         ),
         subject="AI Agent Security · Multi-Step Tool Attacks",
+        date_label="August 2026",
+        revision_label="Draft 26.08",
+        status_label="Author-review living draft",
+        evidence_state=("Frozen and rechecked through", "16 August 2026"),
+        draft_tag="Living draft",
+        footer_status="Author-review draft",
         stats=(
             ("4", "guardrail–predicate asymmetries"),
             ("2-gate", "local-to-live protocol"),
@@ -70,8 +82,14 @@ PAPERS = (
             "execution, originality, and human oversight."
         ),
         subject="AI agents in computational research",
+        date_label="September 2026",
+        revision_label="Draft 26.09",
+        status_label="Preprint candidate",
+        evidence_state=("Rechecked through", "4 September 2026"),
+        draft_tag="Preprint candidate",
+        footer_status="Preprint candidate",
         stats=(
-            ("31", "coded research episodes"),
+            ("33", "coded research episodes"),
             ("2", "comparative case studies"),
             ("17", "reviewed references"),
             ("2–5h", "daily human review · testimony"),
@@ -79,7 +97,8 @@ PAPERS = (
         kickers=(
             "Summary", "Researcher context", "Definitions", "Study design", "Primary case",
             "Comparative case", "Synthesis", "Value", "Failure modes", "Protocol",
-            "Audience guidance", "Living record", "Disclosure", "Sources", "Methods appendix",
+            "Audience guidance", "Living record", "Outcomes", "Declarations", "Sources",
+            "Literature", "Methods appendix",
         ),
     ),
 )
@@ -485,6 +504,7 @@ def render_paper(paper: Paper) -> str:
     title_with_stop = f"{escape(title)}<span class=\"stop\">.</span>"
     source_record = f'<div class="source-record">{front_html}</div>' if front_html else ""
     description = escape(paper.deck, quote=True)
+    evidence_state = "<br>".join(escape(line) for line in paper.evidence_state)
 
     document = f'''<!DOCTYPE html>
 <html lang="en">
@@ -501,26 +521,26 @@ def render_paper(paper: Paper) -> str:
 <div class="wrap">
   <header class="titlepage">
     <div class="logo-lockup">{wordmark()}<span class="descriptor"><span>Studios</span><span class="sep">·</span><span>The Hague × Cairo</span><span class="sep">·</span><span class="tag">Bespoke AI. Built to think.</span></span></div>
-    <div class="eyebrow"><span>BrainMatterStudios</span><span class="sep">/</span><span>{escape(paper.kind)}</span><span class="sep">/</span><span>August 2026</span></div>
+    <div class="eyebrow"><span>BrainMatterStudios</span><span class="sep">/</span><span>{escape(paper.kind)}</span><span class="sep">/</span><span>{escape(paper.date_label)}</span></div>
     <h1>{title_with_stop}</h1>
     <p class="deck">{escape(paper.deck)}</p>
     <dl class="docrec">
-      <div><dt>Document</dt><dd>{escape(paper.document_id)} · Draft 26.08</dd></div>
+      <div><dt>Document</dt><dd>{escape(paper.document_id)} · {escape(paper.revision_label)}</dd></div>
       <div><dt>Author</dt><dd>Ahmed Mobasher<br>Sole author</dd></div>
       <div><dt>Subject</dt><dd>{escape(paper.subject)}</dd></div>
       <div><dt>Published by</dt><dd>BrainMatterStudios<br>The Hague × Cairo</dd></div>
-      <div><dt>Status</dt><dd>Author-review living draft<br>Markdown remains authoritative</dd></div>
-      <div><dt>Evidence state</dt><dd>Frozen and rechecked through<br>16 August 2026</dd></div>
+      <div><dt>Status</dt><dd>{escape(paper.status_label)}<br>Markdown remains authoritative</dd></div>
+      <div><dt>Evidence state</dt><dd>{evidence_state}</dd></div>
     </dl>
     <div class="band">{stats}</div>
     {source_record}
   </header>
   <nav class="contents" aria-label="Contents"><div class="meta">Contents</div><ol>{toc}</ol></nav>
   <main>{body_sections}</main>
-  <aside class="draft-note" aria-label="Draft status"><span class="tag">Living draft</span><p>This HTML is a reading and print draft generated from <code>paper/{escape(paper.source)}</code>. The Markdown manuscript and its evidence ledger remain the authoritative research record.</p></aside>
+  <aside class="draft-note" aria-label="Draft status"><span class="tag">{escape(paper.draft_tag)}</span><p>This HTML is a reading and print draft generated from <code>paper/{escape(paper.source)}</code>. The Markdown manuscript and its evidence ledger remain the authoritative research record.</p></aside>
   <footer>
     <p><strong>Ahmed Mobasher</strong> is responsible for the manuscript, its evidence boundaries, and its conclusions. AI assistance is disclosed within the paper.</p>
-    <div class="signoff"><span class="wordmark-mono">BRAIN<span class="mid">MATTER</span>STUDIOS</span><span class="meta">{escape(paper.document_id)} · Author-review draft · <a class="url" href="https://brainmatterstudios.com">brainmatterstudios.com</a></span></div>
+    <div class="signoff"><span class="wordmark-mono">BRAIN<span class="mid">MATTER</span>STUDIOS</span><span class="meta">{escape(paper.document_id)} · {escape(paper.footer_status)} · <a class="url" href="https://brainmatterstudios.com">brainmatterstudios.com</a></span></div>
   </footer>
 </div>
 <a class="backtop" href="#top" aria-label="Back to top">↑</a>

@@ -3,42 +3,37 @@
 ## Abstract
 
 Large-language-model agents can search literature, inspect repositories, write
-and run code, and maintain long computational workflows, but those capabilities
-do not establish scientific autonomy, originality, or reliability. This living,
-comparative single-participant (N-of-1) case study examines one experienced
-technologist's use of AI
-coding agents while entering two unfamiliar competition-based research domains:
-AgentSecurityComp as the primary case and ARC-AGI-3 as a comparative case. The
-review combines metadata-deduplicated private agent histories, pinned repository
-revisions, experiment and result artifacts, independently retrieved
-AgentSecurity submission rows, and bounded retrospective testimony. The unit of
-analysis is a research episode rather than a provider turn. Thirty-one episodes
-were coded for proposition origin, prior evidence, confidence, human
-intervention, local and external outcomes, final claim status, and lesson.
+and run code, and maintain long workflows, but those capabilities do not
+establish scientific autonomy. This comparative single-participant (N-of-1)
+case study examines one experienced technologist's use of coding agents in two
+unfamiliar competition-based domains: AgentSecurityComp and ARC-AGI-3. Evidence
+combines private agent histories, pinned repository revisions, experiment
+artifacts, authenticated submission rows, and bounded retrospective testimony.
+A purposive, maximum-variation sample of 33 research episodes was coded for
+proposition origin, evidence, human intervention, outcomes, status, and lesson.
 
-The agents provided substantial execution: they inspected software contracts,
-implemented public and agent-proposed mechanisms, built harnesses and controls,
-repaired parsers and model-serving paths, and preserved negative results. The
-record was weaker for dependable hypothesis selection, causal identification,
-calibrated interpretation, and independent originality. Four bounded claims
-were confirmed, ten partially supported, seven refuted, five were invalid
-experiments, one was superseded, and four remained open; these heterogeneous
-labels are not an agent accuracy rate. Recurrent failures included broken or
-overlapping controls, unproved deployment identity, stale memory, wrong-source
-research, and promotion of local gains beyond their evidentiary boundary.
-Human review—estimated retrospectively at 2–5 hours per day—was therefore part
-of the research system rather than an occasional safeguard.
+Agents inspected software contracts, implemented candidate mechanisms, built
+harnesses and controls, repaired parsers and model-serving paths, and preserved
+negative results. The record was weaker for dependable hypothesis selection,
+causal identification, calibrated interpretation, and independent originality.
+Five bounded claims were confirmed, ten partially supported, eight refuted,
+five were invalid experiments, one was superseded, and four remained open.
+These labels describe the selected episodes, not agent accuracy. Human review,
+estimated retrospectively at 2–5 hours per day, was integral to the system.
 
-The resulting governance protocol requires direct-source verification,
-falsifiable hypothesis cards, mechanically matched controls, separate local and
-external gates, untrusted-memory review, human approval for scarce evaluations,
-and append-only outcome records. The cases support a bounded conclusion: agents
-lowered the perceived barrier to participating in computational research and
-executed useful research work, but did not demonstrate dependable scientific
-autonomy. No human-only control exists; provider use, budgets, models, and case
-conditions were unequal and changing; external evaluators were partly hidden;
-and both winning objectives remained unachieved according to testimony at the
-cutoff.
+Neither top-prize objective was won. After AgentSecurityComp closed, an
+authenticated query returned rank 171 of 4,186. The author separately reported
+a Silver notification of 173 of 4,251, but no notification artifact was
+retained. The selected public-best row scored 0.000 private while the selected
+confused-deputy row scored 16.735; this pattern is consistent with the hedge
+rationale but does not reveal the private mechanism. ARC-AGI-3 remained ongoing
+and unachieved at cutoff-2. With no human-only control and unequal, changing case
+conditions, the study supports a bounded conclusion: agents lowered the
+perceived barrier to computational research and executed useful work, but did
+not demonstrate dependable scientific autonomy. The resulting governance
+protocol emphasizes direct-source verification, falsifiable hypotheses,
+matched controls, separate local and external gates, untrusted-memory review,
+and human approval for scarce evaluations.
 
 ## 1. From Enterprise Architecture to Computational Research
 
@@ -74,7 +69,10 @@ time-tracking result. I also judge that the agents enabled me to participate
 meaningfully and learn context in domains I would otherwise have found difficult
 to enter. That is a report of perceived access and value, not a measured claim
 about time saved or productivity gained. No human-only control exists, and
-neither project had achieved its winning objective at the cutoff.
+neither project had achieved its winning objective at the 2026-08-16 cutoff; the
+post-competition update in Section 12 records a later authenticated
+AgentSecurity rank and the author's unarchived Silver-medal report, plus an
+ongoing ARC-AGI-3. Neither case produced a top-prize win.
 
 These distinctions motivate the title of this paper. Access means being able to
 turn questions into executable research work: reading an unfamiliar codebase,
@@ -226,9 +224,23 @@ project events. General literature and policy contextualize those events but do
 not prove what happened in either project. The portable
 [companion evidence ledger](evidence/ai-agents-research-evidence.md) is the
 source-ID register for every coded episode and admitted quotation. Raw private
-histories remain controlled source material and are not required to resolve the
-public repository, commit, live-row, and symbolic transcript locators recorded
-there.
+histories remain controlled source material. Public repository, commit, and
+live-row locators can be checked without them; symbolic transcript locators are
+available only where the source manifest records a surviving private file. A
+reviewer-auditable
+[public episode ledger](evidence/episode-ledger-public.md) accompanies the paper:
+it reproduces all 33 coded episodes and their public locators (commits,
+submission references, repository paths, and published records) with private
+trace identifiers redacted, so the descriptive tallies can be independently
+checked without releasing the controlled histories.
+The controlled-source audit is summarized in a
+[source-availability and hash manifest](evidence/source-availability-manifest.md).
+Seven of ten canonical Claude files and all 15 canonical Codex files survived
+at their recorded paths on 2026-09-04. Three Claude originals were absent;
+claims associated with them are therefore limited to surviving repository
+corroboration, another available record, or an explicit derivative/testimony
+label. The [cutoff-2 live-results artifact](evidence/cutoff-2-live-results-2026-09-04.md)
+preserves the later competition observations and their claim-use limits.
 
 According to retrospective author testimony, Claude Code was the primary
 research system, while Codex and OpenCode/DeepSeek were introduced mainly as
@@ -241,17 +253,28 @@ baseline and interview)
 ### 3.3 Research episode and coding scheme
 
 The unit of analysis is a bounded research episode, not an individual message,
-agent turn, subagent, commit, or submission. An episode follows one proposition
-far enough to connect, where the record allows: the question or hypothesis; its
-apparent human, agent, external, or mixed origin; evidence cited before the
-test; the proposed implementation or experiment; human review; local outcome;
-live or external outcome; final claim status; timing of correction; and the
-durable methodological lesson. Cross-provider continuation of the same inquiry
-remains one episode.
+agent turn, subagent, commit, or submission. The episode corpus is a purposive,
+maximum-variation analytic sample, not a systematic census of every event in
+the two projects. An episode was included when it contained a bounded,
+adjudicable proposition; traceable evidence available before or after the test;
+an implementation, experiment, or explicit evidence adjudication; and a
+distinct methodological lesson supported well enough to code origin and final
+status. Routine debugging, purely operational work, duplicate provider
+continuations, repeated variants that added no new evidentiary issue, and
+propositions lacking enough record for adjudication were excluded.
 
-The reviewed ledger contains 31 such episodes: 14 in AgentSecurityComp, 12 in
-ARC-AGI-3, and five supplementary OpenCode investigations. Origins are coded
-conservatively as `human`, `agent`, `external`, or `mixed`. A provider's proposal
+An included episode follows one proposition far enough to connect, where the
+record allows: the question or hypothesis; its apparent human, agent, external,
+or mixed origin; evidence cited before the test; the proposed implementation or
+experiment; human review; local outcome; live or external outcome; final claim
+status; timing of correction; and the durable methodological lesson.
+Cross-provider continuation of the same inquiry remains one episode.
+
+The reviewed ledger contains 33 such episodes: 16 in AgentSecurityComp, 12 in
+ARC-AGI-3, and five supplementary OpenCode investigations. Thirty-one were coded
+at the 2026-08-16 cutoff; two AgentSecurityComp episodes (AS-S15 and AS-S16) were
+added in the post-competition cutoff-2 revision described in Section 12. Origins
+are coded conservatively as `human`, `agent`, `external`, or `mixed`. A provider's proposal
 is not coded as autonomous discovery when human or external input materially
 shaped the same episode. Final status is `confirmed`, `partially supported`,
 `refuted`, `invalid experiment`, `superseded`, or `open`, and applies only to the
@@ -265,7 +288,9 @@ validity, confidence and calibration, correction, stale-memory propagation,
 human challenge and approval, provider switching, local-to-live transfer,
 operational failure, domain learning, and achieved or unachieved goals. Coding
 is interpretive and was not independently blinded or replicated. Counts are
-descriptive of this reviewed corpus, not estimates of population frequency.
+descriptive of this purposive corpus, not estimates of population frequency.
+No denominator of all possible project episodes was constructed, so the
+distribution of statuses must not be generalized beyond the included rows.
 
 ### 3.4 Provenance and deduplication boundaries
 
@@ -393,15 +418,18 @@ until it obeyed the evaluator's protocol. The repair depended on external SDK
 semantics and zero-score evidence, however, so its apparent agent execution
 should not be recast as original discovery. (Episode AS-S03)
 
-Two early statements illustrate both correction and unstable confidence. On
-2026-06-30 the agent wrote the correction “my ‘boundary ~570’ was wrong” after
-exact-model behavior contradicted an earlier threshold; later that day the
-human withheld a decision and asked it to “test the approach locally as much as
-possible to verify it thoroughly”. On 2026-07-01 the agent made a different,
-new ceiling claim: “Both models are stuck at gpt-oss's ~465 boundary → ~44
-ceiling.” The June 30 correction therefore precedes and does not retract the
-July 1 claim. Later experiments weakened the certainty of that second claim as
-well. (Quote Q04; Quote Q03; Quote Q02; Episode AS-S10)
+Two early statements illustrate both correction and unstable confidence. The
+cutoff-1 ledger recorded a 2026-06-30 agent correction that its approximately
+570 boundary was wrong after exact-model behavior contradicted the threshold;
+later that day it recorded the human withholding a decision and requesting
+thorough local verification. On 2026-07-01 the ledger recorded a different new
+claim that both models were stuck near a 465 boundary and an approximately
+44-point ceiling. The June 30 correction therefore precedes and does not retract
+the July 1 claim, which later experiments also weakened. The canonical Claude
+file containing these three extracts was absent at the 2026-09-04 re-audit, so
+they are treated as prior controlled-ledger extracts rather than re-opened
+original quotations. (Quotes Q02-Q04; Episode AS-S10; source-availability
+manifest)
 
 ### 4.2 Practical value through adaptive sizing
 
@@ -567,15 +595,17 @@ claims, not independently re-queried scores. (Episode ARC-S02; Source ARC-S02)
 ### 5.2 Serving identity and development-to-hidden reversal
 
 The sharpest validity failure occurred on 2026-07-11. A fine-tuned low-rank
-adaptation (LoRA) adapter appeared to beat its base model with a local
-result of 1.26, and the agent was
-highly confident before the human requested proof of the deployed model's
-identity. The audit statement was: “Conclusion: the LoRA never served. The
-generation ran on base”. The apparent treatment and control were therefore the same model, so the
-comparison was an `invalid experiment`, not a failed fine-tune. This is a
-general computational-research point: model serving is part of the experiment,
-not plumbing outside it. The 1.26 value and serving diagnosis are repository and
-transcript records. (Episode ARC-S05; Quote Q06; Source ARC-S05)
+adaptation (LoRA) adapter appeared to beat its base model with a local result of
+1.26, and the agent was highly confident before the human requested proof of
+the deployed model's identity. The cutoff-1 ledger records the resulting audit
+diagnosis: the adapter never served and generation ran on the base model. The
+apparent treatment and control were therefore the same model, so the comparison
+was an `invalid experiment`, not a failed fine-tune. This is a general
+computational-research point: model serving is part of the experiment, not
+plumbing outside it. The canonical Claude file was absent at the 2026-09-04
+re-audit; the diagnosis is retained as a prior ledger extract corroborated by
+repository evidence, not as a re-opened original quotation. (Episode ARC-S05;
+Quote Q06; Source ARC-S05; source-availability manifest)
 
 A different failure on 2026-07-12 was valid enough to be informative. The
 project submission ledger records that reducing prompt tokens raised the
@@ -743,19 +773,19 @@ capabilities, including self-correction and appropriate stopping without a
 human having to detect the critical mistake. The two cases provide direct
 evidence of access and substantial execution, bounded instances of insight,
 and weaker evidence for dependable originality, reliability, or autonomy.
-(Episodes AS-S01-AS-S14; Episodes ARC-S01-ARC-S12; Episodes OC-S01-OC-S05;
+(Episodes AS-S01-AS-S16; Episodes ARC-S01-ARC-S12; Episodes OC-S01-OC-S05;
 Testimony Q08-Q09)
 
-The origin codes reinforce this separation but must not be misread. Of the 31
-reviewed episodes, 13 propositions were coded `agent`, 15 `mixed`, three
+The origin codes reinforce this separation but must not be misread. Of the 33
+reviewed episodes, 14 propositions were coded `agent`, 16 `mixed`, three
 `external`, and zero `human`. Zero human-origin rows is a coding result about
 the apparent source of the bounded proposition, not evidence that no human
-intellectual contribution occurred. The 15 mixed rows and the intervention
+intellectual contribution occurred. The 16 mixed rows and the intervention
 column record human framing, challenge, approval, demand for controls, and
 claim closure. Likewise, an agent-origin proposition is not automatically an
 original discovery: it may recombine inherited methods, target an already
 visible failure, or remain refuted, invalid, superseded, or open. (AI evidence
-ledger, descriptive measures and derivations, including the 31 exact episode
+ledger, descriptive measures and derivations, including the 33 exact episode
 IDs)
 
 ### 6.2 Access without mastery; execution without dependable originality
@@ -806,15 +836,18 @@ assumptions into reusable gates. This is substantial supervised execution, not
 hands-off autonomy. (Episodes AS-S07-AS-S08, AS-S11, AS-S14; Episodes ARC-S05,
 ARC-S08-ARC-S09; Episode OC-S03; Testimony: author baseline and interview)
 
-Confidence did not reliably track validity. On June 30, Q04 corrected an earlier
-approximately 570 boundary after exact-model evidence contradicted it. Q02, on
-July 1, asserted a different approximately 465 boundary and 44-point ceiling
-that later work weakened. Q04 therefore precedes and does not retract Q02; the
-sequence instead shows that one successful correction did not prevent a new
-confident ceiling claim. Other high-confidence lines rested on an unserved
-adapter, a broken model frame, unavailable reset behavior, or a wrong-model
-corpus. (Quotes Q04 and Q02; Episodes AS-S07; ARC-S03, ARC-S05, ARC-S09;
-Episode OC-S04)
+Confidence did not reliably track validity. The prior ledger extract for Q04
+corrected an earlier approximately 570 boundary after exact-model evidence
+contradicted it. The later Q02 extract asserted a different approximately 465
+boundary and 44-point ceiling that subsequent work weakened. Q04 therefore
+precedes and does not retract Q02; the sequence instead shows that one
+successful correction did not prevent a new confident ceiling claim. Because
+the canonical transcript was absent at re-audit, this wording supports only the
+recorded process example, not a newly verified transcript claim. Other
+high-confidence lines rested on an unserved adapter, a broken model frame,
+unavailable reset behavior, or a wrong-model corpus. (Quotes Q04 and Q02;
+Episodes AS-S07; ARC-S03, ARC-S05, ARC-S09; Episode OC-S04;
+source-availability manifest)
 
 Finally, recorded memory and provider changes did not create evidence. A stored
 conclusion could propagate a stale assumption or a repaired no-op, so the
@@ -834,7 +867,7 @@ known evidence gaps)
 
 The cases support a practical role for agents as research executors. Their value
 was distributed across the observed workflow rather than concentrated in
-autonomous discovery. (Episodes AS-S01-AS-S14; Episodes ARC-S01-ARC-S12)
+autonomous discovery. (Episodes AS-S01-AS-S16; Episodes ARC-S01-ARC-S12)
 
 - **Navigation and onboarding.** Repository search, SDK inspection, and
   evaluator reading converted unfamiliar systems into executable maps. This
@@ -878,15 +911,15 @@ would erase the causal and provenance work that turns execution into knowledge.
 ## 8. Where Agents Struggle
 
 The status distribution describes a mixed record rather than a single success
-rate: four of 31 bounded claims were confirmed, ten partially supported, seven
+rate: five of 33 bounded claims were confirmed, ten partially supported, eight
 refuted, five invalid experiments, one superseded, and four open. Those labels
 apply to different propositions and evidence types, so they cannot be collapsed
 into a provider accuracy score. They do show why an executable result, an
 external effect, a valid experiment, and a durable scientific conclusion must
 be adjudicated separately. (AI evidence ledger, descriptive measures and
-derivations, with all 31 IDs assigned exactly once)
+derivations, with all 33 IDs assigned exactly once)
 
-Hypothesis selection and novelty remained weak points. The ledger contains 13
+Hypothesis selection and novelty remained weak points. The ledger contains 14
 agent-origin propositions, but several pursued throughput, routing, serving, or
 reset explanations that were later refuted or invalidated. The author could not
 identify a clear unexpected agent-originated discovery and assessed the
@@ -938,7 +971,7 @@ Episodes OC-S02-OC-S05; Episode ARC-S11)
 The resulting governance framework is a research protocol, not generic advice
 to keep a human in the loop. Each control below answers a coded failure and
 specifies an operational action that a researcher or IT professional can audit.
-(Episodes AS-S01-AS-S14; Episodes ARC-S01-ARC-S12; Episodes OC-S01-OC-S05)
+(Episodes AS-S01-AS-S16; Episodes ARC-S01-ARC-S12; Episodes OC-S01-OC-S05)
 
 | Control | Operational rule | Coded reason |
 | --- | --- | --- |
@@ -1009,7 +1042,7 @@ wrong-model corpus—with broader findings on context-sensitive literature-agent
 judgments and citation errors [13,15]. (Episode ARC-S05; Episode OC-S04)
 
 No general performance rate follows from two competitions, one researcher, and
-31 interpretively coded episodes. The bounded implication is operational: the
+33 interpretively coded episodes. The bounded implication is operational: the
 agents generated executable work in unfamiliar domains, and the author
 retrospectively perceived that they enabled participation and contextual
 learning. Without a human-only control, the cases cannot measure how much work
@@ -1024,13 +1057,20 @@ human accountability for provenance, validity, external transfer, and stopping.
 
 This is a comparative N-of-1 study of one researcher and two projects, not a
 representative sample of researchers, domains, or agent systems. The projects
-were selected because the author conducted them, and the 31 episodes were
+were selected because the author conducted them, and the 33 episodes were
 chosen and interpretively coded by that same authorial research process. No
 second coder was blinded to the cases, no inter-rater reliability estimate
 exists, and quotations were selected for explanatory value under the stated
 privacy rules. Selection bias and single-author interpretation can therefore
 affect episode boundaries, origins, statuses, and the salience of failures or
-successes.
+successes. Independent verification is also bounded: because the raw agent
+histories are controlled, a reviewer can audit the public locators in the
+accompanying redacted ledger but cannot re-derive the coding from the private
+traces. The public episode ledger mitigates but does not remove this limit.
+Three canonical Claude files and two additional cited Claude continuations were
+also absent at the 2026-09-04 re-audit. Prior ledger extracts and repository
+corroboration preserve bounded evidence for affected claims, but cannot restore
+the missing original transcript context.
 
 There was no human-only control, randomized assignment, common task set, or
 matched budget. Providers were used unequally and for different purposes, and
@@ -1063,15 +1103,16 @@ audit time from a mutable file outside the frozen Git revision. Its hash,
 modification time, and extraction time are recorded, but the exact bytes cannot
 be reconstructed from the cutoff repository alone.
 
-Finally, the outcomes were ongoing. Four AgentSecurity L31 chain-pack rows were
-pending at the frozen cutoff; a later status-only recheck found one complete at
-73.605 and three still pending, and a second recheck found all four complete at
-79.985, 79.365, 73.605, and 54.375. No ARC external state was freshly queried, and
-Qwen 3.8 external
-transfer remained open. Final competition results, rankings, costs, and
-retrospective conclusions could change the outer case narrative, but cannot
-retroactively convert an invalid experiment into a valid one or erase a
-negative, superseded, or unresolved episode.
+Finally, the outcomes were ongoing at the 2026-08-16 cutoff. Four AgentSecurity
+L31 chain-pack rows were pending at the frozen cutoff; a later status-only recheck
+found one complete at 73.605 and three still pending, and a second recheck found
+all four complete at 79.985, 79.365, 73.605, and 54.375. No ARC external state was
+freshly queried, and Qwen 3.8 external transfer remained open. The post-competition
+cutoff-2 revision (Section 12, dated 2026-09-04) resolves the AgentSecurity outcome
+with an authenticated final standing and a fresh ARC live query; consistent with
+this section's rule, that later observation appends dated states and cannot
+retroactively convert an invalid experiment into a valid one or erase a negative,
+superseded, or unresolved episode.
 
 ### 11.2 Living-outcomes register
 
@@ -1082,16 +1123,172 @@ is a completed evidence status, not a blank field.
 | Register item | AgentSecurityComp | ARC-AGI-3 | Authority and update constraint |
 | --- | --- | --- | --- |
 | Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, 2026-08-16T11:59:48Z, and 2026-08-16T12:44:16Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
-| Winning objective | Ongoing and unachieved at cutoff. | Ongoing and unachieved at cutoff. | Retrospective author testimony; verify against final official records. |
-| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145. At the frozen cutoff all four L31 chain-pack rows were `PENDING`; at 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were all `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. These are identified live submission rows, not a current rank, matched-effect estimate, or final best-system claim. | No current external score or rank was independently queried. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. | AgentSecurity values are selected live observations through the status-only recheck at 2026-08-16T12:44:16Z; the separate frozen artifact remains dated 2026-08-16T10:56:15Z. ARC values are bounded repository or mutable-artifact records and retain those provenance labels. |
-| Recorded deadlines | Final submission: 2026-09-01 at 23:59 UTC; optional Working Note: 2026-09-08 at 23:59 UTC. | No official ARC deadline was admitted to the reviewed AI evidence ledger, so this manuscript asserts none. | AgentSecurity dates come from the reviewed official timeline. An ARC deadline requires a primary official source in a later evidence revision. |
+| Winning objective | Ongoing and unachieved at the 2026-08-16 cutoff. **Cutoff-2 (2026-09-04):** competition concluded 2026-09-01; the top-prize objective was not won. An authenticated 16:57:02Z query returned rank 171 of 4,186 entrants. Separately, the author reported a Silver notification of 173 of 4,251; no notification artifact was retained. | Ongoing and unachieved at the 2026-08-15 cutoff. **Cutoff-2 (2026-09-04):** still an ongoing competition (official deadline 2026-11-02); objective unachieved; best public score 1.94 and public rank 374 of 2,779 at 16:56:36Z; private board not yet revealed. A later same-day query returned 379 of 2,787, demonstrating that the live rank was mutable. | Cutoff-1 is retrospective author testimony. At cutoff-2, the AgentSecurity rank and submission rows and the ARC values are authenticated live observations; the medal label and 173/4,251 remain author testimony (Section 12). |
+| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145. At the frozen cutoff all four L31 chain-pack rows were `PENDING`; at 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were all `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. These are identified live submission rows, not a current rank, matched-effect estimate, or final best-system claim. **Cutoff-2 (2026-09-04):** best banked public score 92.670 (ref 55766377); on the private board the two queried high-public EXFIL submissions scored 0.000 (refs 55927148, 55902731) while queried confused-deputy rows scored about 15.8–16.8 (best 16.805, ref 55904213). The selected pair was Slot A (ref 55766377, private 0.000) and Slot B (ref 55805571, private 16.735). Slot B was the only selected row with a positive observed private score; the query does not reveal the scoring mechanism or independently reconstruct how final rank was calculated. | No current external score or rank was independently queried at cutoff-1. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. **Cutoff-2 (2026-09-04):** a fresh authenticated query returns a best public score of 1.94 (ref 55970756, 2026-09-03) with public rank about 374 of 2,779; the private board is not revealed until the 2026-11-02 deadline. | Cutoff-1 AgentSecurity values are selected live observations through 2026-08-16T12:44:16Z; the frozen artifact remains dated 2026-08-16T10:56:15Z. Cutoff-2 values are authenticated Kaggle live observations dated 2026-09-04. ARC cutoff-1 values are bounded repository or mutable-artifact records. |
+| Recorded deadlines | Final submission: 2026-09-01 at 23:59 UTC; optional Working Note: 2026-09-08 at 23:59 UTC. **Cutoff-2 (2026-09-04):** the Working Note was submitted on 2026-09-02, ahead of its deadline. | At cutoff-1 no official ARC deadline was admitted, so the earlier revision asserted none. **Cutoff-2 (2026-09-04):** the official competition deadline is 2026-11-02 at 23:59 UTC (ARC Prize 2026 — ARC-AGI-3), retrieved from the authenticated competition listing. | AgentSecurity dates come from the reviewed official timeline. The cutoff-2 ARC deadline is a primary authenticated source, satisfying the earlier revision constraint. |
 | Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony reports about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions whose amounts were not recorded. No independently confirmed total existed at cutoff. |
 | Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate: 2–5 hours per day; not a time-tracking result. |
-| Reserved post-competition fields | Official final submission status and score, final rank, winning-objective verdict, Working Note outcome, receipt-reconciled cost if available, cumulative oversight if measured, and dated interpretation change. | Official final evaluation status and score, final rank, winning-objective verdict, final Qwen 3.8 transfer result if executed, receipt-reconciled cost if available, cumulative oversight if measured, and dated interpretation change. | Populate only from newly cited official records, preserved project artifacts, or explicitly labelled testimony; retain the cutoff states above in revision history. |
+| Reserved post-competition fields | **Populated at cutoff-2 (Section 12):** authenticated rank (171 of 4,186), winning-objective verdict (top prize not won), public best (92.670), observed private submission rows, and Working Note outcome (submitted 2026-09-02). The separately reported Silver notification (173 of 4,251) remains author testimony because its artifact was not retained. **Still reserved:** receipt-reconciled cost and measured cumulative oversight. | **Populated at cutoff-2 (Section 12):** fresh public score (1.94) and public rank (about 374 of 2,779); official deadline (2026-11-02). **Still reserved:** final evaluation status and rank, winning-objective verdict, private-board result, and final Qwen 3.8 transfer, all pending the 2026-11-02 close; receipt-reconciled cost and measured oversight remain testimony. | Populate only from newly cited official records, preserved project artifacts, or explicitly labelled testimony; retain the cutoff states above in revision history. |
 
-The final update procedure is specified in Appendix A. Until that procedure is
-performed, pending means pending, unqueried means unqueried, and the ongoing
-objectives remain retrospective testimony rather than verified final outcomes.
+The update procedure is specified in Appendix A and was applied for cutoff-2 in
+Section 12. Any later update must append another dated state: pending remains
+pending and unqueried remains unqueried until direct evidence changes it.
+
+## 12. Post-Competition Outcomes (cutoff-2, 2026-09-04)
+
+This section performs the Appendix A.6 update procedure for a second dated
+cutoff. It appends authenticated final and mid-competition outcomes; it does not
+rewrite the 2026-08-16 narrative, whose frozen states are preserved in Sections
+4, 5, and 11. AgentSecurityComp concluded on 2026-09-01; ARC-AGI-3 remained an
+ongoing competition at this cutoff.
+
+**Evidence provenance.** The [cutoff-2 live-results artifact](evidence/cutoff-2-live-results-2026-09-04.md)
+records the authenticated queries and their claim-use limits. The AgentSecurity
+submission rows, private and public scores, authenticated user rank,
+competition timeline, and the ARC-AGI-3 rows and official deadline below were
+retrieved from the Kaggle API on 2026-09-04 and are **live observations**. The
+Silver label and 173/4,251 notification value are retrospective author
+testimony: the repository records the report, but no screenshot, email, or
+archived notification survived the audit. The available private histories used
+for the two added episodes are recorded in the
+[source-availability manifest](evidence/source-availability-manifest.md); the
+episode coding also uses repository artifacts and the companion working note.
+
+### 12.1 AgentSecurityComp: a reported Silver placement without a throughput win
+
+The public-throughput line that dominated the 2026-08-16 narrative did not close
+the observed frontier gap. The best banked public score was 92.670 (ref
+55766377). A retained authenticated leaderboard query showed that the public
+frontier had reached at least 147.530 by 2026-08-29, making the directly observed
+top-to-best ratio about 1.59 times. This is not asserted as the exact frontier at
+the 2026-09-01 deadline. Every attacker-controllable lever tested in the final
+week—commitment-forge wording, adaptive void-safe sizing, inter-hop reasoning
+suppression, and probe-hop count—failed to beat about 92.670 or lowered the row,
+and the frontier method was absent from every inspected public artifact. This is
+a valid family-level negative result, not proof that the gap was unclosable.
+(Episode AS-S16)
+
+A different, human-directed line produced the only positive private score among
+the selected pair. On the authenticated revealed rows, two high-public EXFIL
+submissions scored 0.000 private (ref 55927148 at 89.680 public; ref 55902731 at
+91.600 public). Queried confused-deputy `email.send` rows scored approximately
+15.8–16.8 private. The author selected Slot A, the banked public best (ref
+55766377, public 92.670, private 0.000), and Slot B, a confused-deputy set (ref
+55805571, public 16.555, private 16.735). The best private score among the
+queried confused-deputy rows was 16.805 (ref 55904213), on a non-selected draw.
+These observations confirm a bounded row-level pattern in the revealed sample:
+the queried EXFIL rows scored zero while the queried confused-deputy rows scored
+positively. They do not expose the private guardrail, prove a universal
+`http.post` rule, isolate the scoring component, or establish the platform's
+rank calculation. (Episode AS-S15)
+
+The authenticated cutoff-2 competition query returned rank 171 of 4,186
+entrants. Separately, the author reported a Silver notification showing 173 of
+4,251 on 2026-09-02. The report is preserved in the repository, but the
+notification itself was not retained, so the medal label and 173/4,251 remain
+testimony. The top-prize objective was not won. The selected-row pattern is
+consistent with the rationale for the human-selected private-board hedge, but it
+does not by itself establish that hedge as the cause of the final placement.
+Read through the paper's categories, the outcome still supports a limited
+interpretation: execution and human-governed recombination advanced further than
+dependable agent originality, while the private mechanism remains unknown.
+(Episodes AS-S15-AS-S16; §6.2; Testimony Q09)
+
+### 12.2 ARC-AGI-3: still open, with a fresh live query
+
+Contrary to the cutoff-1 register, ARC-AGI-3 has an official deadline of
+2026-11-02, retrieved from the authenticated ARC Prize 2026 competition listing.
+The competition was ongoing at this cutoff and its private board is not revealed
+until close. A fresh authenticated query on 2026-09-04 shows that post-cutoff
+work continued—a model-swap campaign—and lifted the best public score to 1.94
+(ref 55970756, 2026-09-03), above the roughly 0.7–1.9 band of the frozen
+narrative; the author's public rank was 374 of 2,779 teams at 16:56:36Z. A
+separate authenticated query at 20:12:04Z returned 379 of 2,787, confirming that
+the ongoing rank and entrant count were mutable even within the day. No private
+score exists yet, and the winning objective is unachieved. The case is therefore
+explicitly bounded as a mid-competition snapshot, resolving the freshness
+asymmetry noted in Section 11.1: both cases now carry a dated cutoff-2 live query,
+with AgentSecurity final and ARC-AGI-3 open. The same fresh query also
+corroborated several ARC submission scores that Section 5 could report only as
+project-ledger values at cutoff-1—for example the duck-memory row at 0.83 (ref
+55488796) and the structural arms at 1.09, 0.78, and 1.03 (refs 55493742,
+55450891, 55418633)—which now match the authenticated public rows. (Sources:
+authenticated Kaggle competition listing and submission rows, 2026-09-04)
+
+### 12.3 Two added episodes and recomputed tallies
+
+Two AgentSecurityComp episodes are added at this cutoff; no earlier episode's
+code is changed.
+
+- **AS-S15** (origin `mixed`; status `confirmed`). Proposition: among the
+  revealed tested rows, the two queried high-public EXFIL submissions score
+  0.000 private while the queried confused-deputy `email.send` rows score
+  positively, including 16.735 for selected Slot B. The human directed the pivot
+  and selected the final submissions; the agent and its subagents performed
+  source analysis; public write-ups and a mock private-guardrail wheel were
+  external inputs. The row-level proposition is confirmed. The private
+  guardrail mechanism, universal family behavior, and causal contribution to
+  final rank remain unobserved.
+- **AS-S16** (origin `agent`; status `refuted`). Proposition: a final-week
+  attacker-controllable lever closes the public-throughput gap to the frontier.
+  Refuted: no lever beat about 92.670, several lowered the row, and a direct
+  query showed that the frontier had reached at least 147.530 by 2026-08-29.
+  Lesson: exhausting a family of attacker levers is a valid negative result,
+  not evidence that the gap is unclosable.
+
+Recomputed descriptive tallies at cutoff-2: **33 episodes** (16 AgentSecurityComp,
+12 ARC-AGI-3, five OpenCode). Status: **five** confirmed, **ten** partially
+supported, **eight** refuted, **five** invalid experiments, **one** superseded,
+**four** open. Origin: **14** agent, **16** mixed, **three** external, **zero**
+human. These remain descriptive of the reviewed corpus, not estimates of
+population frequency, and the two additions leave every earlier code unchanged.
+Cost and cumulative-oversight fields remain retrospective testimony and are not
+populated by this cutoff. (AI evidence ledger, cutoff-2 addendum)
+
+## Data, Ethics, and Declarations
+
+### Data and materials availability
+
+The manuscript's [public episode ledger](evidence/episode-ledger-public.md)
+provides all 33 coding rows, status and origin derivations, and public artifact
+locators. The [cutoff-2 live-results artifact](evidence/cutoff-2-live-results-2026-09-04.md)
+records the competition observations used in Section 12. Private Claude, Codex,
+and OpenCode histories are controlled because they can contain credentials,
+personal material, and unrelated project content. Their availability and file
+digests are reported in the
+[source manifest](evidence/source-availability-manifest.md); three canonical
+Claude originals were absent at the 2026-09-04 audit. An authorized audit can
+inspect surviving private sources under the quotation and redaction rules in
+Appendix A, but the private histories are not distributed with the paper.
+
+### Ethics and reflexivity
+
+This retrospective self-study analyzes the author's own agent interactions,
+decisions, and project artifacts. It did not recruit external research
+participants or publish private third-party conversation content. The author is
+simultaneously participant, analyst, and sole coder, creating unavoidable risks
+of recall, selection, and interpretation bias. The public ledger, explicit
+testimony labels, missing-source disclosures, and narrow claim statuses are
+intended to make those risks inspectable rather than eliminate them. Any target
+venue's current requirements for self-study or human-participant review must be
+checked before submission.
+
+### Funding and competing interests
+
+No external research funding is reported for this study. Direct service costs
+are described only as retrospective author testimony because receipts were not
+reconciled by case. The author operates BrainMatterStudios and used commercial
+AI and compute services named in the Methods. The author declares no provider
+sponsorship of the study or manuscript.
+
+### Author affiliation and correspondence
+
+Ahmed Mobasher, BrainMatterStudios, The Hague, Netherlands, and Cairo, Egypt.
+Correspondence is available through
+[brainmatterstudios.com](https://brainmatterstudios.com).
+
+**Keywords:** AI research agents; computational research; scientific autonomy;
+human oversight; research integrity; tool-using language models; N-of-1 study.
 
 ## Acknowledgements and AI-Use Disclosure
 
@@ -1195,23 +1392,40 @@ case counts. Finally, cross-provider work on the same proposition is merged at
 the episode level; session totals are never added to estimate ideas or output.
 
 To reproduce the inventory, an auditor applies those rules in order, records
-every included canonical root and linked derivative, checks that all 31 episode
+every included canonical root and linked derivative, checks that all 33 episode
 IDs occur exactly once, and reconciles origin and status totals to the row-level
 IDs in the evidence ledger. Exact private transcript contents are not required
-for the published count; an authorized auditor can resolve the private locators
-without releasing the histories.
+for the published count; an authorized auditor can inspect the surviving
+private locators and the identified substitutes without releasing the
+histories. The source-availability manifest records the
+audit-time SHA-256 digest of each surviving canonical Claude and Codex file.
+Three canonical Claude originals were absent from their expected paths on
+2026-09-04; claims tied to those sources must rely on separately identified
+surviving evidence and cannot be represented as directly re-opened transcript
+claims.
 
 ### A.2 Episode construction and coding
 
-An episode begins with a bounded proposition and ends when the reviewed record
-supports a final status or a dated open state. The coding row records case,
-date, proposition, origin (`human`, `agent`, `external`, or `mixed`), prior
-evidence, pre-outcome confidence, human intervention, local outcome, external
-outcome, final status, lesson, and source locator. The six final statuses are
-`confirmed`, `partially supported`, `refuted`, `invalid experiment`,
-`superseded`, and `open`. Status belongs to the proposition, not to the provider
-or artifact. A functioning implementation can coexist with a refuted efficacy
-claim; a broken control produces `invalid experiment`, not a negative result.
+Episode construction was purposive and sought variation across cases,
+mechanisms, successful and failed outcomes, validity failures, provider
+continuations, and governance lessons. It was not an exhaustive sampling frame.
+Inclusion required a bounded adjudicable proposition, traceable evidence, an
+implementation, experiment, or explicit evidence adjudication, and enough
+record to code origin and a final or dated-open status. Routine debugging,
+purely operational work, duplicate continuations, repeated variants without a
+new evidentiary issue, and propositions lacking an adjudicable record were
+excluded. No all-events denominator was constructed.
+
+An included episode begins with a bounded proposition and ends when the reviewed
+record supports a final status or a dated open state. The coding row records
+case, date, proposition, origin (`human`, `agent`, `external`, or `mixed`),
+prior evidence, pre-outcome confidence, human intervention, local outcome,
+external outcome, final status, lesson, and source locator. The six final
+statuses are `confirmed`, `partially supported`, `refuted`, `invalid
+experiment`, `superseded`, and `open`. Status belongs to the proposition, not to
+the provider or artifact. A functioning implementation can coexist with a
+refuted efficacy claim; a broken control produces `invalid experiment`, not a
+negative result.
 
 Origin is coded conservatively. Agent generation is `agent` only when no
 material human or external contribution shaped that proposition; public-method

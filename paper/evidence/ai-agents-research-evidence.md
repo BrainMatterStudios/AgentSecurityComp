@@ -37,6 +37,11 @@ historical transcript refers to the same revision. Episode-level claims must
 also identify the commit, artifact, or live record available at that episode's
 time.
 
+The append-only cutoff-2 competition observations and their claim-use limits are
+preserved in `paper/evidence/cutoff-2-live-results-2026-09-04.md`. Audit-time
+availability and SHA-256 digests for the Claude and Codex history sources are
+preserved in `paper/evidence/source-availability-manifest.md`.
+
 Evidence classes used in this ledger are: source fact, local measurement, live
 observation, triangulated finding, inference, retrospective testimony, and open
 hypothesis. The class must remain visible in working tables even when the final
@@ -215,14 +220,14 @@ resolve against the private read-only bases in the snapshot table above.
 | --- | --- | --- | --- | --- |
 | Claude Code | ARC-AGI-3 | `2c317a12-f48d-4a3f-8ddc-8b48615ad490` | `claude:ARC-AGI-3/2c317a12-f48d-4a3f-8ddc-8b48615ad490.jsonl` | included-canonical |
 | Claude Code | ARC-AGI-3 | `32add479-d332-44f0-ae03-8ed849c86377` | `claude:ARC-AGI-3/32add479-d332-44f0-ae03-8ed849c86377.jsonl` | included-canonical |
-| Claude Code | ARC-AGI-3 | `573f46bd-f297-4c15-8028-9676d148ba1b` | `claude:ARC-AGI-3/573f46bd-f297-4c15-8028-9676d148ba1b.jsonl` | included-canonical |
+| Claude Code | ARC-AGI-3 | `573f46bd-f297-4c15-8028-9676d148ba1b` | `claude:ARC-AGI-3/573f46bd-f297-4c15-8028-9676d148ba1b.jsonl` | included-canonical at cutoff-1; original absent at 2026-09-04 audit |
 | Claude Code | ARC-AGI-3 | `626c7722-330b-4125-b1de-439d21bef0a0` | `claude:ARC-AGI-3/626c7722-330b-4125-b1de-439d21bef0a0.jsonl` | included-canonical |
 | Claude Code | ARC-AGI-3 | `de216582-726c-415f-9dd5-71c05fb4d2c3` | `claude:ARC-AGI-3/de216582-726c-415f-9dd5-71c05fb4d2c3.jsonl` | included-canonical |
 | Claude Code | AgentSecurityComp | `0385f350-248c-431f-a9f2-1604c96b5ce2` | `claude:AgentSecurityComp/0385f350-248c-431f-a9f2-1604c96b5ce2.jsonl` | included-canonical |
 | Claude Code | AgentSecurityComp | `42258c4d-4471-458b-a3c0-757cf6791024` | `claude:AgentSecurityComp/42258c4d-4471-458b-a3c0-757cf6791024.jsonl` | included-canonical |
 | Claude Code | AgentSecurityComp | `a809e3ce-6bd5-4997-914a-1100fe705967` | `claude:AgentSecurityComp/a809e3ce-6bd5-4997-914a-1100fe705967.jsonl` | included-canonical |
-| Claude Code | AgentSecurityComp | `d02227a2-1ed0-471c-abb2-994217974264` | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl` | included-canonical |
-| Claude Code | AgentSecurityComp | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569` | `claude:AgentSecurityComp/f1ef3669-1d5f-4caf-ab9b-c4eedf643569.jsonl` | included-canonical |
+| Claude Code | AgentSecurityComp | `d02227a2-1ed0-471c-abb2-994217974264` | `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl` | included-canonical at cutoff-1; original absent at 2026-09-04 audit |
+| Claude Code | AgentSecurityComp | `f1ef3669-1d5f-4caf-ab9b-c4eedf643569` | `claude:AgentSecurityComp/f1ef3669-1d5f-4caf-ab9b-c4eedf643569.jsonl` | included-canonical at cutoff-1; original absent at 2026-09-04 audit |
 | Codex | ARC-AGI-3 | `019ed1da-2605-7a63-b99e-69db1f12161b` | `codex:2026/06/16/rollout-2026-06-16T21-13-15-019ed1da-2605-7a63-b99e-69db1f12161b.jsonl` | included-canonical |
 | Codex | ARC-AGI-3 | `019ed98f-89e6-7530-bcf1-c453709e4434` | `codex:2026/06/18/rollout-2026-06-18T09-08-43-019ed98f-89e6-7530-bcf1-c453709e4434.jsonl` | included-canonical |
 | Codex | ARC-AGI-3 | `019ed98f-8a24-7bb2-8aa4-1f14fd24088b` | `codex:2026/06/18/rollout-2026-06-18T09-08-43-019ed98f-8a24-7bb2-8aa4-1f14fd24088b.jsonl` | included-canonical |
@@ -243,6 +248,13 @@ resolve against the private read-only bases in the snapshot table above.
 | OpenCode/DeepSeek | ARC-AGI-3 | `ses_0272a2568ffeSoBW8bBagLOznD` | `opencode:session/ses_0272a2568ffeSoBW8bBagLOznD` | included-canonical |
 | OpenCode/DeepSeek | AgentSecurityComp | `ses_019da7b0effeSVV74ieACHE15I` | `opencode:session/ses_019da7b0effeSVV74ieACHE15I` | included-canonical |
 | OpenCode/DeepSeek | AgentSecurityComp | `ses_0231a2013ffeeQefgINsuGs4Is` | `opencode:session/ses_0231a2013ffeeQefgINsuGs4Is` | included-canonical |
+
+Audit-time file availability and SHA-256 digests for every Claude and Codex row
+above are recorded in `paper/evidence/source-availability-manifest.md`. Seven of
+ten canonical Claude files and all 15 canonical Codex files were present on
+2026-09-04. Missing originals are not treated as directly re-openable evidence;
+their claims require separately identified surviving records or explicit
+derivative/testimony labels.
 
 | Exclusion or deduplication disposition | Snapshot treatment |
 | --- | --- |
@@ -328,6 +340,15 @@ read-only evidence sources.
 
 ## Coded research episodes
 
+The 33 rows form a purposive, maximum-variation analytic sample, not an
+exhaustive census of project activity. Inclusion required a bounded adjudicable
+proposition, traceable evidence, an implementation, experiment, or explicit
+evidence adjudication, and enough record to code origin and status. Routine
+debugging, purely operational work, duplicate provider continuations, repeated
+variants without a new evidentiary issue, and propositions lacking an
+adjudicable record were excluded. No denominator of all possible project
+episodes was constructed.
+
 The rows below are bounded episodes rather than provider turns. `Prior evidence`
 records what was cited before the test; `Local outcome` and `Live outcome` remain
 separate. Origin is coded conservatively as `human`, `agent`, `external`, or
@@ -393,6 +414,8 @@ planned L8 campaign; the later returned packing descriptions are labeled L9.
 | ASC | 2026-08-13 | Test whether the GPU route would meet or exceed the 83.115 historical CPU reproduction threshold. | agent | Timing observations and a CPU-cap hypothesis. | Described as likely the lever. | Approved a GPU ladder; no same-batch hardware control survived. | GPU path became functional after zero-score failures. | Best GPU arm 50.175 versus the 83.115 historical threshold. | refuted | The threshold proposition was refuted; the unmatched comparison does not identify a causal CPU-versus-GPU effect. | AS-S12 |
 | ASC | 2026-08-15 | Test whether the L29 split would exceed the 88.730 historical L27 threshold. | agent | Residual throughput hypothesis after L27. | Moderate. | Allowed a bounded live test without a same-batch routing control. | Split runner executed. | 85.675, below the 88.730 historical threshold. | refuted | The threshold proposition was refuted; the unmatched comparison does not causally reject routing. | AS-S13 |
 | ASC | 2026-08-16 | Test whether L31 chainpack arms would exceed the 88.730 historical L27 threshold. | agent | Packing and forge follow-up hypotheses. | Moderate. | Preserved the cutoff-pending state and later updates separately. | Chainpack arms were prepared; fast-emit arm ran. | All chainpack arms were pending at cutoff; by 12:44:16Z all four were complete at 79.985, 79.365, 73.605, and 54.375, while fast emit was 25.145. | refuted | The historical-threshold proposition was refuted; the unmatched comparisons do not identify a causal chainpack effect. | AS-S14 |
+| ASC | 2026-08-22 to 2026-09-01 | Among the revealed tested rows, the two queried high-public EXFIL submissions score 0.000 private while the queried confused-deputy `email.send` rows score positively. | mixed | Human pivot to the private board; agent/subagent source analysis; public write-ups and a mock private-guardrail wheel. | High for the proposed mechanism before private reveal; mechanism remains unobserved. | Directed the private-board pivot and selected the two final submissions. | Confused-deputy hedge scored locally against mock private guardrails; EXFIL blocked. | Revealed rows: EXFIL plays 0.000 (refs `55927148`, `55902731`); confused-deputy rows about 15.8–16.8. Selected pair: Slot A `55766377` (private 0.000), Slot B `55805571` (private 16.735); best queried hedge draw `55904213` at 16.805 (not selected). | confirmed | The row-level pattern transferred; the private guardrail mechanism, universal family behavior, and causal contribution to rank remain unobserved. | AS-S15 |
+| ASC | 2026-08-24 to 2026-09-01 | A final-week attacker-controllable lever (forge wording, adaptive sizing, inter-hop suppression, or probe-hop) closes the public-throughput gap to the frontier. | agent | Throughput-plateau analysis and public-frontier gap. | Moderate to low after the plateau finding. | Approved bounded ladders and controls. | Levers were executable and measured locally. | No lever beat about 92.670; several lowered the row; a direct query showed the public frontier had reached at least 147.530 by 2026-08-29 (ratio about 1.59 times). | refuted | Exhausting a family of attacker levers is a valid negative result, not evidence the gap is unclosable. | AS-S16 |
 
 ### ARC-AGI-3 episodes
 
@@ -423,13 +446,16 @@ planned L8 campaign; the later returned packing descriptions are labeled L9.
 
 ### Episode source register
 
-Each source ID below resolves either to an inventoried transcript locator, an
-OpenCode parent/child identifier, a repository object in the pinned case
-history, or an explicitly identified read-only working-tree artifact. Short Git
-hashes are unambiguous in the named repository and are ancestors of the stated
-cutoff.
+Each source ID below records the locator used at cutoff-1 or a later artifact.
+The 2026-09-04 availability audit found that some Claude files no longer resolve
+at their recorded paths; `paper/evidence/source-availability-manifest.md`
+identifies each surviving file, digest, missing original, and available
+substitute. OpenCode parent/child identifiers, repository objects in pinned case
+history, and explicitly identified read-only working-tree artifacts retain
+their stated scope. Short Git hashes are unambiguous in the named repository and
+are ancestors of the stated cutoff.
 
-| Source ID | Resolvable locator |
+| Source ID | Recorded locator or surviving artifact |
 | --- | --- |
 | AS-S01 | AgentSecurityComp commit `3e30121`; `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl#L164`, message `17b5c3bc` |
 | AS-S02 | AgentSecurityComp commit `3e30121`; `claude:AgentSecurityComp/d02227a2-1ed0-471c-abb2-994217974264.jsonl#L264,#L369`, messages `a216cca8` and `eb60b846` |
@@ -445,6 +471,8 @@ cutoff.
 | AS-S12 | AgentSecurityComp commit `52d7f0f`; `claude:AgentSecurityComp/9d0f25c3-7d3c-4eaf-a219-001b44ea5ec4.jsonl#L1488-L1573`; `paper/evidence/working-note-claim-ledger.md`, GPU submissions `55500552`, `55525506`, `55525507`, `55525533`, `55525536` |
 | AS-S13 | AgentSecurityComp commit `6018877`; `paper/evidence/working-note-claim-ledger.md`, row L29 submission `55530790` |
 | AS-S14 | AgentSecurityComp commit `b02d457`; `paper/evidence/working-note-claim-ledger.md`, row L31 submissions `55538814`, `55538829`, `55538848`, `55538855`, `55538875` |
+| AS-S15 | `paper/working_note.md` §7.4–§7.5 (private-board rationale and Slot A/B selection); `paper/evidence/cutoff-2-live-results-2026-09-04.md`; authenticated Kaggle submission rows retrieved 2026-09-04: EXFIL private 0.000 at refs `55927148`, `55902731`; selected Slot A `55766377` (private 0.000), selected Slot B `55805571` (public 16.555, private 16.735); confused-deputy rows private about 15.8–16.8 at refs `55904213` (16.805, best, not selected), `55906645`, `55928754`; `claude:AgentSecurityComp/d28017de-3f65-488c-8c50-38facf2b5534.jsonl` (private-hedge digest session, cutoff-2 lineage) |
+| AS-S16 | `paper/working_note.md` §7.5 (final-week lever results); `paper/evidence/cutoff-2-live-results-2026-09-04.md`; authenticated Kaggle rows retrieved 2026-09-04: best banked public 92.670 (ref `55766377`); final-week levers refs `55877747`, `55877752`, `55879084`, `55879086`, `55927142`, `55928757`; authenticated public frontier observation 147.530 on 2026-08-29/30 |
 | ARC-S01 | ArcAGI3 commit `19fd560`; cutoff `ebe5b3e:scripts/research_2026_07_01/goal_inference/exp_b_reasoner/retest_roletyped/VERDICT.md#L1-L23` (the verdict changes both role typing and HUD masking, so it supports only the combined representation) |
 | ARC-S02 | ArcAGI3 commits `8b5ab48`, `4270936`, `a077012`; cutoff `docs/DESIGN-2026-08-14-engineered-agent.md#L28-L35` |
 | ARC-S03 | ArcAGI3 commits `df9b96b`, `25e7a78`; cutoff `docs/geodesic-fix-validation.html#L42-L47` (repaired no-op and measured replay), `docs/HANDOFF-2026-07-01-research-continuation.md#L27-L32` (recorded 7–109× claim), and `docs/superpowers/specs/2026-08-01-sacrificial-recon-spine-design.md#L44-L47` (competition-mode HTTP 400 result) |
@@ -465,11 +493,16 @@ cutoff.
 
 ## Quote ledger
 
-These nine excerpts passed the source-context and privacy checks required by the
-approved design. They are intentionally short. No credential, secret, unrelated
-personal detail, or third-party personal information is present. `None` in the
-redaction column means that the excerpt needed no alteration. Quotations provide
-process or retrospective evidence only; they do not replace code or live results.
+These nine excerpts were admitted during the cutoff-1 source-context and privacy
+review. They are intentionally short. No credential, secret, unrelated personal
+detail, or third-party personal information is present. `None` in the redaction
+column means that the excerpt needed no alteration. The 2026-09-04 re-audit found
+that the canonical source files for Q01-Q04 and Q06 were no longer present at
+their recorded paths. Q01's user text survives in Claude's global prompt history;
+Q02-Q04 and Q06 survive as prior controlled-ledger extracts plus the repository
+corroboration identified by their episodes. They are not represented as newly
+re-opened original transcripts. Quotations provide process or retrospective
+evidence only; they do not replace code or live results.
 
 | Quote ID | Case and topic | Short excerpt | Date | Speaker | Provider | Parent/child session | Exact locator | Surrounding context | Redaction | Evidence class | Authorization and manuscript use |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -494,25 +527,26 @@ process or retrospective evidence only; they do not replace code or live results
 | OpenCode parents | 2 AgentSecurityComp + 3 ARC-AGI-3 = 5 | Supplementary evidence only |
 | OpenCode specialists | 0 AgentSecurityComp + 10 ARC-AGI-3 = 10 | Linked to parents; not independent conversations |
 | OpenCode recorded usage | 7,770,138 input tokens and 820,067 output tokens | Descriptive database totals; no quality inference |
-| Coded episodes | 14 AgentSecurityComp + 12 ARC-AGI-3 + 5 OpenCode primary investigations = 31 | Episode boundaries, not provider turns or independent discoveries |
-| Episode origins | `human`: 0; `agent`: 13; `external`: 3; `mixed`: 15 | Origin is apparent provenance under the conservative coding rule, not a measure of autonomy |
-| Episode final statuses | `confirmed`: 4; `partially supported`: 10; `refuted`: 7; `invalid experiment`: 5; `superseded`: 1; `open`: 4 | Status applies only to the bounded claim in its row |
+| Coded episodes | 16 AgentSecurityComp + 12 ARC-AGI-3 + 5 OpenCode primary investigations = 33 (cutoff-2; 31 at the 2026-08-16 cutoff plus AS-S15 and AS-S16) | Episode boundaries, not provider turns or independent discoveries |
+| Episode origins | `human`: 0; `agent`: 14; `external`: 3; `mixed`: 16 | Origin is apparent provenance under the conservative coding rule, not a measure of autonomy |
+| Episode final statuses | `confirmed`: 5; `partially supported`: 10; `refuted`: 8; `invalid experiment`: 5; `superseded`: 1; `open`: 4 | Status applies only to the bounded claim in its row |
 | Human oversight | 2-5 hours/day | Retrospective testimony, approximate |
 | Direct spend | About USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions | Retrospective testimony, approximate and not a complete cost accounting |
 
 The origin count uses exact row IDs: `human` none; `agent` AS-S02, AS-S05,
-AS-S07, AS-S08, AS-S12, AS-S13, AS-S14, ARC-S02, ARC-S03, ARC-S04,
+AS-S07, AS-S08, AS-S12, AS-S13, AS-S14, AS-S16, ARC-S02, ARC-S03, ARC-S04,
 ARC-S07, ARC-S08, ARC-S09; `external` AS-S03, AS-S04, AS-S09; `mixed` AS-S01,
-AS-S06, AS-S10, AS-S11, ARC-S01, ARC-S05, ARC-S06, ARC-S10, ARC-S11, ARC-S12,
+AS-S06, AS-S10, AS-S11, AS-S15, ARC-S01, ARC-S05, ARC-S06, ARC-S10, ARC-S11, ARC-S12,
 OC-S01, OC-S02, OC-S03, OC-S04, OC-S05.
 
-The status count uses exact row IDs: `confirmed` AS-S01, AS-S03, ARC-S06,
+The status count uses exact row IDs: `confirmed` AS-S01, AS-S03, AS-S15, ARC-S06,
 ARC-S07; `partially supported` AS-S02, AS-S04, AS-S05, AS-S09, AS-S10,
 ARC-S01, ARC-S02, ARC-S10, OC-S01, OC-S05; `refuted` AS-S11, AS-S12, AS-S13, AS-S14,
-ARC-S08, ARC-S09, ARC-S11; `invalid experiment` AS-S07, AS-S08, ARC-S03,
+AS-S16, ARC-S08, ARC-S09, ARC-S11; `invalid experiment` AS-S07, AS-S08, ARC-S03,
 ARC-S05, OC-S04; `superseded` ARC-S04; `open` AS-S06, ARC-S12,
-OC-S02, OC-S03. These lists contain all 31 source IDs exactly once in each
-derivation.
+OC-S02, OC-S03. These lists contain all 33 source IDs exactly once in each
+derivation (31 at the 2026-08-16 cutoff plus AS-S15 confirmed and AS-S16
+refuted, added in the cutoff-2 revision).
 
 Project duration, active days, commit counts, submission trajectories, and
 productivity multipliers remain omitted. No productivity multiplier is
@@ -605,12 +639,12 @@ placeholders.
 | Register item | AgentSecurityComp | ARC-AGI-3 | Evidence class and update rule |
 | --- | --- | --- | --- |
 | Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, 2026-08-16T11:59:48Z, and 2026-08-16T12:44:16Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b mutable artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff. Later evidence appends a dated observation. |
-| Winning objective | Ongoing and unachieved at cutoff. | Ongoing and unachieved at cutoff. | Retrospective testimony; verify against final official records. |
-| Current recorded score/status state | Independently retrieved live rows: L27 control `COMPLETE` at 88.730; L29 `COMPLETE` at 85.675; L31 fast-emit `COMPLETE` at 25.145. All four chain-pack refs were `PENDING` at the frozen cutoff; by 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. No current-rank, matched-effect, or final-best claim follows. | No current external score or rank was independently queried. Repository/project artifacts report Stage 2b at 0.2463 versus duck at 1.6333 over the full-25 development set and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is a current external fact. | AgentSecurity values are selected live observations through 2026-08-16T12:44:16Z; the separate frozen artifact remains dated 2026-08-16T10:56:15Z. ARC values remain bounded project-record or audit-time-artifact claims. |
-| Reviewed deadlines | Official final submission deadline: 2026-09-01 at 23:59 UTC; optional Working Note deadline: 2026-09-08 at 23:59 UTC. | No official ARC deadline was admitted to this reviewed ledger; none is asserted. | AgentSecurity dates are source facts from the official timeline recorded in the working-note claim ledger. ARC requires a primary official source in a later revision. |
+| Winning objective | Ongoing and unachieved at cutoff-1. **Cutoff-2 (2026-09-04):** concluded 2026-09-01; top prize not won; authenticated rank 171 of 4,186 at 16:57:02Z. The author separately reported a Silver notification of 173 of 4,251, but no notification artifact was retained. | Ongoing and unachieved at cutoff-1. **Cutoff-2 (2026-09-04):** still ongoing (deadline 2026-11-02); objective unachieved; public best 1.94, public rank 374 of 2,779 at 16:56:36Z; private board not yet revealed. A later 20:12:04Z query returned 379 of 2,787. | At cutoff-2, AgentSecurity rank and row scores and ARC values are authenticated live observations. The Silver label and 173/4,251 are author testimony. |
+| Current recorded score/status state | Independently retrieved live rows: L27 control `COMPLETE` at 88.730; L29 `COMPLETE` at 85.675; L31 fast-emit `COMPLETE` at 25.145. All four chain-pack refs were `PENDING` at the frozen cutoff; by 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. No current-rank, matched-effect, or final-best claim follows. **Cutoff-2 (2026-09-04):** best banked public 92.670 (ref 55766377); queried private rows — EXFIL plays 0.000 (refs 55927148, 55902731), confused-deputy rows about 15.8–16.8 (best 16.805, ref 55904213). Selected Slot A was 0.000 private and Slot B 16.735. This confirms the observed rows, not the private guardrail mechanism or a causal explanation of rank. | No current external score or rank was independently queried at cutoff-1. Repository/project artifacts report Stage 2b at 0.2463 versus duck at 1.6333 over the full-25 development set and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is a current external fact. **Cutoff-2 (2026-09-04):** the 16:56:36Z query returned public best 1.94 (ref 55970756, 2026-09-03), rank 374 of 2,779; the 20:12:04Z audit recheck returned 379 of 2,787. The private board remains hidden until 2026-11-02. | Cutoff-1 AgentSecurity values are selected live observations through 2026-08-16T12:44:16Z; cutoff-2 values are authenticated Kaggle observations dated 2026-09-04. ARC cutoff-1 values remain bounded project-record or audit-time-artifact claims. |
+| Reviewed deadlines | Official final submission deadline: 2026-09-01 at 23:59 UTC; optional Working Note deadline: 2026-09-08 at 23:59 UTC. **Cutoff-2:** Working Note submitted 2026-09-02. | At cutoff-1 no official ARC deadline was admitted; none was asserted. **Cutoff-2 (2026-09-04):** official deadline 2026-11-02 at 23:59 UTC (ARC Prize 2026 — ARC-AGI-3), from the authenticated competition listing. | AgentSecurity dates are source facts from the official timeline; the cutoff-2 ARC deadline is a primary authenticated source. |
 | Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony: about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions with unrecorded amounts. No independently confirmed total exists at cutoff. |
 | Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate of 2-5 hours/day; not a contemporaneous time record. |
-| Reserved post-competition categories | Official final submission status and score, final rank, winning-objective verdict, Working Note outcome, receipt-reconciled costs if available, measured cumulative oversight if available, and dated interpretation change. | Official final evaluation status and score, final rank, winning-objective verdict, Qwen 3.8 external result if executed, receipt-reconciled costs if available, measured cumulative oversight if available, and dated interpretation change. | Populate only from cited official records, preserved artifacts, or explicitly labelled testimony. Retain every prior negative, invalid, superseded, pending, and open state. |
+| Reserved post-competition categories | Cutoff-2 populated authenticated rank, final row scores, winning-objective verdict, and Working Note outcome. Medal/173-of-4,251 remains testimony. Receipt-reconciled costs and measured cumulative oversight remain unavailable. | Cutoff-2 populated a dated public score and rank and the official deadline. Final evaluation, final rank, private result, winning-objective verdict, and Qwen 3.8 transfer remain open. | Populate only from cited official records, preserved artifacts, or explicitly labelled testimony. Retain every prior negative, invalid, superseded, pending, and open state. |
 
 Update procedure: freeze the prior version; state new cutoffs; query official
 final records; append every new completed, failed, cancelled, or still-pending
@@ -626,9 +660,17 @@ never inherits the result of a companion submission.
   separately rechecked at 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, and
   2026-08-16T11:59:48Z, with the four chainpack rows rechecked again at
   2026-08-16T12:44:16Z;
-  none establishes final ranking, later results, or competition outcome. ARC external
-  state was not queried, so project-ledger outcomes are not current external
-  facts.
+  none establishes final ranking, later results, or competition outcome. At
+  cutoff-1, ARC external state was not queried, so project-ledger outcomes were
+  not current external facts. **Cutoff-2 (2026-09-04):** both competitions were
+  re-queried from the authenticated Kaggle API; AgentSecurity was final at rank
+  171 of 4,186 and ARC-AGI-3 remained ongoing (deadline 2026-11-02, public best
+  1.94, rank 374 of 2,779 at 16:56:36Z, private board unrevealed). A later
+  same-day query returned 379 of 2,787, demonstrating live-state movement rather
+  than contradicting the earlier timestamped observation. The separately
+  reported Silver notification of 173/4,251 is author testimony because no
+  notification artifact was retained. Private guardrail behavior and causal
+  private-row decomposition remain unavailable.
 - Claude classification and canonical groups were derived at the stated store
   snapshot from entrypoint, prompt-source, legacy-session, bridge, and path
   metadata. The hashed overlap audit detects exact copied prompt runs of three
@@ -648,13 +690,16 @@ never inherits the result of a companion submission.
   recorded in the source register, but the artifact is not cutoff-reproducible;
   cutoff-ancestor commit `da37afd` corroborates only the code and commit-level
   verdict, not the exact external artifact bytes.
-- The testimony on oversight, costs, value, trust, and unachieved objectives is
-  not yet independently corroborated.
+- The testimony on oversight, costs, value, trust, and the Silver notification
+  is not independently corroborated unless a row states otherwise.
 - No balanced provider assignment, common task set, controlled model versions,
   equal budget, or human-only control exists.
-- The coded episodes, selected quotes, and literature rows have passed their
-  stated source-level checks. Retrospective testimony remains uncorroborated
-  unless a row says otherwise, and mutable policy pages require a submission-
-  time recheck.
-- Both competition outcomes remain open, and neither winning objective has been
-  achieved at the cutoff.
+- The coded episodes and literature rows have passed their stated source-level
+  checks. Three canonical Claude transcript files and two additional cited
+  Claude continuations were absent at the 2026-09-04 audit; affected quotations
+  or claims depend on the substitutes identified in
+  `paper/evidence/source-availability-manifest.md`. Retrospective testimony
+  remains uncorroborated unless a row says otherwise, and mutable policy pages
+  require a submission-time recheck.
+- AgentSecurity concluded without the top prize. ARC-AGI-3 remained open and
+  its winning objective remained unachieved at cutoff-2.
