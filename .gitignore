@@ -4,8 +4,18 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 .venv/
+.venv-*/
 venv/
 *.log
+
+# Secrets — never commit (defensive; none currently present)
+.env
+.env.*
+.dev.vars
+kaggle.json
+*.pem
+*.key
+id_rsa*
 candidates*.json
 /kaggle_working/
 
