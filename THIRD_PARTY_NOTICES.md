@@ -7,11 +7,14 @@ remains under its own terms and copyright.
 
 ---
 
-## 1. `aicomp-sdk` — competition SDK (`comp_310_backup/`)
+## 1. `aicomp-sdk` — competition SDK (`comp/`, `comp_310_backup/`)
 
-- **Version bundled:** 3.1.0 (`comp_310_backup/aicomp_sdk-3.1.0.dist-info/`)
+- **Versions bundled:** 3.1.2 (`comp/aicomp_sdk-3.1.2.dist-info/`) — the version
+  the working note pins its §4 code citations to — and 3.1.0
+  (`comp_310_backup/aicomp_sdk-3.1.0.dist-info/`), an earlier working copy.
 - **Copyright:** 2026 Competition Organizers
 - **License:** MIT — full text at
+  `comp/aicomp_sdk-3.1.2.dist-info/licenses/LICENSE` and
   `comp_310_backup/aicomp_sdk-3.1.0.dist-info/licenses/LICENSE`
 - **Upstream:** https://github.com/mbhatt1/competitionscratch
 
@@ -27,10 +30,14 @@ placeholders (e.g. AWS's `AKIAIOSFODNN7EXAMPLE`, Slack's `T00000000/...`
 webhook form) and RFC 2606 reserved domains. Automated secret scanners will
 flag them; they carry no access to any system.
 
-**Version caveat.** The working note pins its code citations to `aicomp-sdk
-3.1.2`, which is *not* redistributed here. The copy bundled at
-`comp_310_backup/` is 3.1.0. Line numbers and minor details may differ; obtain
-3.1.2 from the competition's Data page or upstream to verify §4 exactly.
+**Which copy to read.** Verify the working note's §4 claims against `comp/`
+(3.1.2) — that is the pinned version. `comp_310_backup/` is an earlier 3.1.0
+working copy retained because parts of the experiment record reference it; line
+numbers there may differ.
+
+Local run state (`comp/.aicomp/`) and `__pycache__` are excluded; the
+`ai-agent-security-multi-step-tool-attacks.zip` competition data archive is not
+redistributed.
 
 ## 2. Competitor reference kernels (`refkernels_new/`)
 
