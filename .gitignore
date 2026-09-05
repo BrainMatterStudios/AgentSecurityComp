@@ -19,8 +19,12 @@ id_rsa*
 candidates*.json
 /kaggle_working/
 
-# Competition SDK data (downloaded; not ours to commit) and scratch
-comp/
+# Competition SDK: vendored for reproducibility (MIT, see THIRD_PARTY_NOTICES.md).
+# The working note pins its §4 code citations to comp/aicomp_sdk 3.1.2, so the
+# sources must be published for those citations to resolve. Local run state and
+# caches stay out.
+comp/.aicomp/
+comp/**/__pycache__/
 refkernels/
 /tmp/
 poll_and_download.sh
