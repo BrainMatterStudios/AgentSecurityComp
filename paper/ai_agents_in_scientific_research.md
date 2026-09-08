@@ -9,14 +9,14 @@ case study examines one experienced technologist's use of coding agents in two
 unfamiliar competition-based domains: AgentSecurityComp and ARC-AGI-3. Evidence
 combines private agent histories, pinned repository revisions, experiment
 artifacts, authenticated submission rows, and bounded retrospective testimony.
-A purposive, maximum-variation sample of 33 research episodes was coded for
+A purposive, maximum-variation sample of 38 research episodes was coded for
 proposition origin, evidence, human intervention, outcomes, status, and lesson.
 
 Agents inspected software contracts, implemented candidate mechanisms, built
 harnesses and controls, repaired parsers and model-serving paths, and preserved
 negative results. The record was weaker for dependable hypothesis selection,
 causal identification, calibrated interpretation, and independent originality.
-Five bounded claims were confirmed, ten partially supported, eight refuted,
+Eight bounded claims were confirmed, ten partially supported, ten refuted,
 five were invalid experiments, one was superseded, and four remained open.
 These labels describe the selected episodes, not agent accuracy. Human review,
 estimated retrospectively at 2–5 hours per day, was integral to the system.
@@ -24,10 +24,14 @@ estimated retrospectively at 2–5 hours per day, was integral to the system.
 Neither top-prize objective was won. After AgentSecurityComp closed, an
 authenticated query returned rank 171 of 4,186. The author separately reported
 a Silver notification of 173 of 4,251, but no notification artifact was
-retained. The selected public-best row scored 0.000 private while the selected
-confused-deputy row scored 16.735; this pattern is consistent with the hedge
-rationale but does not reveal the private mechanism. ARC-AGI-3 remained ongoing
-and unachieved at cutoff-2. With no human-only control and unequal, changing case
+retained. Across the entrant's complete retained submission population, 38 of 49
+scored rows returned exactly 0.000 on the private board and all 11 positive rows
+came from the confused-deputy `email.send` line, so the public throughput axis that organized
+most of the work was worth nothing on the board that decided the prizes; the
+mechanism behind that dissociation remains unobserved. ARC-AGI-3 remained
+ongoing and unachieved, though its public rank rose to 26 of 2,892 by cutoff-3
+on a byte-copy of a public competitor notebook whose byte-identical redraws
+spanned 2.45 to 4.31. With no human-only control and unequal, changing case
 conditions, the study supports a bounded conclusion: agents lowered the
 perceived barrier to computational research and executed useful work, but did
 not demonstrate dependable scientific autonomy. The resulting governance
@@ -229,7 +233,7 @@ live-row locators can be checked without them; symbolic transcript locators are
 available only where the source manifest records a surviving private file. A
 reviewer-auditable
 [public episode ledger](evidence/episode-ledger-public.md) accompanies the paper:
-it reproduces all 33 coded episodes and their public locators (commits,
+it reproduces all 38 coded episodes and their public locators (commits,
 submission references, repository paths, and published records) with private
 trace identifiers redacted, so the descriptive tallies can be independently
 checked without releasing the controlled histories.
@@ -239,8 +243,10 @@ Seven of ten canonical Claude files and all 15 canonical Codex files survived
 at their recorded paths on 2026-09-04. Three Claude originals were absent;
 claims associated with them are therefore limited to surviving repository
 corroboration, another available record, or an explicit derivative/testimony
-label. The [cutoff-2 live-results artifact](evidence/cutoff-2-live-results-2026-09-04.md)
-preserves the later competition observations and their claim-use limits.
+label. The [cutoff-2](evidence/cutoff-2-live-results-2026-09-04.md) and
+[cutoff-3](evidence/cutoff-3-live-results-2026-09-08.md) live-results artifacts
+preserve the later competition observations and their claim-use limits. The
+hash manifest was not re-run at cutoff-3; its 2026-09-04 state stands.
 
 According to retrospective author testimony, Claude Code was the primary
 research system, while Codex and OpenCode/DeepSeek were introduced mainly as
@@ -270,10 +276,12 @@ experiment; human review; local outcome; live or external outcome; final claim
 status; timing of correction; and the durable methodological lesson.
 Cross-provider continuation of the same inquiry remains one episode.
 
-The reviewed ledger contains 33 such episodes: 16 in AgentSecurityComp, 12 in
+The reviewed ledger contains 38 such episodes: 17 in AgentSecurityComp, 16 in
 ARC-AGI-3, and five supplementary OpenCode investigations. Thirty-one were coded
 at the 2026-08-16 cutoff; two AgentSecurityComp episodes (AS-S15 and AS-S16) were
-added in the post-competition cutoff-2 revision described in Section 12. Origins
+added in the post-competition cutoff-2 revision described in Section 12, and five
+more (AS-S17 and ARC-S13 to ARC-S16) in the cutoff-3 revision described in
+Section 13. Origins
 are coded conservatively as `human`, `agent`, `external`, or `mixed`. A provider's proposal
 is not coded as autonomous discovery when human or external input materially
 shaped the same episode. Final status is `confirmed`, `partially supported`,
@@ -377,7 +385,11 @@ superseded, failed, and unresolved experiments remain distinct in later
 revisions. New competition results will receive a new dated cutoff and will not
 silently overwrite negative or unresolved outcomes. Final rankings, costs, and
 retrospective conclusions will be added only after the competitions conclude
-and the supporting records are checked.
+and the supporting records are checked. Two such cutoffs have since been
+appended: cutoff-2 on 2026-09-04 (Section 12) and cutoff-3 on 2026-09-08
+(Section 13). One case, ARC-AGI-3, is still open at the latest cutoff, so its
+values are reported as a dated and mutable mid-competition state rather than a
+result.
 
 ## 4. Case I: AI Agent Security
 
@@ -773,19 +785,19 @@ capabilities, including self-correction and appropriate stopping without a
 human having to detect the critical mistake. The two cases provide direct
 evidence of access and substantial execution, bounded instances of insight,
 and weaker evidence for dependable originality, reliability, or autonomy.
-(Episodes AS-S01-AS-S16; Episodes ARC-S01-ARC-S12; Episodes OC-S01-OC-S05;
+(Episodes AS-S01-AS-S17; Episodes ARC-S01-ARC-S16; Episodes OC-S01-OC-S05;
 Testimony Q08-Q09)
 
-The origin codes reinforce this separation but must not be misread. Of the 33
-reviewed episodes, 14 propositions were coded `agent`, 16 `mixed`, three
+The origin codes reinforce this separation but must not be misread. Of the 38
+reviewed episodes, 16 propositions were coded `agent`, 18 `mixed`, four
 `external`, and zero `human`. Zero human-origin rows is a coding result about
 the apparent source of the bounded proposition, not evidence that no human
-intellectual contribution occurred. The 16 mixed rows and the intervention
+intellectual contribution occurred. The 18 mixed rows and the intervention
 column record human framing, challenge, approval, demand for controls, and
 claim closure. Likewise, an agent-origin proposition is not automatically an
 original discovery: it may recombine inherited methods, target an already
 visible failure, or remain refuted, invalid, superseded, or open. (AI evidence
-ledger, descriptive measures and derivations, including the 33 exact episode
+ledger, descriptive measures and derivations, including the 38 exact episode
 IDs)
 
 ### 6.2 Access without mastery; execution without dependable originality
@@ -859,15 +871,18 @@ tasks, timing, models, and budgets also prevent provider ranking. For efficacy,
 the relevant external result remained the authority: directly retrieved live
 rows support the cited AgentSecurity scores, while ARC outcomes retain their
 narrower project-ledger or artifact qualification because they were not freshly
-queried from the external platform. (Episodes OC-S01-OC-S05; Quote Q05;
-AgentSecurity live-results ledger; Sources ARC-S01-ARC-S12; AI evidence ledger,
+queried from the external platform. That asymmetry was narrowed at cutoff-2 and
+closed for ARC's public axis at cutoff-3, where its submission rows became
+authenticated live observations on the same footing; its private axis remains
+unqueried because it does not yet exist (§12.2, §13.4). (Episodes OC-S01-OC-S05; Quote Q05;
+AgentSecurity live-results ledger; Sources ARC-S01-ARC-S16; AI evidence ledger,
 known evidence gaps)
 
 ## 7. Where Agents Add Value
 
 The cases support a practical role for agents as research executors. Their value
 was distributed across the observed workflow rather than concentrated in
-autonomous discovery. (Episodes AS-S01-AS-S16; Episodes ARC-S01-ARC-S12)
+autonomous discovery. (Episodes AS-S01-AS-S17; Episodes ARC-S01-ARC-S16)
 
 - **Navigation and onboarding.** Repository search, SDK inspection, and
   evaluator reading converted unfamiliar systems into executable maps. This
@@ -885,8 +900,12 @@ autonomous discovery. (Episodes AS-S01-AS-S16; Episodes ARC-S01-ARC-S12)
   checks, retained replay cases, and A/A noise measurement made hidden
   assumptions observable. ARC's 0.707-level RMS estimate and the later rule
   “Serving identity proven first” are stronger contributions to research
-  validity than an unqualified leaderboard narrative would have been. (Episodes
-  AS-S05, AS-S08; Episodes ARC-S05-ARC-S07; Quote Q07)
+  validity than an unqualified leaderboard narrative would have been. The
+  cutoff-3 off-platform replication rig extends the same capability to the
+  external metric itself: once byte-identical public draws were shown to span
+  2.45 to 4.31, a same-image instrument with pre-registered decision bands was
+  the only way left to read a lever at all. (Episodes
+  AS-S05, AS-S08; Episodes ARC-S05-ARC-S07, ARC-S14-ARC-S16; Quote Q07)
 - **Experiment generation.** Agents produced alternative mechanisms and
   executable arms, while the human requested bounded ladders, controls, and
   full-game verdicts. The episode ledger records both successful component tests
@@ -911,23 +930,28 @@ would erase the causal and provenance work that turns execution into knowledge.
 ## 8. Where Agents Struggle
 
 The status distribution describes a mixed record rather than a single success
-rate: five of 33 bounded claims were confirmed, ten partially supported, eight
+rate: eight of 38 bounded claims were confirmed, ten partially supported, ten
 refuted, five invalid experiments, one superseded, and four open. Those labels
 apply to different propositions and evidence types, so they cannot be collapsed
 into a provider accuracy score. They do show why an executable result, an
 external effect, a valid experiment, and a durable scientific conclusion must
 be adjudicated separately. (AI evidence ledger, descriptive measures and
-derivations, with all 33 IDs assigned exactly once)
+derivations, with all 38 IDs assigned exactly once)
 
-Hypothesis selection and novelty remained weak points. The ledger contains 14
-agent-origin propositions, but several pursued throughput, routing, serving, or
-reset explanations that were later refuted or invalidated. The author could not
-identify a clear unexpected agent-originated discovery and assessed the
-contributions as largely building on other people's work. That testimony does
+Hypothesis selection and novelty remained weak points. The ledger contains 16
+agent-origin propositions, but several pursued throughput, routing, serving,
+reset, or turn-cadence explanations that were later refuted or invalidated. The
+author could not identify a clear unexpected agent-originated discovery and
+assessed the contributions as largely building on other people's work. The
+cutoff-3 ARC evidence sharpens rather than softens this: the largest single
+improvement in that case's best banked public score came from byte-copying a
+named public notebook, while the two agent-origin candidates tested against
+pre-registered bands in the same week both returned null. That testimony does
 not prove agents cannot originate discoveries; it limits what these two cases
 can claim. Agent generation supplied candidates, while worthwhile selection and
 independent originality remained unresolved. (Episodes AS-S07-AS-S08,
-AS-S12-AS-S14; Episodes ARC-S03, ARC-S08-ARC-S09; Testimony Q09)
+AS-S12-AS-S14; Episodes ARC-S03, ARC-S08-ARC-S09, ARC-S13, ARC-S15-ARC-S16;
+Testimony Q09)
 
 Calibration and due diligence failed at consequential boundaries. High local
 confidence preceded discovery that the treatment never served, a comparison
@@ -971,7 +995,7 @@ Episodes OC-S02-OC-S05; Episode ARC-S11)
 The resulting governance framework is a research protocol, not generic advice
 to keep a human in the loop. Each control below answers a coded failure and
 specifies an operational action that a researcher or IT professional can audit.
-(Episodes AS-S01-AS-S16; Episodes ARC-S01-ARC-S12; Episodes OC-S01-OC-S05)
+(Episodes AS-S01-AS-S17; Episodes ARC-S01-ARC-S16; Episodes OC-S01-OC-S05)
 
 | Control | Operational rule | Coded reason |
 | --- | --- | --- |
@@ -986,6 +1010,20 @@ specifies an operational action that a researcher or IT professional can audit.
 | Preserved negatives and states | Append results to an immutable ledger with separate fields for local and live outcomes and the statuses `confirmed`, `partially supported`, `refuted`, `invalid experiment`, `superseded`, and `open`. Preserve failed controls, killed arms, pending arms, and provenance limits rather than rewriting the project around the latest result. | L27, GPU, L29, Stage 2b, the killed sparse arm, and L31's cutoff-pending/later-partial-completion states have different evidentiary meanings that would disappear in a success-only narrative. (Episodes AS-S11-AS-S14; Episode ARC-S11; Episode OC-S03) |
 | Pre-outcome confidence | Record confidence and its evidentiary basis before revealing the result. Afterward, score calibration separately from implementation quality and retain both corrections and later distinct claims. | Q04 corrected the earlier 570-boundary claim before Q02 introduced a different 465-boundary claim; Q04 therefore cannot be a retraction of Q02. Other high-confidence propositions failed serving or evaluation checks. (Quotes Q04 and Q02; Episodes ARC-S03, ARC-S05, ARC-S08-ARC-S09) |
 | Stopping and escalation | Stop an arm when its treatment cannot be proven, its control is broken, its required evaluator action is unavailable, or a registered gate is under-powered. Escalate to human redesign when repeated results stay in-band, arms overlap, provenance is unresolved, or a live claim would exceed the evidence. | ARC's noise study amended two under-powered gates; the sparse arm was killed before reset; overlapping routing and adverse late ladders required redesign rather than confident continuation. (Episode ARC-S06; Episode OC-S03; Episodes AS-S08, AS-S11-AS-S14) |
+
+Most of the controls above were derived retrospectively from failures. The
+cutoff-3 ARC work is the one place in this record where several of them were
+applied prospectively, and it is reported for that reason rather than for its
+result. Faced with an external metric whose byte-identical draws spanned 2.45 to
+4.31, the project built a same-image off-platform instrument, wrote engagement
+gates, a primary endpoint, decision bands, safety lines, and void rules before
+each launch, and then read two candidates against those locked rules. Both were
+recorded as negatives: one engaged its mechanism completely and moved nothing,
+the other was engaged-but-flat inside its own dead band. The wave also caught a
+defect in its own safety counter and appended the correction rather than editing
+it away. The controls did not produce a better score. They produced two
+defensible closures and a trustworthy instrument, which is what they are for.
+(Episodes ARC-S14-ARC-S16; §13.3)
 
 The framework also clarifies ownership. Agents can fill hypothesis cards, build
 controls, maintain ledgers, and conduct first-pass audits. The accountable human
@@ -1042,7 +1080,7 @@ wrong-model corpus—with broader findings on context-sensitive literature-agent
 judgments and citation errors [13,15]. (Episode ARC-S05; Episode OC-S04)
 
 No general performance rate follows from two competitions, one researcher, and
-33 interpretively coded episodes. The bounded implication is operational: the
+38 interpretively coded episodes. The bounded implication is operational: the
 agents generated executable work in unfamiliar domains, and the author
 retrospectively perceived that they enabled participation and contextual
 learning. Without a human-only control, the cases cannot measure how much work
@@ -1057,7 +1095,7 @@ human accountability for provenance, validity, external transfer, and stopping.
 
 This is a comparative N-of-1 study of one researcher and two projects, not a
 representative sample of researchers, domains, or agent systems. The projects
-were selected because the author conducted them, and the 33 episodes were
+were selected because the author conducted them, and the 38 episodes were
 chosen and interpretively coded by that same authorial research process. No
 second coder was blinded to the cases, no inter-rater reliability estimate
 exists, and quotations were selected for explanatory value under the stated
@@ -1112,7 +1150,15 @@ cutoff-2 revision (Section 12, dated 2026-09-04) resolves the AgentSecurity outc
 with an authenticated final standing and a fresh ARC live query; consistent with
 this section's rule, that later observation appends dated states and cannot
 retroactively convert an invalid experiment into a valid one or erase a negative,
-superseded, or unresolved episode.
+superseded, or unresolved episode. The cutoff-3 revision (Section 13, dated
+2026-09-08) appends a third state under the same rule. It carries two further
+limits of its own. ARC-AGI-3 was open at that cutoff, so its rank of 26 of 2,892
+is mutable, rests on the top draw of a family whose byte-identical draws span
+2.45 to 4.31, and cannot be read as a stable position; and the off-platform
+replication results cited in Section 13.3 are local measurements on a
+same-image rig, which can refute a proposition about that rig but cannot
+establish or refute a live competition effect. The live three-draw read on the
+`yield900` candidate was incomplete at that cutoff and remains open.
 
 ### 11.2 Living-outcomes register
 
@@ -1122,17 +1168,18 @@ is a completed evidence status, not a blank field.
 
 | Register item | AgentSecurityComp | ARC-AGI-3 | Authority and update constraint |
 | --- | --- | --- | --- |
-| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, 2026-08-16T11:59:48Z, and 2026-08-16T12:44:16Z. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
-| Winning objective | Ongoing and unachieved at the 2026-08-16 cutoff. **Cutoff-2 (2026-09-04):** competition concluded 2026-09-01; the top-prize objective was not won. An authenticated 16:57:02Z query returned rank 171 of 4,186 entrants. Separately, the author reported a Silver notification of 173 of 4,251; no notification artifact was retained. | Ongoing and unachieved at the 2026-08-15 cutoff. **Cutoff-2 (2026-09-04):** still an ongoing competition (official deadline 2026-11-02); objective unachieved; best public score 1.94 and public rank 374 of 2,779 at 16:56:36Z; private board not yet revealed. A later same-day query returned 379 of 2,787, demonstrating that the live rank was mutable. | Cutoff-1 is retrospective author testimony. At cutoff-2, the AgentSecurity rank and submission rows and the ARC values are authenticated live observations; the medal label and 173/4,251 remain author testimony (Section 12). |
-| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145. At the frozen cutoff all four L31 chain-pack rows were `PENDING`; at 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were all `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. These are identified live submission rows, not a current rank, matched-effect estimate, or final best-system claim. **Cutoff-2 (2026-09-04):** best banked public score 92.670 (ref 55766377); on the private board the two queried high-public EXFIL submissions scored 0.000 (refs 55927148, 55902731) while queried confused-deputy rows scored about 15.8–16.8 (best 16.805, ref 55904213). The selected pair was Slot A (ref 55766377, private 0.000) and Slot B (ref 55805571, private 16.735). Slot B was the only selected row with a positive observed private score; the query does not reveal the scoring mechanism or independently reconstruct how final rank was calculated. | No current external score or rank was independently queried at cutoff-1. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. **Cutoff-2 (2026-09-04):** a fresh authenticated query returns a best public score of 1.94 (ref 55970756, 2026-09-03) with public rank about 374 of 2,779; the private board is not revealed until the 2026-11-02 deadline. | Cutoff-1 AgentSecurity values are selected live observations through 2026-08-16T12:44:16Z; the frozen artifact remains dated 2026-08-16T10:56:15Z. Cutoff-2 values are authenticated Kaggle live observations dated 2026-09-04. ARC cutoff-1 values are bounded repository or mutable-artifact records. |
-| Recorded deadlines | Final submission: 2026-09-01 at 23:59 UTC; optional Working Note: 2026-09-08 at 23:59 UTC. **Cutoff-2 (2026-09-04):** the Working Note was submitted on 2026-09-02, ahead of its deadline. | At cutoff-1 no official ARC deadline was admitted, so the earlier revision asserted none. **Cutoff-2 (2026-09-04):** the official competition deadline is 2026-11-02 at 23:59 UTC (ARC Prize 2026 — ARC-AGI-3), retrieved from the authenticated competition listing. | AgentSecurity dates come from the reviewed official timeline. The cutoff-2 ARC deadline is a primary authenticated source, satisfying the earlier revision constraint. |
+| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, 2026-08-16T11:59:48Z, and 2026-08-16T12:44:16Z. **Cutoff-3 (2026-09-08):** authenticated Kaggle queries retrieved between 18:21:51Z and 18:25:29Z, covering the competition row, the full retained submission list, and the published Working Note. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. **Cutoff-3 (2026-09-08):** authenticated Kaggle queries retrieved between 18:21:51Z and 18:25:29Z; the ARC project repository read at commit `41213de` (2026-09-08T18:06:51Z). | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
+| Winning objective | Ongoing and unachieved at the 2026-08-16 cutoff. **Cutoff-2 (2026-09-04):** competition concluded 2026-09-01; the top-prize objective was not won. An authenticated 16:57:02Z query returned rank 171 of 4,186 entrants. Separately, the author reported a Silver notification of 173 of 4,251; no notification artifact was retained. **Cutoff-3 (2026-09-08):** standing unchanged at 171 of 4,186; a repository-wide search again found no screenshot, email, or archived notification, so the medal label stays testimony. | Ongoing and unachieved at the 2026-08-15 cutoff. **Cutoff-2 (2026-09-04):** still an ongoing competition (official deadline 2026-11-02); objective unachieved; best public score 1.94 and public rank 374 of 2,779 at 16:56:36Z; private board not yet revealed. A later same-day query returned 379 of 2,787, demonstrating that the live rank was mutable. **Cutoff-3 (2026-09-08):** still open and unachieved; best public score 4.31 (ref 56080757) and public rank 26 of 2,892 at 18:25:28Z, on a byte-copy of a public competitor notebook; private board still unrevealed. | Cutoff-1 is retrospective author testimony. At cutoff-2, the AgentSecurity rank and submission rows and the ARC values are authenticated live observations; the medal label and 173/4,251 remain author testimony (Section 12). At cutoff-3 the same holds, with ARC's values explicitly mutable because the competition is open (Section 13). |
+| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145. At the frozen cutoff all four L31 chain-pack rows were `PENDING`; at 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were all `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. These are identified live submission rows, not a current rank, matched-effect estimate, or final best-system claim. **Cutoff-2 (2026-09-04):** best banked public score 92.670 (ref 55766377); on the private board the two queried high-public EXFIL submissions scored 0.000 (refs 55927148, 55902731) while queried confused-deputy rows scored about 15.8–16.8 (best 16.805, ref 55904213). The selected pair was Slot A (ref 55766377, private 0.000) and Slot B (ref 55805571, private 16.735). Slot B was the only selected row with a positive observed private score; the query does not reveal the scoring mechanism or independently reconstruct how final rank was calculated. **Cutoff-3 (2026-09-08):** the full retained submission list was retrieved — of 50 rows, one errored without scores and 49 carry both; 38 scored exactly 0.000 private, 11 scored above zero, all 11 from the confused-deputy `email.send` line (2.290 to 16.805), and no row above 50 public scored above zero private. This is complete for this entrant's retained submissions, not for the competition, and still does not expose the guardrail. | No current external score or rank was independently queried at cutoff-1. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. **Cutoff-2 (2026-09-04):** a fresh authenticated query returns a best public score of 1.94 (ref 55970756, 2026-09-03) with public rank about 374 of 2,779; the private board is not revealed until the 2026-11-02 deadline. **Cutoff-3 (2026-09-08):** best public 4.31 (ref 56080757, 2026-09-07) at rank 26 of 2,892, against a public frontier of 11.04. Three byte-identical draws of one script version returned 3.25, 2.58, and ERROR; two byte-identical draws of the one-knob candidate returned 4.31 and 2.45. Off-platform, on a same-image rig, that knob is a null on levels (118 vs 118 over 75 runs per side) and a pre-registered probe-discipline arm read engaged-but-flat (41 vs a pooled base of 39.33, sd 2.34) and was recorded dead. The live three-draw read on the knob was incomplete at this cutoff. | Cutoff-1 AgentSecurity values are selected live observations through 2026-08-16T12:44:16Z; the frozen artifact remains dated 2026-08-16T10:56:15Z. Cutoff-2 values are authenticated Kaggle live observations dated 2026-09-04. ARC cutoff-1 values are bounded repository or mutable-artifact records. Cutoff-3 platform values are authenticated Kaggle live observations dated 2026-09-08; the off-platform rig results in the ARC cell are local measurements read from the project repository at commit `41213de` and are not live competition results. |
+| Recorded deadlines | Final submission: 2026-09-01 at 23:59 UTC; optional Working Note: 2026-09-08 at 23:59 UTC. **Cutoff-2 (2026-09-04):** the Working Note was submitted on 2026-09-02, ahead of its deadline. **Cutoff-3 (2026-09-08):** the Working Note is directly observable as a published Kaggle notebook (`ahmedmobasher86/working-note-guardrail-predicate-asymmetry`, last run 2026-09-02T06:40:02Z), upgrading publication from repository record to authenticated observation; the award outcome was unannounced when this cutoff's queries ran and stays reserved. | At cutoff-1 no official ARC deadline was admitted, so the earlier revision asserted none. **Cutoff-2 (2026-09-04):** the official competition deadline is 2026-11-02 at 23:59 UTC (ARC Prize 2026 — ARC-AGI-3), retrieved from the authenticated competition listing. **Cutoff-3 (2026-09-08):** the same deadline was returned again by the authenticated listing; unchanged. | AgentSecurity dates come from the reviewed official timeline. The cutoff-2 ARC deadline is a primary authenticated source, satisfying the earlier revision constraint. The cutoff-3 Working Note row is an authenticated notebook listing; its award outcome is not an observation and stays reserved. |
 | Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony reports about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions whose amounts were not recorded. No independently confirmed total existed at cutoff. |
 | Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate: 2–5 hours per day; not a time-tracking result. |
-| Reserved post-competition fields | **Populated at cutoff-2 (Section 12):** authenticated rank (171 of 4,186), winning-objective verdict (top prize not won), public best (92.670), observed private submission rows, and Working Note outcome (submitted 2026-09-02). The separately reported Silver notification (173 of 4,251) remains author testimony because its artifact was not retained. **Still reserved:** receipt-reconciled cost and measured cumulative oversight. | **Populated at cutoff-2 (Section 12):** fresh public score (1.94) and public rank (about 374 of 2,779); official deadline (2026-11-02). **Still reserved:** final evaluation status and rank, winning-objective verdict, private-board result, and final Qwen 3.8 transfer, all pending the 2026-11-02 close; receipt-reconciled cost and measured oversight remain testimony. | Populate only from newly cited official records, preserved project artifacts, or explicitly labelled testimony; retain the cutoff states above in revision history. |
+| Reserved post-competition fields | **Populated at cutoff-2 (Section 12):** authenticated rank (171 of 4,186), winning-objective verdict (top prize not won), public best (92.670), observed private submission rows, and Working Note outcome (submitted 2026-09-02). The separately reported Silver notification (173 of 4,251) remains author testimony because its artifact was not retained. **Still reserved:** receipt-reconciled cost, measured cumulative oversight, and the Working Note award outcome, which was unannounced at cutoff-3. | **Populated at cutoff-2 (Section 12):** fresh public score (1.94) and public rank (about 374 of 2,779); official deadline (2026-11-02). **Populated at cutoff-3 (Section 13):** public best (4.31), public rank (26 of 2,892), the adoption provenance of the flown family, and two pre-registered off-platform negatives. **Still reserved:** final evaluation status and rank, winning-objective verdict, private-board result, final Qwen 3.8 transfer, and the completed live three-draw read on the `yield900` candidate, all pending later evidence or the 2026-11-02 close; receipt-reconciled cost and measured oversight remain testimony. | Populate only from newly cited official records, preserved project artifacts, or explicitly labelled testimony; retain the cutoff states above in revision history. |
 
 The update procedure is specified in Appendix A and was applied for cutoff-2 in
-Section 12. Any later update must append another dated state: pending remains
-pending and unqueried remains unqueried until direct evidence changes it.
+Section 12 and again for cutoff-3 in Section 13. Any later update must append
+another dated state: pending remains pending and unqueried remains unqueried
+until direct evidence changes it.
 
 ## 12. Post-Competition Outcomes (cutoff-2, 2026-09-04)
 
@@ -1245,14 +1292,258 @@ population frequency, and the two additions leave every earlier code unchanged.
 Cost and cumulative-oversight fields remain retrospective testimony and are not
 populated by this cutoff. (AI evidence ledger, cutoff-2 addendum)
 
+## 13. Continuing Outcomes (cutoff-3, 2026-09-08)
+
+This section performs the Appendix A.6 update procedure for a third dated
+cutoff. It appends what the platform and the project record showed four days
+after cutoff-2; it does not rewrite the 2026-08-16 narrative in Sections 4 and 5
+or the cutoff-2 statements in Section 12, both of which stand as dated states.
+AgentSecurityComp remained closed. ARC-AGI-3 remained open, and its values below
+are therefore a mid-competition snapshot with a mutable rank.
+
+**Evidence provenance.** The [cutoff-3 live-results artifact](evidence/cutoff-3-live-results-2026-09-08.md)
+records the authenticated queries, the repository locators, and their claim-use
+limits. Kaggle competition, leaderboard, submission, and published-notebook rows
+were retrieved between 18:21:51Z and 18:25:29Z on 2026-09-08 and are **live
+observations**. The off-platform replication results are **local measurements**
+read from the ARC project repository at commit `41213de`; they are not live
+competition results and are labelled as such throughout.
+
+### 13.1 AgentSecurityComp: a complete public-private dissociation, and a published note
+
+The authenticated standing is unchanged: rank 171 of 4,186 on a competition that
+closed on 2026-09-01. A repository-wide search for the reported Silver
+notification of 173 of 4,251 again returned only the project's own textual
+records of the report — no screenshot, email, or archived notification — so it
+remains author testimony (Section 12.1).
+
+What is new is coverage. Section 12.1 read a hand-picked set of revealed private
+rows; at this cutoff the full retained submission list was retrieved. Of 50
+rows, one errored without scores and 49 carry both scores. **Thirty-eight scored
+exactly 0.000 private. Eleven scored above zero, and all eleven come from the
+confused-deputy `email.send` line.** No row with a public score above 50
+scored anything on the private board, including the selected public best at
+92.670. The positive band runs from 2.290 on a small timing probe to 16.805 on a
+non-selected confused-deputy draw, with the selected Slot B at 16.735.
+
+This converts the cutoff-2 row-level pattern into a population-level statement,
+with one boundary kept explicit: the population is *this entrant's retained
+submissions*, not the competition. Within that boundary the two boards were
+completely dissociated. Every point of public throughput the project earned
+across the whole competition—the axis that organized most of the agent-directed
+work in Section 4—was worth zero on the board that decided the prizes, and the only
+positive private scores came from a small, human-directed hedge line that never
+exceeded 16.6 in public. That is a strong result about *this record*. It still
+does not expose the private guardrail, prove a universal rule about `http.post`,
+isolate which component of a confused-deputy submission earned its score, or
+establish that the hedge caused the final placement. (Episode AS-S17; §12.1)
+
+One further row is worth separating from the hedge family. A deliberate
+diversity arm—submitted under the description "NOVELTY CD+UTA diversity arm
+(private predicate coverage)", pairing the confused-deputy line with
+untrusted-to-action coverage—scored 10.745 private on 10.520 public. It is the
+only positive-private row that was flown as portfolio coverage rather than as a
+draw of the main hedge. It scored, and it scored below the hedge. That is
+consistent with the portfolio reasoning without vindicating it, and it is
+recorded here because a success-only reading of the private board would drop it.
+
+Finally, the Working Note is now directly observable as a published Kaggle
+notebook (`ahmedmobasher86/working-note-guardrail-predicate-asymmetry`, last run
+2026-09-02 06:40:02Z). Publication therefore moves from repository record to
+authenticated platform observation. Its **award outcome is unknown**: the
+optional Working Note deadline was 2026-09-08 23:59 UTC and no result had been
+announced when this cutoff's queries ran. That field stays reserved.
+
+### 13.2 ARC-AGI-3: a large rank move built on someone else's artifact
+
+Between the two cutoffs the ARC public rank moved from 374 of 2,779 to **26 of
+2,892**, and the best public score from 1.94 to **4.31** (ref `56080757`,
+2026-09-07). The public frontier at the same query window was 11.04 (Tufa Labs),
+with 8.21, 7.63, 7.51, and 5.96 behind it. Read naively, this is the single most
+favorable outcome in either case. Read against its own evidence, it is a
+precise illustration of the distinctions this paper has argued for, and it moves
+the case's conclusion less than the rank suggests.
+
+Two facts do most of that work.
+
+**The step came from adoption, not origination.** The jump from the 1.94 family
+to 3.25 (ref `56042273`, 2026-09-05) was produced by a byte-copy of a public
+competitor notebook, `keithtyser/duck-qwen3-8-flash-next-nvfp4-mtp` V14, which
+was independently observable as a public artifact with 149 votes at the cutoff
+query. The submission description, written at submission time, names the source
+and states its reading rule. Everything the project subsequently flew—including
+the 4.31—is that public artifact plus one import-time constant. That +1.31 is
+the largest single improvement in this case's best banked public score across
+its whole history; the next largest, +0.96, was the first scoring submission,
+and no in-house change ever moved it by more than +0.44. This is transparent,
+attributed reuse. It is not independent discovery, and it lands exactly where
+Section 6.2 placed the adaptive-sizing and commitment-forge episodes: valuable
+recombination whose provenance must travel with the claim. (Episode ARC-S13;
+§6.2)
+
+**A single public draw cannot adjudicate a change.** Three byte-identical
+resubmissions of the same script version (svid `347562879`, hash `90efdebb`)
+returned 3.25, 2.58, and an `ERROR` that the project log records as a platform
+system error with the slot refunded. Two byte-identical draws
+of the one-knob candidate (svid `347926973`) returned 4.31 and 2.45. Unchanged
+code therefore spans 2.58–3.25 while the candidate spans 2.45–4.31; the project
+record puts the flown family at mean 3.15, sd 0.85 over four completed draws.
+The rank-26 headline rests on the top draw of that distribution. Nothing in the
+public record separates it from draw noise. (Episode ARC-S14)
+
+The honest summary is that the case's external position improved substantially,
+that the improvement is real in the sense that the rows are authenticated and
+banked, and that the mechanism behind it is an external artifact plus favorable
+variance rather than a validated project contribution. The winning objective
+remains unachieved, the private board is not revealed until the 2026-11-02
+deadline, and both the rank and the entrant count are mutable.
+
+### 13.3 Pre-registered reads on an unstable metric
+
+The more consequential development at this cutoff is methodological. With
+byte-identical public draws spanning 2.45 to 4.31, the leaderboard could not
+adjudicate a one-knob change at the submission rate available, so levers were
+read instead on an off-platform instrument: the same docker image on a
+Modal-hosted RTX PRO 6000, which the project record identifies as the evaluation
+GPU class, over 25 development games per wave, with pre-registered engagement
+gates, a primary endpoint, decision bands, and void rules recorded *before* each
+launch. Two candidates were run
+through it, and both were read against their locked rules.
+
+The `yield900` knob—the one constant separating the 4.31 from the base—had
+looked positive on two early rig draws (41 and 40 levels against a base 36). A
+larger paired comparison—three runs of 25 games on each side, two on the rig and
+one from a Kaggle commit run, so the pooled totals mix two execution
+platforms—returned **118 levels against 118 levels**: 1.573 versus 1.573 levels
+per game, a paired per-game difference of 0.00 ± 0.11, eight games better, eight
+worse, nine the same, and a slightly negative live-cap score. The knob
+demonstrably changed behavior—calls per turn 1.02 → 2.05, actions per game
+143 → 115, GAME_OVERs 1.31 → 0.87—without changing the outcome it was built
+to change. The project
+record states the consequence plainly: do not fly it as a step lever, because
+its expected live value is the base's. (Episode ARC-S15)
+
+The second candidate was the top-ranked proposal from that same analysis:
+harness-enforced probe discipline, which refuses analysis-only calls after two
+per turn and demands an executed test of the model's leading hypothesis. Its
+engagement gate, primary endpoint, decision bands, safety line, and void rules
+were pre-registered before launch. It engaged emphatically—2.64 refusals per
+game, 87.5% acting after the first refusal, wall-level action ratio moving from
+0.72 to 1.00 of baseline, turn-budget yields from 27–30 to zero. It then
+returned 41 levels against a pooled six-draw base of 39.33 (sd 2.34): +0.71
+standard deviations, inside the pre-registered dead band. It was recorded dead.
+(Episode ARC-S16)
+
+Three things in that sequence are worth naming, because they are what the
+Section 9 protocol was written to produce. First, the decision rule was fixed
+before the number arrived, so an engaged-but-flat result could not be narrated
+into a success. Second, the mechanism worked and the hypothesis still failed—the
+harness reshaped the agent's behavior exactly as designed and the levels did
+not move—which is precisely the execution/insight separation of Section 6.2,
+observed prospectively rather than reconstructed. Third, the wave surfaced a
+defect in its own instrument: a safety counter read zero because a pre-filter
+matched `'"game_over": true'` with a space while the harness writes compact
+JSON. The defect was found, corrected, regression-tested, and appended to the
+wave summary as a correction rather than a silent edit. An instrument that can
+be caught lying about itself is a better instrument than one that cannot.
+
+Two limits keep this from being a stronger claim than it is. These are
+**off-platform local measurements**, and Section 8's boundary applies in both
+directions: a local null does not refute a live effect any more than a local
+gain would establish one. And the live pre-registered three-draw read on
+`yield900` was **incomplete** at this cutoff—two draws had landed at 4.31 and
+2.45, a mean of 3.38 against an adopt threshold of 4.0, with the third armed to
+fire on 2026-09-09. It is recorded here as pending, not as closed.
+
+### 13.4 What cutoff-3 changes, and what it does not
+
+Neither case's headline verdict moves. AgentSecurityComp's top-prize objective
+was not won and its standing is unchanged. ARC-AGI-3's winning objective remains
+unachieved with the private board unrevealed. The two cases now differ in
+freshness only in the way an open competition must differ from a closed one.
+
+Three interpretive statements gain evidence rather than requiring revision. The
+public-private dissociation in Section 12.1 now holds across the entire retained
+submission population rather than a queried handful. The originality boundary in
+Section 6.2 gains its clearest instance: the largest single improvement in the
+ARC case's best banked public score came from copying a named public
+artifact. And the Section 9 controls—the
+falsifiable hypothesis card, matched controls, local-to-live gates, preserved
+negatives, and the stopping rule—were exercised prospectively at this cutoff and
+produced two recorded negatives instead of two narrated wins.
+
+One statement is qualified. Section 6.3 closed by noting that ARC outcomes
+retained a narrower project-ledger qualification because they had not been
+freshly queried. Cutoff-2 began to resolve that, and cutoff-3 completes it for
+the public axis: ARC's public rows are now authenticated live observations on
+the same footing as AgentSecurity's. Its private axis remains unqueried because
+it does not yet exist.
+
+### 13.5 Five added episodes and recomputed tallies
+
+Five episodes are added at this cutoff—one AgentSecurityComp and four
+ARC-AGI-3—and no earlier episode's code is changed.
+
+- **AS-S17** (origin `mixed`; status `confirmed`). Proposition: across the
+  entrant's complete retained submission population, the public and private
+  boards are dissociated. Confirmed at the population level: 38 of 49 scored
+  rows are exactly 0.000 private, all 11 positive rows come from the
+  confused-deputy `email.send` line, and no row above 50 public scored above
+  zero private. The private guardrail mechanism, the behavior of unflown
+  submissions, and the causal contribution to final rank remain unobserved.
+  Lesson: a complete population within one entrant's record is a stronger
+  statement than a queried sample and still not a statement about the
+  competition.
+- **ARC-S13** (origin `external`; status `confirmed`). Proposition: adopting the
+  best public artifact raises the banked public score above every in-house arm
+  flown to date. Confirmed: a byte-copy of the public V14 notebook scored 3.25
+  against a best prior in-house family of 1.78–1.94. No matched same-slot
+  control was run, so the size of the effect is bounded by draw variance.
+  Lesson: the largest observed improvement in this case's best banked score was
+  attributed reuse, and attribution is what keeps it a contribution rather than
+  a claim of discovery.
+- **ARC-S14** (origin `mixed`; status `confirmed`). Proposition: a single public
+  draw cannot adjudicate a one-knob change on this metric. Confirmed directly:
+  three byte-identical draws of one script version returned 3.25, 2.58, and
+  `ERROR`, and two byte-identical draws of the candidate returned 4.31 and 2.45.
+  Lesson: measure the metric's own variance before reading a lever from it —
+  the ARC noise-floor work of Episode ARC-S06, repeated on the external board.
+- **ARC-S15** (origin `agent`; status `refuted`). Proposition: the `yield900`
+  turn-budget knob produces a step change in levels cleared on the off-platform
+  replication rig. Refuted: 118 levels against 118 over 75 runs per side, a
+  paired per-game difference of 0.00 ± 0.11, and a slightly negative local
+  score, despite large and verified behavioral change. The live three-draw read
+  was incomplete at this cutoff and is not treated as closed. Lesson: a lever
+  can engage its mechanism completely and still be null on the endpoint.
+- **ARC-S16** (origin `agent`; status `refuted`). Proposition: harness-enforced
+  probe discipline on the wall level clears the pre-registered step bar.
+  Refuted under the locked read: strongly engaged on every registered gate, then
+  41 levels against a pooled base of 39.33 (sd 2.34) — +0.71 sd, inside the dead
+  band. Lesson: pre-registering the decision rule is what makes an
+  engaged-but-flat result reportable as a negative instead of a narrative.
+
+Recomputed descriptive tallies at cutoff-3: **38 episodes** (17
+AgentSecurityComp, 16 ARC-AGI-3, five OpenCode). Status: **eight** confirmed,
+**ten** partially supported, **ten** refuted, **five** invalid experiments,
+**one** superseded, **four** open. Origin: **16** agent, **18** mixed, **four**
+external, **zero** human. These remain descriptive of the reviewed corpus, not
+estimates of population frequency, and the five additions leave every earlier
+code unchanged. Cost and cumulative-oversight fields remain retrospective
+testimony and are not populated by this cutoff. (AI evidence ledger, cutoff-3
+addendum)
+
 ## Data, Ethics, and Declarations
 
 ### Data and materials availability
 
 The manuscript's [public episode ledger](evidence/episode-ledger-public.md)
-provides all 33 coding rows, status and origin derivations, and public artifact
+provides all 38 coding rows, status and origin derivations, and public artifact
 locators. The [cutoff-2 live-results artifact](evidence/cutoff-2-live-results-2026-09-04.md)
-records the competition observations used in Section 12. Private Claude, Codex,
+records the competition observations used in Section 12, and the
+[cutoff-3 live-results artifact](evidence/cutoff-3-live-results-2026-09-08.md)
+records those used in Section 13, including the repository locators for the
+off-platform replication results and the claim-use limit that keeps them
+separate from live competition evidence. Private Claude, Codex,
 and OpenCode histories are controlled because they can contain credentials,
 personal material, and unrelated project content. Their availability and file
 digests are reported in the
@@ -1392,7 +1683,7 @@ case counts. Finally, cross-provider work on the same proposition is merged at
 the episode level; session totals are never added to estimate ideas or output.
 
 To reproduce the inventory, an auditor applies those rules in order, records
-every included canonical root and linked derivative, checks that all 33 episode
+every included canonical root and linked derivative, checks that all 38 episode
 IDs occur exactly once, and reconciles origin and status totals to the row-level
 IDs in the evidence ledger. Exact private transcript contents are not required
 for the published count; an authorized auditor can inspect the surviving

@@ -21,9 +21,12 @@ that limitation is stated in the paper (§3.4, §11.1).
 
 **Cutoff.** Cutoff-1 is 2026-08-16 (31 episodes). Cutoff-2 (2026-09-04) adds two
 AgentSecurityComp episodes, AS-S15 and AS-S16, from authenticated Kaggle live
-queries; no earlier episode's code changed. Totals below are the cutoff-2 state.
+queries. Cutoff-3 (2026-09-08) adds five more — AS-S17 and ARC-S13 to ARC-S16 —
+from authenticated Kaggle queries and the ARC project repository at commit
+`41213de`. No earlier episode's code changed at either cutoff. Totals below are
+the cutoff-3 state.
 
-**Selection boundary.** The 33 rows are a purposive, maximum-variation analytic
+**Selection boundary.** The 38 rows are a purposive, maximum-variation analytic
 sample, not an exhaustive census of project activity. Inclusion required a
 bounded adjudicable proposition, traceable evidence, an implementation,
 experiment, or explicit evidence adjudication, and enough record to code origin
@@ -40,7 +43,7 @@ an agent accuracy or autonomy score.
 
 ---
 
-## 1. AgentSecurityComp episodes (16)
+## 1. AgentSecurityComp episodes (17)
 
 | Episode | Date | Proposition | Origin | Human intervention | Local outcome | Live outcome | Status | Lesson |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -60,8 +63,9 @@ an agent accuracy or autonomy score.
 | AS-S14 | 2026-08-16 | Test whether L31 chainpack arms would exceed the 88.730 historical L27 threshold. | agent | Preserved cutoff-pending state; later updates kept separate. | Chainpack prepared; fast-emit ran. | Chainpack pending at cutoff; by 12:44:16Z all four `COMPLETE` at 79.985/79.365/73.605/54.375; fast-emit 25.145. | refuted | The historical-threshold proposition was refuted; unmatched comparisons identify no causal chainpack effect. |
 | **AS-S15** | 2026-08-22 to 2026-09-01 | Among the revealed tested rows, the two queried high-public EXFIL submissions score 0.000 private while the queried confused-deputy `email.send` rows score positively. | mixed | Directed the private-board pivot and selected the two final submissions. | Confused-deputy hedge scored against mock private guardrails; EXFIL blocked. | Revealed rows: EXFIL 0.000 (refs 55927148, 55902731); selected Slot A 55766377 (private 0.000) and Slot B 55805571 (private 16.735); best queried hedge draw 16.805 (ref 55904213, not selected). | confirmed | The row-level pattern transferred; the private guardrail mechanism, universal family behavior, and causal contribution to rank remain unobserved. |
 | **AS-S16** | 2026-08-24 to 2026-09-01 | A final-week attacker lever (forge wording, adaptive sizing, inter-hop suppression, or probe-hop) closes the public-throughput gap to the frontier. | agent | Approved bounded ladders and controls. | Levers executable and measured locally. | No lever beat about 92.670; several lowered the row; a direct query showed the frontier had reached at least 147.530 by 2026-08-29 (about 1.59 times the best banked score). | refuted | Exhausting a family of attacker levers is a valid negative result, not evidence the gap is unclosable. |
+| **AS-S17** | 2026-06-13 to 2026-09-01 (revealed 2026-09-08) | Across the entrant's complete retained submission population, the public and private boards are dissociated. | mixed | Directed the hedge line and the final selection; commissioned the full-population retrieval. | Public-throughput and confused-deputy lines were developed and measured separately throughout the case. | Of 50 retained rows, one `ERROR` without scores and 49 scored: 38 exactly 0.000 private; 11 above zero, all from the confused-deputy `email.send` line (2.290 ref `55701675` to 16.805 ref `55904213`), including a CD+UTA diversity arm at 10.745 (ref `55931330`); zero rows above 50 public scored above zero private, including the selected 92.670 (ref `55766377`). | confirmed | A complete population within one entrant's record is stronger than a queried sample and still not a statement about the competition. |
 
-## 2. ARC-AGI-3 episodes (12)
+## 2. ARC-AGI-3 episodes (16)
 
 | Episode | Date | Proposition | Origin | Human intervention | Local outcome | Live outcome | Status | Lesson |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -77,6 +81,10 @@ an agent accuracy or autonomy score.
 | ARC-S10 | 2026-08-09 | Add a structural plan channel with brake and phase gates. | mixed | Required live ledger comparison. | Structural controls executed. | Results stayed in the existing score band. | partially supported | Better process structure is not automatically a score breakthrough. |
 | ARC-S11 | 2026-08-15 | Replace duck baseline with engineered Stage 2b. | mixed | Required a full-25 verdict. | 0.2463 vs duck 1.6333, with six game wins. | No replacement shipped; only a narrow portfolio edge remained. | refuted | Preserve a narrow portfolio edge while rejecting the stated replacement claim. |
 | ARC-S12 | 2026-08-15 | Promote Qwen 3.8 after a controlled local A/B. | mixed | Required an armed but gated live runner. | Stored row mean 2.5291 vs Qwen 3.6 1.4872 (one-wave directional screen). | No scored live result by cutoff. | open | A strong local A/B remains an open transfer claim until live scoring. |
+| ARC-S13 | 2026-09-05 | Adopting the best public artifact raises the banked public score above every in-house arm flown to date. | external | Approved the adoption and the slot; required a pre-registered reading rule on the submission itself. | Off-platform reproduction of the adopted serving regime matched the public commit run's telemetry (1.44 lv/game, 55.8 calls/game, e2e 140 s). | Byte-copy of `keithtyser/duck-qwen3-8-flash-next-nvfp4-mtp` V14 scored 3.25 (ref `56042273`) against a best prior in-house family of 1.78-1.94. | confirmed | The largest observed movement in either case was attributed reuse; no matched same-slot control bounds its size. |
+| ARC-S14 | 2026-09-05 to 2026-09-08 | A single public draw cannot adjudicate a one-knob change on this metric, because byte-identical resubmissions differ materially. | mixed | Required exact-byte redraws before any lever was read from the board. | Not applicable; this is a property of the external metric. | Three byte-identical draws of svid `347562879` returned 3.25 (`56042273`), 2.58 (`56058136`), and `ERROR` (`56073627`); two byte-identical draws of svid `347926973` returned 4.31 (`56080757`) and 2.45 (`56088705`). | confirmed | Measure the metric's own variance before reading a lever from it - the ARC-S06 noise-floor discipline, applied to the external board. |
+| ARC-S15 | 2026-09-06 to 2026-09-08 | The `yield900` turn-budget knob produces a step change in levels cleared on the off-platform replication rig. | agent | Pre-registered the three-draw live rule and the rig comparison before launch. | 118 levels vs 118 over 75 runs per side (two Modal rig runs + one Kaggle commit run each side); 1.573 vs 1.573 lv/game; paired per-game difference 0.00 +/- 0.11; live-cap score 8.42 vs 9.06. Behavior did change: calls/turn 1.02 to 2.05, actions/game 143 to 115, GAME_OVERs 1.31 to 0.87. | Live draws 4.31 and 2.45 (mean 3.38 against a pre-registered adopt threshold of 4.0); the third draw was armed and unflown at cutoff-3. | refuted | A lever can engage its mechanism completely and still be null on the endpoint; the live read stays open. |
+| ARC-S16 | 2026-09-08 | Harness-enforced probe discipline on the wall level clears the pre-registered step bar. | agent | Locked engagement gate, primary endpoint, decision bands, safety line, and void rules before launch. | ENGAGED on every gate: 2.64 refusals/game, 87.5% acted after first refusal, wall action ratio 0.72 to 1.00, turn-budget yields 27-30 to 0. PRIMARY 41 levels vs pooled six-draw base 39.33 (sd 2.34) = +0.71 sd, inside the dead band. | Not flown live; closed on the rig under the locked read. | refuted | Pre-registering the decision rule is what makes an engaged-but-flat result reportable as a negative rather than a narrative. |
 
 ## 3. OpenCode primary investigations (5)
 
@@ -115,6 +123,7 @@ redaction rule.
 | AS-S14 | AgentSecurityComp commit `b02d457`; claim ledger row L31, refs `55538814`, `55538829`, `55538848`, `55538855`, `55538875` |
 | AS-S15 | `paper/working_note.md` §7.4–§7.5; `paper/evidence/cutoff-2-live-results-2026-09-04.md`; authenticated Kaggle rows (2026-09-04): EXFIL private 0.000 refs `55927148`, `55902731`; selected Slot A `55766377` (private 0.000), selected Slot B `55805571` (public 16.555, private 16.735); confused-deputy rows private about 15.8–16.8 refs `55904213` (16.805, best, not selected), `55906645`, `55928754`; private trace (authorized-auditor access) |
 | AS-S16 | `paper/working_note.md` §7.5; `paper/evidence/cutoff-2-live-results-2026-09-04.md`; authenticated Kaggle rows (2026-09-04): best public 92.670 ref `55766377`; lever refs `55877747`, `55877752`, `55879084`, `55879086`, `55927142`, `55928757`; authenticated public frontier observation 147.530 on 2026-08-29/30 |
+| AS-S17 | `paper/evidence/cutoff-3-live-results-2026-09-08.md`; authenticated Kaggle submission list (2026-09-08, 50 rows): 38 rows private 0.000 incl. `55766377` (92.670 public), `55927148`, `55902731`; 11 positive-private rows `55904213` (16.805), `55805571` (16.735), `55798216` (16.680), `55727898` (16.630), `55906645` (16.580), `55829246` (16.515), `55859041` (16.475), `55755882` (15.910), `55928754` (15.845), `55931330` (10.745), `55701675` (2.290); `55727914` `ERROR` without scores |
 | ARC-S01 | ArcAGI3 commit `19fd560`; `ebe5b3e:scripts/research_2026_07_01/goal_inference/exp_b_reasoner/retest_roletyped/VERDICT.md` |
 | ARC-S02 | ArcAGI3 commits `8b5ab48`, `4270936`, `a077012`; `docs/DESIGN-2026-08-14-engineered-agent.md` |
 | ARC-S03 | ArcAGI3 commits `df9b96b`, `25e7a78`; `docs/geodesic-fix-validation.html`, `docs/HANDOFF-2026-07-01-research-continuation.md`, `docs/superpowers/specs/2026-08-01-sacrificial-recon-spine-design.md` |
@@ -127,6 +136,10 @@ redaction rule.
 | ARC-S10 | ArcAGI3 commits `4bb431d`, `cfeb92a`; `docs/submission-ledger.json`, submissions `55493742`, `55450891`, `55418633` |
 | ARC-S11 | ArcAGI3 cutoff-ancestor commit `da37afd`; audit-time mutable artifact `scratchpad/engineered_stage2/stage2b_verdict.md` (SHA-256 `aa341694…64b2fa`, mtime `2026-08-14T23:22:57Z`), outside Git and not cutoff-reproducible |
 | ARC-S12 | ArcAGI3 commits `4f3d330`, `ebe5b3e`; `docs/superpowers/specs/2026-08-15-qwen38-emergency-promotion-design.md`, `docs/RESEARCH-2026-08-15-field-sweep-and-qwen38.md`, `scratchpad/qwen38/wave1_shipped_result.json` |
+| ARC-S13 | Authenticated Kaggle submission `56042273` (3.25, 2026-09-05) and prior family `55902917` (1.88), `55970756` (1.94), `55996715` (1.78); public source notebook `keithtyser/duck-qwen3-8-flash-next-nvfp4-mtp` (author `ktyser`, 149 votes at the 2026-09-08 query); ArcAGI3 commit `41213de`; `paper/evidence/cutoff-3-live-results-2026-09-08.md` |
+| ARC-S14 | Authenticated Kaggle submissions `56042273` (3.25), `56058136` (2.58), `56073627` (`ERROR`) at svid `347562879` hash `90efdebb`; `56080757` (4.31), `56088705` (2.45) at svid `347926973`; submission descriptions carry the pre-registered reading rules; `paper/evidence/cutoff-3-live-results-2026-09-08.md` |
+| ARC-S15 | ArcAGI3 commit `41213de`: `docs/research-2026-09-08/R-loss-ledger-3.md`, `offkaggle/REGIME_WAVE_STATUS.md`, `docs/HANDOFF-2026-08-29-packs-in-flight.md` §33; authenticated Kaggle submissions `56080757` (4.31), `56088705` (2.45) |
+| ARC-S16 | ArcAGI3 commits `7128d05` (graft + gate), `03a10ec` (judge fixes), `4736baa` (result); `offkaggle/results/20260908T0752-keith_probe`, `offkaggle/REGIME_WAVE_STATUS.md` RESULT block, `submission/_throughput_v1/PROBE_STATUS.md` |
 | OC-S01 | OpenCode parent session; no child sessions; private trace (authorized-auditor access) |
 | OC-S02 | OpenCode parent session; no child sessions; private trace (authorized-auditor access) |
 | OC-S03 | OpenCode parent + one linked child; private trace (authorized-auditor access) |
@@ -155,26 +168,28 @@ Quotations do not replace code or live results.
 | Q08 | Value assessment | "They enabled me a non domain expert to actually participate and contribute" | 2026-08-16 | Ahmed | Codex interview | Retrospective testimony |
 | Q09 | Originality assessment | "the contributions are mostly built on top of other people's work" | 2026-08-16 | Ahmed | Codex interview | Retrospective testimony |
 
-## 6. Descriptive measures (cutoff-2, 2026-09-04)
+## 6. Descriptive measures (cutoff-3, 2026-09-08)
 
 | Measure | Value |
 | --- | --- |
-| Coded episodes | 33 (16 AgentSecurityComp + 12 ARC-AGI-3 + 5 OpenCode); 31 at cutoff-1 plus AS-S15, AS-S16 |
-| Origins | `human` 0; `agent` 14; `external` 3; `mixed` 16 |
-| Statuses | `confirmed` 5; `partially supported` 10; `refuted` 8; `invalid experiment` 5; `superseded` 1; `open` 4 |
+| Coded episodes | 38 (17 AgentSecurityComp + 16 ARC-AGI-3 + 5 OpenCode); 31 at cutoff-1, plus AS-S15 and AS-S16 at cutoff-2, plus AS-S17 and ARC-S13 to ARC-S16 at cutoff-3 |
+| Origins | `human` 0; `agent` 16; `external` 4; `mixed` 18 |
+| Statuses | `confirmed` 8; `partially supported` 10; `refuted` 10; `invalid experiment` 5; `superseded` 1; `open` 4 |
 
-**Exact origin IDs.** `agent`: AS-S02, AS-S05, AS-S07, AS-S08, AS-S12, AS-S13,
-AS-S14, AS-S16, ARC-S02, ARC-S03, ARC-S04, ARC-S07, ARC-S08, ARC-S09.
-`external`: AS-S03, AS-S04, AS-S09. `mixed`: AS-S01, AS-S06, AS-S10, AS-S11,
-AS-S15, ARC-S01, ARC-S05, ARC-S06, ARC-S10, ARC-S11, ARC-S12, OC-S01, OC-S02,
-OC-S03, OC-S04, OC-S05. `human`: none.
+**Exact origin IDs.** `agent` (16): AS-S02, AS-S05, AS-S07, AS-S08, AS-S12,
+AS-S13, AS-S14, AS-S16, ARC-S02, ARC-S03, ARC-S04, ARC-S07, ARC-S08, ARC-S09,
+ARC-S15, ARC-S16. `external` (4): AS-S03, AS-S04, AS-S09, ARC-S13. `mixed` (18):
+AS-S01, AS-S06, AS-S10, AS-S11, AS-S15, AS-S17, ARC-S01, ARC-S05, ARC-S06,
+ARC-S10, ARC-S11, ARC-S12, ARC-S14, OC-S01, OC-S02, OC-S03, OC-S04, OC-S05.
+`human`: none.
 
-**Exact status IDs.** `confirmed`: AS-S01, AS-S03, AS-S15, ARC-S06, ARC-S07.
-`partially supported`: AS-S02, AS-S04, AS-S05, AS-S09, AS-S10, ARC-S01, ARC-S02,
-ARC-S10, OC-S01, OC-S05. `refuted`: AS-S11, AS-S12, AS-S13, AS-S14, AS-S16,
-ARC-S08, ARC-S09, ARC-S11. `invalid experiment`: AS-S07, AS-S08, ARC-S03,
-ARC-S05, OC-S04. `superseded`: ARC-S04. `open`: AS-S06, ARC-S12, OC-S02, OC-S03.
+**Exact status IDs.** `confirmed` (8): AS-S01, AS-S03, AS-S15, AS-S17, ARC-S06,
+ARC-S07, ARC-S13, ARC-S14. `partially supported` (10): AS-S02, AS-S04, AS-S05,
+AS-S09, AS-S10, ARC-S01, ARC-S02, ARC-S10, OC-S01, OC-S05. `refuted` (10):
+AS-S11, AS-S12, AS-S13, AS-S14, AS-S16, ARC-S08, ARC-S09, ARC-S11, ARC-S15,
+ARC-S16. `invalid experiment` (5): AS-S07, AS-S08, ARC-S03, ARC-S05, OC-S04.
+`superseded` (1): ARC-S04. `open` (4): AS-S06, ARC-S12, OC-S02, OC-S03.
 
-Each of the 33 IDs occurs exactly once in each derivation. These are descriptive
+Each of the 38 IDs occurs exactly once in each derivation. These are descriptive
 counts of the reviewed corpus, not estimates of population frequency, and are
 not an agent accuracy or autonomy score.
