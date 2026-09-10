@@ -8,7 +8,7 @@ establish scientific autonomy. This comparative single-participant (N-of-1)
 case study examines one experienced technologist's use of coding agents in two
 unfamiliar competition-based domains: AgentSecurityComp and ARC-AGI-3. Evidence
 combines private agent histories, pinned repository revisions, experiment
-artifacts, authenticated submission rows, and bounded retrospective testimony.
+artifacts, authenticated submission rows, and retrospective testimony.
 A purposive, maximum-variation sample of 38 research episodes was coded for
 proposition origin, evidence, human intervention, outcomes, status, and lesson.
 
@@ -16,7 +16,7 @@ Agents inspected software contracts, implemented candidate mechanisms, built
 harnesses and controls, repaired parsers and model-serving paths, and preserved
 negative results. The record was weaker for dependable hypothesis selection,
 causal identification, calibrated interpretation, and independent originality.
-Eight bounded claims were confirmed, ten partially supported, ten refuted,
+Eight claims were confirmed, ten partially supported, ten refuted,
 five were invalid experiments, one was superseded, and four remained open.
 These labels describe the selected episodes, not agent accuracy. Human review,
 estimated retrospectively at 2–5 hours per day, was integral to the system.
@@ -32,7 +32,7 @@ mechanism behind that dissociation remains unobserved. ARC-AGI-3 remained
 ongoing and unachieved, though its public rank rose to 26 of 2,892 by cutoff-3
 on a byte-copy of a public competitor notebook whose byte-identical redraws
 spanned 2.45 to 4.31. With no human-only control and unequal, changing case
-conditions, the study supports a bounded conclusion: agents lowered the
+conditions, the study supports one careful conclusion: agents lowered the
 perceived barrier to computational research and executed useful work, but did
 not demonstrate dependable scientific autonomy. The resulting governance
 protocol emphasizes direct-source verification, falsifiable hypotheses,
@@ -41,519 +41,431 @@ and human approval for scarce evaluations.
 
 ## 1. From Enterprise Architecture to Computational Research
 
-I came to these projects with more than 16 years of consulting experience in
-real-time decisioning and omnichannel AI, including Naive Bayes and gradient-
-boosting systems; enterprise and solution architecture across cloud and
-on-premises environments; more recent agentic-AI work; and early-career Java
-development.
-That background gave me transferable skills in systems design, integration,
-and structured problem solving. It did not make me an expert in agent security,
-ARC-AGI-3, scientific research practice, or Kaggle competition mechanics. My
-independent coding practice was rusty, and my Python experience had been mainly
-AI-assisted rather than the construction of greenfield research systems on my
-own. This is therefore neither a novice-versus-expert comparison nor a claim
-that general technical experience is equivalent to competition-domain
-expertise. It is the account of an experienced technologist entering two
-unfamiliar computational-research domains with both relevant strengths and
-material gaps.
+I came to these projects after more than 16 years in consulting: real-time
+decisioning and omnichannel AI, including Naive Bayes and gradient-boosting
+systems; enterprise and solution architecture across cloud and on-premises
+environments; more recent agentic-AI work; and Java development early on. That
+background transfers to systems design, integration, and structured problem
+solving. It does not make me an expert in agent security, ARC-AGI-3, research
+practice, or Kaggle. My own coding was rusty, and most of my Python had been
+written with AI help rather than from scratch. So this is not a novice against
+an expert, and not a claim that general technical experience substitutes for
+knowing a competition domain. It is what happened when an experienced
+technologist entered two unfamiliar ones, carrying real strengths and real gaps.
 
 The original experiment was deliberately ambitious. I wanted to see how far an
-agent-led process could go when I supplied little domain guidance rather than
-feeding the system hypotheses. In the first case, I instructed the agent to
-“continue to work in loops and iterations until you solve the challenge.” That
-authorized persistent investigation, not unreviewed changes to shared systems
-or independent submission decisions. My intended role was to approve, challenge,
-ask for breadth and depth, and decide whether an experiment was ready to move
-from local work to a scarce live evaluation.
+agent-led process could go if I withheld domain guidance instead of feeding it
+hypotheses. In the first case I told the agent to "continue to work in loops and
+iterations until you solve the challenge." That licensed persistent
+investigation. It did not license changes to shared systems or submissions I had
+not seen. My job was to approve, challenge, press for breadth and depth, and
+decide when something was ready to leave my machine for a scarce live
+evaluation.
 
-In practice, this was not hands-off autonomy. I estimate retrospectively that I
-spent 2-5 hours per day reviewing claims, asking for stronger tests, redirecting
-work, and deciding what could proceed. That estimate is testimony, not a
-time-tracking result. I also judge that the agents enabled me to participate
-meaningfully and learn context in domains I would otherwise have found difficult
-to enter. That is a report of perceived access and value, not a measured claim
-about time saved or productivity gained. No human-only control exists, and
-neither project had achieved its winning objective at the 2026-08-16 cutoff; the
-post-competition update in Section 12 records a later authenticated
-AgentSecurity rank and the author's unarchived Silver-medal report, plus an
-ongoing ARC-AGI-3. Neither case produced a top-prize win.
+None of that was hands-off. Looking back, I estimate 2–5 hours a day spent
+reading claims, demanding better tests, redirecting work, and deciding what
+could proceed; I did not track the time, so treat the number as testimony. I
+also believe the agents let me take part in domains I would otherwise have found
+hard to enter, and learn something while doing it. That is how it felt. It is
+not a measurement of time saved. There was no human-only control, and neither
+project had won anything by the 2026-08-16 cutoff. Neither won a top prize
+afterwards either; Section 12 records the final AgentSecurity standing and
+Section 13 the state of an ARC-AGI-3 still in progress.
 
-These distinctions motivate the title of this paper. Access means being able to
-turn questions into executable research work: reading an unfamiliar codebase,
-implementing a candidate mechanism, running checks, preserving results, and
-revising the next test. Autonomy would require something stronger: dependable
-selection of worthwhile questions, valid experiment design, calibrated
-interpretation, original contribution, and correction without relying on a
-human to notice the error. The cases ask whether contemporary agents provided
-the first set of capabilities, the second, or an unstable mixture of both.
+Those distinctions give the paper its title. Access is being able to turn a
+question into work that runs: read an unfamiliar codebase, implement a candidate
+mechanism, check it, keep the result, design the next test. Autonomy would need
+more—picking questions worth asking, designing experiments that can answer
+them, reading the answers honestly, contributing something of one's own, and
+catching one's own mistakes before a human does. The cases ask which of those
+these agents actually had.
 
 ## 2. What Counts as an AI Research Agent?
 
-The word *agent* covers systems with very different scopes. A conversational
-assistant answers a bounded prompt. A tool-using LLM agent can pursue a
-multi-step objective by reading files, searching a corpus, editing and running
-code, inspecting results, and revising a plan. A closed-loop scientific system
-goes further by connecting hypothesis selection to physical or computational
-experimentation, observation, and the choice of a next experiment. I use *AI
-research agent* operationally for the middle category in this study: an
-LLM-based system given enough tools and persistence to execute substantial parts
-of a computational research workflow. I do not use the label as evidence that
-the system is an autonomous scientist.
+*Agent* covers systems of very different scope. A conversational assistant
+answers a bounded prompt. A tool-using LLM agent chases a multi-step objective:
+reading files, searching a corpus, editing and running code, checking results,
+revising a plan. A closed-loop scientific system goes further, tying hypothesis
+selection to real experiments and to the choice of what to try next. Throughout
+this paper *AI research agent* means the middle case — an LLM-based system given
+enough tools and persistence to do substantial parts of a computational research
+workflow. The label describes what the system does. It is not evidence that the
+system is a scientist.
+
+Publication status matters to how much weight a source carries, so the studies
+below are peer-reviewed articles unless called a preprint.
 
 ### 2.1 Bounded robot scientists and autonomous laboratories
 
-Closed-loop automation in science predates current LLM agents. In a
-peer-reviewed 2004 *Nature* article, King and colleagues described a robot
-scientist that generated, selected, and tested gene-function hypotheses within
-a yeast metabolic model [1]. Its loop was experimentally real but tightly
-bounded by deletion mutants, growth assays, and a hand-built logical model. A
-peer-reviewed 2020 *Nature* study reported a mobile robotic chemist that
-executed 688 experiments over eight days in a predefined ten-variable search
-[2]. Human researchers still conceived the study and fixed its hypotheses,
-objective, apparatus, and search space. A peer-reviewed 2023 *Nature* article
-described an autonomous materials laboratory that combined literature-trained
-models, computation, robotics, and active learning, realizing 36 of 57 selected
-targets over 17 days [3]. Humans selected the target class and allowable
-precursors, while inconclusive measurements and manual follow-up exposed
-boundaries outside the active-learning policy.
+Closed-loop automation predates LLM agents. In *Nature* in 2004, King and
+colleagues described a robot scientist that generated, selected, and tested
+gene-function hypotheses in a yeast metabolic model [1]. The loop was
+experimentally real and tightly bounded: deletion mutants, growth assays, a
+hand-built logical model. A 2020 *Nature* study reported a mobile robotic
+chemist running 688 experiments over eight days inside a ten-variable search
+space [2]; humans still set the study, the hypotheses, the objective, the
+apparatus, and the space itself. A 2023 *Nature* article described an autonomous
+materials laboratory that combined literature-trained models, computation,
+robotics, and active learning to realize 36 of 57 targets in 17 days [3]. Humans
+chose the target class and the permitted precursors, and inconclusive
+measurements needed manual follow-up.
 
-These systems demonstrate substantial autonomy *inside an engineered
-experimental envelope*. They do not establish general scientific autonomy.
-Their constraints are also different from those of a coding agent operating in
-a repository: the laboratory systems tightly couple specified objectives,
-instruments, and feedback, whereas an LLM agent may move fluidly among
-literature, code, conjecture, and prose while lacking a reliable mechanism for
-deciding whether the resulting chain is scientifically valid.
+These systems are substantially autonomous *inside an engineered envelope*. That
+is not general scientific autonomy, and their constraints differ from a coding
+agent's. A laboratory couples a fixed objective to instruments and feedback. An
+LLM agent roams between literature, code, conjecture, and prose with no reliable
+way to tell whether the resulting chain holds together.
 
 ### 2.2 LLM agents across the research workflow
 
-The current literature spans ideation, synthesis, coding, reproduction, review,
-and paper generation, but its publication status and task boundaries matter. A
-peer-reviewed perspective by Park and colleagues offered GPT-4 materials-science
-hypotheses while also reporting a high error rate and the need for expert
-evaluation [4]. This was a demonstration, not a controlled validation of
-successful discovery. A peer-reviewed ICLR 2025 paper introduced
-ScienceAgentBench, which converts 102 tasks from 44 papers into verifiable
-scientific-programming problems; its reported baselines solved only a minority
-even with repeated attempts and optional expert knowledge [5]. These are
-self-contained workflow tasks, not open-ended research programs. A
-peer-reviewed 2026 *Nature* article on Co-Scientist reported biomedical
-hypotheses with preliminary in-vitro validation, but experts remained in the
-loop and the evidence was concentrated in biomedicine [6].
+The literature now spans ideation, synthesis, coding, reproduction, review, and
+paper generation, and the task boundaries matter as much as the headlines. Park
+and colleagues fed GPT-4 materials-science problems and got hypotheses, along
+with a high error rate and a need for expert evaluation [4] — a demonstration,
+not a validated discovery. ScienceAgentBench (ICLR 2025) turned 102 tasks from
+44 papers into verifiable programming problems; baselines solved only a minority
+even with repeated attempts and expert hints [5]. These are self-contained
+tasks, not research programs. A 2026 *Nature* article on Co-Scientist reported
+biomedical hypotheses with preliminary in-vitro validation, with experts in the
+loop throughout and the evidence concentrated in one field [6].
 
-Several broader claims come from preprints rather than peer-reviewed articles.
-The Data-to-paper preprint linked annotated data, code, results, and prose and
-could produce simple manuscripts in an autopilot mode, yet its authors reported
-limited novelty, material errors, and increasing need for human co-piloting as
-complexity rose [7]. The AI Scientist preprint demonstrated an end-to-end
-pipeline for ideation, small machine-learning experiments, writing, and
-simulated review from supplied seed code and templates; the same paper reported
-implementation failures, weak experimental rigor, misleading conclusions, and
-occasional hallucinated results [8]. Paper production is consequently not the
-same thing as dependable discovery.
+The broader claims come from preprints. Data-to-paper linked data, code,
+results, and prose well enough to produce simple manuscripts on autopilot, and
+its authors reported thin novelty, real errors, and a rising need for human
+co-piloting as complexity grew [7]. The AI Scientist ran ideation, small
+experiments, writing, and simulated review end to end from seed code, and
+reported implementation failures, weak rigor, misleading conclusions, and
+occasional invented results [8]. Producing a paper is not the same as making a
+discovery.
 
-Benchmark and human-study evidence reinforces that separation. DiscoveryBench,
-a preprint on data-driven discovery, reported a steep performance loss as
-workflow and domain complexity increased; its best evaluated system reached 25%
-on the authors' metric, within a benchmark that excluded several difficult
-workflow classes [9]. CORE-Bench, a preprint on computational reproducibility,
-reported that the best evaluated agent reached 21% accuracy on its hardest task
-level, even though reproduction from an existing repository and data is
-narrower than new research [10]. The official PaperBench release, accompanied
-by a preprint, reported that the best tested agent completed an average of 21%
-of rubric-weighted requirements across 20 machine-learning replication tasks.
-In its direct comparison on a three-paper subset, the compared agent did not
-exceed the recruited ML-PhD baseline [11]. A separate preprint found
-that expert reviewers rated
-LLM-generated NLP ideas as more novel on average but slightly less feasible
-than human ideas; the ideas were not executed, their novelty judgments were
-subjective, and the system's self-ranking was unreliable [12]. Another preprint
-reported strong performance for a literature agent on defined retrieval and
-synthesis tasks while noting context-dependent contradiction labels and
-overconfidence [13]. A multi-agent review preprint found gains over tested
-single-agent baselines. Its automated alignment produced the highest recall but
-lower precision and Jaccard than the human-review alignment baseline, while its
-separate nine-participant user study still found more good and specific comments;
-the two metrics answer different questions and both require accountable judgment
-[14].
+The benchmarks say much the same. DiscoveryBench found performance falling
+sharply as workflow and domain complexity rose, its best system reaching 25% on
+the authors' metric within a benchmark that excluded several hard workflow
+classes [9]. CORE-Bench put the best agent at 21% on its hardest level, even
+though reproducing work from an existing repository is far narrower than doing
+new work [10]. PaperBench had its best agent completing 21% of rubric-weighted
+requirements across 20 replication tasks, and on a three-paper subset it did not
+beat the recruited ML-PhD baseline [11]. Expert reviewers rated LLM-generated
+NLP ideas as more novel on average but slightly less feasible than human ones,
+though nobody executed the ideas, novelty judgments are subjective, and the
+system could not rank its own output reliably [12]. A literature agent did well
+on defined retrieval and synthesis tasks while producing context-dependent
+contradiction labels and overconfident answers [13]. A multi-agent reviewer beat
+its single-agent baselines; its automated alignment had the best recall but
+worse precision and Jaccard than human-review alignment, while a nine-participant
+study still found more good and specific comments [14]. Those two metrics answer
+different questions, and both need someone accountable reading them.
 
-Even apparently routine research mechanics require verification. A
-peer-reviewed *Scientific Reports* study of 84 generated literature reviews
-found fabricated citations and errors in real citations from the April 2023
-ChatGPT snapshots it tested [15]. Those rates should not be generalized to
-current systems, but the methodological lesson remains bounded and important:
-a citation-shaped string is not provenance.
+Even the clerical parts need checking. A *Scientific Reports* study of 84
+generated literature reviews found fabricated citations, and errors inside real
+ones, in the April 2023 ChatGPT snapshots tested [15]. Those rates say nothing
+about today's systems. The lesson survives anyway: a citation-shaped string is
+not provenance.
 
-Taken together, this literature supports a capability map rather than a single
-autonomy score. Agents can perform useful pieces of research and sometimes
-connect many pieces into a long workflow. Performance can still degrade with
-task complexity, hidden evaluation, invalid experimental controls, unreliable
-self-assessment, and weak source provenance. This paper therefore evaluates the
-agents as research executors whose outputs must earn trust episode by episode.
-It does not infer autonomy from fluency, tool use, conversation volume, token
-usage, or a completed manuscript.
+Together this supports a capability map, not a single autonomy score. Agents can
+do useful pieces of research and can sometimes string many pieces into a long
+workflow. They also degrade with complexity, hidden evaluation, broken controls,
+unreliable self-assessment, and weak provenance. So this paper treats them as
+research executors whose output earns trust one episode at a time, and refuses
+to read autonomy off fluency, tool use, conversation volume, tokens, or a
+finished manuscript.
 
 ## 3. Research Questions and Method
 
 ### 3.1 Research questions
 
-The study asks five questions:
-
-1. How much can AI agents lower the entry barrier for an experienced
-   technologist entering unfamiliar computational-research domains?
-2. Which research tasks do the agents perform effectively?
-3. How much scientific direction and originality emerges without
-   domain-specific human guidance?
-4. Where do agents fail, particularly through confident error, incomplete due
-   diligence, stale memory, external imitation, and local-to-live transfer?
-5. Which human governance practices improve reliability and research value?
+1. How far do AI agents lower the entry barrier for an experienced technologist
+   moving into an unfamiliar computational-research domain?
+2. Which research tasks do they do well?
+3. How much scientific direction and originality appears without domain-specific
+   human guidance?
+4. Where do they fail — confident error, thin due diligence, stale memory,
+   imitation, and the gap between local and live results?
+5. Which human practices make the work more reliable and more useful?
 
 ### 3.2 Comparative N-of-1 design and case boundaries
 
-This is a longitudinal, comparative N-of-1 study of one human researcher using
-several AI coding agents. AgentSecurityComp is the primary case and ARC-AGI-3
-is the comparative case. The comparison is analytical rather than controlled:
-the cases expose recurring research activities and failure modes in different
-technical settings, but they were not randomly selected or run under matched
-conditions. OpenCode/DeepSeek supplies limited supplementary evidence and is not
-a balanced third case or provider-comparison arm.
+This is a longitudinal, comparative N-of-1 study of one researcher using several
+AI coding agents. AgentSecurityComp is the primary case and ARC-AGI-3 the
+comparison. The comparison is analytical, not controlled: the two cases surface
+recurring activities and failure modes in different technical settings, but they
+were not randomly chosen or run under matched conditions. OpenCode/DeepSeek
+supplies supplementary evidence only. It is not a third case and not a
+provider-comparison arm.
 
-The reviewed corpus combines Claude Code, Codex, and OpenCode/DeepSeek session
-records associated with the two repositories; Git history and pinned repository
-artifacts; experiment scripts, logs, and result records; and an approved set of
-author interview responses. The literature background uses only primary papers,
-official publication records, and official editorial-policy pages already
-checked in the evidence ledger. Repository and transcript evidence establishes
-project events. General literature and policy contextualize those events but do
-not prove what happened in either project. The portable
-[companion evidence ledger](evidence/ai-agents-research-evidence.md) is the
-source-ID register for every coded episode and admitted quotation. Raw private
-histories remain controlled source material. Public repository, commit, and
-live-row locators can be checked without them; symbolic transcript locators are
-available only where the source manifest records a surviving private file. A
-reviewer-auditable
-[public episode ledger](evidence/episode-ledger-public.md) accompanies the paper:
-it reproduces all 38 coded episodes and their public locators (commits,
-submission references, repository paths, and published records) with private
-trace identifiers redacted, so the descriptive tallies can be independently
-checked without releasing the controlled histories.
-The controlled-source audit is summarized in a
-[source-availability and hash manifest](evidence/source-availability-manifest.md).
-Seven of ten canonical Claude files and all 15 canonical Codex files survived
-at their recorded paths on 2026-09-04. Three Claude originals were absent;
-claims associated with them are therefore limited to surviving repository
-corroboration, another available record, or an explicit derivative/testimony
-label. The [cutoff-2](evidence/cutoff-2-live-results-2026-09-04.md) and
-[cutoff-3](evidence/cutoff-3-live-results-2026-09-08.md) live-results artifacts
-preserve the later competition observations and their claim-use limits. The
-hash manifest was not re-run at cutoff-3; its 2026-09-04 state stands.
+The corpus combines Claude Code, Codex, and OpenCode/DeepSeek session records
+tied to the two repositories; Git history and pinned artifacts; experiment
+scripts, logs, and result records; and an approved set of author interview
+responses. Repository and transcript evidence establishes what happened in the
+projects. Literature and policy sources supply context and prove nothing about
+either project; they are limited to primary papers, official publication
+records, and official editorial-policy pages already checked in the evidence
+ledger.
 
-According to retrospective author testimony, Claude Code was the primary
-research system, while Codex and OpenCode/DeepSeek were introduced mainly as
-perspective resets when the primary line of work appeared stuck, repetitive, or
-prematurely settled. Tasks, dates, models, budgets, and exposure differed.
-Session or token totals therefore describe use, not independent intellectual
-contribution, research quality, or provider superiority. (Testimony: author
-baseline and interview)
+Four companion documents carry the evidence. The
+[evidence ledger](evidence/ai-agents-research-evidence.md) registers every coded
+episode and admitted quotation by source ID. The
+[public episode ledger](evidence/episode-ledger-public.md) reproduces all 38
+episodes with their public locators — commits, submission references, repository
+paths, published records — and private trace identifiers redacted, so a reviewer
+can check the tallies without access to the controlled histories. The
+[source-availability manifest](evidence/source-availability-manifest.md) records
+what survived an audit on 2026-09-04: seven of ten canonical Claude files and
+all 15 canonical Codex files were present at their recorded paths. Three Claude
+originals were missing, so claims resting on them fall back to repository
+corroboration, another record, or an explicit testimony label. The
+[cutoff-2](evidence/cutoff-2-live-results-2026-09-04.md) and
+[cutoff-3](evidence/cutoff-3-live-results-2026-09-08.md) artifacts hold the later
+competition observations and their claim limits. The hash manifest was not
+re-run at cutoff-3; its 2026-09-04 state stands.
+
+By the author's own account, Claude Code was the main research system, and Codex
+and OpenCode/DeepSeek came in mostly to reset perspective when the primary line
+looked stuck, repetitive, or settled too early. Tasks, dates, models, budgets,
+and exposure all differed. Session and token totals therefore describe usage,
+not contribution, quality, or provider merit. (Testimony: author baseline and
+interview)
 
 ### 3.3 Research episode and coding scheme
 
-The unit of analysis is a bounded research episode, not an individual message,
-agent turn, subagent, commit, or submission. The episode corpus is a purposive,
-maximum-variation analytic sample, not a systematic census of every event in
-the two projects. An episode was included when it contained a bounded,
-adjudicable proposition; traceable evidence available before or after the test;
-an implementation, experiment, or explicit evidence adjudication; and a
-distinct methodological lesson supported well enough to code origin and final
-status. Routine debugging, purely operational work, duplicate provider
-continuations, repeated variants that added no new evidentiary issue, and
-propositions lacking enough record for adjudication were excluded.
+The unit of analysis is a bounded research episode, not a message, turn,
+subagent, commit, or submission. The corpus is a purposive maximum-variation
+sample, not a census. An episode qualified when it carried a proposition
+specific enough to adjudicate, evidence traceable before or after the test, an
+implementation or experiment or explicit adjudication, and a lesson supported
+well enough to code origin and status. Routine debugging, operational work,
+duplicate provider continuations, repeated variants raising no new evidentiary
+question, and propositions too thin to adjudicate were left out.
 
-An included episode follows one proposition far enough to connect, where the
-record allows: the question or hypothesis; its apparent human, agent, external,
-or mixed origin; evidence cited before the test; the proposed implementation or
-experiment; human review; local outcome; live or external outcome; final claim
-status; timing of correction; and the durable methodological lesson.
-Cross-provider continuation of the same inquiry remains one episode.
+Each episode tracks one proposition as far as the record allows: the hypothesis;
+whether it appears to originate with a human, an agent, an external source, or a
+mix; the evidence cited beforehand; the implementation or experiment; human
+review; the local outcome; the live outcome; the final status; when any
+correction came; and the lasting lesson. The same inquiry continued in a second
+provider stays one episode.
 
-The reviewed ledger contains 38 such episodes: 17 in AgentSecurityComp, 16 in
-ARC-AGI-3, and five supplementary OpenCode investigations. Thirty-one were coded
-at the 2026-08-16 cutoff; two AgentSecurityComp episodes (AS-S15 and AS-S16) were
-added in the post-competition cutoff-2 revision described in Section 12, and five
-more (AS-S17 and ARC-S13 to ARC-S16) in the cutoff-3 revision described in
-Section 13. Origins
-are coded conservatively as `human`, `agent`, `external`, or `mixed`. A provider's proposal
-is not coded as autonomous discovery when human or external input materially
-shaped the same episode. Final status is `confirmed`, `partially supported`,
-`refuted`, `invalid experiment`, `superseded`, or `open`, and applies only to the
-bounded proposition in that row. Local and live outcomes remain separate so
-that a valid implementation is not mistaken for an externally transferred
-effect.
+That gives 38 episodes: 17 AgentSecurityComp, 16 ARC-AGI-3, five OpenCode.
+Thirty-one were coded at the 2026-08-16 cutoff, two more at cutoff-2
+(Section 12), and five at cutoff-3 (Section 13). Origin is coded conservatively
+as `human`, `agent`, `external`, or `mixed`; an agent's proposal is not coded as
+autonomous discovery when human or external input shaped the same episode.
+Status is `confirmed`, `partially supported`, `refuted`, `invalid experiment`,
+`superseded`, or `open`, and belongs to that row's proposition alone. Local and
+live outcomes stay in separate fields so a working implementation is never
+mistaken for a transferred effect.
 
-Qualitative codes cover hypothesis origin, external-method dependence,
-implementation and infrastructure value, novel recombination, experimental
-validity, confidence and calibration, correction, stale-memory propagation,
-human challenge and approval, provider switching, local-to-live transfer,
-operational failure, domain learning, and achieved or unachieved goals. Coding
-is interpretive and was not independently blinded or replicated. Counts are
-descriptive of this purposive corpus, not estimates of population frequency.
-No denominator of all possible project episodes was constructed, so the
-distribution of statuses must not be generalized beyond the included rows.
+Codes also cover external-method dependence, infrastructure value, recombination,
+experimental validity, calibration, correction, stale memory, human challenge and
+approval, provider switching, operational failure, and domain learning. The
+coding is interpretive, and no second coder worked blind, so there is no
+inter-rater reliability figure. The counts describe this sample. No denominator
+of all possible episodes exists, so the status distribution does not generalize
+past the rows themselves.
 
 ### 3.4 Provenance and deduplication boundaries
 
-The default session-counting unit is a provider's top-level conversation.
+Sessions are counted at the level of a provider's top-level conversation.
 Subagents, specialists, workflow journals, scratchpad copies, bridge records,
-and tool-result derivatives are linked to their parent or retained only for
-traceability; they are not counted again as independent conversations. Imported,
-forked, parent-child, and overlapping histories are not summed. Provider
-metadata, working directory, timestamps, canonical identifiers, and content
-overlap determine the most conservative retained lineage. A content match is
-assigned to a case only when metadata places the work in that repository or a
-repository-specific worktree. The current paper-design and provenance-audit
-Codex lineage is excluded from historical case-activity counts.
+and tool-result derivatives are linked to a parent or kept only for
+traceability, never counted again. Imported, forked, and overlapping histories
+are not summed. Provider metadata, working directory, timestamps, canonical
+identifiers, and content overlap pick the most conservative lineage to retain. A
+content match joins a case only when metadata places the work in that repository
+or one of its worktrees. The Codex lineage used to write this paper is excluded
+from the historical counts.
 
-These rules prevent conversation volume from masquerading as research output,
-but they do not prove intellectual independence. Paraphrased overlap and short
-copied fragments can escape exact-content checks, while mutable agent stores can
-produce different inventories at a later extraction. Episode-level
-deduplication therefore takes precedence over provider-level totals whenever
-several agents, imported histories, or repeated prompts concern the same
-research question.
+These rules stop conversation volume from passing as research output. They do
+not prove intellectual independence: paraphrase and short copied fragments slip
+past exact-content checks, and mutable agent stores can yield a different
+inventory on a later extraction. Where several agents, imported histories, or
+repeated prompts circle the same question, episode-level deduplication overrides
+provider totals.
 
 ### 3.5 Evidence classes, quotation, and claim control
 
-Substantive claims are internally classified as source fact, local measurement,
-live observation, triangulated finding, inference, retrospective testimony, or
-open hypothesis. The prose does not attach a tag to every sentence, but it
-preserves the distinctions. An executable local result cannot by itself
-establish live efficacy. A transcript claim cannot replace code or evaluator
-evidence. Author estimates about oversight, value, trust, cost, and
-counterfactual effort remain testimony unless independently corroborated.
+Claims are classified internally as source fact, local measurement, live
+observation, triangulated finding, inference, retrospective testimony, or open
+hypothesis. The prose does not tag every sentence, but it holds the distinctions.
+A local result cannot establish live efficacy. A transcript cannot stand in for
+code or evaluator output. Author estimates about oversight, value, trust, and
+cost stay testimony unless something independent corroborates them.
 
-Private agent histories are source material, not a publication appendix. Only
-short excerpts relevant to hypothesis formation, confidence, correction,
-intervention, or governance may be quoted. Each admitted quotation must have an
-`authorized` status in the private trace and retain provider, case, session,
-timestamp, speaker, exact location, context, and redaction information. Secrets,
-credentials, unrelated personal material, and misleadingly truncated passages
-are excluded. The quote identifiers are thematic rather than chronological:
-Q04, dated 2026-06-30, precedes Q02, dated 2026-07-01, so Q04 must not be
-presented as a retraction of Q02. They concern different ceiling claims.
+Private histories are source material, not an appendix. Only short excerpts
+bearing on hypothesis formation, confidence, correction, intervention, or
+governance may be quoted, each with `authorized` status in the private trace and
+with provider, case, session, timestamp, speaker, location, context, and
+redaction retained. Secrets, credentials, unrelated personal material, and
+misleadingly truncated passages are excluded. Quote identifiers are thematic,
+not chronological: Q04 is dated 2026-06-30 and Q02 2026-07-01, so Q04 cannot be
+read as retracting Q02. They concern different ceiling claims.
 
-AI-generated claims, summaries, citations, and interpretations require an
-independent source check before manuscript use. Current ICMJE editorial
-recommendations and Springer Nature publisher guidance both treat AI tools as
-ineligible for authorship and retain human accountability, but those are
-general, mutable policies rather than evidence about this project's actual
-authorship or tool use [16,17]. Ahmed Mobasher's status as sole author and the
-specific roles of Claude Code, Codex, and OpenCode/DeepSeek are project facts
-declared below. The target publication's live rules will control at submission.
+Anything an AI produced — claim, summary, citation, interpretation — needed an
+independent source check before it entered the manuscript. ICMJE and Springer
+Nature guidance both bar AI tools from authorship and keep accountability with
+the human [16,17], though those are general and mutable policies rather than
+evidence about this project. Sole authorship and the specific roles of Claude
+Code, Codex, and OpenCode/DeepSeek are declared below, and the target venue's
+live rules will govern at submission.
 
-### 3.6 Limitations and living evidence policy
+### 3.6 Living evidence policy
 
-The design cannot support a causal productivity estimate. It has no human-only
-control, no randomized task allocation, no common provider task set, no equal
-budget, and no stable model-version comparison. Agent platforms, model versions,
-research infrastructure, and competition conditions changed during the study.
-Providers were used at different times for different purposes. The cases were
-selected because I conducted them, and the episode ledger is a reviewed sample
-of those projects rather than an independent census of AI-assisted science.
+Section 11.1 sets out what this design cannot support. The short version is that
+there is no human-only control, no matched budget, and no stable model baseline,
+so nothing here becomes a productivity estimate or a provider ranking.
 
-Competition scores are operational outcomes, not direct measures of scientific
-originality, understanding, or research quality. They may also be noisy because
-of hidden evaluators, run variance, lifecycle constraints, platform changes,
-and imperfect local replicas. Local improvements, submission scores, commits,
-active days, token counts, and conversation counts must not be converted into a
-productivity multiplier. The unequal cases and uses also preclude a defensible
-claim that one provider was better than another.
-
-My baseline, daily oversight estimate, perceived value, trust judgments, and
-the statement that neither winning objective had been achieved are retrospective
-testimony. They are useful for understanding the case but are not direct
-measurements. The same limitation applies to counterfactual judgments about how
-long the work might have taken without AI. The sole-author perspective also
-creates selection and interpretation bias, and the coding has no independent
-inter-rater reliability measure.
-
-This is a living manuscript. The repository evidence cutoff for this inventory
-is 2026-08-16T10:29:29+03:00; mutable Claude, Codex, and OpenCode stores were
-extracted at 2026-08-16T08:06:05Z under the filters recorded in the private
-ledger. The pinned revisions bound repository claims but do not imply that every
-historical transcript refers to the same revision. Completed, pending,
-superseded, failed, and unresolved experiments remain distinct in later
-revisions. New competition results will receive a new dated cutoff and will not
-silently overwrite negative or unresolved outcomes. Final rankings, costs, and
-retrospective conclusions will be added only after the competitions conclude
-and the supporting records are checked. Two such cutoffs have since been
-appended: cutoff-2 on 2026-09-04 (Section 12) and cutoff-3 on 2026-09-08
-(Section 13). One case, ARC-AGI-3, is still open at the latest cutoff, so its
-values are reported as a dated and mutable mid-competition state rather than a
-result.
+What belongs here is how the record is kept. This is a living manuscript. The
+inventory is pinned to AgentSecurityComp at commit `2ed68e8`
+(2026-08-16T10:29:29+03:00) and ARC-AGI-3 at `ebe5b3e`
+(2026-08-15T18:41:01+03:00), with the mutable Claude, Codex, and OpenCode stores
+extracted at 2026-08-16T08:06:05Z under filters recorded in the private ledger. Pinned
+revisions bound repository claims; they do not imply that every transcript
+refers to the same revision. Completed, pending, superseded, failed, and
+unresolved experiments stay distinct in every later revision. New results get a
+new dated cutoff and never silently overwrite a negative or unresolved outcome,
+and final rankings, costs, and conclusions are added only once the supporting
+records have been checked. Two cutoffs have since been appended: cutoff-2 on
+2026-09-04 (Section 12) and cutoff-3 on 2026-09-08 (Section 13). ARC-AGI-3 was
+still open at the latest one, so its numbers are a dated mid-competition state
+rather than a result.
 
 ## 4. Case I: AI Agent Security
 
 **Outcome-evidence note.** The independently retrieved AgentSecurity
 live-results artifact is frozen at 2026-08-16T10:56:15Z. Selected rows were
-separately rechecked at 2026-08-16T11:10:21Z and again at
-2026-08-16T11:26:07Z; a further status-only recheck was made at
-2026-08-16T11:59:48Z and another at 2026-08-16T12:44:16Z. None replaces the frozen table. The 11:26 recheck also
-resolved the early `ERROR` rows discussed below; the 11:59 recheck found L31 ref
-55538848 `COMPLETE` at 73.605 while three chain-pack refs remained pending; the
-12:44 recheck found all four complete at 79.985, 79.365, 73.605, and 54.375. All live
-observations are later than both the AI-case repository cutoff of
-2026-08-16T10:29:29+03:00 (07:29:29Z) and the mutable-history snapshot at
-2026-08-16T08:06:05Z. (AgentSecurity live-results ledger:
+rechecked four times that day, at 11:10:21Z, 11:26:07Z, 11:59:48Z, and
+12:44:16Z; none of those rechecks replaces the frozen table. The 11:26 recheck
+resolved the early `ERROR` rows discussed below, and the last two tracked the
+L31 arms to completion, as described in 4.4. Every live observation postdates
+both the repository cutoff at 2026-08-16T07:29:29Z and the mutable-history
+snapshot at 2026-08-16T08:06:05Z. (AgentSecurity live-results ledger:
 `paper/evidence/working-note-claim-ledger.md`; AI evidence cutoff table)
 
 ### 4.1 Entering the executable problem
 
-The AgentSecurityComp case began on 2026-06-13 with an intentionally broad
-instruction to keep iterating toward the competition objective. The agent first
-worked against a mock scaffold, then inspected the actual software development
-kit (SDK) and ported the attack to its real `AttackCandidate` interface. It also
-increased the number of candidate attacks after reading the scorer as additive:
-more valid candidates could add more scored findings. The real path ran and
-became the basis of later submissions, while candidate volume established a
-baseline rather than solving the challenge. These were useful acts of repository
-inspection and implementation, not evidence that the system had independently
-chosen a scientifically important direction; the human retained verification
-and submission approval. (Episode AS-S01; Episode AS-S02; Quote Q01)
+The case opened on 2026-06-13 with a deliberately broad instruction to keep
+iterating toward the objective. The agent worked first against a mock scaffold,
+then read the actual SDK and ported the attack onto its real `AttackCandidate`
+interface. It also raised the number of candidate attacks, having read the
+scorer as additive: more valid candidates, more scored findings. The real path
+ran and carried every later submission; the extra volume set a baseline and
+solved nothing. Both were competent acts of inspection and implementation. They
+are not evidence that the system picked an important direction on its own, and
+verification and submission approval stayed with the human. (Episodes
+AS-S01-AS-S02; Quote Q01)
 
-The executable contract changed the research problem again on 2026-06-27.
-Fabricated secret-like strings had stopped scoring because SDK 3.1.2 required a
-literal `SECRET_MARKER` or a value actually read from the protected file. The
-agent incorporated the documented marker, validated marker-bearing exfiltration
-locally, and restored scoring on the corrected path. The episode shows why
-infrastructure work can be research-enabling: a plausible attack was worthless
-until it obeyed the evaluator's protocol. The repair depended on external SDK
-semantics and zero-score evidence, however, so its apparent agent execution
-should not be recast as original discovery. (Episode AS-S03)
+On 2026-06-27 the contract itself changed the problem. Fabricated secret-like
+strings had stopped scoring, because SDK 3.1.2 wanted a literal `SECRET_MARKER`
+or a value genuinely read from the protected file. The agent adopted the
+documented marker, checked marker-bearing exfiltration locally, and scoring
+resumed. This is why plumbing can be research: a plausible attack was worth
+nothing until it obeyed the evaluator's protocol. The repair also came straight
+from SDK semantics and a zero score, so executing it well is not the same as
+discovering something. (Episode AS-S03)
 
-Two early statements illustrate both correction and unstable confidence. The
-cutoff-1 ledger recorded a 2026-06-30 agent correction that its approximately
-570 boundary was wrong after exact-model behavior contradicted the threshold;
-later that day it recorded the human withholding a decision and requesting
-thorough local verification. On 2026-07-01 the ledger recorded a different new
-claim that both models were stuck near a 465 boundary and an approximately
-44-point ceiling. The June 30 correction therefore precedes and does not retract
-the July 1 claim, which later experiments also weakened. The canonical Claude
-file containing these three extracts was absent at the 2026-09-04 re-audit, so
-they are treated as prior controlled-ledger extracts rather than re-opened
-original quotations. (Quotes Q02-Q04; Episode AS-S10; source-availability
+Two early statements show correction and unstable confidence side by side. On
+2026-06-30 the agent withdrew its own approximately 570 boundary once exact
+model behavior contradicted it, and the human that day declined to decide and
+asked for thorough local verification. On 2026-07-01 the ledger records a fresh
+claim that both models were stuck near a 465 boundary and a 44-point ceiling,
+which later work weakened. So the June 30 correction comes before the July 1
+claim and retracts nothing. The canonical Claude file holding all three extracts
+was missing at the 2026-09-04 re-audit; they are prior ledger extracts, not
+re-opened originals. (Quotes Q02-Q04; Episode AS-S10; source-availability
 manifest)
 
 ### 4.2 Practical value through adaptive sizing
 
-The clearest value vignette arrived on 2026-07-25, but it was not an autonomous
-invention. Higher-scoring public solutions were reported to size their output
-from the time observed in the live environment. The agent reproduced that
-mechanism in bounded form: it measured how long accepted candidates took,
-estimated how many could be replayed within the evaluator's time budget, and
-stopped before the entire submission risked timing out. Local replay-safety
-checks passed. A separate Task 8 API recheck found that all five L6 rows had
-status `ERROR`: the adaptive arm showed a visible score of 80.145 against a
-64.800 control, but an `ERROR` row does not establish a completed live effect.
-The contribution was faithful translation of a public method into this
-repository and a locally verified implementation; its external efficacy remains
-unestablished. It was valuable engineering and experimental execution, not
-evidence of independent originality. (Episode AS-S04; Source AS-S04)
+The clearest value vignette landed on 2026-07-25, and it was not an invention.
+Higher-scoring public solutions reportedly sized their output from time observed
+in the live environment. The agent rebuilt that in bounded form: measure how
+long accepted candidates take, estimate how many fit the evaluator's budget, and
+stop before the whole submission risks timing out. Local replay-safety checks
+passed. A later API recheck then found all five L6 rows at status `ERROR`. The
+adaptive arm shows 80.145 against a 64.800 control, but a score on an `ERROR`
+row is not a completed live effect. What the episode demonstrates is faithful
+translation of a public method into this repository, verified locally. Good
+engineering, unproven externally, nobody's original idea. (Episode AS-S04;
+Source AS-S04)
 
-Subsequent throughput work showed why a local mechanism and a live benefit must
-remain separate claims. On 2026-07-26, stopping decoding after the tool call
-closed reduced a local timing from 1.23 seconds to 1.03 seconds. The two matched
-L7 rows showed a visible difference of 1.440 points, but both had status
-`ERROR`, so they do not establish a completed live effect. On 2026-07-27,
-packing several messages into one model call again looked favorable in a local
-timing model. No live description matched the planned L8 ladder; the later L9
-packing rows were all `ERROR`. Their visible scores were lower than the listed
-single-post row, but those rows cannot complete the external adjudication.
-Local measurements established that the code ran and changed measured
-overhead; whether either mechanism improved a completed competition run remained
-open. (Episode AS-S05; Episode AS-S06)
+The throughput work that followed is the reason local and live results are kept
+in separate fields. On 2026-07-26, stopping decoding once the tool call closed
+cut a local timing from 1.23 to 1.03 seconds; the two matched L7 rows differ by
+1.440 points and both are `ERROR`. On 2026-07-27, packing several messages into
+one model call again looked good in the local timing model; no live description
+matched the planned L8 ladder, and every later L9 packing row is `ERROR`, their
+visible scores below the single-post row. The code ran and the measured overhead
+moved. Whether either mechanism helped a completed competition run stayed open.
+(Episodes AS-S05-AS-S06)
 
 ### 4.3 Failure through non-identifying experiments
 
-An August sequence exposed a more serious problem than ordinary negative
-results: some tests could not identify the proposed cause. On 2026-08-04 the
-agent initially explained Gemma's poor result as model weakness, but the
-comparison used an under-powered message frame. The same weak frame made GPT
-score zero; only a faithful commitment-forge frame later separated the models.
-Because the control was broken, the original comparison was an invalid
-experiment, not evidence that the model hypothesis was refuted or confirmed.
-(Episode AS-S07)
+August brought something worse than negative results: tests that could not
+identify the cause they proposed. On 2026-08-04 the agent read Gemma's poor
+result as model weakness, but the comparison ran on an under-powered message
+frame. That same weak frame drove GPT to zero, and only a faithful
+commitment-forge frame later separated the two models. With a broken control the
+comparison is an invalid experiment. It neither refuted nor confirmed the model
+hypothesis. (Episode AS-S07)
 
-The router vignette on 2026-08-08 made the same lesson visible at ladder scale.
-The agent built deterministic board routing and workload splitting, and both
-the router and its self-measurement worked locally. Live arms scored
-42.665-47.865 against a 44.320 baseline, with no stable gain. More importantly,
-the arms overlapped in what they changed, so their different scores could not
-cleanly identify routing as the cause. A multi-arm experiment is not controlled
-merely because it has several named variants; its arms must isolate different
-mechanisms. The final status is therefore `invalid experiment`, not a successful
-breakthrough or a clean negative result. (Episode AS-S08; Source AS-S08;
-AgentSecurity live-results ledger, rows 55362610, 55362686, 55362749, 55362800,
-and 55362843)
+The router ladder on 2026-08-08 showed the same lesson at scale. The agent built
+deterministic board routing and workload splitting, and both the router and its
+self-measurement worked locally. Live arms scored 42.665-47.865 against a 44.320
+baseline, no stable gain. The deeper problem is that the arms overlapped in what
+they changed, so their different scores could never isolate routing as the
+cause. Several named variants do not make an experiment controlled; the arms
+have to move different mechanisms. Status: `invalid experiment`, neither a
+breakthrough nor a clean negative. (Episode AS-S08; Source AS-S08; live-results
+ledger, the five L20 rows)
 
 ### 4.4 Public dependence, human gates, and the late ladders
 
 On 2026-08-09 the agent reproduced the public dimong4/nctuan commitment-forge
-method, which causes a reasoning model to commit to several tool posts within
-one candidate. The project record says four posts per candidate fired as designed,
-and the live result was 47.850 versus 43.600 for the single-post control.
-Mixed-origin recombination then paired that externally derived mechanism with
-dual-board routing and a Gemma variant: dual arms reached 81.985 and 82.660, while
-the N=600 Gemma isolate was 34.000 versus 27.000 for Gemma single. The N=900
-follow-up narrowed to 35.000 versus 34.605 (refs 55444087 and 55444093), and the
-N=1200 forge was 35.375 (ref 55444097), so the initial isolate gain was not durable
-or scalable in these observations. The episode partially supported bounded
-component behavior but did not reach its stated reproduction target or explain
-the remaining ceiling. Public method dependence, agent execution, and human
-selection therefore all
-remain visible in the attribution. (Episode AS-S09; Episode AS-S10;
-AgentSecurity live-results ledger, rows 55391763, 55392055, 55418165, 55418171,
-55418180, and 55418184)
+method, which pushes a reasoning model to commit several tool posts inside one
+candidate. The project record says four posts per candidate fired as designed,
+and the live result was 47.850 against 43.600 for the single-post control.
+Recombination then paired that borrowed mechanism with dual-board routing and a
+Gemma variant: dual arms at 81.985 and 82.660, and an N=600 Gemma isolate at
+34.000 against 27.000 for Gemma single. The N=900 follow-up narrowed to 35.000
+against 34.605, and the N=1200 forge reached 35.375, so the isolate's early gain
+proved neither durable nor scalable. Bounded component behavior was supported;
+the stated reproduction target was not reached and the remaining ceiling went
+unexplained. Public method, agent execution, and human selection all stay
+visible in the attribution. (Episodes AS-S09-AS-S10; live-results ledger, the
+L21-L22 rows)
 
-Governance became increasingly explicit as confident explanations accumulated.
-The human approved bounded ladders, demanded controls, and on 2026-08-09 asked a
-fresh system to “do not trust the memnory or recorded info, validate everything”.
-That memory-blind audit rechecked code and evidence but produced no completed
-live adjudication by the cutoff. Its value was epistemic discipline, not a new
-competition result: recorded conclusions became claims to revalidate rather
-than premises to inherit. The fresh provider was a reset and diversity
-mechanism under human direction, not independent corroboration of the primary
-agent. (Episode OC-S02; Quote Q05)
+Governance grew more explicit as confident explanations piled up. The human
+approved bounded ladders, demanded controls, and on 2026-08-09 told a fresh
+system to “do not trust the memnory or recorded info, validate everything”. That
+memory-blind audit rechecked code and evidence and produced no completed live
+adjudication before the cutoff. Its value was discipline rather than score:
+recorded conclusions became claims to revalidate instead of premises to inherit.
+The second provider was a reset, under human direction, not corroboration of the
+first. (Episode OC-S02; Quote Q05)
 
-The final dated ladders remained mixed or negative. On 2026-08-12, two proposed
-throughput knobs collapsed to one effective axis before L27, the project label
-for that controlled submission ladder. Its *probe-hop* arms enabled a one-hop
+The last dated ladders came back mixed or negative. On 2026-08-12 two proposed
+throughput knobs collapsed into one effective axis before L27, the project's
+label for that controlled ladder, whose *probe-hop* arms ran a one-hop
 calibration probe before sizing the candidate set. The human insisted on both
-tests and a control, and the live variants scored 50.295-57.620 against an
-88.730 control. On 2026-08-13 the GPU path was made functional, but its best arm
-scored 50.175 against an 83.115 historical CPU reproduction threshold. That
-refuted the narrow threshold proposition, not a causal CPU-versus-GPU effect,
-because no same-batch hardware control existed. L29 executed on 2026-08-15 and
-scored 85.675, below the historical 88.730 L27 threshold. That likewise refuted
-the stated threshold target without causally rejecting routing. At the frozen
-cutoff, L31—the later named submission ladder—had
-four pending *chain-pack* arms, which placed several multi-hop messages inside
-one candidate. Only the companion *fast-emit* arm, a separately calibrated path
-that generated fixed eight-hop candidates directly in memory, had run; it
-scored 25.145. A later 11:59:48Z status-only recheck found one chain-pack arm,
-ref 55538848, complete at 73.605 and three still pending; it had no matched
-control. By 12:44:16Z, all four were complete at 79.985, 79.365, 73.605, and
-54.375. They all remained below the historical 88.730 L27 threshold, but these
-unmatched comparisons do not identify a causal chainpack effect. AgentSecurityComp's
-winning objective remained unachieved as retrospective testimony. (Episode
-AS-S11; Episode AS-S12; Episode AS-S13; Episode AS-S14; Testimony: living
-outcomes register; AgentSecurity live-results ledger, rows 55444101, 55469249,
-55469255, 55469264, 55469273, 55469280, 55525533, 55530790, 55538814,
-55538829, 55538848, 55538855, and 55538875)
+tests and a control; the arms scored 50.295-57.620 against an 88.730 control. On
+2026-08-13 the GPU path was made to work, and its best arm scored 50.175 against
+an 83.115 historical CPU threshold — refuting that narrow threshold claim, not
+establishing anything causal about CPU versus GPU, since no same-batch hardware
+control existed. L29 ran on 2026-08-15 at 85.675, under the historical 88.730,
+refuting its threshold target without causally rejecting routing. At the frozen
+cutoff L31 had four pending *chain-pack* arms, which put several multi-hop
+messages inside one candidate; only the companion *fast-emit* arm had run, at
+25.145. The 11:59:48Z recheck found one chain-pack arm complete at 73.605 with
+three pending and no matched control, and by 12:44:16Z all four were in at
+79.985, 79.365, 73.605, and 54.375. All sat below the historical 88.730, and
+none of those unmatched comparisons identifies a chain-pack effect. The winning
+objective remained unachieved as retrospective testimony. (Episodes
+AS-S11-AS-S14; Testimony: living outcomes register; live-results ledger, the
+L27-L31 rows)
 
 ### 4.5 Case evidence summary
 
 Table 1 separates what the agent executed from what the human governed and what
-the work inherited from external systems. Its outcomes are bounded episode
+the work inherited from external systems. Its outcomes are episode
 claims rather than a provider scorecard. (Episodes AS-S01-AS-S14; Episodes
 OC-S01-OC-S02)
 
@@ -568,140 +480,122 @@ OC-S01-OC-S02)
 
 ## 5. Case II: ARC-AGI-3
 
-**Outcome-evidence note.** ARC-AGI-3 scores and evaluation outcomes below were
-not independently re-queried from the external platform for this paper. They
-are reported only as repository project-ledger, protocol, design, transcript,
-or result-artifact records identified in the episode source register; those
-records establish what the project recorded, not a fresh live verification.
-(Sources ARC-S01-ARC-S12; AI evidence ledger, known evidence gaps)
+**Outcome-evidence note.** Every ARC score in this section is a repository
+record — project ledger, protocol, design note, transcript, or result artifact —
+identified in the episode source register. Each shows what the project recorded,
+not a fresh verification, and the qualification holds for the whole section
+rather than being restated at each result. Nothing here was re-queried from the
+platform at the 2026-08-16 cutoff. Sections 12.2 and 13.2 later did query it,
+and several of these rows now match authenticated public submissions. (Sources
+ARC-S01-ARC-S16; AI evidence ledger, known evidence gaps)
 
 ### 5.1 Exploration, search, and evaluator boundaries
 
-ARC-AGI-3 supplied a different research setting: an agent had to act in
-interactive games whose state, goals, and evaluator lifecycle were only partly
-visible. The process allowed broad agent-led exploration, but apparent
-agent-originated hypotheses still passed through human challenge, local harness
-tests, and scarce external evaluations. On 2026-06-29 the agent proposed a double
-reset between plays. An eval-faithful validation that day reported
-2.6–152-fold on 15 of 25 games after repairing the no-op; a later July 1 handoff
-recorded a 7–109-fold local range. Because the artifacts use different ranges
-and contexts, neither is treated as the single definitive local estimate. In
-competition mode the second
-play returned HTTP 400, making the test
-invalid for the claimed deployment setting. Exploration produced an executable
-idea; it did not supply the missing evaluator permission on which the idea
-depended. This outcome is a project design-record result. (Episode ARC-S03;
-Source ARC-S03)
+ARC-AGI-3 posed a different problem: act inside interactive games whose state,
+goals, and evaluator lifecycle were only partly visible. Agent-led exploration
+had room to run, but its hypotheses still met human challenge, local harness
+tests, and scarce external evaluations. On 2026-06-29 the agent proposed a
+double reset between plays. An eval-faithful validation that day reported a
+2.6-152-fold effect on 15 of 25 games once the no-op was repaired; a handoff on
+July 1 recorded a 7-109-fold local range. The two artifacts use different ranges
+and contexts, so neither is treated as the definitive local estimate. In
+competition mode the second play returned HTTP 400, which made the test invalid
+for the deployment setting it claimed. Exploration produced an executable idea
+and could not supply the evaluator permission the idea depended on. (Episode
+ARC-S03; Source ARC-S03)
 
-On 2026-07-01 the agent recognized that scoring retained the best run and built
-a search-and-replay approach: search for a solved path, then replay that action
-sequence cleanly. The project design record says it solved all 25 development
-games, a substantial local harness result, but the scoring trick did not survive
-external conditions. The proper conclusion is split: the solver mechanism was
-locally valid, while its
-external-transfer claim was not. Calling the development sweep an autonomous
-solution would erase both the hidden evaluator boundary and the human demand
-for development and external checks. These outcomes are project design-record
-claims, not independently re-queried scores. (Episode ARC-S02; Source ARC-S02)
+On 2026-07-01 the agent noticed that scoring kept the best run and built
+search-and-replay: find a solved path, then replay the action sequence cleanly.
+The design record says it solved all 25 development games. That is a substantial
+harness result, and the scoring trick did not survive external conditions. The
+conclusion splits: the solver worked locally, the transfer claim did not. Calling
+the development sweep an autonomous solution would erase both the hidden
+evaluator boundary and the human insistence on external checks. (Episode
+ARC-S02; Source ARC-S02)
 
 ### 5.2 Serving identity and development-to-hidden reversal
 
-The sharpest validity failure occurred on 2026-07-11. A fine-tuned low-rank
-adaptation (LoRA) adapter appeared to beat its base model with a local result of
-1.26, and the agent was highly confident before the human requested proof of
-the deployed model's identity. The cutoff-1 ledger records the resulting audit
-diagnosis: the adapter never served and generation ran on the base model. The
-apparent treatment and control were therefore the same model, so the comparison
-was an `invalid experiment`, not a failed fine-tune. This is a general
-computational-research point: model serving is part of the experiment, not
-plumbing outside it. The canonical Claude file was absent at the 2026-09-04
-re-audit; the diagnosis is retained as a prior ledger extract corroborated by
-repository evidence, not as a re-opened original quotation. (Episode ARC-S05;
-Quote Q06; Source ARC-S05; source-availability manifest)
+The sharpest validity failure came on 2026-07-11. A fine-tuned LoRA adapter
+appeared to beat its base model at 1.26, and the agent was confident before the
+human asked for proof of which model was actually deployed. The audit found the
+adapter had never served: generation ran on the base model. Treatment and
+control were the same model, so this is an `invalid experiment`, not a failed
+fine-tune. The general point is that model serving is part of the experiment
+rather than plumbing around it. The canonical Claude file was missing at the
+2026-09-04 re-audit, so the diagnosis stands as a prior ledger extract
+corroborated by repository evidence. (Episode ARC-S05; Quote Q06; Source
+ARC-S05; source-availability manifest)
 
-A different failure on 2026-07-12 was valid enough to be informative. The
-project submission ledger records that reducing prompt tokens raised the
-development mean from 0.89 to 1.96, while its hidden-evaluation entry was 0.73.
-Unlike the LoRA episode, the intervention actually ran; it simply did not
-generalize in the recorded hidden result. The development-to-hidden reversal
-distinguishes a refuted transfer claim from an invalid comparison and shows why
-large local deltas cannot substitute for the
-project's recorded held-out outcome. This is a project-ledger result, not an
-independently queried live fact. (Episode ARC-S08; Source ARC-S08)
+A failure on 2026-07-12 was valid enough to teach something. Reducing prompt
+tokens raised the development mean from 0.89 to 1.96, and the hidden-evaluation
+entry came back at 0.73. Unlike the LoRA episode this intervention genuinely
+ran; it simply did not generalize. That reversal is what separates a refuted
+transfer claim from an invalid comparison, and it is why a large local delta
+cannot stand in for a held-out result. (Episode ARC-S08; Source ARC-S08)
 
-An executable-world-model (EWM) policy, which tested proposed actions against an
-internal executable model before acting, adds a third status. Independent code
-review on 2026-07-14
-found and repaired defects, after which later campaigns displaced the policy
-without a durable isolated gain. The implementation improved, but the efficacy
-claim became `superseded`, not confirmed or cleanly refuted. Preserving that
-status prevents later work from converting a repaired research artifact into a
+An executable-world-model policy, which tested proposed actions against an
+internal model before acting, adds a third status. Independent code review on
+2026-07-14 found and repaired defects, and later campaigns then displaced the
+policy without any durable isolated gain. The implementation got better while
+the efficacy claim became `superseded` — neither confirmed nor cleanly refuted.
+Keeping that status stops later work from turning a repaired artifact into a
 result it never produced. (Episode ARC-S04)
 
 ### 5.3 Harness and perception as research infrastructure
 
-The case's clearest infrastructure value came from measuring and improving the
-observation-and-evaluation harness. The project protocol artifact records that,
-on 2026-08-01, four same-versus-same replicate pairs showed root-mean-square
-(RMS) variation of 0.707 game levels per pair—a scale summary of the paired
-evaluation noise. Two preregistered gates were under-powered, so no
-external-effect claim was made and the protocol was amended. Measuring noise
-before interpreting small differences turned an unreliable score comparison
-into an explicit instrument limitation. The governance rule became: every
-submission is an experiment, with an identified question, control, and decision
-gate rather than an isolated leaderboard try.
-(Episode ARC-S06; Source ARC-S06)
+The clearest value in this case came from measuring and improving the harness
+itself. On 2026-08-01 four same-versus-same replicate pairs showed
+root-mean-square variation of 0.707 game levels per pair, a scale summary of the
+paired evaluation noise. Two preregistered gates turned out to be under-powered,
+so no external-effect claim was made and the protocol was amended. Measuring the
+noise before reading small differences turned an unreliable comparison into a
+stated instrument limit, and the governance rule followed: every submission is
+an experiment with a question, a control, and a decision gate, not an isolated
+leaderboard try. (Episode ARC-S06; Source ARC-S06)
 
-Perception work made the mechanism concrete. On 2026-08-03 the agent corrected
-slow-tick heads-up-display bars by virtually rotating and masking them; retained
-replay and regression cases passed, but no isolated leaderboard increase was
-claimed. On 2026-08-09, the goal-inference input changed from a flat object list
-to a role-typed, HUD-masked scene so the reasoner could distinguish the
-controllable object, target, and context while suppressing volatile status
-elements. The retained comparison changed from 0/9 for the flat input to 6/6
-for the combined representation. Because both role typing and HUD masking
-changed, the artifact does not isolate which component caused the local
-difference; neither had a separable external attribution.
-
-These are confirmed or partially supported improvements to seeing and testing,
-not proof of an end-to-end competition advance. (Episode ARC-S07; Episode
-ARC-S01; Source ARC-S01; Source ARC-S07)
+Perception work made that concrete. On 2026-08-03 the agent fixed slow-tick
+heads-up-display bars by virtually rotating and masking them; retained replay
+and regression cases passed, and no leaderboard gain was claimed. On 2026-08-09
+the goal-inference input changed from a flat object list to a role-typed,
+HUD-masked scene, letting the reasoner tell the controllable object from the
+target and the context while volatile status elements were suppressed. The
+retained comparison moved from 0/9 to 6/6. Both role typing and HUD masking
+changed at once, so nothing isolates which one did the work, and neither has a
+separable external attribution. These are real improvements to seeing and
+testing, not an end-to-end competition advance. (Episodes ARC-S01, ARC-S07;
+Sources ARC-S01, ARC-S07)
 
 ### 5.4 Hypothesis closure and public-signal noise
 
-Later work shows how hypotheses were closed rather than allowed to survive on
-plausibility. A structural plan channel with braking and phase gates executed on
-2026-08-09, but project-ledger results remained in the established score band. On
-2026-08-10, best-of-N candidate selection worked in the harness, yet its required
-reset was swallowed in competition mode and the second play failed. A repaired
-duck-memory namespace strategy also stayed within its registered 0.69-1.30
-comparison interval (described below as *in-band*);
-the project submission ledger records 0.83. Better structure, local selection,
-and repaired state were each real implementation work; none established the
-proposed score breakthrough. These are project-ledger and design-record results.
-(Episode ARC-S10; Episode ARC-S09; Episode OC-S05; Source ARC-S10; Source
-OC-S05)
+Hypotheses here were closed rather than left alive on plausibility. A structural
+plan channel with braking and phase gates ran on 2026-08-09 and stayed inside
+the established score band. On 2026-08-10 best-of-N candidate selection worked
+in the harness, but the reset it needed was swallowed in competition mode and
+the second play failed. A repaired duck-memory namespace strategy also stayed
+inside its registered 0.69-1.30 interval — *in-band* — at 0.83. Better
+structure, working local selection, and repaired state were all genuine
+implementation work, and none of them established the breakthrough proposed.
+(Episodes ARC-S09-ARC-S10; Episode OC-S05; Sources ARC-S10, OC-S05)
 
-External signals were not automatically trustworthy. On 2026-08-09 an
-OpenCode/DeepSeek campaign synthesized nine linked specialist searches into a
-research document, but a later audit found that the assumed corpus came from the
-wrong model. Parallel breadth could not repair invalid provenance, so the
-episode was classified `invalid experiment`. Earlier, a proposed duck-sparse
-35B arm looked favorable until a serving audit showed that its path had never
-executed; the human killed it before reset, producing neither a slot nor an
-external negative result. These episodes show human challenge closing
-attractive but unsupported hypotheses before they consumed further evaluation.
-(Episode OC-S04; Episode OC-S03)
+External signals were not automatically trustworthy either. On 2026-08-09 an
+OpenCode/DeepSeek campaign folded nine linked specialist searches into a
+research document, and a later audit found the assumed corpus came from the
+wrong model. Breadth cannot repair provenance, so the episode is an `invalid
+experiment`. Earlier, a proposed duck-sparse 35B arm looked good until a serving
+audit showed its path had never executed, and the human killed it before reset —
+costing a slot but producing no external negative either. In both, human
+challenge closed an attractive but unsupported hypothesis before it ate more
+evaluation. (Episodes OC-S03-OC-S04)
 
-The correction was converted into an evidence gate rather than left as a memory
-of failure. A later adapter comparison began with the rule “Serving identity
-proven first.” Deterministic controls established which model was actually
-running before outcome interpretation. Together with memory-blind
-reassessment—treating stored conclusions as untrusted until rechecked—this
-made provenance and deployment identity preconditions for a claim, not cleanup
-after a surprising score. Such gates are governance contributions produced by
-human challenge and agent execution; they do not turn the agent into the final
-arbiter of validity. (Quote Q07; Episode ARC-S05; Episode OC-S04)
+The correction became a gate rather than a memory of failure. A later adapter
+comparison opened with the rule “Serving identity proven first,” and
+deterministic controls established which model was running before anyone read
+an outcome. Together with memory-blind reassessment, which treats stored
+conclusions as untrusted until rechecked, that made provenance and deployment
+identity preconditions for a claim instead of cleanup after a surprising score.
+These gates came from human challenge and agent execution together. They do not
+make the agent the arbiter of its own validity. (Quote Q07; Episode ARC-S05;
+Episode OC-S04)
 
 ### 5.5 Late alternatives and provider switching
 
@@ -773,169 +667,149 @@ Episodes OC-S03-OC-S05)
 
 ### 6.1 Six capabilities, not one autonomy scale
 
-The cases separate six claims that are easy to collapse in ordinary accounts of
-agentic research. *Access* is the ability to enter an unfamiliar technical
-domain and begin meaningful work. *Execution* is the ability to turn a proposed
-mechanism into code, instrumentation, and experiments. *Insight* is an
-evidence-supported explanation that distinguishes a mechanism from plausible
-alternatives. *Originality* concerns the provenance of the question or method.
-*Reliability* is the ability to produce valid, calibrated results across
-episodes. *Autonomy* would require the dependable integration of all five other
-capabilities, including self-correction and appropriate stopping without a
-human having to detect the critical mistake. The two cases provide direct
-evidence of access and substantial execution, bounded instances of insight,
-and weaker evidence for dependable originality, reliability, or autonomy.
-(Episodes AS-S01-AS-S17; Episodes ARC-S01-ARC-S16; Episodes OC-S01-OC-S05;
-Testimony Q08-Q09)
+Ordinary accounts of agentic research collapse six different claims into one.
+*Access* is getting into an unfamiliar technical domain and starting useful
+work. *Execution* is turning a proposed mechanism into code, instruments, and
+experiments. *Insight* is an explanation the evidence supports over its rivals.
+*Originality* is about where the question or method came from. *Reliability* is
+producing valid, calibrated results episode after episode. *Autonomy* would mean
+holding all five together dependably, correcting itself and stopping when it
+should, without a human spotting the critical mistake first. These cases show
+access clearly, execution substantially, insight in places, and not
+much dependable originality, reliability, or autonomy. (Episodes AS-S01-AS-S17;
+Episodes ARC-S01-ARC-S16; Episodes OC-S01-OC-S05; Testimony Q08-Q09)
 
-The origin codes reinforce this separation but must not be misread. Of the 38
-reviewed episodes, 16 propositions were coded `agent`, 18 `mixed`, four
-`external`, and zero `human`. Zero human-origin rows is a coding result about
-the apparent source of the bounded proposition, not evidence that no human
-intellectual contribution occurred. The 18 mixed rows and the intervention
-column record human framing, challenge, approval, demand for controls, and
-claim closure. Likewise, an agent-origin proposition is not automatically an
-original discovery: it may recombine inherited methods, target an already
-visible failure, or remain refuted, invalid, superseded, or open. (AI evidence
-ledger, descriptive measures and derivations, including the 38 exact episode
-IDs)
+The origin codes support that split, with a caveat. Of 38 episodes, 16
+propositions are coded `agent`, 18 `mixed`, four `external`, none `human`. No
+human-origin rows is a fact about where propositions appeared to start, not
+evidence that humans contributed no thinking; the 18 mixed rows and the
+intervention column are full of human framing, challenge, approval, demands for
+controls, and claim closure. An agent-origin proposition is not automatically
+original either. It can recombine inherited methods, chase an already visible
+failure, or end up refuted, invalid, superseded, or open. (AI evidence ledger,
+descriptive measures and derivations, all 38 episode IDs)
 
 ### 6.2 Access without mastery; execution without dependable originality
 
-The strongest cross-case result is access without demonstrated mastery. The
-agents navigated unfamiliar SDKs, evaluator protocols, model-serving paths,
-interactive-game harnesses, and experimental artifacts well enough to make both
-projects executable. This supports the author's retrospective judgment that
-the tools enabled meaningful participation and contextual learning. It does not
-show that the author or agents thereby acquired domain mastery, and without a
-human-only control it supplies no measured productivity effect. (Episodes
+The strongest cross-case result is access without mastery. The agents found
+their way through unfamiliar SDKs, evaluator protocols, model-serving paths,
+game harnesses, and experimental artifacts well enough to make both projects
+run. That matches the author's sense that the tools allowed real participation
+and real learning. It does not show that anyone acquired domain mastery, and
+with no human-only control it measures no productivity effect at all. (Episodes
 AS-S01-AS-S03; Episodes ARC-S02, ARC-S05-ARC-S07; Testimony Q08; Testimony:
 author baseline and interview)
 
-Execution was also more dependable than scientific interpretation. Agents
-ported interfaces, repaired parsers, built routers, made a GPU path functional,
-audited adapter-serving identity, generated controlled runners, and preserved
-result artifacts. Some
-of those artifacts were useful even when their motivating efficacy claim failed.
-A working router did not identify a routing effect; a working GPU path did not
-establish a CPU bottleneck; repaired policy code did not establish durable
-superiority. Artifact production is therefore evidence of execution, while
-scientific insight additionally requires an identifying comparison and a result
-that survives the relevant evaluation boundary. (Episodes AS-S01, AS-S08,
-AS-S12; Episodes ARC-S04-ARC-S05, ARC-S07)
+Execution held up better than interpretation. Agents ported interfaces, repaired
+parsers, built routers, got a GPU path working, audited which adapter was
+serving, wrote controlled runners, and kept result artifacts — several of which
+stayed useful after the claim that motivated them failed. A working router did
+not identify a routing effect. A working GPU path did not establish a CPU
+bottleneck. Repaired policy code did not establish durable superiority. Building
+the artifact proves execution; insight needs a comparison that identifies the
+cause and a result that survives the evaluation boundary that matters. (Episodes
+AS-S01, AS-S08, AS-S12; Episodes ARC-S04-ARC-S05, ARC-S07)
 
-The adaptive-sizing and commitment-forge episodes show how valuable
-recombination should be attributed. Both central mechanisms came from public or
-external sources; the agents translated them into the local repository, tested
-them, and in the forge case combined the reproduced mechanism with board and
-model variants. Transparent reuse and recombination are not plagiarism when
-their provenance is preserved. They are also not independent discovery. The
-scientific contribution claimed here is bounded implementation, adaptation,
-and component testing, not invention of the public mechanism or attainment of
-the stated reproduction target. (Episodes AS-S04, AS-S09-AS-S10;
-Testimony Q09)
+Adaptive sizing and the commitment forge show how to attribute recombination.
+Both mechanisms came from outside. The agents brought them into the repository,
+tested them, and in the forge case combined the reproduction with board and
+model variants. Reuse with its provenance intact is not plagiarism. It is also
+not discovery. What is claimed here is implementation, adaptation, and component
+testing — not inventing the public mechanism, and not hitting the reproduction
+target either. (Episodes AS-S04, AS-S09-AS-S10; Testimony Q09)
 
 ### 6.3 Review, confidence, and evidence authority
 
-Human oversight was part of the research system rather than an occasional
-safety backstop. The author estimates 2-5 hours per day of review, challenge,
-redirection, and approval. In the episodes, human intervention exposed broken
-controls, demanded serving proof, required hidden or competition-mode tests,
-kept unresolved arms pending, and stopped an unserved proposal before it used a
-live slot. Learning occurred through this review loop: agent proposals made
-assumptions concrete, and adverse review or evaluation converted those
-assumptions into reusable gates. This is substantial supervised execution, not
-hands-off autonomy. (Episodes AS-S07-AS-S08, AS-S11, AS-S14; Episodes ARC-S05,
-ARC-S08-ARC-S09; Episode OC-S03; Testimony: author baseline and interview)
+Human oversight was part of the machine, not a backstop bolted to it. The
+author's estimate is 2–5 hours a day of review, challenge, redirection, and
+approval. Across the episodes that intervention exposed broken controls, forced
+proof of which model was serving, required hidden or competition-mode tests,
+kept unresolved arms pending, and stopped an unserved proposal from spending a
+live slot. The learning happened in that loop: agent proposals turned
+assumptions into something concrete, and adverse review turned them into
+reusable gates. This is supervised execution at scale, not hands-off autonomy.
+(Episodes AS-S07-AS-S08, AS-S11, AS-S14; Episodes ARC-S05, ARC-S08-ARC-S09;
+Episode OC-S03; Testimony: author baseline and interview)
 
-Confidence did not reliably track validity. The prior ledger extract for Q04
-corrected an earlier approximately 570 boundary after exact-model evidence
-contradicted it. The later Q02 extract asserted a different approximately 465
-boundary and 44-point ceiling that subsequent work weakened. Q04 therefore
-precedes and does not retract Q02; the sequence instead shows that one
-successful correction did not prevent a new confident ceiling claim. Because
-the canonical transcript was absent at re-audit, this wording supports only the
-recorded process example, not a newly verified transcript claim. Other
-high-confidence lines rested on an unserved adapter, a broken model frame,
-unavailable reset behavior, or a wrong-model corpus. (Quotes Q04 and Q02;
-Episodes AS-S07; ARC-S03, ARC-S05, ARC-S09; Episode OC-S04;
-source-availability manifest)
+Confidence tracked validity poorly. Q04 records the agent correcting its own
+approximately 570 boundary once exact-model evidence contradicted it. Q02, from
+the following day, asserts a different 465 boundary and a 44-point ceiling that
+later work weakened. Q04 comes first and retracts nothing; what the pair shows
+is that one successful self-correction did not prevent the next confident
+ceiling claim. The canonical transcript was missing at re-audit, so this
+supports the recorded process example and no more. Other confident lines rested
+on an adapter that never served, a broken model frame, a reset the evaluator
+would not allow, and a corpus for the wrong model. (Quotes Q02, Q04; Episodes
+AS-S07, ARC-S03, ARC-S05, ARC-S09; Episode OC-S04; source-availability manifest)
 
-Finally, recorded memory and provider changes did not create evidence. A stored
-conclusion could propagate a stale assumption or a repaired no-op, so the
-memory-blind audit treated memory as a set of claims to revalidate. Introducing
-a different provider could broaden candidate explanations or reset a settled
-line, but shared repositories, prompts, public methods, and prior conclusions
-prevented that switch from constituting independent corroboration. Unequal
-tasks, timing, models, and budgets also prevent provider ranking. For efficacy,
-the relevant external result remained the authority: directly retrieved live
-rows support the cited AgentSecurity scores, while ARC outcomes retain their
-narrower project-ledger or artifact qualification because they were not freshly
-queried from the external platform. That asymmetry was narrowed at cutoff-2 and
-closed for ARC's public axis at cutoff-3, where its submission rows became
-authenticated live observations on the same footing; its private axis remains
-unqueried because it does not yet exist (§12.2, §13.2). (Episodes OC-S01-OC-S05; Quote Q05;
-AgentSecurity live-results ledger; Sources ARC-S01-ARC-S16; AI evidence ledger,
-known evidence gaps)
+Neither stored memory nor a change of provider produced evidence. A saved
+conclusion can carry a stale assumption or a repaired no-op forward, which is
+why the memory-blind audit treated memory as claims to recheck. A second
+provider could widen the space of explanations or reset a settled line, but
+shared repositories, prompts, public methods, and prior conclusions kept that
+from being independent corroboration, and unequal tasks, timing, models, and
+budgets rule out ranking one provider against another. On efficacy the external
+result stayed the authority. Retrieved live rows carry the AgentSecurity scores.
+ARC results carried a weaker project-ledger qualification at the first cutoff;
+cutoff-2 narrowed that and cutoff-3 closed it for the public axis, where ARC's
+rows are now authenticated live observations. Its private axis is still
+unqueried because it does not yet exist (§12.2, §13.2). (Episodes OC-S01-OC-S05;
+Quote Q05; AgentSecurity live-results ledger; Sources ARC-S01-ARC-S16; AI
+evidence ledger, known evidence gaps)
 
 ## 7. Where Agents Add Value
 
-The cases support a practical role for agents as research executors. Their value
-was distributed across the observed workflow rather than concentrated in
-autonomous discovery. (Episodes AS-S01-AS-S17; Episodes ARC-S01-ARC-S16)
+The cases support a practical role: agents as research executors. The value was
+spread across the workflow rather than concentrated in discovery. (Episodes AS-S01-AS-S17; Episodes ARC-S01-ARC-S16)
 
-- **Navigation and onboarding.** Repository search, SDK inspection, and
-  evaluator reading converted unfamiliar systems into executable maps. This
-  underlies the author's perceived access and contextual-learning benefit, but
-  remains retrospective testimony rather than a measured comparison with
-  unaided work. (Episodes AS-S01-AS-S03; Episodes ARC-S02-ARC-S03; Testimony
+- **Navigation and onboarding.** Searching repositories, reading SDKs, and
+  working through evaluators turned unfamiliar systems into maps someone could
+  act on. This is what the author's sense of access rests on, and it stays
+  testimony rather than a measured comparison against working unaided. (Episodes AS-S01-AS-S03; Episodes ARC-S02-ARC-S03; Testimony
   Q08)
-- **Implementation and operations.** Agents translated proposed mechanisms into
-  attack candidates, search/replay systems, model-serving probes, parsers,
-  routers, replay-safe sizing, and gated runners. A functional artifact retained
-  operational value even when the claimed score mechanism was refuted or never
-  externally adjudicated. (Episodes AS-S04, AS-S08, AS-S12, AS-S14; Episodes
+- **Implementation and operations.** Proposed mechanisms became attack
+  candidates, search-and-replay systems, serving probes, parsers, routers,
+  replay-safe sizing, and gated runners. Those artifacts kept their operational
+  value even when the score claim behind them was refuted or never adjudicated. (Episodes AS-S04, AS-S08, AS-S12, AS-S14; Episodes
   ARC-S02, ARC-S05, ARC-S07, ARC-S12)
 - **Instrumentation.** Timing probes, router self-measurement, serving-identity
   checks, retained replay cases, and A/A noise measurement made hidden
   assumptions observable. ARC's 0.707-level RMS estimate and the later rule
   “Serving identity proven first” are stronger contributions to research
-  validity than an unqualified leaderboard narrative would have been. The
-  cutoff-3 off-platform replication rig extends the same capability to the
-  external metric itself: once byte-identical public draws were shown to span
-  2.45 to 4.31, a same-image instrument with pre-registered decision bands was
-  the only way left to read a lever at all. (Episodes
+  validity than any leaderboard narrative. The cutoff-3 replication rig turned
+  the same capability on the external metric: once byte-identical draws were
+  shown to span 2.45 to 4.31, a same-image instrument with pre-registered bands
+  was the only way left to read a lever. (Episodes
   AS-S05, AS-S08; Episodes ARC-S05-ARC-S07, ARC-S14-ARC-S16; Quote Q07)
-- **Experiment generation.** Agents produced alternative mechanisms and
-  executable arms, while the human requested bounded ladders, controls, and
-  full-game verdicts. The episode ledger records both successful component tests
-  and informative closures; generating testable propositions did not make their
-  selection or interpretation trustworthy by default. (Episodes AS-S05-AS-S14;
+- **Experiment generation.** Agents produced alternative mechanisms and runnable
+  arms while the human asked for bounded ladders, controls, and full-game
+  verdicts. The ledger holds both working component tests and informative
+  closures. Generating testable propositions did not make choosing between them
+  or reading them trustworthy. (Episodes AS-S05-AS-S14;
   Episodes ARC-S08-ARC-S12)
 - **Literature and method discovery.** Agent search surfaced public strategies,
-  model candidates, and specialist syntheses that could guide reproduction or
-  challenge. This capability depended on source identity: the public forge was
-  useful when attributed and tested, whereas the nine-specialist document was
-  invalidated by a wrong-model corpus. (Episodes AS-S04, AS-S09; Episode
+  model candidates, and specialist syntheses worth reproducing or arguing with.
+  It lived or died on source identity: the public forge was useful once
+  attributed and tested, while the nine-specialist document was void because its
+  corpus was for the wrong model. (Episodes AS-S04, AS-S09; Episode
   OC-S04; Episode ARC-S12)
 
-These contributions matter even when they do not yield a new scientific
-finding. A parser regression suite, a deterministic serving probe, a preserved
-negative ladder, or a reproducible runner can improve the next inquiry. The
-appropriate claim is that agents produced research infrastructure and
-a reviewed record of implemented experiments. Calling every artifact an insight
-would erase the causal and provenance work that turns execution into knowledge.
+None of this needs a new finding to be worth having. A parser regression suite,
+a deterministic serving probe, a preserved negative ladder, or a runner someone
+can rerun all make the next question cheaper to ask. What the agents produced
+was research infrastructure and a reviewed record of experiments actually run.
+Calling every artifact an insight would erase the causal and provenance work
+that turns execution into knowledge.
 (Episodes ARC-S04-ARC-S07; Episodes AS-S08, AS-S11-AS-S14)
 
 ## 8. Where Agents Struggle
 
-The status distribution describes a mixed record rather than a single success
-rate: eight of 38 bounded claims were confirmed, ten partially supported, ten
-refuted, five invalid experiments, one superseded, and four open. Those labels
-apply to different propositions and evidence types, so they cannot be collapsed
-into a provider accuracy score. They do show why an executable result, an
-external effect, a valid experiment, and a durable scientific conclusion must
-be adjudicated separately. (AI evidence ledger, descriptive measures and
+The status spread is a mixed record, not a success rate: of 38 claims, eight
+confirmed, ten partially supported, ten refuted, five invalid experiments, one
+superseded, four open. The labels sit on different propositions with different
+kinds of evidence, so they do not add up to an accuracy score. What they show is
+why a result that runs, an effect that transfers, an experiment that is valid,
+and a conclusion that lasts have to be judged one at a time. (AI evidence ledger, descriptive measures and
 derivations, with all 38 IDs assigned exactly once)
 
 Hypothesis selection and novelty remained weak points. The ledger contains 16
@@ -953,41 +827,40 @@ independent originality remained unresolved. (Episodes AS-S07-AS-S08,
 AS-S12-AS-S14; Episodes ARC-S03, ARC-S08-ARC-S09, ARC-S13, ARC-S15-ARC-S16;
 Testimony Q09)
 
-Calibration and due diligence failed at consequential boundaries. High local
-confidence preceded discovery that the treatment never served, a comparison
-frame was under-powered, a reset was unavailable in competition mode, or a
-research corpus concerned the wrong model. These were not cosmetic mistakes:
-they changed the classification of the experiment. The agents could articulate
-a post hoc correction, but the human challenge or external failure supplied the
-trigger. (Episodes AS-S07; ARC-S03, ARC-S05, ARC-S09; Episode OC-S04; Quotes
+Calibration failed where it mattered most. High local confidence came just
+before someone discovered that the treatment never served, that the comparison
+frame was under-powered, that the reset was unavailable in competition mode, or
+that the research corpus was for the wrong model. None of those is cosmetic;
+each changed what kind of experiment had been run. The agents could explain the
+mistake afterwards. Human challenge or outright external failure is what made
+them look. (Episodes AS-S07; ARC-S03, ARC-S05, ARC-S09; Episode OC-S04; Quotes
 Q04, Q06-Q07)
 
-Causal inference suffered when arms did not isolate a mechanism. The router
-ladder changed overlapping factors, the early Gemma comparison used a broken
-control, and the LoRA treatment and base control resolved to the same served
-model. Conversely, prompt reduction was a valid intervention whose development
-gain reversed on the recorded hidden evaluation. The distinction matters: the
-first three episodes could not answer their proposed causal question, while the
-last refuted a transfer claim. More runs do not repair a non-identifying design.
+Causal reasoning broke down whenever the arms failed to isolate anything. The
+router ladder moved overlapping factors at once, the early Gemma comparison ran
+on a broken control, and the LoRA treatment and its base control turned out to
+be the same served model. Prompt reduction is the contrast: a real intervention
+whose development gain simply reversed on the hidden evaluation. The first three
+could not answer the question they posed; the fourth refuted a transfer claim.
+Running a non-identifying design more times does not fix it.
 (Episodes AS-S07-AS-S08; Episodes ARC-S05, ARC-S08)
 
-Agents also struggled to respect the boundary between local and live evidence.
-Early close and packing reached only `ERROR` rows, so neither established a
-completed live effect; search/replay solved the development set but not the
-external setting; prompt reduction reversed; and Qwen 3.8 remained open despite
-a strong local A/B because no scored external result existed by the cutoff.
-Local tests established functionality or a within-harness effect. They could
-not establish deployment availability, held-out generalization, or competition
-efficacy. (Episodes AS-S05-AS-S06; Episodes ARC-S02, ARC-S08-ARC-S09,
+The line between local and live evidence also gave way repeatedly. Early close
+and packing only ever reached `ERROR` rows. Search-and-replay solved the
+development set and not the external one. Prompt reduction reversed. Qwen 3.8
+stayed open despite a strong local A/B because nothing external had scored it by
+the cutoff. Local tests show that code works, or that something moves inside the
+harness. They cannot show that a thing is deployed, that it generalizes, or that
+it wins. (Episodes AS-S05-AS-S06; Episodes ARC-S02, ARC-S08-ARC-S09,
 ARC-S12)
 
-Stopping and memory discipline did not emerge reliably from the agent alone.
-Attractive lines could continue after in-band or adverse results, while stored
-summaries could carry earlier assumptions into a new run. Human intervention
-bounded ladders, required controls, preserved pending status, killed an
-unserved arm, and commissioned memory-blind reassessment. Provider switching
-helped reopen the question space, but could also continue the same episode or
-produce a broader synthesis over invalid premises. (Episodes AS-S11-AS-S14;
+Knowing when to stop, and what to forget, did not come from the agent by itself.
+An appealing line could run on past in-band or adverse results, and a stored
+summary could carry last week's assumption into this week's run. The human
+bounded the ladders, demanded controls, kept pending things pending, killed the
+unserved arm, and commissioned the memory-blind reassessment. Switching provider
+reopened the question space and could equally continue the same episode or build
+a wider synthesis on premises that were already void. (Episodes AS-S11-AS-S14;
 Episodes OC-S02-OC-S05; Episode ARC-S11)
 
 ## 9. Governing AI-Assisted Research
@@ -1025,46 +898,44 @@ it away. The controls did not produce a better score. They produced two
 defensible closures and a trustworthy instrument, which is what they are for.
 (Episodes ARC-S14-ARC-S16; §13.2)
 
-The framework also clarifies ownership. Agents can fill hypothesis cards, build
-controls, maintain ledgers, and conduct first-pass audits. The accountable human
+The framework also settles who owns what. Agents can fill in hypothesis cards,
+build controls, keep ledgers, and run first-pass audits. The accountable human
 decides whether the design identifies the claim, whether an external gate is
-justified, and what conclusion the evidence supports. For IT teams, the same
-separation can be enforced in tooling: immutable experiment manifests,
-content-addressed artifacts, deployment-identity probes, permissioned live
-runners, and approval logs make epistemic gates inspectable rather than
-dependent on conversational memory. (Episodes ARC-S05-ARC-S06, ARC-S12;
+worth spending, and what the evidence actually supports. Tooling can enforce the
+same split: immutable experiment manifests, content-addressed artifacts,
+deployment-identity probes, permissioned live runners, and approval logs make
+those gates inspectable instead of leaving them to conversational memory. (Episodes ARC-S05-ARC-S06, ARC-S12;
 Episodes AS-S11-AS-S14; Quote Q07)
 
 ## 10. Implications
 
-**Researchers.** The case-specific lesson is to evaluate an agent by research
-role and evidence class, not by a single label. In these episodes, access did
-not imply mastery, execution did not imply insight, and useful recombination did
-not imply independent originality. Reporting each dimension separately makes a
-confirmed parser repair credible without turning it into a ranking claim, and
-preserves the value of a reproduced public mechanism without relabelling it as
-invention. (Episode ARC-S07; Episodes AS-S04, AS-S09-AS-S10) This separation
+**Researchers.** Judge an agent by the research role it played and the kind of
+evidence it produced, not by one label. Here, access did not bring mastery,
+execution did not bring insight, and useful recombination was not originality.
+Reporting those separately lets a confirmed parser repair stand on its own
+without inflating into a ranking claim, and lets a reproduced public mechanism
+keep its value without being called an invention. (Episode ARC-S07; Episodes AS-S04, AS-S09-AS-S10) This separation
 aligns with broader evidence: bounded laboratory systems close loops inside
 human-engineered envelopes [1-3], while scientific-programming and replication
 benchmarks do not establish open-ended research autonomy [5,11].
 
-**IT professionals.** The case-specific operational unit is the
-claim-to-evidence path. Repository permissions and model access address
-operational risk, but scientific reliability additionally requires versioned
-inputs, deployment-identity probes, matched controls, separate local and
-external results, append-only outcomes, and permissioned live runners. Memory
-systems should retain source, cutoff, contradiction, and unresolved status
-rather than compress the project into one preferred narrative. A second model
-can challenge assumptions, but shared repositories and prior conclusions must
-remain visible so diversity is not mistaken for independence. (Episodes
+**IT professionals.** The unit to secure is the path from claim to evidence.
+Repository permissions and model access cover operational risk; scientific
+reliability also needs versioned inputs, deployment-identity probes, matched
+controls, local and external results in separate fields, append-only outcomes,
+and live runners behind permission. Memory should keep source, cutoff,
+contradiction, and unresolved status instead of compressing a project into its
+most flattering narrative. A second model can challenge assumptions, as long as
+shared repositories and inherited conclusions stay visible, so that diversity is
+never mistaken for independence. (Episodes
 ARC-S05-ARC-S06; Episodes OC-S01-OC-S05; Episodes AS-S07-AS-S08)
 
-**Research leaders.** The cases do not support a staffing multiplier, provider
-ranking, or substitution claim. They support budgeting agents together with
-human review, scarce external evaluations, evidence curation, and the authority
-to stop invalid work. Leaders should evaluate portfolios by the number and
-importance of validly closed claims, not conversation volume, tokens, commits,
-or manuscript output. This recommendation is case-derived, while the broader
+**Research leaders.** Nothing here supports a staffing multiplier, a provider
+ranking, or replacing anyone. What it supports is budgeting agents alongside
+human review, scarce external evaluations, evidence curation, and someone with
+the authority to stop invalid work. Judge a portfolio by how many claims were
+validly closed and how much they mattered, not by conversation volume, tokens,
+commits, or manuscripts. This recommendation is case-derived, while the broader
 literature points in the same direction: Data-to-paper reports increasing need
 for human co-piloting as complexity rises [7], and the AI Scientist reports
 implementation and interpretation failures despite end-to-end production [8].
@@ -1133,8 +1004,9 @@ sensitive to unavailable versions or services.
 
 Several important statements are retrospective testimony rather than direct
 measurement: the author's baseline, 2–5-hour daily oversight estimate, perceived
-access and learning value, reported costs, trust judgments, and the unachieved
-winning objectives. Costs were not allocated by case or reconciled to receipts,
+access and learning value, reported costs, trust judgments, the unachieved
+winning objectives, and any judgment about how long the work would have taken
+without AI. Costs were not allocated by case or reconciled to receipts,
 and subscription amounts were not recorded in the reviewed ledger. The ARC
 Stage 2b full-25 verdict has an additional provenance limitation: it was read at
 audit time from a mutable file outside the frozen Git revision. Its hash,
@@ -1162,24 +1034,27 @@ establish or refute a live competition effect. The live three-draw read on the
 
 ### 11.2 Living-outcomes register
 
-The register below records what was known, what was not independently known,
-and what a later revision is allowed to add. A statement of “not established”
-is a completed evidence status, not a blank field.
+The register records, per item, what is known now and what a later revision may
+add. "Not established" is a finished evidence status, not an empty field. The
+table carries the latest state only. The dated states behind it are preserved in
+Section 12 (cutoff-2), Section 13 (cutoff-3), and the two live-results
+artifacts, and nothing here overwrites them.
 
-| Register item | AgentSecurityComp | ARC-AGI-3 | Authority and update constraint |
+| Register item | AgentSecurityComp | ARC-AGI-3 | Update constraint |
 | --- | --- | --- | --- |
-| Evidence cutoff | Repository `2ed68e8` at 2026-08-16T10:29:29+03:00; mutable histories extracted 2026-08-16T08:06:05Z; frozen live-results artifact retrieved 2026-08-16T10:56:15Z; selected rows separately rechecked 2026-08-16T11:10:21Z, 2026-08-16T11:26:07Z, 2026-08-16T11:59:48Z, and 2026-08-16T12:44:16Z. **Cutoff-3 (2026-09-08):** authenticated Kaggle queries retrieved between 18:21:51Z and 18:25:29Z, covering the competition row, the full retained submission list, and the published Working Note. | Repository `ebe5b3e` at 2026-08-15T18:41:01+03:00; mutable histories extracted 2026-08-16T08:06:05Z; Stage 2b artifact extracted 2026-08-16T08:45:51Z. **Cutoff-3 (2026-09-08):** authenticated Kaggle queries retrieved between 18:21:51Z and 18:25:29Z; the ARC project repository read at commit `41213de` (2026-09-08T18:06:51Z). | Each stream keeps its own cutoff; a later observation appends a new dated state rather than replacing this one. |
-| Winning objective | Ongoing and unachieved at the 2026-08-16 cutoff. **Cutoff-2 (2026-09-04):** competition concluded 2026-09-01; the top-prize objective was not won. An authenticated 16:57:02Z query returned rank 171 of 4,186 entrants. Separately, the author reported a Silver notification of 173 of 4,251; no notification artifact was retained. **Cutoff-3 (2026-09-08):** standing unchanged at 171 of 4,186; a repository-wide search again found no screenshot, email, or archived notification, so the medal label stays testimony. | Ongoing and unachieved at the 2026-08-15 cutoff. **Cutoff-2 (2026-09-04):** still an ongoing competition (official deadline 2026-11-02); objective unachieved; best public score 1.94 and public rank 374 of 2,779 at 16:56:36Z; private board not yet revealed. A later same-day query returned 379 of 2,787, demonstrating that the live rank was mutable. **Cutoff-3 (2026-09-08):** still open and unachieved; best public score 4.31 (ref 56080757) and public rank 26 of 2,892 at 18:25:28Z, on a byte-copy of a public competitor notebook; private board still unrevealed. | Cutoff-1 is retrospective author testimony. At cutoff-2, the AgentSecurity rank and submission rows and the ARC values are authenticated live observations; the medal label and 173/4,251 remain author testimony (Section 12). At cutoff-3 the same holds, with ARC's values explicitly mutable because the competition is open (Section 13). |
-| Most recent recorded experiment state | The completed L27 control was 88.730; L29 was 85.675; L31 fast-emit was `COMPLETE` at 25.145. At the frozen cutoff all four L31 chain-pack rows were `PENDING`; at 12:44:16Z refs 55538814, 55538829, 55538848, and 55538855 were all `COMPLETE` at 79.985, 79.365, 73.605, and 54.375. These are identified live submission rows, not a current rank, matched-effect estimate, or final best-system claim. **Cutoff-2 (2026-09-04):** best banked public score 92.670 (ref 55766377); on the private board the two queried high-public EXFIL submissions scored 0.000 (refs 55927148, 55902731) while queried confused-deputy rows scored about 15.8–16.8 (best 16.805, ref 55904213). The selected pair was Slot A (ref 55766377, private 0.000) and Slot B (ref 55805571, private 16.735). Slot B was the only selected row with a positive observed private score; the query does not reveal the scoring mechanism or independently reconstruct how final rank was calculated. **Cutoff-3 (2026-09-08):** the full retained submission list was retrieved — of 50 rows, one errored without scores and 49 carry both; 38 scored exactly 0.000 private, 11 scored above zero, all 11 from the confused-deputy `email.send` line (2.290 to 16.805), and no row above 50 public scored above zero private. This is complete for this entrant's retained submissions, not for the competition, and still does not expose the guardrail. | No current external score or rank was independently queried at cutoff-1. Project records report Stage 2b at 0.2463 versus the duck baseline at 1.6333 over 25 development games, and Qwen 3.8 locally at 2.5291 versus 1.4872; neither is asserted as a current external outcome. **Cutoff-2 (2026-09-04):** a fresh authenticated query returns a best public score of 1.94 (ref 55970756, 2026-09-03) with public rank about 374 of 2,779; the private board is not revealed until the 2026-11-02 deadline. **Cutoff-3 (2026-09-08):** best public 4.31 (ref 56080757, 2026-09-07) at rank 26 of 2,892, against a public frontier of 11.04. Three byte-identical draws of one script version returned 3.25, 2.58, and ERROR; two byte-identical draws of the one-knob candidate returned 4.31 and 2.45. Off-platform, on a same-image rig, that knob is a null on levels (118 vs 118 over 75 runs per side) and a pre-registered probe-discipline arm read engaged-but-flat (41 vs a pooled base of 39.33, sd 2.34) and was recorded dead. The live three-draw read on the knob was incomplete at this cutoff. | Cutoff-1 AgentSecurity values are selected live observations through 2026-08-16T12:44:16Z; the frozen artifact remains dated 2026-08-16T10:56:15Z. Cutoff-2 values are authenticated Kaggle live observations dated 2026-09-04. ARC cutoff-1 values are bounded repository or mutable-artifact records. Cutoff-3 platform values are authenticated Kaggle live observations dated 2026-09-08; the off-platform rig results in the ARC cell are local measurements read from the project repository at commit `41213de` and are not live competition results. |
-| Recorded deadlines | Final submission: 2026-09-01 at 23:59 UTC; optional Working Note: 2026-09-08 at 23:59 UTC. **Cutoff-2 (2026-09-04):** the Working Note was submitted on 2026-09-02, ahead of its deadline. **Cutoff-3 (2026-09-08):** the Working Note is directly observable as a published Kaggle notebook (`ahmedmobasher86/working-note-guardrail-predicate-asymmetry`, last run 2026-09-02T06:40:02Z), upgrading publication from repository record to authenticated observation; the award outcome was unannounced when this cutoff's queries ran and stays reserved. | At cutoff-1 no official ARC deadline was admitted, so the earlier revision asserted none. **Cutoff-2 (2026-09-04):** the official competition deadline is 2026-11-02 at 23:59 UTC (ARC Prize 2026 — ARC-AGI-3), retrieved from the authenticated competition listing. **Cutoff-3 (2026-09-08):** the same deadline was returned again by the authenticated listing; unchanged. | AgentSecurity dates come from the reviewed official timeline. The cutoff-2 ARC deadline is a primary authenticated source, satisfying the earlier revision constraint. The cutoff-3 Working Note row is an authenticated notebook listing; its award outcome is not an observation and stays reserved. |
-| Cost state | No independently corroborated case allocation. | No independently corroborated case allocation. | Cross-case retrospective testimony reports about USD 100 OpenRouter and USD 30 Modal, plus Colab Pro and Claude/Codex subscriptions whose amounts were not recorded. No independently confirmed total existed at cutoff. |
-| Human oversight | Not separated by case. | Not separated by case. | Cross-case retrospective estimate: 2–5 hours per day; not a time-tracking result. |
-| Reserved post-competition fields | **Populated at cutoff-2 (Section 12):** authenticated rank (171 of 4,186), winning-objective verdict (top prize not won), public best (92.670), observed private submission rows, and Working Note outcome (submitted 2026-09-02). The separately reported Silver notification (173 of 4,251) remains author testimony because its artifact was not retained. **Still reserved:** receipt-reconciled cost, measured cumulative oversight, and the Working Note award outcome, which was unannounced at cutoff-3. | **Populated at cutoff-2 (Section 12):** fresh public score (1.94) and public rank (about 374 of 2,779); official deadline (2026-11-02). **Populated at cutoff-3 (Section 13):** public best (4.31), public rank (26 of 2,892), the adoption provenance of the flown family, and two pre-registered off-platform negatives. **Still reserved:** final evaluation status and rank, winning-objective verdict, private-board result, final Qwen 3.8 transfer, and the completed live three-draw read on the `yield900` candidate, all pending later evidence or the 2026-11-02 close; receipt-reconciled cost and measured oversight remain testimony. | Populate only from newly cited official records, preserved project artifacts, or explicitly labelled testimony; retain the cutoff states above in revision history. |
+| Evidence cutoff | Cutoff-3, authenticated Kaggle queries on 2026-09-08 between 18:21:51Z and 18:25:29Z. | Cutoff-3, same query window; ARC project repository read at commit `41213de`. | Each stream keeps its own cutoff. A later observation appends a dated state; it never replaces one. |
+| Winning objective | Not won. Competition closed 2026-09-01; authenticated standing 171 of 4,186. | Unachieved and still open; deadline 2026-11-02. | The 173 of 4,251 Silver report is author testimony: no notification artifact survived two audits. |
+| Public standing | Best banked public score 92.670. | Public rank 26 of 2,892 on a best score of 4.31 (2026-09-07), against a frontier of 11.04. | ARC values are mutable while the competition runs and must stay timestamped. |
+| Private board | Fully revealed for this entrant: 38 of 49 scored rows at exactly 0.000, 11 positive, all from the confused-deputy `email.send` line. | Not revealed until the 2026-11-02 close. | The AgentSecurity pattern is complete for submissions actually flown, not for the competition, and does not expose the guardrail. |
+| Most recent experiment state | Selected pair: Slot A at 92.670 public and 0.000 private, Slot B at 16.555 public and 16.735 private. | Byte-identical draws span 2.45 to 4.31. Off-platform, the turn-budget knob is null on levels and a pre-registered probe-discipline arm read engaged-but-flat and was recorded dead. | Off-platform rig results are local measurements, not live competition results. The live three-draw read on the knob was unfinished at cutoff-3. |
+| Deadlines | Final submission 2026-09-01; optional Working Note 2026-09-08. The note was published on 2026-09-02. | Competition deadline 2026-11-02 23:59 UTC, from the authenticated listing. | Publication is an authenticated observation. The Working Note award outcome is not, and stays reserved. |
+| Cost and oversight | Not separated by case. | Not separated by case. | Cross-case testimony only: about USD 100 OpenRouter, USD 30 Modal, unrecorded subscriptions, and 2–5 hours a day of review. Receipt-reconciled cost and measured oversight remain reserved. |
+| Reserved fields | Working Note award outcome; receipt-reconciled cost; measured cumulative oversight. | Final status and rank; winning-objective verdict; private-board result; Qwen 3.8 transfer; the completed live three-draw read. | Populate only from a newly cited official record, a preserved project artifact, or explicitly labelled testimony. |
 
-The update procedure is specified in Appendix A and was applied for cutoff-2 in
-Section 12 and again for cutoff-3 in Section 13. Any later update must append
-another dated state: pending remains pending and unqueried remains unqueried
-until direct evidence changes it.
+Appendix A.6 specifies the update procedure. It was applied for cutoff-2 in
+Section 12 and cutoff-3 in Section 13. Any later update appends another dated
+state: pending stays pending and unqueried stays unqueried until direct evidence
+changes it.
 
 ## 12. Post-Competition Outcomes (cutoff-2, 2026-09-04)
 
