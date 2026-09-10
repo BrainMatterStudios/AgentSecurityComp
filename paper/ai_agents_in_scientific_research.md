@@ -819,7 +819,8 @@ author could not identify a clear unexpected agent-originated discovery and
 assessed the contributions as largely building on other people's work. The
 cutoff-3 ARC evidence sharpens rather than softens this: the largest single
 improvement in that case's best banked public score came from byte-copying a
-named public notebook, while the two agent-origin candidates tested against
+named public notebook, the largest improvement traceable to any change the
+project originated was +0.14, and the two agent-origin candidates tested against
 pre-registered bands in the same week both returned null. That testimony does
 not prove agents cannot originate discoveries; it limits what these two cases
 can claim. Agent generation supplied candidates, while worthwhile selection and
