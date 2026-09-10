@@ -38,9 +38,11 @@ the repository only; it did not re-run the private-history hash manifest, whose
 ### 1.2 The full revealed private distribution (new at this cutoff)
 
 Cutoff-2 cited a small hand-picked set of revealed private rows. At cutoff-3 the
-complete retained submission list was retrieved. Of **50** submission rows, one
-is `ERROR` with no scores (ref `55727914`) and **49** carry both a public and a
-private score.
+retained submission list was retrieved in full. The Kaggle API returns only the
+most recent **50** rows per query, and these 50 span 2026-08-22 to 2026-09-01 —
+the final eleven days of a case that opened on 2026-06-13. Earlier submissions
+are therefore outside this list. Of the 50 rows, one is `ERROR` with no scores
+(ref `55727914`) and **49** carry both a public and a private score.
 
 | Item | Observed value |
 | --- | --- |

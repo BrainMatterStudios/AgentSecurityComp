@@ -1188,8 +1188,11 @@ again turned up no screenshot or archived copy of the reported Silver
 notification, so 173 of 4,251 stays testimony rather than evidence.
 
 What did change is how much of the private board is visible. Section 12.1 could
-only cite a handful of revealed rows. The full submission list was retrieved at
-this cutoff: of 50 submissions, one errored and 49 carry both scores. Thirty-eight
+only cite a handful of revealed rows. The retained submission list was retrieved
+in full at this cutoff, with one limit worth stating plainly: the platform
+returns only the most recent 50 rows, and those 50 span 2026-08-22 to 2026-09-01,
+the final eleven days of a case that opened in June. Earlier submissions fall
+outside it. Of the 50, one errored and 49 carry both scores. Thirty-eight
 of those 49 scored exactly zero on the private board. The eleven that scored
 anything all came from the confused-deputy `email.send` line, between 2.290 and
 16.805. Nothing above 50 points of public score earned a single private point,
@@ -1198,9 +1201,9 @@ including the 92.670 row that was selected.
 Months of public-throughput work drove most of Section 4. On the board that
 decided the prizes it was worth nothing. The only rows that paid came from
 a small hedge line that never cleared 16.6 in public.
-That holds across every submission actually flown, which is a stronger claim than
-Section 12.1 could make from a queried sample. It is still a claim about one
-entrant's submissions. It says nothing about what the guardrail was, why those
+That holds across every submission still on file, which is a stronger claim than
+Section 12.1 could make from a queried sample and a weaker one than a campaign
+census. It is still a claim about one entrant's last eleven days. It says nothing about what the guardrail was, why those
 rows scored, or whether the hedge is what produced the final rank. (Episode
 AS-S17)
 
@@ -1225,10 +1228,16 @@ happened matter more than the rank.
 The jump came from copying a competitor. On 2026-09-05 the project submitted a
 byte-for-byte copy of a public notebook, attributed in the submission itself and
 carrying 149 votes at the time of the query. It scored 3.25, against a best
-in-house result of 1.94. That single move added 1.31 points. No change the
-project originated had ever moved the score by more than 0.44. Everything flown
-afterwards, including the 4.31, is that same public notebook with one constant
-changed. The reuse is transparent and it is the largest improvement in the case.
+in-house result of 1.94. That single move added 1.31 points, and the comparison
+cuts deeper than it first looks. Most of the earlier record-setting steps changed
+no code at all: +0.96, +0.31, +0.03, +0.44 and +0.06 were exact-byte
+resubmissions, several drawn from a variance yardstick series whose own
+description records a mean of 0.918 and a standard deviation of 0.149. The
+largest improvement traceable to a change the project originated is +0.14, the
+model swap of 2026-08-31. Most of what looked like two months of progress was the
+same code drawn again. Everything flown afterwards is that same public notebook,
+either unchanged or with one constant altered. The reuse is transparent and it is
+the largest improvement in the case.
 It is not a discovery, and it sits in the same category as the adaptive-sizing and
 commitment-forge work in Section 6.2. (Episode ARC-S13)
 

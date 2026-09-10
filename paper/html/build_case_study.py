@@ -20,9 +20,20 @@ OUTPUT = brand.OUTPUT_DIR / "case-study.html"
 
 # Numbers that carry the argument. Rendered as pull-outs beside the prose.
 PULLOUTS = {
-    "The scoreboard that didn't count": ("38 of 49", "submissions scored exactly zero on the board that decided the prizes"),
-    "The competition where I did better by copying": ("+1.31", "from one copied notebook, against +0.44 for the best idea of my own"),
-    "The ruler that wouldn't hold still": ("2.45–4.31", "the range returned by submitting identical code"),
+    "The scoreboard that didn't count": (
+        "38 of 49",
+        "submissions scored exactly zero on the board that decided the prizes \u2014 "
+        "as did about two-thirds of the whole field",
+    ),
+    "The reframe I ignored": (
+        "22 days",
+        "between my agents writing down the correct strategy and my acting on it",
+    ),
+    "The ruler that wouldn't hold still": (
+        "+0.14",
+        "the largest score improvement all summer that I could trace to anything "
+        "I actually changed",
+    ),
 }
 
 EXTRA_CSS = r"""
