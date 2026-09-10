@@ -20,19 +20,20 @@ OUTPUT = brand.OUTPUT_DIR / "case-study.html"
 
 # Numbers that carry the argument. Rendered as pull-outs beside the prose.
 PULLOUTS = {
-    "The scoreboard that didn't count": (
+    "Two scoreboards": (
         "38 of 49",
-        "submissions scored exactly zero on the board that decided the prizes \u2014 "
+        "submissions scored exactly zero on the board that decided the result \u2014 "
         "as did about two-thirds of the whole field",
     ),
-    "The reframe I ignored": (
+    "The analysis arrived early": (
         "22 days",
-        "between my agents writing down the correct strategy and my acting on it",
+        "between three agents documenting the correct strategy and the first "
+        "submission that used it",
     ),
-    "The ruler that wouldn't hold still": (
+    "Why correct analysis loses to a worse metric": (
         "+0.14",
-        "the largest score improvement all summer that I could trace to anything "
-        "I actually changed",
+        "the largest score improvement all summer attributable to anything "
+        "actually changed",
     ),
 }
 
