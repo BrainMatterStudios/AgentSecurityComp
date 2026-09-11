@@ -105,7 +105,7 @@ close.
 
 The second is that someone else did. A competitor finishing fifty-first derived
 the same collapse in closed form before the reveal and committed to it properly.
-He faced identical silence. My own post-mortem puts it in five words: *winners
+They faced identical silence. My own post-mortem puts it in five words: *winners
 bet under the same uncertainty.*
 
 So what changed on 22 August? Not the evidence. A note appeared in my project

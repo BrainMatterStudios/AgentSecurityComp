@@ -78,27 +78,28 @@ PAPERS = (
         document_id="BMS-RP-26-02",
         kind="Research case study",
         deck=(
-            "What two competition-based research projects reveal about access, "
-            "execution, originality, and human oversight."
+            "One technologist, two competitions, thirty-eight coded experiments: "
+            "what coding agents did well, where they failed, and why a correct "
+            "analysis changed nothing until it was rewritten as a decision."
         ),
         subject="AI agents in computational research",
         date_label="September 2026",
-        revision_label="Draft 26.09",
+        revision_label="Draft 26.09.2",
         status_label="Preprint candidate",
-        evidence_state=("Rechecked through", "4 September 2026"),
+        evidence_state=("Rechecked through", "8 September 2026"),
         draft_tag="Preprint candidate",
         footer_status="Preprint candidate",
         stats=(
-            ("33", "coded research episodes"),
-            ("2", "comparative case studies"),
-            ("17", "reviewed references"),
+            ("38", "coded research episodes"),
+            ("2", "competitions · one participant"),
+            ("0", "top prizes won"),
             ("2–5h", "daily human review · testimony"),
         ),
         kickers=(
-            "Summary", "Researcher context", "Definitions", "Study design", "Primary case",
-            "Comparative case", "Synthesis", "Value", "Failure modes", "Protocol",
-            "Audience guidance", "Living record", "Outcomes", "Declarations", "Sources",
-            "Literature", "Methods appendix",
+            "Summary", "Introduction", "Background", "Method", "Primary case",
+            "Comparative case", "Findings", "Working rules", "Limitations",
+            "Living record", "Declarations", "Disclosure", "Sources",
+            "Methods appendix", "Evidence notes",
         ),
     ),
 )
@@ -174,7 +175,15 @@ section { display:grid; grid-template-columns:var(--rail) minmax(0,1fr); gap:3re
 section + section { margin-top:4.5rem; padding-top:.2rem; }
 .rail .num { font-family:var(--mono); font-size:.7rem; font-weight:500; letter-spacing:.14em; color:var(--ember-text); padding-bottom:.5rem; border-bottom:1px solid var(--ember); display:inline-block; }
 .rail .kicker { font-family:var(--mono); font-size:.62rem; line-height:1.55; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-top:.85rem; }
-.col { max-width:var(--measure); min-width:0; }
+.col { max-width:var(--measure); min-width:0; position:relative; }
+sup.fn { font-family:var(--mono); font-size:.62em; line-height:0; vertical-align:super; margin-left:.08em; }
+sup.fn a { border:0; color:var(--ember-text); }
+.mnote { position:absolute; left:calc(-1 * var(--rail) - 3rem); width:var(--rail); margin:0; padding-top:.3em;
+  font-family:var(--mono); font-size:.58rem; line-height:1.5; letter-spacing:.02em; color:var(--muted); }
+.mnote span { display:block; margin-bottom:.45rem; }
+.mnote b { color:var(--ember-text); font-weight:500; margin-right:.35em; }
+.notes ol { padding-left:1.6rem; font-size:.84rem; color:var(--ink-2); }
+.notes li { margin-bottom:.4rem; } .notes li a.back { border:0; margin-left:.4em; }
 h2 { font-family:var(--serif); font-weight:400; font-size:2rem; line-height:1.08; letter-spacing:-.028em; text-wrap:balance; margin:0 0 1.25rem; }
 h3 { font-family:var(--serif); font-weight:400; font-size:1.3rem; line-height:1.2; letter-spacing:-.02em; text-wrap:balance; margin:2.65rem 0 .75rem; scroll-margin-top:1.5rem; }
 h4 { font-family:var(--mono); font-size:.72rem; line-height:1.5; letter-spacing:.1em; text-transform:uppercase; color:var(--ember-text); margin:2rem 0 .65rem; }
@@ -220,6 +229,7 @@ footer { margin-top:5rem; padding-top:2.2rem; border-top:1px solid var(--hair-2)
   .stat { padding:1.35rem 1rem; border-bottom:1px solid var(--hair); }
   .stat:nth-child(2) { border-right:0; } .stat:nth-child(3) { padding-left:0; }
   section { grid-template-columns:1fr; gap:0; }
+  .mnote { display:none; }
   .rail { margin-bottom:1.2rem; display:flex; gap:1rem; align-items:baseline; }
   .rail .kicker { margin-top:0; }
   .contents .k { display:none; }
@@ -243,6 +253,7 @@ footer { margin-top:5rem; padding-top:2.2rem; border-top:1px solid var(--hair-2)
   .tbl,blockquote,pre,.band,.docrec,.source-record,.draft-note { break-inside:avoid; }
   p,li { orphans:2; widows:2; }
   .tbl { width:calc(100% + 10rem); margin-left:-10rem; } table { min-width:0; font-size:.69rem; }
+  .mnote { display:none; }
   footer { break-before:page; }
 }
 """
@@ -267,6 +278,8 @@ def rail_number(heading: str) -> str:
         return "REF"
     if heading.lower().startswith("acknowledgements"):
         return "NOTE"
+    if heading.lower() == "notes":
+        return "NOTES"
     return "—"
 
 
@@ -402,6 +415,10 @@ def enrich_fragment(fragment: str, section_id: str) -> str:
         scroll = soup.new_tag("div", attrs={"class": "tablewrap"})
         caption = soup.new_tag("div", attrs={"class": "tbl-cap"})
         caption.string = "Evidence table retained from the Markdown manuscript"
+        nxt = table.find_next_sibling()
+        if nxt is not None and nxt.name == "p" and nxt.get_text(strip=True).startswith("Caption:"):
+            caption.string = nxt.get_text(" ", strip=True)[len("Caption:"):].strip()
+            nxt.extract()
         table.wrap(scroll)
         scroll.wrap(wrapper)
         wrapper.append(caption)
@@ -418,6 +435,73 @@ def enrich_fragment(fragment: str, section_id: str) -> str:
     for name, svg in FIGURES.items():
         html_out = html_out.replace(f"<p>{{{{FIG:{name}}}}}</p>", svg)
     return html_out
+
+
+FN_DEF = re.compile(r"^\[\^([A-Za-z0-9_.-]+)\]:\s*(.+?)\s*$", re.M)
+FN_REF = re.compile(r"\[\^([A-Za-z0-9_.-]+)\]")
+
+
+def extract_notes(text: str) -> tuple[str, dict[str, str], list[str]]:
+    """Pull Pandoc-style footnote definitions out of the manuscript and replace each
+    reference with a numbered placeholder. Numbers follow first use in reading order."""
+    defs = {m.group(1): m.group(2) for m in FN_DEF.finditer(text)}
+    text = FN_DEF.sub("", text)
+    order: list[str] = []
+
+    def number(match: re.Match[str]) -> str:
+        key = match.group(1)
+        if key not in defs:
+            raise ValueError(f"undefined note [^{key}]")
+        if key not in order:
+            order.append(key)
+        return f"\u27e6fn:{order.index(key) + 1}\u27e7"
+
+    text = FN_REF.sub(number, text)
+    unused = sorted(set(defs) - set(order))
+    if unused:
+        raise ValueError(f"unused notes: {', '.join(unused)}")
+    return text, defs, order
+
+
+def place_notes(fragment: str, notes: list[str]) -> str:
+    """Turn placeholders into superscript links and drop each paragraph's notes into the rail."""
+    soup = BeautifulSoup(fragment, "html.parser")
+    token = re.compile("\u27e6fn:([0-9]+)\u27e7")
+    for text_node in list(soup.find_all(string=token)):
+        parts = token.split(text_node)
+        parent = text_node.parent
+        block = text_node.find_parent(["p", "li", "td", "th", "blockquote"])
+        for i, part in enumerate(parts):
+            if i % 2 == 0:
+                if part:
+                    text_node.insert_before(part)
+            else:
+                n = int(part)
+                sup = soup.new_tag("sup", attrs={"class": "fn"})
+                a = soup.new_tag("a", href=f"#note-{n}", id=f"ref-{n}")
+                a.string = str(n)
+                sup.append(a)
+                text_node.insert_before(sup)
+                if block is not None and block.name == "p":
+                    aside = block.find_previous_sibling("aside", class_="mnote")
+                    if aside is None or aside.next_sibling is not block:
+                        aside = soup.new_tag("aside", attrs={"class": "mnote"})
+                        block.insert_before(aside)
+                    span = soup.new_tag("span")
+                    b = soup.new_tag("b"); b.string = str(n)
+                    span.append(b); span.append(notes[n - 1])
+                    aside.append(span)
+        text_node.extract()
+        del parent
+    return str(soup)
+
+
+def notes_section(notes: list[str]) -> str:
+    items = "".join(
+        f'<li id="note-{i}">{escape(text)}<a class="back" href="#ref-{i}" aria-label="Back to text">↩</a></li>'
+        for i, text in enumerate(notes, 1)
+    )
+    return f'<div class="notes"><ol>{items}</ol></div>'
 
 
 def split_manuscript(text: str) -> tuple[str, str, list[tuple[str, str]]]:
@@ -473,7 +557,9 @@ def punctuated_heading(text: str) -> str:
 
 def render_paper(paper: Paper) -> str:
     source_path = ROOT / "paper" / paper.source
-    title, front, sections = split_manuscript(source_path.read_text(encoding="utf-8"))
+    text, note_defs, note_order = extract_notes(source_path.read_text(encoding="utf-8"))
+    notes = [note_defs[key] for key in note_order]
+    title, front, sections = split_manuscript(text)
     md = markdown_renderer()
     section_rows: list[tuple[str, str, str, str, str]] = []
     seen: dict[str, int] = {}
@@ -482,7 +568,10 @@ def render_paper(paper: Paper) -> str:
         seen[base] = seen.get(base, 0) + 1
         section_id = base if seen[base] == 1 else f"{base}-{seen[base]}"
         kicker = paper.kickers[index] if index < len(paper.kickers) else "Research record"
-        section_rows.append((section_id, heading, rail_number(heading), kicker, enrich_fragment(md.render(body), section_id)))
+        content = place_notes(enrich_fragment(md.render(body), section_id), notes)
+        if heading.strip().lower() == "notes" and notes:
+            content += notes_section(notes)
+        section_rows.append((section_id, heading, rail_number(heading), kicker, content))
 
     front_html = enrich_fragment(md.render(front), "document-record") if front else ""
     toc = "\n".join(
@@ -581,7 +670,7 @@ def validate(html: str, source: str, sections: int, output_parent: Path) -> None
 def main() -> int:
     for paper in PAPERS:
         source = (ROOT / "paper" / paper.source).read_text(encoding="utf-8")
-        _, _, sections = split_manuscript(source)
+        _, _, sections = split_manuscript(extract_notes(source)[0])
         html = render_paper(paper)
         target = OUTPUT_DIR / paper.output
         validate(html, source, len(sections), target.parent)

@@ -76,7 +76,15 @@ section { display:grid; grid-template-columns:var(--rail) minmax(0,1fr); gap:3re
 section + section { margin-top:4.5rem; padding-top:.2rem; }
 .rail .num { font-family:var(--mono); font-size:.7rem; font-weight:500; letter-spacing:.14em; color:var(--ember-text); padding-bottom:.5rem; border-bottom:1px solid var(--ember); display:inline-block; }
 .rail .kicker { font-family:var(--mono); font-size:.62rem; line-height:1.55; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-top:.85rem; }
-.col { max-width:var(--measure); min-width:0; }
+.col { max-width:var(--measure); min-width:0; position:relative; }
+sup.fn { font-family:var(--mono); font-size:.62em; line-height:0; vertical-align:super; margin-left:.08em; }
+sup.fn a { border:0; color:var(--ember-text); }
+.mnote { position:absolute; left:calc(-1 * var(--rail) - 3rem); width:var(--rail); margin:0; padding-top:.3em;
+  font-family:var(--mono); font-size:.58rem; line-height:1.5; letter-spacing:.02em; color:var(--muted); }
+.mnote span { display:block; margin-bottom:.45rem; }
+.mnote b { color:var(--ember-text); font-weight:500; margin-right:.35em; }
+.notes ol { padding-left:1.6rem; font-size:.84rem; color:var(--ink-2); }
+.notes li { margin-bottom:.4rem; } .notes li a.back { border:0; margin-left:.4em; }
 h2 { font-family:var(--serif); font-weight:400; font-size:2rem; line-height:1.08; letter-spacing:-.028em; text-wrap:balance; margin:0 0 1.25rem; }
 h3 { font-family:var(--serif); font-weight:400; font-size:1.3rem; line-height:1.2; letter-spacing:-.02em; text-wrap:balance; margin:2.65rem 0 .75rem; scroll-margin-top:1.5rem; }
 h4 { font-family:var(--mono); font-size:.72rem; line-height:1.5; letter-spacing:.1em; text-transform:uppercase; color:var(--ember-text); margin:2rem 0 .65rem; }
@@ -122,6 +130,7 @@ footer { margin-top:5rem; padding-top:2.2rem; border-top:1px solid var(--hair-2)
   .stat { padding:1.35rem 1rem; border-bottom:1px solid var(--hair); }
   .stat:nth-child(2) { border-right:0; } .stat:nth-child(3) { padding-left:0; }
   section { grid-template-columns:1fr; gap:0; }
+  .mnote { display:none; }
   .rail { margin-bottom:1.2rem; display:flex; gap:1rem; align-items:baseline; }
   .rail .kicker { margin-top:0; }
   .contents .k { display:none; }
@@ -145,6 +154,7 @@ footer { margin-top:5rem; padding-top:2.2rem; border-top:1px solid var(--hair-2)
   .tbl,blockquote,pre,.band,.docrec,.source-record,.draft-note { break-inside:avoid; }
   p,li { orphans:2; widows:2; }
   .tbl { width:calc(100% + 10rem); margin-left:-10rem; } table { min-width:0; font-size:.69rem; }
+  .mnote { display:none; }
   footer { break-before:page; }
 }
 
@@ -282,7 +292,7 @@ willingness: I would not spend a slot on a claim I could not check before the
 close.</p>
 <p>The second is that someone else did. A competitor finishing fifty-first derived
 the same collapse in closed form before the reveal and committed to it properly.
-He faced identical silence. My own post-mortem puts it in five words: <em>winners
+They faced identical silence. My own post-mortem puts it in five words: <em>winners
 bet under the same uncertainty.</em></p>
 <p>So what changed on 22 August? Not the evidence. A note appeared in my project
 records headed <strong>THE REFRAME</strong> — <em>why the whole session optimized the wrong
